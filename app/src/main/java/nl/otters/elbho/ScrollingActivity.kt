@@ -1,17 +1,17 @@
 package nl.otters.elbho
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
-import nl.otters.elbho.models.LoginViewModel
-import nl.otters.elbho.repositories.AdvisorRepository
+import nl.otters.elbho.models.Adviser
+import nl.otters.elbho.repositories.AdviserRepository
 
 class ScrollingActivity : AppCompatActivity() {
-    val advisorRepository: AdvisorRepository = AdvisorRepository(this)
-    val loginCredentials: LoginViewModel = LoginViewModel("582297@student.inholland.nl", "lol")
+    val adviserRepository: AdviserRepository = AdviserRepository()
+    val loginCredentials: Adviser.Login = Adviser.Login("582297@student.inholland.nl", "lol")
 
     override fun onCreate(savedInstanceState: Bundle? ) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class ScrollingActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        advisorRepository.advisorLogin(loginCredentials)
+        adviserRepository.adviserLogin(loginCredentials)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
