@@ -4,29 +4,28 @@ import com.google.gson.annotations.SerializedName
 
 
 object Adviser {
-    //TODO: remove unused fields
+
     data class Properties(
 
+        val id: String,
         @SerializedName("firstname")
         val firstName: String,
         @SerializedName("lastname")
         val lastName: String,
-        val gender: String,
-        val phoneNumber: Int,
-        val active: Boolean,
-        val status: String,
-        val location: String,
-        val workArea: String,
-        val region: String,
-        val permissionLevel: Int,
         val email: String,
         val password: String,
-        val id: String,
-        val createdDate: String,
-        val modifiedDate: String
+        val gender: String,
+        @SerializedName("phonenumber")
+        val phoneNumber: String,
+        val active: String,
+        val status: String,
+        val location: String,
+        @SerializedName("workarea")
+        val workArea: String,
+        val region: String
     )
 
-    //TODO: Change to co-ordinates
+    //TODO: Change to coordinates
     data class Location(
 
         val location: String
