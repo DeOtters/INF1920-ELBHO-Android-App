@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_scrolling.*
+import nl.otters.elbho.models.LoginViewModel
+import nl.otters.elbho.repositories.AdvisorRepository
 
 class ScrollingActivity : AppCompatActivity() {
+    val advisorRepository: AdvisorRepository = AdvisorRepository(this)
+    val loginCredentials: LoginViewModel = LoginViewModel("582297@student.inholland.nl", "lol")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle? ) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scrolling)
         setSupportActionBar(toolbar)
@@ -17,6 +21,8 @@ class ScrollingActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+        advisorRepository.advisorLogin(loginCredentials)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
