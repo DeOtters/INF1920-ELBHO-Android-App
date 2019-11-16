@@ -10,8 +10,9 @@ import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.repositories.AdviserRepository
 
 class ScrollingActivity : AppCompatActivity() {
-    val adviserRepository: AdviserRepository = AdviserRepository()
-    val loginCredentials: Adviser.Login = Adviser.Login("582297@student.inholland.nl", "lol")
+    private val adviserRepository: AdviserRepository = AdviserRepository(this)
+    private val loginCredentials: Adviser.Login =
+        Adviser.Login("582297@student.inholland.nl", "lol")
 
     override fun onCreate(savedInstanceState: Bundle? ) {
         super.onCreate(savedInstanceState)
