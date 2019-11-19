@@ -38,7 +38,7 @@ object Adviser {
 
     data class Authentication(
 
-        @SerializedName("jwt")
+        @SerializedName("Jwt")
         val authToken: String,
         @SerializedName("advisor-id")
         val adviserId: Int
