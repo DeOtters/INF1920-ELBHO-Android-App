@@ -8,9 +8,11 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.repositories.AdviserRepository
+import nl.otters.elbho.repositories.AvailabilityRepository
 
 class ScrollingActivity : AppCompatActivity() {
-    private val adviserRepository: AdviserRepository = AdviserRepository(this)
+    private val adviserRepository = AdviserRepository(this)
+    private val availabilityRepository = AvailabilityRepository(this)
     private val loginCredentials: Adviser.Login =
         Adviser.Login("582297@student.inholland.nl", "lol")
 
