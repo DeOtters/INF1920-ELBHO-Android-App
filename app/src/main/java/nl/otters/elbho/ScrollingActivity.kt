@@ -5,30 +5,25 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import nl.otters.elbho.models.Adviser
-import nl.otters.elbho.models.Vehicle.Car
-import nl.otters.elbho.models.viewModels.VehicleViewModel
+import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.repositories.AdviserRepository
-import nl.otters.elbho.repositories.VehicleRepository
-import nl.otters.elbho.utils.SharedPreferences
+import nl.otters.elbho.repositories.AvailabilityRepository
+import nl.otters.elbho.repositories.InvoiceRepository
 
 class ScrollingActivity : AppCompatActivity() {
-    // Repositories
-    private val adviserRepository: AdviserRepository = AdviserRepository(this)
-    private val vehicleRepository: VehicleRepository = VehicleRepository()
-
-    // ViewModels
-    private val vehicleViewModel: VehicleViewModel = VehicleViewModel(vehicleRepository, this)
-    private val loginCredentials: Adviser.Login = Adviser.Login("582297@student.inholland.nl", "lol")
-
+    private val adviserRepository = AdviserRepository(this)
+    private val invoiceRepository = InvoiceRepository(this)
+    private val availabilityRepository = AvailabilityRepository(this)
+    private val loginCredentials: Adviser.Login =
+        Adviser.Login("582297@student.inholland.nl", "lol")
 
     override fun onCreate(savedInstanceState: Bundle? ) {
+        val invoice: LiveData<Invoice> = invoiceRepository.getInvoice(1)
+        Log.e("TEST", invoice.toString())
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scrolling)
         setSupportActionBar(toolbar)
