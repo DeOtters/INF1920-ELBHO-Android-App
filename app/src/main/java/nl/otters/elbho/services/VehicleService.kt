@@ -11,10 +11,10 @@ interface VehicleService {
 
     @Headers("Content-type: application/json")
     @GET("vehicles/{id}")
-    fun getVehicle(@Header( "x-jwt") authToken : String?, @Body vehicleId: String): Call<Vehicle.Car>
+    fun getVehicle(@Header( "x-jwt") authToken : String?, @Path("id") vehicleId: String): Call<Vehicle.Car>
 
     // We should only update the location of the Vehicle
     @Headers("Content-type: application/json")
     @PUT("vehicles/{id}")
-    fun updateVehicle(@Header( "x-jwt") authToken : String?, @Body vehicleId: String): Call<Vehicle.Car>
+    fun updateVehicle(@Header( "x-jwt") authToken : String?, @Path("id") vehicleId: String): Call<Vehicle.Car>
 }

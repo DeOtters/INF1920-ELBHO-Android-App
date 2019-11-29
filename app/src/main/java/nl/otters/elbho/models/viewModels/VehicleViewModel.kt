@@ -7,18 +7,20 @@ import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.SharedPreferences
 
-class VehicleViewModel(private val vehicleRepository: VehicleRepository, context: Context): ViewModel() {
-    private val sharedPreference: SharedPreferences = SharedPreferences(context)
-    private val authToken: String? = sharedPreference.getValueString("auth-token")
-
-    fun getAllVehicles(): LiveData<ArrayList<Vehicle.Car>>? = when(authToken!=null){
-        true -> vehicleRepository.getAllVehicles(authToken)
+class VehicleViewModel(private val vehicleRepository: VehicleRepository, private val context: Context): ViewModel() {
+    fun getAllVehicles(): LiveData<ArrayList<Vehicle.Car>>? = when(getAuthToken() != ""){
+        true -> vehicleRepository.getAllVehicles()
         false -> null
     }
 
-    fun getVehicle(vehicleId: String): LiveData<Vehicle.Car>? = when(authToken!=null){
-        true -> vehicleRepository.getVehicle(vehicleId, authToken)
+    fun getVehicle(vehicleId: String): LiveData<Vehicle.Car>? = when(getAuthToken() != ""){
+        true -> vehicleRepository.getVehicle(vehicleId)
         false -> null
+    }
+
+    private fun getAuthToken(): String {
+        val sharedPreferences = SharedPreferences(context)
+        return sharedPreferences.getValueString("auth-token") ?: ""
     }
 }
 

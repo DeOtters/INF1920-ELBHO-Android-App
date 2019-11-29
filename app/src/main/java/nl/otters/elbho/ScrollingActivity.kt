@@ -6,13 +6,16 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.models.Invoice
+import nl.otters.elbho.models.viewModels.VehicleViewModel
 import nl.otters.elbho.repositories.AdviserRepository
 import nl.otters.elbho.repositories.AvailabilityRepository
 import nl.otters.elbho.repositories.InvoiceRepository
+import nl.otters.elbho.repositories.VehicleRepository
 
 class ScrollingActivity : AppCompatActivity() {
     private val adviserRepository = AdviserRepository(this)
@@ -20,6 +23,8 @@ class ScrollingActivity : AppCompatActivity() {
     private val availabilityRepository = AvailabilityRepository(this)
     private val loginCredentials: Adviser.Login =
         Adviser.Login("582297@student.inholland.nl", "lol")
+    private val vehicleRepository: VehicleRepository = VehicleRepository(this)
+    private val vehicleViewModel: VehicleViewModel = VehicleViewModel(vehicleRepository, this)
 
     override fun onCreate(savedInstanceState: Bundle? ) {
         val invoice: LiveData<Invoice> = invoiceRepository.getInvoice(1)
@@ -32,20 +37,10 @@ class ScrollingActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        Log.e("ADVISER LOGIN", adviserRepository.adviserLogin(loginCredentials).toString())
-        val authToken: String? = SharedPreferences(this).getValueString("auth-token")
-        Log.e("authToken activity", authToken!!)
-
         vehicleViewModel.getAllVehicles()!!.observe(this, Observer {
             //Update UI....
             Log.e("ArrayList<Vehicle.Car>" ,it.toString())
         })
-
-        vehicleViewModel.getVehicle("abc je mams")!!.observe(this, Observer {
-            //Update UI....
-            Log.e("<Vehicle.Car>" , it.toString())
-        })
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
