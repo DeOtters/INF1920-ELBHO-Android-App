@@ -94,7 +94,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/material_button"
+        android:id="@+id/loginButton"
         style="@style/CustomMaterialButton"
         android:enabled="false"
         android:layout_width="match_parent"
