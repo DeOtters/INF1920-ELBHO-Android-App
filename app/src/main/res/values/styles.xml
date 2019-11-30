@@ -17,4 +17,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
+    <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/color_states_material_button</item>
+    </style>
 </resources>
