@@ -22,8 +22,7 @@ class ScrollingActivity : AppCompatActivity() {
         Adviser.Login("582297@student.inholland.nl", "lol")
 
     override fun onCreate(savedInstanceState: Bundle? ) {
-        val invoice: LiveData<Invoice> = invoiceRepository.getInvoice(1)
-        Log.e("TEST", invoice.toString())
+        setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scrolling)
         setSupportActionBar(toolbar)
@@ -32,6 +31,8 @@ class ScrollingActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
+        val invoice: LiveData<Invoice> = invoiceRepository.getInvoice(1)
+        Log.e("TEST", invoice.toString())
         adviserRepository.adviserLogin(loginCredentials)
     }
 
