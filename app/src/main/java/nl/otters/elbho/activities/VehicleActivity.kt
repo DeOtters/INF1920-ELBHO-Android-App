@@ -6,7 +6,6 @@ import nl.otters.elbho.R
 
 class VehicleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vehicle)
     }
