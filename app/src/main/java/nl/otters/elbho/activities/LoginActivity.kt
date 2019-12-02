@@ -1,20 +1,60 @@
 package nl.otters.elbho.activities
 
-import nl.otters.elbho.R
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_login.*
+import nl.otters.elbho.R
+import nl.otters.elbho.ScrollingActivity
+import nl.otters.elbho.models.Adviser
+import nl.otters.elbho.repositories.AdviserRepository
+import nl.otters.elbho.utils.SharedPreferences
+import nl.otters.elbho.viewModels.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
+    private val adviserRepository = AdviserRepository(this)
+
     override fun onCreate(savedInstanceState: Bundle? ) {
+        val sharedPreferences = SharedPreferences(this)
+        val authToken: String? = sharedPreferences.getValueString("auth-token")
+        val loginViewModel = LoginViewModel(adviserRepository)
+
         setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        sharedPreferences.clear()
+        if (authToken != null){
+            startScrollingActivity()
+        }
+
+        setupTextFieldListeners(textWatcher)
+
+        loginButton.setOnClickListener {
+            progressBar.isVisible = true
+            val loginCredentials: Adviser.Login = Adviser.Login(emailTextInputEdit.text.toString(), passwordTextInputEdit.text.toString())
+            loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
+                //val success: Boolean
+                if(it){
+                    startScrollingActivity()
+                }else{
+                    progressBar.isVisible = false
+                    //TODO: Show snackbar with appropriate message
+                }
+            })
+        }
+    }
+
+    private fun startScrollingActivity(){
+        val intent = Intent(this, ScrollingActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun setupTextFieldListeners(textWatcher: TextWatcher){
         emailTextInputEdit.addTextChangedListener(textWatcher)
         passwordTextInputEdit.addTextChangedListener(textWatcher)
     }
