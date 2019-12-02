@@ -2,6 +2,8 @@ package nl.otters.elbho.repositories
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.services.AdviserService
@@ -13,7 +15,8 @@ import retrofit2.Response
 class AdviserRepository(private val context: Context) {
     private val adviserService = RetrofitFactory.get().create(AdviserService::class.java)
 
-    fun adviserLogin(loginCredentials: Adviser.Login) {
+    fun adviserLogin(loginCredentials: Adviser.Login): LiveData<Boolean>{
+        val success = MutableLiveData<Boolean>()
         adviserService.login(loginCredentials).enqueue(object : Callback<Adviser.Authentication> {
             override fun onResponse(
                 call: Call<Adviser.Authentication>,
@@ -23,16 +26,18 @@ class AdviserRepository(private val context: Context) {
                     val authentication: Adviser.Authentication? = response.body()
                     val sharedPreferences = SharedPreferences(context)
                     sharedPreferences.save("auth-token", authentication!!.authToken)
-
+                    success.value = true
+                }else{
+                    success.value = false
                 }
-                //TODO: wrong credentials seem to give back incorrect response?
-                Log.e("HTTP", response.toString())
             }
 
             override fun onFailure(call: Call<Adviser.Authentication>, t: Throwable) {
                 //TODO: implement error handling
+                //TODO: with current api state, show message like: couldn't establish network connection
                 Log.e("HTTP: ", "Could not fetch data" , t)
             }
         })
+        return success
     }
 }
