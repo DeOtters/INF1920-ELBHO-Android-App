@@ -9,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_login.*
 import nl.otters.elbho.R
-import nl.otters.elbho.ScrollingActivity
 import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.repositories.AdviserRepository
 import nl.otters.elbho.utils.SharedPreferences
@@ -29,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
         sharedPreferences.clear()
         if (authToken != null){
-            startScrollingActivity()
+            startOverviewActivity()
         }
 
         setupTextFieldListeners(textWatcher)
@@ -40,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
                 //val success: Boolean
                 if(it){
-                    startScrollingActivity()
+                    startOverviewActivity()
                 }else{
                     progressBar.isVisible = false
                     //TODO: Show snackbar with appropriate message
@@ -49,8 +48,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun startScrollingActivity(){
-        val intent = Intent(this, ScrollingActivity::class.java)
+    private fun startOverviewActivity() {
+        val intent = Intent(this, OverviewActivity::class.java)
         startActivity(intent)
     }
 
