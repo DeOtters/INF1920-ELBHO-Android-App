@@ -90,4 +90,11 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+
+    <!-- Login Activity   -->
+    <string name="login_image_contentDescription">Product Logo</string>
+    <string name="login_input_label_email"> LOGIN</string>
+    <string name="login_input_label_password">PASSWORD</string>
+    <string name="login_button_text">LOGIN</string>
+
 </resources>
