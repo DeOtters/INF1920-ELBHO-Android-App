@@ -20,7 +20,7 @@ class AvailabilityRepository(private val context: Context) {
             .enqueue(object : Callback<ArrayList<Availability>> {
 
                 override fun onFailure(call: Call<ArrayList<Availability>>, t: Throwable) {
-                    TODO("not implemented")
+                    // TODO: not implemented
                 }
 
                 override fun onResponse(
@@ -40,7 +40,7 @@ class AvailabilityRepository(private val context: Context) {
             .enqueue(object : Callback<Availability> {
 
                 override fun onFailure(call: Call<Availability>, t: Throwable) {
-                    TODO("not implemented")
+                    // TODO: not implemented
                 }
 
                 override fun onResponse(
@@ -59,11 +59,11 @@ class AvailabilityRepository(private val context: Context) {
         availabilityService.createAvailability(getAuthToken(), availability)
             .enqueue(object : Callback<Unit> {
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    TODO("not implemented")
+                    // TODO: not implemented
                 }
 
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                    TODO("not implemented")
+                    // TODO: not implemented
                 }
 
             })
@@ -73,11 +73,11 @@ class AvailabilityRepository(private val context: Context) {
         availabilityService.updateAvailability(getAuthToken(), id, availability)
             .enqueue(object : Callback<Unit> {
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    TODO("not implemented")
+                    // TODO: not implemented
                 }
 
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                    TODO("not implemented")
+                    // TODO: not implemented
                 }
 
             })
@@ -86,11 +86,11 @@ class AvailabilityRepository(private val context: Context) {
     fun deleteAvailability(id: Int) {
         availabilityService.deleteAvailability(getAuthToken(), id).enqueue(object : Callback<Unit> {
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                TODO("not implemented")
+                // TODO: not implemented
             }
 
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                TODO("not implemented")
+                // TODO: not implemented
             }
 
         })
