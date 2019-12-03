@@ -93,8 +93,10 @@
 
     <!-- Login Activity   -->
     <string name="login_image_contentDescription">Product Logo</string>
-    <string name="login_input_label_email"> LOGIN</string>
-    <string name="login_input_label_password">PASSWORD</string>
+    <string name="login_input_label_email">EMAIL</string>
+    <string name="login_input_label_password">WACHTWOORD</string>
     <string name="login_button_text">LOGIN</string>
+    <string name="login_snackbar_message_wrongCredentials">Inloggevens zijn niet correct, probeer het nog een keer</string>
+
 
 </resources>

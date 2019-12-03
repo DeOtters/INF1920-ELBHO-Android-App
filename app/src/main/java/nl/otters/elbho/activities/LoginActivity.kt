@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Adviser
@@ -34,18 +35,22 @@ class LoginActivity : AppCompatActivity() {
         setupTextFieldListeners(textWatcher)
 
         loginButton.setOnClickListener {
-            progressBar.isVisible = true
-            val loginCredentials: Adviser.Login = Adviser.Login(emailTextInputEdit.text.toString(), passwordTextInputEdit.text.toString())
-            loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
-                //val success: Boolean
-                if(it){
-                    startOverviewActivity()
-                }else{
-                    progressBar.isVisible = false
-                    //TODO: Show snackbar with appropriate message
-                }
-            })
+            updateUI(loginViewModel)
         }
+    }
+
+    private fun updateUI(loginViewModel: LoginViewModel){
+        progressBar.isVisible = true
+        val loginCredentials: Adviser.Login = Adviser.Login(emailTextInputEdit.text.toString(), passwordTextInputEdit.text.toString())
+        loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
+            //val success: Boolean
+            if(it){
+                startOverviewActivity()
+            }else{
+                progressBar.isVisible = false
+                Snackbar.make(container, R.string.login_snackbar_message_wrongCredentials, Snackbar.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun startOverviewActivity() {
