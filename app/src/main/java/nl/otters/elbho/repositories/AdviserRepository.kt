@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.material.snackbar.Snackbar
+import nl.otters.elbho.R
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.services.AdviserService
@@ -35,7 +37,9 @@ class AdviserRepository(private val context: Context) {
             override fun onFailure(call: Call<Adviser.Authentication>, t: Throwable) {
                 //TODO: implement error handling
                 //TODO: with current api state, show message like: couldn't establish network connection
-                Log.e("HTTP: ", "Could not fetch data" , t)
+                //TODO: with that in mind I think we shouldn't only return LiveData<Boolean>, but something in the line of LiveData<success, message>.
+                Log.e("HTTP", "Could not fetch data" , t)
+                success.value = false
             }
         })
         return success
