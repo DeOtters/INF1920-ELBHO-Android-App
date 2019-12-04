@@ -9,12 +9,9 @@ import nl.otters.elbho.adapters.ViewPagerAdapter
 import nl.otters.elbho.fragments.AanstaandFragment
 import nl.otters.elbho.fragments.AfgerondFragment
 import nl.otters.elbho.fragments.OpenstaandFragment
-import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.SharedPreferences
 
 class OverviewActivity : AppCompatActivity() {
-    private val requestRepository = RequestRepository(this)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = SharedPreferences(this)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
