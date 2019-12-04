@@ -25,59 +25,9 @@
         </activity>
 
         <activity
-            android:name=".activities.OverviewActivity"
+            android:name=".activities.NavigationActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.Launcher"></activity>
-
-        <activity
-            android:name=".activities.AvailabilityActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.OverviewActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.OverviewActivity" />
-        </activity>
-
-        <activity
-            android:name=".activities.InvoiceActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.OverviewActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.OverviewActivity" />
-        </activity>
-
-        <activity
-            android:name=".activities.RequestActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.OverviewActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.OverviewActivity" />
-        </activity>
-
-        <activity
-            android:name=".activities.TrackingActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.OverviewActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.OverviewActivity" />
-        </activity>
-
-        <activity
-            android:name=".activities.VehicleActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.OverviewActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.OverviewActivity" />
-        </activity>
+            android:theme="@style/AppTheme.Launcher" />
 
     </application>
 

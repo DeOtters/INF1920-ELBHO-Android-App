@@ -1,59 +1,101 @@
 package nl.otters.elbho.activities
 
-import android.content.Intent
-import android.view.Menu
-import android.view.MenuInflater
+import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_navigation.*
 import nl.otters.elbho.R
 
-abstract class NavigationActivity : AppCompatActivity(),
+
+class NavigationActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.navigation_items, menu)
-        return true
+    private lateinit var navController: NavController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme_NoActionBar)
+        setContentView(R.layout.activity_navigation)
+        setupNavigationDrawer()
+    }
+
+    private fun setupNavigationDrawer() {
+        app_menu_title.setText(R.string.app_name)
+
+        navController = findNavController(R.id.nav_host_fragment)
+
+        navigation.setNavigationItemSelectedListener(this)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val drawerToggle = object : ActionBarDrawerToggle(
+            this,
+            drawer_layout,
+            toolbar,
+            R.string.navigation_open,
+            R.string.navigation_close
+        ) {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                app_menu_title.alpha = slideOffset
+                app_title.alpha = 1 - slideOffset
+                super.onDrawerSlide(drawerView, slideOffset)
+            }
+        }
+
+        drawerToggle.isDrawerIndicatorEnabled = true
+        drawer_layout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+    }
+
+    private fun closeMenu() {
+        drawer_layout.closeDrawer(GravityCompat.START)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.open_requests -> {
-                val intent = Intent(this, OverviewActivity::class.java)
-                this.startActivity(intent)
-                Toast.makeText(this, "Overview", Toast.LENGTH_SHORT).show()
+                // TODO: Deep link to tabs
+                navController.navigate(R.id.overviewFragment)
+                app_title.setText(R.string.navigation_overview)
+                closeMenu()
                 true
             }
             R.id.upcoming_requests -> {
-                val intent = Intent(this, OverviewActivity::class.java)
-                this.startActivity(intent)
-                Toast.makeText(this, "Overview", Toast.LENGTH_SHORT).show()
+                // TODO: Deep link to tabs
+                navController.navigate(R.id.overviewFragment)
+                app_title.setText(R.string.navigation_overview)
+                closeMenu()
                 true
             }
             R.id.done_requests -> {
-                val intent = Intent(this, OverviewActivity::class.java)
-                this.startActivity(intent)
-                Toast.makeText(this, "Overview", Toast.LENGTH_SHORT).show()
+                // TODO: Deep link to tabs
+                navController.navigate(R.id.overviewFragment)
+                app_title.setText(R.string.navigation_overview)
+                closeMenu()
                 true
             }
             R.id.availability -> {
-                val intent = Intent(this, AvailabilityActivity::class.java)
-                this.startActivity(intent)
-                Toast.makeText(this, "Availability", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.availabilityFragment)
+                app_title.setText(R.string.navigation_availability)
+                closeMenu()
                 true
             }
             R.id.vehicle -> {
-                val intent = Intent(this, VehicleActivity::class.java)
-                this.startActivity(intent)
-                Toast.makeText(this, "Vehicle", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.vehicleFragment)
+                app_title.setText(R.string.navigation_vehicle)
+                closeMenu()
                 true
             }
             R.id.invoice -> {
-                val intent = Intent(this, InvoiceActivity::class.java)
-                this.startActivity(intent)
-                Toast.makeText(this, "Invoice", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.invoiceFragment)
+                app_title.setText(R.string.navigation_invoice)
+                closeMenu()
                 true
             }
             else -> super.onOptionsItemSelected(item)
