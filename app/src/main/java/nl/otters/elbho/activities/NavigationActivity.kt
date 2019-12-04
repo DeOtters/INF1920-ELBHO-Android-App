@@ -16,7 +16,7 @@ import nl.otters.elbho.R
 class NavigationActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,42 +54,46 @@ class NavigationActivity : AppCompatActivity(),
                 // TODO: Deep link to tabs
                 navController.navigate(R.id.overviewFragment)
                 app_title.setText(R.string.navigation_overview)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                closeMenu()
                 true
             }
             R.id.upcoming_requests -> {
                 // TODO: Deep link to tabs
                 navController.navigate(R.id.overviewFragment)
                 app_title.setText(R.string.navigation_overview)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                closeMenu()
                 true
             }
             R.id.done_requests -> {
                 // TODO: Deep link to tabs
                 navController.navigate(R.id.overviewFragment)
                 app_title.setText(R.string.navigation_overview)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                closeMenu()
                 true
             }
             R.id.availability -> {
                 navController.navigate(R.id.availabilityFragment)
                 app_title.setText(R.string.navigation_availability)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                closeMenu()
                 true
             }
             R.id.vehicle -> {
                 navController.navigate(R.id.vehicleFragment)
                 app_title.setText(R.string.navigation_vehicle)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                closeMenu()
                 true
             }
             R.id.invoice -> {
                 navController.navigate(R.id.invoiceFragment)
                 app_title.setText(R.string.navigation_invoice)
-                drawer_layout.closeDrawer(GravityCompat.START)
+                closeMenu()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun closeMenu() {
+        drawer_layout.closeDrawer(GravityCompat.START)
     }
 }
