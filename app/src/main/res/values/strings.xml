@@ -97,4 +97,10 @@
     <string name="login_input_label_password">PASSWORD</string>
     <string name="login_button_text">LOGIN</string>
 
+    <!-- Overview Activity  -->
+    <string name="overview_tab_left_label">OPENSTAAND</string>
+    <string name="overview_tab_middle_label">AANSTAAND</string>
+    <string name="overview_tab_right_label">AFGEROND</string>
+
+
 </resources>
