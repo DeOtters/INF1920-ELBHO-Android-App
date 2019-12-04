@@ -6,36 +6,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import kotlinx.android.synthetic.main.fragment_listitem.view.*
 import nl.otters.elbho.R
+import nl.otters.elbho.models.Request
 
-class ListAdapter(val context: Context, val items: ArrayList<Article>, val listener: OnClickItemListener, val bottomReachedListener: OnBottomReachedListener) : RecyclerView.Adapter<ListAdapter.ViewHolder>(){
+class ListAdapter(
+    private val context: Context,
+    private val items: ArrayList<Request.Properties>,
+    private val listener: OnClickItemListener
+//    private val bottomReachedListener: OnBottomReachedListener
+) : RecyclerView.Adapter<ListAdapter.ViewHolder>(){
+
     interface OnClickItemListener{
         fun onItemClick(position: Int, view: View)
     }
-    interface OnBottomReachedListener {
-        fun onBottomReached(position: Int)
-    }
-    interface OnBookmarkClickListener {
-        fun onBookmarkClick(position: Int)
-    }
+//    interface OnBottomReachedListener {
+//        fun onBottomReached(position: Int)
+//    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-//        val titleView: TextView = itemView.fragment_listitem
-//        val imageView: ImageView = itemView.component_list_item_image_imageView
-//        val bookmarkButton: ImageButton = itemView.component_list_item_bookmark_button
-//        val dayView: TextView =
-//        val dateView: TextView =
-//        val titleView: TextView =
-//        val descriptionView: TextView =
-
+        val dayView: TextView = itemView.listItem_dayTextView
+        val dateView: TextView = itemView.listItem_dateTextView
+        val titleView: TextView = itemView.listItem_titleTextView
+        val descriptionView: TextView = itemView.lisItem_descriptionTextView
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.component_list_item_article, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.fragment_listitem, parent, false)
         return ViewHolder(view)
     }
 
@@ -43,26 +41,19 @@ class ListAdapter(val context: Context, val items: ArrayList<Article>, val liste
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        Glide.with(context)
-            .load(item.Image)
-            .placeholder(R.drawable.img_placeholder_background)
-            .transform(RoundedCorners(10))
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .error(R.drawable.img_placeholder_background)
-            .into(holder.imageView)
-        holder.titleView.text = item.Title
+
+        holder.titleView.text = item.cocName
+        holder.descriptionView.text = item.address
+        holder.dateView.text = item.appointmentDateTime
+        holder.dayView.text = item.appointmentDateTime
+
         holder.itemView.setOnClickListener{
             listener.onItemClick(holder.adapterPosition, it)
         }
-        holder.bookmarkButton.setOnClickListener{
-            bookmarkClickListener.onBookmarkClick(holder.adapterPosition)
-        }
-        if(item.IsLiked) { holder.bookmarkButton.setBackgroundResource(R.drawable.ic_bookmark_black_24dp) }
-        else{ holder.bookmarkButton.setBackgroundResource(R.drawable.ic_bookmark_border_black_24dp)}
 
-        if (position == itemCount - 1){
-            bottomReachedListener.onBottomReached(position)
-        }
+//        if (position == itemCount - 1){
+//            bottomReachedListener.onBottomReached(position)
+//        }
     }
 }
 
