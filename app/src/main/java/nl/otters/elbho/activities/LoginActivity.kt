@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun startOverviewActivity() {
-        val intent = Intent(this, OverviewActivity::class.java)
+        val intent = Intent(this, NavigationActivity::class.java)
         startActivity(intent)
     }
 

@@ -17,6 +17,9 @@
     <string name="navigation_open">Open menu</string>
     <string name="navigation_close">Sluit menu</string>
     <string name="navigation_title">Menu</string>
+    <string name="navigation_overview">Overzicht</string>
+    <string name="temp_request">request</string>
+    <string name="temp_tracking">tracking</string>
 
 
 </resources>
