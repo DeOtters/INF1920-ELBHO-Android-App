@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
@@ -22,6 +23,10 @@ class NavigationActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_navigation)
+        setupNavigationDrawer()
+    }
+
+    private fun setupNavigationDrawer() {
         app_menu_title.setText(R.string.app_name)
 
         navController = findNavController(R.id.nav_host_fragment)
@@ -46,6 +51,10 @@ class NavigationActivity : AppCompatActivity(),
         drawerToggle.isDrawerIndicatorEnabled = true
         drawer_layout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
+    }
+
+    private fun closeMenu() {
+        drawer_layout.closeDrawer(GravityCompat.START)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -91,9 +100,5 @@ class NavigationActivity : AppCompatActivity(),
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun closeMenu() {
-        drawer_layout.closeDrawer(GravityCompat.START)
     }
 }
