@@ -24,6 +24,8 @@
     <string name="button_rent_vehicle">Auto reserveren</string>
     <string name="title_invoice">Geüploade facturen</string>
     <string name="button_add_invoice">Factuur toevoegen</string>
+    <string name="logout">Uitloggen</string>
+    <string name="logged_in_as">Ingelogd als <b>Jan Willem</b></string>
 
 
 </resources>
