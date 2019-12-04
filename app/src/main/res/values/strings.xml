@@ -97,6 +97,12 @@
     <string name="login_input_label_password">WACHTWOORD</string>
     <string name="login_button_text">LOGIN</string>
     <string name="login_snackbar_message_wrongCredentials">Inloggevens zijn niet correct, probeer het nog een keer</string>
+    <string name="navigation_open_requests">Openstaande afspraken</string>
+    <string name="navigation_upcoming_requests">Aanstaande afspraken</string>
+    <string name="navigation_done_requests">Afgeronde afspraken</string>
+    <string name="navigation_availability">Beschikbaarheid</string>
+    <string name="navigation_vehicle">Auto reserveren</string>
+    <string name="navigation_invoice">Facturen</string>
 
 
 </resources>
