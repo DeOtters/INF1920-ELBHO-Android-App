@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/done_requests"
+            android:title="@string/navigation_done_requests" />
+        <item
+            android:id="@+id/invoice"
+            android:title="@string/navigation_invoice" />
     <item
         android:id="@+id/open_requests"
         android:title="@string/navigation_open_requests" />
@@ -8,15 +14,10 @@
         android:id="@+id/upcoming_requests"
         android:title="@string/navigation_upcoming_requests" />
     <item
-        android:id="@+id/done_requests"
-        android:title="@string/navigation_done_requests" />
-    <item
-        android:id="@+id/availability"
-        android:title="@string/navigation_availability" />
-    <item
         android:id="@+id/vehicle"
         android:title="@string/navigation_vehicle" />
     <item
-        android:id="@+id/invoice"
-        android:title="@string/navigation_invoice" />
+        android:id="@+id/availability"
+        android:title="@string/navigation_availability" />
+    </group>
 </menu>

@@ -1,6 +1,7 @@
 package nl.otters.elbho.activities
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -11,6 +12,11 @@ import nl.otters.elbho.R
 
 abstract class NavigationActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme_NoActionBar)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
