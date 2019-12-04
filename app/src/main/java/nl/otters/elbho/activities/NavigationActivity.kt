@@ -9,8 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.navigation.NavigationView
 import nl.otters.elbho.R
 
-abstract class NavigationActivity : AppCompatActivity(),
-    NavigationView.OnNavigationItemSelectedListener {
+abstract class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
