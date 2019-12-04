@@ -12,7 +12,6 @@ class RequestActivity : NavigationActivity() {
         setContentView(R.layout.activity_request)
         navigation.setNavigationItemSelectedListener(this)
         setSupportActionBar(toolbar)
-        toolbar.hideOverflowMenu()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val drawerToggle = object : ActionBarDrawerToggle(

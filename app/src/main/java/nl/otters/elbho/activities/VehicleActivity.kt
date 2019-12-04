@@ -12,7 +12,6 @@ class VehicleActivity : NavigationActivity() {
         setContentView(R.layout.activity_vehicle)
         navigation.setNavigationItemSelectedListener(this)
         setSupportActionBar(toolbar)
-        toolbar.hideOverflowMenu()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val drawerToggle = object : ActionBarDrawerToggle(

@@ -12,7 +12,6 @@ class InvoiceActivity : NavigationActivity() {
         setContentView(R.layout.activity_invoice)
         navigation.setNavigationItemSelectedListener(this)
         setSupportActionBar(toolbar)
-        toolbar.hideOverflowMenu()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val drawerToggle = object : ActionBarDrawerToggle(
