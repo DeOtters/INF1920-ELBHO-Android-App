@@ -7,4 +7,5 @@
 <!--    <color name="colorAccent">#EA9A00</color>-->
     <color name="colorDisabledButton">#DDDDDD</color>
     <color name="colorDisabledButtonText">#898989</color>
+    <color name="colorLayoutBorder">#E3E3E3</color>
 </resources>
