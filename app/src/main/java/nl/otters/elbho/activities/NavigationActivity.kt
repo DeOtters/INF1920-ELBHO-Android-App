@@ -22,6 +22,7 @@ class NavigationActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_navigation)
+        app_menu_title.setText(R.string.app_name)
 
         navController = findNavController(R.id.nav_host_fragment)
 
@@ -36,6 +37,7 @@ class NavigationActivity : AppCompatActivity(),
             R.string.navigation_close
         ) {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                app_menu_title.alpha = slideOffset
                 app_title.alpha = 1 - slideOffset
                 super.onDrawerSlide(drawerView, slideOffset)
             }
@@ -49,20 +51,23 @@ class NavigationActivity : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.open_requests -> {
+                // TODO: Deep link to tabs
                 navController.navigate(R.id.overviewFragment)
-                app_title.setText(R.string.app_name)
+                app_title.setText(R.string.navigation_overview)
                 drawer_layout.closeDrawer(GravityCompat.START)
                 true
             }
             R.id.upcoming_requests -> {
+                // TODO: Deep link to tabs
                 navController.navigate(R.id.overviewFragment)
-                app_title.setText(R.string.app_name)
+                app_title.setText(R.string.navigation_overview)
                 drawer_layout.closeDrawer(GravityCompat.START)
                 true
             }
             R.id.done_requests -> {
+                // TODO: Deep link to tabs
                 navController.navigate(R.id.overviewFragment)
-                app_title.setText(R.string.app_name)
+                app_title.setText(R.string.navigation_overview)
                 drawer_layout.closeDrawer(GravityCompat.START)
                 true
             }

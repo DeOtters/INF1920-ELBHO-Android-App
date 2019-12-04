@@ -18,7 +18,7 @@ import nl.otters.elbho.viewModels.LoginViewModel
 class LoginActivity : AppCompatActivity() {
     private val adviserRepository = AdviserRepository(this)
 
-    override fun onCreate(savedInstanceState: Bundle? ) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = SharedPreferences(this)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
         val loginViewModel = LoginViewModel(adviserRepository)
@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         sharedPreferences.clear()
-        if (authToken != null){
+        if (authToken != null) {
             startOverviewActivity()
         }
 
@@ -39,16 +39,21 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI(loginViewModel: LoginViewModel){
+    private fun updateUI(loginViewModel: LoginViewModel) {
         progressBar.isVisible = true
-        val loginCredentials: Adviser.Login = Adviser.Login(emailTextInputEdit.text.toString(), passwordTextInputEdit.text.toString())
+        val loginCredentials: Adviser.Login =
+            Adviser.Login(emailTextInputEdit.text.toString(), passwordTextInputEdit.text.toString())
         loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
             //val success: Boolean
-            if(it){
+            if (it) {
                 startOverviewActivity()
-            }else{
+            } else {
                 progressBar.isVisible = false
-                Snackbar.make(container, R.string.login_snackbar_message_wrongCredentials, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    container,
+                    R.string.login_snackbar_message_wrongCredentials,
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -58,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun setupTextFieldListeners(textWatcher: TextWatcher){
+    private fun setupTextFieldListeners(textWatcher: TextWatcher) {
         emailTextInputEdit.addTextChangedListener(textWatcher)
         passwordTextInputEdit.addTextChangedListener(textWatcher)
     }
@@ -72,7 +77,8 @@ class LoginActivity : AppCompatActivity() {
             // TODO: Nice have, not checking on string val but if a real email is being entered.
             if (editable == emailTextInputEdit.editableText && editable.toString() != "" && passwordTextInputEdit.editableText.toString() != "") {
                 loginButton.isEnabled = true
-            } else loginButton.isEnabled = editable == passwordTextInputEdit.editableText && editable.toString() != "" && emailTextInputEdit.editableText.toString() != ""
+            } else loginButton.isEnabled =
+                editable == passwordTextInputEdit.editableText && editable.toString() != "" && emailTextInputEdit.editableText.toString() != ""
         }
     }
 }
