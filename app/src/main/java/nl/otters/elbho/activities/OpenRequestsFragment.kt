@@ -49,7 +49,7 @@ class OpenRequestsFragment : Fragment() {
             requests,
             object : ListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
-                    findNavController().navigate(R.id.requestFragment)
+                    findNavController().navigate(R.id.action_global_requestFragment)
                 }
             })
 

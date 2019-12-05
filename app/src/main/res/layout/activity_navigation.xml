@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
 
         <RelativeLayout
