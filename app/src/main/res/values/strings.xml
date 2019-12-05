@@ -1,11 +1,32 @@
 <resources>
     <string name="app_name">ELBHO Adviseursapp</string>
+    <string name="action_settings">Settings</string>
 
     <!-- Login Activity   -->
     <string name="login_image_contentDescription">Product Logo</string>
-    <string name="login_input_label_email"> LOGIN</string>
-    <string name="login_input_label_password">PASSWORD</string>
+    <string name="login_input_label_email">EMAIL</string>
+    <string name="login_input_label_password">WACHTWOORD</string>
     <string name="login_button_text">LOGIN</string>
+    <string name="login_snackbar_message_wrongCredentials">Inloggevens zijn niet correct, probeer het nog een keer</string>
+    <string name="navigation_overview">Afspraken</string>
+    <string name="navigation_open_requests">Openstaande afspraken</string>
+    <string name="navigation_upcoming_requests">Aanstaande afspraken</string>
+    <string name="navigation_done_requests">Afgeronde afspraken</string>
+    <string name="navigation_availability">Beschikbaarheid</string>
+    <string name="navigation_vehicle">Auto reserveren</string>
+    <string name="navigation_invoice">Facturen</string>
+    <string name="navigation_open">Open menu</string>
+    <string name="navigation_close">Sluit menu</string>
+    <string name="navigation_title">Menu</string>
+    <string name="temp_request">request</string>
+    <string name="temp_tracking">tracking</string>
+    <string name="title_vehicle">Gereserveerde auto\'s</string>
+    <string name="button_rent_vehicle">Auto reserveren</string>
+    <string name="title_invoice">Geüploade facturen</string>
+    <string name="button_add_invoice">Factuur toevoegen</string>
+    <string name="logout">Uitloggen</string>
+    <string name="logged_in_as">Ingelogd als <b>Jan Willem</b></string>
+
 
     <!-- Overview Activity  -->
     <string name="overview_tab_left_label">OPENSTAAND</string>
