@@ -88,6 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/card_spacing"
                     android:text="@string/logout"
+                    android:textColor="@color/colorSecondary"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
