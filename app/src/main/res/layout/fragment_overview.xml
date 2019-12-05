@@ -55,11 +55,12 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="@dimen/container_spacing"
+        android:layout_marginEnd="@dimen/container_spacing"
         app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabs"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tabs" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

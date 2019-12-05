@@ -1,12 +1,12 @@
 package nl.otters.elbho.adapters
 
-import android.graphics.drawable.Drawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 //https://blog.mindorks.com/android-material-tabs-with-kotlin
-class ViewPagerAdapter(supportFragmentManager: FragmentManager) : FragmentStatePagerAdapter(supportFragmentManager) {
+class ViewPagerAdapter(supportFragmentManager: FragmentManager) :
+    FragmentStatePagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val fragmentList = ArrayList<Fragment>()
     private val fragmentTitleList = ArrayList<String>()

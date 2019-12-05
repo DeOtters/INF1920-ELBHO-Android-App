@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import nl.otters.elbho.R
 
-class AfgerondFragment : Fragment() {
+class DoneRequestsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        inflater.inflate(R.layout.fragment_afgerond, container, false)!!
+        inflater.inflate(R.layout.fragment_done_requests, container, false)!!
 }
