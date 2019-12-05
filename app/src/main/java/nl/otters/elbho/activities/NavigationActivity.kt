@@ -24,6 +24,11 @@ class NavigationActivity : AppCompatActivity(),
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_navigation)
         setupNavigationDrawer()
+        setLoggedInName()
+    }
+
+    private fun setLoggedInName() {
+        logged_in_user.setText(R.string.logged_in_as)
     }
 
     private fun setupNavigationDrawer() {
