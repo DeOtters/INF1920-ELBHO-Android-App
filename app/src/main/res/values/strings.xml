@@ -27,13 +27,24 @@
     <string name="logout">Uitloggen</string>
     <string name="logged_in_as">Ingelogd als <b>%1$s %2$s</b></string>
 
-
     <!-- Overview Activity  -->
     <string name="overview_tab_left_label">OPENSTAAND</string>
     <string name="overview_tab_middle_label">AANSTAAND</string>
     <string name="overview_tab_right_label">AFGEROND</string>
     <string name="overview_dateToday_text">26 November 2019</string>
 
+    <!-- Appointment Fields -->
+    <string name="field_company_name">Bedrijfsnaam</string>
+    <string name="field_company_address">Adres</string>
+    <string name="field_contact_name">Contactpersoon</string>
+    <string name="field_contact_title">Functie</string>
+    <string name="field_contact_phone">Telefoon</string>
+    <string name="field_contact_email">E-mail</string>
+    <string name="field_appointment_date">Datum</string>
+    <string name="field_appointment_time">Tijd</string>
+    <string name="field_appointment_notes">Opmerking</string>
+    <string name="button_accept_appointment">Accepteren</string>
+    <string name="button_deny_appointment">Afwijzen</string>
 
     <!-- Fragment List Item -->
     <string name="listItem_text_day">DO</string>

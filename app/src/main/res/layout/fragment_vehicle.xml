@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/container_spacing"
-    android:background="@color/background_color_white"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView

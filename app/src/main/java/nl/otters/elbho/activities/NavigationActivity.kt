@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.LiveData
@@ -31,7 +30,7 @@ class NavigationActivity : AppCompatActivity(),
         val adviser = adviserRepository.getAdvisor()
 
         super.onCreate(savedInstanceState)
-        setTheme(R.style.AppTheme_NoActionBar)
+        setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_navigation)
         setupNavigationDrawer()
         setLoggedInName(adviser)
