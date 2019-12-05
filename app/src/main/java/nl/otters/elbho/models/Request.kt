@@ -5,9 +5,8 @@ import com.google.gson.annotations.SerializedName
 object Request {
 
     data class Properties(
-
         val id: String,
-        val appointmentDateTime: String,
+        val appointmentDatetime: String,
         val comment: String,
         val address: String,
         val phoneNumber: String,
@@ -27,7 +26,6 @@ object Request {
     )
 
     data class Accept(
-
         @SerializedName("advisor-id")
         val adviserId: String,
         @SerializedName("request-id")

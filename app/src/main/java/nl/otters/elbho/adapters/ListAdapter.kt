@@ -29,6 +29,7 @@ class ListAdapter(
         val dateView: TextView = itemView.listItem_dateTextView
         val titleView: TextView = itemView.listItem_titleTextView
         val descriptionView: TextView = itemView.lisItem_descriptionTextView
+        val icon: ImageView = itemView.listItem_iconImageView
     }
 
 
@@ -44,8 +45,9 @@ class ListAdapter(
 
         holder.titleView.text = item.cocName
         holder.descriptionView.text = item.address
-        holder.dateView.text = item.appointmentDateTime
-        holder.dayView.text = item.appointmentDateTime
+        holder.dateView.text = ""
+        holder.dayView.text = ""
+        holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
 
         holder.itemView.setOnClickListener{
             listener.onItemClick(holder.adapterPosition, it)

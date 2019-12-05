@@ -27,7 +27,16 @@ class OpenstaandFragment : Fragment() {
 
         super.onActivityCreated(savedInstanceState)
 
+        val viewManager = LinearLayoutManager(activity!!.applicationContext)
+        val listAdapter = ListAdapter(activity!!.applicationContext, requests, object: ListAdapter.OnClickItemListener {
+            override fun onItemClick(position: Int, view: View) {
+                // startDetailActivity()
+            }
+        })
+
+        // TODO: setupRecyclerView()
         recyclerView.apply{
+            this.hasFixedSize()
             this.layoutManager = viewManager
             this.adapter = listAdapter
         }
@@ -37,12 +46,4 @@ class OpenstaandFragment : Fragment() {
             recyclerView.adapter!!.notifyDataSetChanged()
         })
     }
-
-    private val viewManager = LinearLayoutManager(activity!!.applicationContext)
-    private val listAdapter = ListAdapter(activity!!.applicationContext, requests, object: ListAdapter.OnClickItemListener {
-        override fun onItemClick(position: Int, view: View) {
-            // startDetailActivity()
-        }
-    } )
-
 }
