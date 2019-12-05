@@ -65,14 +65,17 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/text_margin"
+                android:layout_marginRight="@dimen/text_margin">
 
                 <TextView
                     android:id="@+id/logged_in_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/card_spacing"
-                    android:text="@string/logged_in_as"
+                    android:gravity="center"
+                    android:singleLine="false"
                     android:textAppearance="@style/LoggedInAs"
                     app:layout_constraintBottom_toTopOf="@id/logout"
                     app:layout_constraintLeft_toLeftOf="parent"

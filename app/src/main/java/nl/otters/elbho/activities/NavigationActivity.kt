@@ -44,9 +44,9 @@ class NavigationActivity : AppCompatActivity(),
 
     private fun setLoggedInName(adviser : LiveData<Adviser.Properties>) {
         adviser.observe(this, Observer{
-            logged_in_user.setText(it.firstName)
+            logged_in_user.setText(String.format(getResources().getString(R.string.logged_in_as),
+                it.firstName, it.lastName))
         })
-
     }
 
     private fun startLoginActivity() {
