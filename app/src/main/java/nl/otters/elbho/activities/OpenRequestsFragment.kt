@@ -1,4 +1,4 @@
-package nl.otters.elbho.fragments
+package nl.otters.elbho.activities
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,11 +21,23 @@ class OpenRequestsFragment : Fragment() {
         inflater.inflate(R.layout.fragment_open_requests, container, false)!!
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        val requestRepository = RequestRepository(activity!!.applicationContext)
-        val openStaandViewModel = OpenRequestsViewModel(requestRepository)
-
         super.onActivityCreated(savedInstanceState)
+        val requestRepository = RequestRepository(activity!!.applicationContext)
+        val openRequestsViewModel = OpenRequestsViewModel(requestRepository)
+        setupRecyclerView()
 
+        openRequestsViewModel.getAllRequests().observe(this, Observer{
+            updateRequestData(it)
+        })
+    }
+
+    private fun updateRequestData(newRequests: ArrayList<Request.Properties>){
+        requests.clear()
+        requests.addAll(newRequests)
+        recyclerView.adapter!!.notifyDataSetChanged()
+    }
+
+    private fun setupRecyclerView(){
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
         val listAdapter = ListAdapter(activity!!.applicationContext, requests, object: ListAdapter.OnClickItemListener {
             override fun onItemClick(position: Int, view: View) {
@@ -33,16 +45,9 @@ class OpenRequestsFragment : Fragment() {
             }
         })
 
-        // TODO: setupRecyclerView()
         recyclerView.apply{
-            this.hasFixedSize()
             this.layoutManager = viewManager
             this.adapter = listAdapter
         }
-
-        openStaandViewModel.getAllRequests().observe(this, Observer{
-            requests = it
-            recyclerView.adapter!!.notifyDataSetChanged()
-        })
     }
 }

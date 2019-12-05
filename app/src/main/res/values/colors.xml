@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#00359E</color>
     <!-- Setting this to blue since we almost never use the colour orange, makes for faster developing -->
     <color name="colorAccent">#004A9E</color>
-<!--    <color name="colorAccent">#EA9A00</color>-->
+    <!--  <color name="colorAccent">#EA9A00</color>-->
     <color name="colorDisabledButton">#DDDDDD</color>
     <color name="colorDisabledButtonText">#898989</color>
     <color name="background_color_white">#FCFCFC</color>

@@ -2,6 +2,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="0dp"
@@ -20,6 +21,7 @@
             android:layout_height="wrap_content"
             android:background="#00FFFFFF"
             android:visibility="invisible" />
+
     </RelativeLayout>
 
     <com.google.android.material.tabs.TabLayout
@@ -51,16 +53,27 @@
     </com.google.android.material.tabs.TabLayout>
 
 
+    <TextView
+        android:id="@+id/todayTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabs" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/container_spacing"
-        android:layout_marginEnd="@dimen/container_spacing"
-        app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabs" />
+        app:layout_constraintTop_toBottomOf="@+id/todayTextView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package nl.otters.elbho.fragments
+package nl.otters.elbho.activities
 
 import android.os.Bundle
 import android.view.LayoutInflater
