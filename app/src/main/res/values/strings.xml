@@ -25,7 +25,7 @@
     <string name="title_invoice">Geüploade facturen</string>
     <string name="button_add_invoice">Factuur toevoegen</string>
     <string name="logout">Uitloggen</string>
-    <string name="logged_in_as">Ingelogd als <b>Jan Willem</b></string>
+    <string name="logged_in_as">Ingelogd als <b>%1$s %2$s</b></string>
 
 
     <!-- Overview Activity  -->
