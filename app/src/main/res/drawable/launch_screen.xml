@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- The android:opacity=”opaque” line — this is critical in preventing a flash of black as your theme transitions. -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+<?xml version="1.0" encoding="utf-8"?><!-- The android:opacity=”opaque” line — this is critical in preventing a flash of black as your theme transitions. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
     <!-- The background color-->
-    <item android:drawable="@android:color/white"/>
+    <item android:drawable="@android:color/white" />
 
     <!-- Product logo -->
-    <item>
-        <bitmap
-            android:src="@drawable/splash_product_logo"
-            android:gravity="center"/>
-    </item>
+    <item
+        android:drawable="@drawable/ic_logo_splash"
+        android:gravity="center" />
 </layer-list>
