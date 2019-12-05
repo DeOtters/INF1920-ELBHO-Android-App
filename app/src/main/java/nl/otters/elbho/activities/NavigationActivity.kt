@@ -1,5 +1,6 @@
 package nl.otters.elbho.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_navigation.*
 import nl.otters.elbho.R
+import nl.otters.elbho.utils.SharedPreferences
 
 
 class NavigationActivity : AppCompatActivity(),
@@ -20,15 +22,26 @@ class NavigationActivity : AppCompatActivity(),
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPreferences = SharedPreferences(this)
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme_NoActionBar)
         setContentView(R.layout.activity_navigation)
         setupNavigationDrawer()
         setLoggedInName()
+
+        logout.setOnClickListener {
+            sharedPreferences.clear()
+            startLoginActivity()
+        }
     }
 
     private fun setLoggedInName() {
         logged_in_user.setText(R.string.logged_in_as)
+    }
+
+    private fun startLoginActivity() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     private fun setupNavigationDrawer() {
