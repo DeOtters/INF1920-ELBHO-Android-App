@@ -14,7 +14,7 @@ class UpcomingRequestsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         val requestRepository = RequestRepository(activity!!.applicationContext)
-        val aanstaandViewModel = UpcomingRequestsViewModel(requestRepository)
+        val upcomingViewModel = UpcomingRequestsViewModel(requestRepository)
         super.onActivityCreated(savedInstanceState)
     }
 }

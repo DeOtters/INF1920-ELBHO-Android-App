@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_open_requests.*
 import nl.otters.elbho.R
@@ -17,7 +18,11 @@ import nl.otters.elbho.viewModels.OpenRequestsViewModel
 class OpenRequestsFragment : Fragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) =
         inflater.inflate(R.layout.fragment_open_requests, container, false)!!
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -26,26 +31,29 @@ class OpenRequestsFragment : Fragment() {
         val openRequestsViewModel = OpenRequestsViewModel(requestRepository)
         setupRecyclerView()
 
-        openRequestsViewModel.getAllRequests().observe(this, Observer{
+        openRequestsViewModel.getAllRequests().observe(this, Observer {
             updateRequestData(it)
         })
     }
 
-    private fun updateRequestData(newRequests: ArrayList<Request.Properties>){
+    private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {
         requests.clear()
         requests.addAll(newRequests)
         recyclerView.adapter!!.notifyDataSetChanged()
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
-        val listAdapter = ListAdapter(activity!!.applicationContext, requests, object: ListAdapter.OnClickItemListener {
-            override fun onItemClick(position: Int, view: View) {
-                // startDetailActivity()
-            }
-        })
+        val listAdapter = ListAdapter(
+            activity!!.applicationContext,
+            requests,
+            object : ListAdapter.OnClickItemListener {
+                override fun onItemClick(position: Int, view: View) {
+                    findNavController().navigate(R.id.action_global_requestFragment)
+                }
+            })
 
-        recyclerView.apply{
+        recyclerView.apply {
             this.layoutManager = viewManager
             this.adapter = listAdapter
         }
