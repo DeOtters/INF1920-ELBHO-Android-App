@@ -44,4 +44,25 @@ class AdviserRepository(private val context: Context) {
         })
         return success
     }
+
+    fun getAdvisor() : LiveData<Adviser.Properties> {
+        val adviser = MutableLiveData<Adviser.Properties>()
+        adviserService.getAdviser(getAuthToken()).enqueue(object : Callback<Adviser.Properties> {
+
+            override fun onResponse(call: Call<Adviser.Properties>, response: Response<Adviser.Properties>) {
+                adviser.value = response.body()
+            }
+
+            override fun onFailure(call: Call<Adviser.Properties>, t: Throwable) {
+                // TODO: not implemented
+            }
+        })
+
+        return adviser
+    }
+
+    private fun getAuthToken(): String {
+        val sharedPreferences = SharedPreferences(context)
+        return sharedPreferences.getValueString("auth-token") ?: ""
+    }
 }
