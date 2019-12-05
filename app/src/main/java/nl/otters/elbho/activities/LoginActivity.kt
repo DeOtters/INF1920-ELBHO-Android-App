@@ -27,11 +27,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        sharedPreferences.clear()
-        if (authToken != null) {
-            startOverviewActivity()
-        }
-
         setupTextFieldListeners(textWatcher)
 
         loginButton.setOnClickListener {

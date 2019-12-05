@@ -30,6 +30,10 @@
         <item name="backgroundTint">@color/color_states_material_button</item>
     </style>
 
+    <style name="CustomMaterialButtonText" parent="Widget.MaterialComponents.Button.TextButton">
+
+    </style>
+
     <style name="LoggedInAs" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">false</item>
