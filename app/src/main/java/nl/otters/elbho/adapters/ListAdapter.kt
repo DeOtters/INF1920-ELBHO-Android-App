@@ -1,6 +1,7 @@
 package nl.otters.elbho.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,7 +50,7 @@ class ListAdapter(
         val item = items[position]
 
         holder.titleView.text = item.cocName
-        holder.descriptionView.text = formatDescription(parseToTime(item.appointmentDatetime), parseToTime((item.appointmentDatetime)), item.address)
+        holder.descriptionView.text = formatDescription(parseToTime(item.appointmentDatetime), item.address)
         holder.dateView.text = parseToDate(item.appointmentDatetime)
         holder.dayView.text = parseToDay(item.appointmentDatetime)
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
@@ -63,29 +64,39 @@ class ListAdapter(
     private fun parseToDay(dateTime: String) : String{
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
         val formatter = SimpleDateFormat("EE",  Locale("nl"))
-        return formatter.format(parser.parse(dateTime)).toUpperCase()
+        return formatter.format(parser.parse(dateTime)!!).toUpperCase()
     }
 
     private fun parseToDate(dateTime: String) : String{
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",  Locale("nl"))
         val formatter = SimpleDateFormat("dd-MM",  Locale("nl"))
-        return formatter.format(parser.parse(dateTime))
+        return formatter.format(parser.parse(dateTime)!!)
     }
 
     private fun parseToTime(dateTime: String) : String{
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",  Locale("nl"))
         val formatter = SimpleDateFormat("HH:mm",  Locale("nl"))
-        return formatter.format(parser.parse(dateTime))
+        return formatter.format(parser.parse(dateTime)!!)
     }
 
-    // TODO: endtime
-    private fun formatDescription(startTime: String, endTime: String, address: String): String{
+    private fun formatDescription(startTime: String, address: String): String{
         return startTime
             .plus( " - ")
-            .plus(endTime)
+            .plus(addHour(startTime, 1))
             .plus( ", ")
             .plus(address.removeRange(address.indexOf(','), address.length)
         )
     }
+
+    private fun addHour(startTime: String, hoursToAdd: Int): String{
+        val parser = SimpleDateFormat("HH:mm",  Locale("nl"))
+        val date: Date = parser.parse(startTime)!!
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.add(Calendar.HOUR, hoursToAdd)
+
+        return parser.format(calendar.time)
+    }
+
 }
 
