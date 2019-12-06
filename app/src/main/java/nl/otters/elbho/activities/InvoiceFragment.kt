@@ -16,6 +16,7 @@ import nl.otters.elbho.repositories.InvoiceRepository
 import nl.otters.elbho.viewModels.InvoiceViewModel
 
 class InvoiceFragment : Fragment() {
+    //Deze lijst moet je vullen met "neppe" data
     private var invoices: ArrayList<Invoice.File> = ArrayList()
 
     override fun onCreateView(
@@ -33,7 +34,9 @@ class InvoiceFragment : Fragment() {
         setupRecyclerView()
 
         invoicesViewModel.getAllInvoices().observe(this, Observer {
-            updateInvoiceData(it)
+            if(it != null){
+                updateInvoiceData(it)
+            }
         })
     }
 
