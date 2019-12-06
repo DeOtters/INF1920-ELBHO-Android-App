@@ -12,14 +12,14 @@ import nl.otters.elbho.R
 import nl.otters.elbho.adapters.ViewPagerAdapter
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.repositories.RequestRepository
+import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.OverviewViewModel
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class OverviewFragment : Fragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()
+    private val dateParser: DateParser = DateParser()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,19 +47,7 @@ class OverviewFragment : Fragment() {
         }
 
         setupViewPager()
-        todayTextView.text = getDateToday()
-    }
-
-    private fun getDateToday(): String {
-        //Couldnt achieve this with one simpleDateFormat because we need the month to be uppercase
-        val dayFormat = SimpleDateFormat("dd", Locale("nl"))
-        val monthFormat = SimpleDateFormat("MMMM", Locale("nl"))
-        val yearFormat = SimpleDateFormat("yy", Locale("nl"))
-        val day: String = dayFormat.format(Date())
-        val month: String = monthFormat.format(Date()).toUpperCase(Locale("nl"))
-        val year: String = yearFormat.format(Date())
-
-        return "$day $month $year"
+        todayTextView.text = dateParser.getDateToday()
     }
 
     private fun setupViewPager() {
