@@ -20,7 +20,7 @@ class InvoiceRepository(private val context: Context) {
             .enqueue(object : Callback<ArrayList<Invoice>> {
 
                 override fun onFailure(call: Call<ArrayList<Invoice>>, t: Throwable) {
-                    TODO("not implemented")
+                    // TODO: not implemented
                 }
 
                 override fun onResponse(
@@ -39,7 +39,7 @@ class InvoiceRepository(private val context: Context) {
         invoiceService.getInvoice(getAuthToken(), id).enqueue(object : Callback<Invoice> {
 
             override fun onFailure(call: Call<Invoice>, t: Throwable) {
-                TODO("not implemented")
+                // TODO: not implemented
             }
 
             override fun onResponse(call: Call<Invoice>, response: Response<Invoice>) {
@@ -54,11 +54,11 @@ class InvoiceRepository(private val context: Context) {
     fun createInvoice(invoice: Invoice) {
         invoiceService.createInvoice(getAuthToken(), invoice).enqueue(object : Callback<Unit> {
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                TODO("not implemented")
+                // TODO: not implemented
             }
 
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                TODO("not implemented")
+                // TODO: not implemented
             }
 
         })
@@ -67,11 +67,11 @@ class InvoiceRepository(private val context: Context) {
     fun updateInvoice(id: Int, invoice: Invoice) {
         invoiceService.updateInvoice(getAuthToken(), id, invoice).enqueue(object : Callback<Unit> {
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                TODO("not implemented")
+                // TODO: not implemented
             }
 
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                TODO("not implemented")
+                // TODO: not implemented
             }
 
         })
