@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/container_spacing"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/FieldLayout.Disabled"
+        android:hint="@string/field_appointment_notes"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@style/FieldLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/appointmentNotesFieldText"
+            style="@style/FieldText"
+            android:inputType="textMultiLine"
+            android:text="Hier staat text ja" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/FieldLayout.Disabled"
+        android:hint="@string/field_company_name"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@style/FieldLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/companyNameFieldText"
+            style="@style/FieldText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/FieldLayout.Disabled"
+        android:hint="@string/field_company_address"
+        app:endIconDrawable="@drawable/ic_navigation_orange_24dp"
+        app:endIconMode="custom"
+        app:endIconTint="@color/colorSecondary"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@style/FieldLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/companyAddressFieldText"
+            style="@style/FieldText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/FieldLayout.Disabled"
+        android:hint="@string/field_contact_name"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@style/FieldLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/contactNameFieldText"
+            style="@style/FieldText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/FieldLayout.Disabled"
+        android:hint="@string/field_contact_title"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@style/FieldLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/contactTitleFieldText"
+            style="@style/FieldText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/FieldLayout.Disabled"
+        android:hint="@string/field_contact_phone"
+        app:endIconDrawable="@drawable/ic_phone_orange_24dp"
+        app:endIconMode="custom"
+        app:endIconTint="@color/colorSecondary"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@style/FieldLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/contactPhoneFieldText"
+            style="@style/FieldText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/FieldLayout.Disabled"
+        android:hint="@string/field_contact_email"
+        app:endIconDrawable="@drawable/ic_email_orange_24dp"
+        app:endIconMode="custom"
+        app:endIconTint="@color/colorSecondary"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@style/FieldLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/contactEmailFieldText"
+            style="@style/FieldText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/FieldLayout.Disabled"
+        android:hint="@string/field_appointment_date"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@style/FieldLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/appointmentDateFieldText"
+            style="@style/FieldText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/FieldLayout.Disabled"
+        android:hint="@string/field_appointment_time"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@style/FieldLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/appointmentTimeFieldText"
+            style="@style/FieldText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/CustomMaterialButton"
+        android:text="@string/button_accept_appointment"
+        app:backgroundTint="@color/green_button" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/CustomMaterialButton"
+        android:text="@string/button_deny_appointment"
+        app:backgroundTint="@color/red_button" />
+</LinearLayout>
