@@ -18,10 +18,14 @@ class DoneRequestsFragment : Fragment() {
     ) = inflater.inflate(R.layout.fragment_done_requests, container, false)!!
 
     override fun onResume() {
+        setTitle()
+        super.onResume()
+    }
+
+    private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
         appTitle.setText(R.string.navigation_done_requests)
         navigation.setCheckedItem(R.id.done_requests)
-        super.onResume()
     }
 }

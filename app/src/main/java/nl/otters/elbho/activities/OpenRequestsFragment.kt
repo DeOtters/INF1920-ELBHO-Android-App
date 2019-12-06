@@ -39,11 +39,15 @@ class OpenRequestsFragment : Fragment() {
     }
 
     override fun onResume() {
+        setTitle()
+        super.onResume()
+    }
+
+    private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
         navigation.setCheckedItem(R.id.open_requests)
         appTitle.setText(R.string.navigation_open_requests)
-        super.onResume()
     }
 
     private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {

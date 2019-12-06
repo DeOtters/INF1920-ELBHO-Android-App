@@ -19,8 +19,12 @@ class AvailabilityFragment : Fragment() {
     }
 
     override fun onResume() {
+        setTitle()
+        super.onResume()
+    }
+
+    private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_availability)
-        super.onResume()
     }
 }
