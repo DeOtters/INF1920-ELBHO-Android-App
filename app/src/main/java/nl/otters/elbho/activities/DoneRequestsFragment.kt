@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.android.material.navigation.NavigationView
 import nl.otters.elbho.R
 
 class DoneRequestsFragment : Fragment() {
@@ -18,7 +19,9 @@ class DoneRequestsFragment : Fragment() {
 
     override fun onResume() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
         appTitle.setText(R.string.navigation_done_requests)
+        navigation.setCheckedItem(R.id.done_requests)
         super.onResume()
     }
 }

@@ -33,7 +33,7 @@ class OverviewFragment : Fragment() {
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
 
-        if (authToken == null){
+        if (authToken == null) {
             startLoginActivity()
         }
 
@@ -51,7 +51,7 @@ class OverviewFragment : Fragment() {
         super.onResume()
     }
 
-    private fun getDateToday(): String{
+    private fun getDateToday(): String {
         //Couldnt achieve this with one simpleDateFormat because we need the month to be uppercase
         val dayFormat = SimpleDateFormat("dd", Locale("nl"))
         val monthFormat = SimpleDateFormat("MMMM", Locale("nl"))
@@ -63,11 +63,20 @@ class OverviewFragment : Fragment() {
         return "$day $month $year"
     }
 
-    private fun setupViewPager(){
+    private fun setupViewPager() {
         val adapter = ViewPagerAdapter(childFragmentManager)
-        adapter.addFragment(OpenRequestsFragment(), resources.getString(R.string.overview_tab_left_label))
-        adapter.addFragment(UpcomingRequestsFragment(), resources.getString(R.string.overview_tab_middle_label))
-        adapter.addFragment(DoneRequestsFragment(), resources.getString(R.string.overview_tab_right_label))
+        adapter.addFragment(
+            OpenRequestsFragment(),
+            resources.getString(R.string.overview_tab_left_label)
+        )
+        adapter.addFragment(
+            UpcomingRequestsFragment(),
+            resources.getString(R.string.overview_tab_middle_label)
+        )
+        adapter.addFragment(
+            DoneRequestsFragment(),
+            resources.getString(R.string.overview_tab_right_label)
+        )
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
         tabs.getTabAt(0)!!.orCreateBadge.number = 3
