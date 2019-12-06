@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.LiveData
@@ -31,7 +30,7 @@ class NavigationActivity : AppCompatActivity(),
         val adviser = adviserRepository.getAdvisor()
 
         super.onCreate(savedInstanceState)
-        setTheme(R.style.AppTheme_NoActionBar)
+        setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_navigation)
         setupNavigationDrawer()
         setLoggedInName(adviser)
@@ -42,10 +41,12 @@ class NavigationActivity : AppCompatActivity(),
         }
     }
 
-    private fun setLoggedInName(adviser : LiveData<Adviser.Properties>) {
-        adviser.observe(this, Observer{
-            logged_in_user.setText(String.format(getResources().getString(R.string.logged_in_as),
-                it.firstName, it.lastName))
+    private fun setLoggedInName(adviser: LiveData<Adviser.Properties>) {
+        adviser.observe(this, Observer {
+            logged_in_user.text = String.format(
+                resources.getString(R.string.logged_in_as),
+                it.firstName, it.lastName
+            )
         })
     }
 
@@ -89,39 +90,39 @@ class NavigationActivity : AppCompatActivity(),
         return when (item.itemId) {
             R.id.open_requests -> {
                 // TODO: Deep link to tabs
-                navController.navigate(R.id.overviewFragment)
+                navController.navigate(R.id.action_global_overviewFragment)
                 app_title.setText(R.string.navigation_overview)
                 closeMenu()
                 true
             }
             R.id.upcoming_requests -> {
                 // TODO: Deep link to tabs
-                navController.navigate(R.id.overviewFragment)
+                navController.navigate(R.id.action_global_overviewFragment)
                 app_title.setText(R.string.navigation_overview)
                 closeMenu()
                 true
             }
             R.id.done_requests -> {
                 // TODO: Deep link to tabs
-                navController.navigate(R.id.overviewFragment)
+                navController.navigate(R.id.action_global_overviewFragment)
                 app_title.setText(R.string.navigation_overview)
                 closeMenu()
                 true
             }
             R.id.availability -> {
-                navController.navigate(R.id.availabilityFragment)
+                navController.navigate(R.id.action_global_availabilityFragment)
                 app_title.setText(R.string.navigation_availability)
                 closeMenu()
                 true
             }
             R.id.vehicle -> {
-                navController.navigate(R.id.vehicleFragment)
+                navController.navigate(R.id.action_global_vehicleFragment)
                 app_title.setText(R.string.navigation_vehicle)
                 closeMenu()
                 true
             }
             R.id.invoice -> {
-                navController.navigate(R.id.invoiceFragment)
+                navController.navigate(R.id.action_global_invoiceFragment)
                 app_title.setText(R.string.navigation_invoice)
                 closeMenu()
                 true

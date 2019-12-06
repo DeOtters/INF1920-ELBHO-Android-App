@@ -6,31 +6,67 @@
         android:id="@+id/overviewFragment"
         android:name="nl.otters.elbho.activities.OverviewFragment"
         android:label="OverviewFragment">
-        <action
-            android:id="@+id/action_overviewFragment_to_trackingFragment"
-            app:destination="@id/trackingFragment" />
-        <action
-            android:id="@+id/action_overviewFragment_to_requestFragment"
-            app:destination="@id/requestFragment" />
     </fragment>
+    <action
+        android:id="@+id/action_global_overviewFragment"
+        app:destination="@id/overviewFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <fragment
         android:id="@+id/availabilityFragment"
         android:name="nl.otters.elbho.activities.AvailabilityFragment"
         android:label="AvailabilityFragment" />
+    <action
+        android:id="@+id/action_global_availabilityFragment"
+        app:destination="@id/availabilityFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <fragment
         android:id="@+id/invoiceFragment"
         android:name="nl.otters.elbho.activities.InvoiceFragment"
         android:label="InvoiceFragment" />
+    <action
+        android:id="@+id/action_global_invoiceFragment"
+        app:destination="@id/invoiceFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <fragment
         android:id="@+id/vehicleFragment"
         android:name="nl.otters.elbho.activities.VehicleFragment"
         android:label="VehicleFragment" />
+    <action
+        android:id="@+id/action_global_vehicleFragment"
+        app:destination="@id/vehicleFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <fragment
         android:id="@+id/trackingFragment"
         android:name="nl.otters.elbho.activities.TrackingFragment"
         android:label="TrackingFragment" />
+    <action
+        android:id="@+id/action_global_trackingFragment"
+        app:destination="@id/trackingFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     <fragment
         android:id="@+id/requestFragment"
         android:name="nl.otters.elbho.activities.RequestFragment"
         android:label="RequestFragment" />
+    <action
+        android:id="@+id/action_global_requestFragment"
+        app:destination="@id/requestFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 </navigation>

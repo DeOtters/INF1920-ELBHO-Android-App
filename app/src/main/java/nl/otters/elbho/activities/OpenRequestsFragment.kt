@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_open_requests.*
 import nl.otters.elbho.R
@@ -29,26 +30,30 @@ class OpenRequestsFragment : Fragment() {
         val overviewViewModel = OverviewViewModel(requestRepository)
 
         setupRecyclerView()
+
         overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
             updateRequestData(it)
         })
     }
 
-    private fun updateRequestData(newRequests: ArrayList<Request.Properties>){
+    private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {
         requests.clear()
         requests.addAll(newRequests)
         recyclerView.adapter!!.notifyDataSetChanged()
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
-        val listAdapter = ListAdapter(activity!!.applicationContext, requests, object: ListAdapter.OnClickItemListener {
-            override fun onItemClick(position: Int, view: View) {
-                // startDetailActivity()
-            }
-        })
+        val listAdapter = ListAdapter(
+            activity!!.applicationContext,
+            requests,
+            object : ListAdapter.OnClickItemListener {
+                override fun onItemClick(position: Int, view: View) {
+                    findNavController().navigate(R.id.action_global_requestFragment)
+                }
+            })
 
-        recyclerView.apply{
+        recyclerView.apply {
             this.layoutManager = viewManager
             this.adapter = listAdapter
         }

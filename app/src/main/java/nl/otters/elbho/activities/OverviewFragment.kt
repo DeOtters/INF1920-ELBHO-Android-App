@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.otters.elbho.R
@@ -33,6 +36,10 @@ class OverviewFragment : Fragment() {
         //TODO: GetAllRequests + GetAllRequestAssignments here
         //TODO: Pass data to child fragments
         //TODO: assign requests.length and requestsAssignments to badge.number
+
+        //TODO: GetAllRequests + GetAllRequestAssignments here
+        //TODO: Pass data to child fragments
+        //TODO: assign requests.length and requestsAssignments to badge.number
         val requestRepository = RequestRepository(activity!!.applicationContext)
         val overviewViewModel = OverviewViewModel(requestRepository)
 
@@ -51,7 +58,6 @@ class OverviewFragment : Fragment() {
         setupViewPager()
         todayTextView.text = getDateToday()
     }
-
 
     private fun getDateToday(): String{
         //Couldnt achieve this with one simpleDateFormat because we need the month to be uppercase
@@ -72,6 +78,8 @@ class OverviewFragment : Fragment() {
         adapter.addFragment(DoneRequestsFragment(), resources.getString(R.string.overview_tab_right_label))
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
+        tabs.getTabAt(0)!!.orCreateBadge.number = 3
+        tabs.getTabAt(1)!!.orCreateBadge.number = 1
         tabs.getTabAt(0)!!.setIcon(R.drawable.ic_event_available_24dp)
         tabs.getTabAt(1)!!.setIcon(R.drawable.ic_event_24dp)
         tabs.getTabAt(2)!!.setIcon(R.drawable.ic_event_done_24dp)
