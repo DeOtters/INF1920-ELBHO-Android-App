@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.component_textdisplay.view.*
+import kotlinx.android.synthetic.main.fragment_request_refactor.*
 import nl.otters.elbho.R
 
 class RequestFragment : Fragment() {
@@ -15,7 +17,12 @@ class RequestFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_request, container, false)
+        return inflater.inflate(R.layout.fragment_request_refactor, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setFieldLabels()
     }
 
     override fun onResume() {
@@ -27,4 +34,17 @@ class RequestFragment : Fragment() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.temp_request)
     }
+
+    private fun setFieldLabels(){
+        textDisplay_address.label.text = resources.getText(R.string.field_company_address)
+        textDisplay_appointmentDate.label.text = resources.getText(R.string.field_appointment_date)
+        textDisplay_appointmentTime.label.text = resources.getText(R.string.field_appointment_time)
+        textDisplay_cocName.label.text = resources.getText(R.string.field_company_name)
+        textDisplay_comment.label.text = resources.getText(R.string.field_appointment_notes)
+        textDisplay_contactPersonEmail.label.text = resources.getText(R.string.field_contact_email)
+        textDisplay_contactPersonFunction.label.text = resources.getText(R.string.field_contact_title)
+        textDisplay_contactPersonName.label.text = resources.getText(R.string.field_contact_name)
+        textDisplay_contactPersonPhoneNumber.label.text = resources.getText(R.string.field_contact_phone)
+    }
+
 }

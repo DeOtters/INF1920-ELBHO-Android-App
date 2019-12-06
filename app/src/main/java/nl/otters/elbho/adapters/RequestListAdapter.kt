@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_listitem.view.*
+import kotlinx.android.synthetic.main.component_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.utils.DateParser
@@ -39,7 +39,7 @@ class RequestListAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.fragment_listitem, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.component_listitem, parent, false)
         return ViewHolder(view)
     }
 

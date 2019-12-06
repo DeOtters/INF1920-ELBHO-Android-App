@@ -28,9 +28,12 @@
 
     <style name="CustomMaterialButton" parent="Widget.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
         <item name="backgroundTint">@color/color_states_material_button</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetTop">0dp</item>
     </style>
 
     <style name="CustomMaterialButtonText" parent="Widget.MaterialComponents.Button.TextButton">
