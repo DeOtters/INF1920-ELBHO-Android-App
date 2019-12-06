@@ -6,6 +6,10 @@
         android:id="@+id/overviewFragment"
         android:name="nl.otters.elbho.activities.OverviewFragment"
         android:label="OverviewFragment">
+        <argument
+            android:name="tabId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <action
         android:id="@+id/action_global_overviewFragment"

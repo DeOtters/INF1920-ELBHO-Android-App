@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -28,10 +29,10 @@ class NavigationActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = SharedPreferences(this)
         val adviser = adviserRepository.getAdvisor()
-
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_navigation)
+        navController = this.findNavController(R.id.nav_host_fragment)
         setupNavigationDrawer()
         setLoggedInName(adviser)
 
@@ -39,6 +40,10 @@ class NavigationActivity : AppCompatActivity(),
             sharedPreferences.clear()
             startLoginActivity()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp()
     }
 
     private fun setLoggedInName(adviser: LiveData<Adviser.Properties>) {
@@ -57,9 +62,6 @@ class NavigationActivity : AppCompatActivity(),
 
     private fun setupNavigationDrawer() {
         app_menu_title.setText(R.string.app_name)
-
-        navController = findNavController(R.id.nav_host_fragment)
-
         navigation.setNavigationItemSelectedListener(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -89,22 +91,22 @@ class NavigationActivity : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.open_requests -> {
-                // TODO: Deep link to tabs
-                navController.navigate(R.id.action_global_overviewFragment)
+                val bundle = bundleOf("tabId" to 0)
+                navController.navigate(R.id.action_global_overviewFragment, bundle)
                 app_title.setText(R.string.navigation_overview)
                 closeMenu()
                 true
             }
             R.id.upcoming_requests -> {
-                // TODO: Deep link to tabs
-                navController.navigate(R.id.action_global_overviewFragment)
+                val bundle = bundleOf("tabId" to 1)
+                navController.navigate(R.id.action_global_overviewFragment, bundle)
                 app_title.setText(R.string.navigation_overview)
                 closeMenu()
                 true
             }
             R.id.done_requests -> {
-                // TODO: Deep link to tabs
-                navController.navigate(R.id.action_global_overviewFragment)
+                val bundle = bundleOf("tabId" to 2)
+                navController.navigate(R.id.action_global_overviewFragment, bundle)
                 app_title.setText(R.string.navigation_overview)
                 closeMenu()
                 true

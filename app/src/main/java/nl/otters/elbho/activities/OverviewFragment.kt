@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.ViewPagerAdapter
@@ -49,7 +46,7 @@ class OverviewFragment : Fragment() {
         val monthFormat = SimpleDateFormat("MMMM", Locale("nl"))
         val yearFormat = SimpleDateFormat("yy", Locale("nl"))
         val day: String = dayFormat.format(Date())
-        val month: String = monthFormat.format(Date()).toUpperCase()
+        val month: String = monthFormat.format(Date()).toUpperCase(Locale("nl"))
         val year: String = yearFormat.format(Date())
 
         return "$day $month $year"
@@ -67,6 +64,8 @@ class OverviewFragment : Fragment() {
         tabs.getTabAt(0)!!.setIcon(R.drawable.ic_event_available_24dp)
         tabs.getTabAt(1)!!.setIcon(R.drawable.ic_event_24dp)
         tabs.getTabAt(2)!!.setIcon(R.drawable.ic_event_done_24dp)
+
+        tabs.getTabAt(arguments!!.get("tabId") as Int)!!.select()
     }
 
     private fun startLoginActivity() {
