@@ -8,6 +8,8 @@
     <string name="login_input_label_password">WACHTWOORD</string>
     <string name="login_button_text">LOGIN</string>
     <string name="login_snackbar_message_wrongCredentials">Inloggevens zijn niet correct, probeer het nog een keer</string>
+
+    <!-- Navigation Activity   -->
     <string name="navigation_overview">Afspraken</string>
     <string name="navigation_open_requests">Openstaande afspraken</string>
     <string name="navigation_upcoming_requests">Aanstaande afspraken</string>
@@ -18,6 +20,8 @@
     <string name="navigation_open">Open menu</string>
     <string name="navigation_close">Sluit menu</string>
     <string name="navigation_title">Menu</string>
+
+    <!--    -->
     <string name="temp_request">request</string>
     <string name="temp_tracking">tracking</string>
     <string name="title_vehicle">Gereserveerde auto\'s</string>
@@ -33,7 +37,7 @@
     <string name="overview_tab_right_label">AFGEROND</string>
     <string name="overview_dateToday_text">26 November 2019</string>
 
-    <!-- Appointment Fields -->
+    <!-- Request Fields -->
     <string name="field_company_name">Bedrijfsnaam</string>
     <string name="field_company_address">Adres</string>
     <string name="field_contact_name">Contactpersoon</string>
