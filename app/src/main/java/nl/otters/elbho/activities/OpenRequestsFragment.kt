@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_open_requests.*
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.ListAdapter
@@ -31,6 +33,18 @@ class OpenRequestsFragment : Fragment() {
         overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
             updateRequestData(it)
         })
+    }
+
+    override fun onResume() {
+        setTitle()
+        super.onResume()
+    }
+
+    private fun setTitle() {
+        val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.open_requests)
+        appTitle.setText(R.string.navigation_open_requests)
     }
 
     private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {

@@ -42,7 +42,7 @@ class OverviewFragment : Fragment() {
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
 
-        if (authToken == null){
+        if (authToken == null) {
             startLoginActivity()
         }
 
@@ -50,19 +50,19 @@ class OverviewFragment : Fragment() {
         todayTextView.text = getDateToday()
     }
 
-    private fun getDateToday(): String{
+    private fun getDateToday(): String {
         //Couldnt achieve this with one simpleDateFormat because we need the month to be uppercase
         val dayFormat = SimpleDateFormat("dd", Locale("nl"))
         val monthFormat = SimpleDateFormat("MMMM", Locale("nl"))
         val yearFormat = SimpleDateFormat("yy", Locale("nl"))
         val day: String = dayFormat.format(Date())
-        val month: String = monthFormat.format(Date()).toUpperCase()
+        val month: String = monthFormat.format(Date()).toUpperCase(Locale("nl"))
         val year: String = yearFormat.format(Date())
 
         return "$day $month $year"
     }
 
-    private fun setupViewPager(){
+    private fun setupViewPager() {
         val adapter = ViewPagerAdapter(childFragmentManager)
         adapter.addFragment(OpenRequestsFragment(), resources.getString(R.string.overview_tab_left_label))
         adapter.addFragment(UpcomingRequestsFragment(), resources.getString(R.string.overview_tab_middle_label))
@@ -72,6 +72,8 @@ class OverviewFragment : Fragment() {
         tabs.getTabAt(0)!!.setIcon(R.drawable.ic_event_available_24dp)
         tabs.getTabAt(1)!!.setIcon(R.drawable.ic_event_24dp)
         tabs.getTabAt(2)!!.setIcon(R.drawable.ic_event_done_24dp)
+
+        tabs.getTabAt(arguments!!.get("tabId") as Int)!!.select()
     }
 
     private fun startLoginActivity() {

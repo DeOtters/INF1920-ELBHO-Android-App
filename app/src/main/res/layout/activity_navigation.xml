@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:menu="@menu/navigation_items"
-            app:itemTextAppearance="@style/TextAppearance.MaterialComponents.Headline5">
+            app:itemTextAppearance="@style/NavigationItems">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -76,6 +76,7 @@
                     android:layout_width="72dp"
                     android:layout_height="72dp"
                     android:layout_marginBottom="32dp"
+                    android:contentDescription="@string/elbho_logo"
                     app:layout_constraintBottom_toTopOf="@id/logged_in_user"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
