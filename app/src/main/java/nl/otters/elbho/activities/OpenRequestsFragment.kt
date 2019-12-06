@@ -15,25 +15,22 @@ import nl.otters.elbho.R
 import nl.otters.elbho.adapters.ListAdapter
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.repositories.RequestRepository
-import nl.otters.elbho.viewModels.OpenRequestsViewModel
+import nl.otters.elbho.viewModels.OverviewViewModel
 
 class OpenRequestsFragment : Fragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) =
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         inflater.inflate(R.layout.fragment_open_requests, container, false)!!
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val requestRepository = RequestRepository(activity!!.applicationContext)
-        val openRequestsViewModel = OpenRequestsViewModel(requestRepository)
+        val overviewViewModel = OverviewViewModel(requestRepository)
+
         setupRecyclerView()
 
-        openRequestsViewModel.getAllRequests().observe(this, Observer {
+        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
             updateRequestData(it)
         })
     }

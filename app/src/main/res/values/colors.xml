@@ -13,4 +13,5 @@
     <color name="red_button">#D32F2F</color>
     <color name="green_button">#3FB562</color>
     <color name="colorSecondary">#EA9A00</color>
+    <color name="colorMaskRipple">#42ffffff</color>
 </resources>
