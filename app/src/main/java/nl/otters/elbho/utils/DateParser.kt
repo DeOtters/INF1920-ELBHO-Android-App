@@ -47,4 +47,19 @@ class DateParser {
 
         return parser.format(calendar.time)
     }
+
+    /*
+   * @return string -> 16 NOVEMBER 2019
+   */
+    fun getDateToday(): String {
+        //Couldnt achieve this with one simpleDateFormat because we need the month to be uppercase
+        val dayFormat = SimpleDateFormat("dd", locale)
+        val monthFormat = SimpleDateFormat("MMMM", locale)
+        val yearFormat = SimpleDateFormat("yy", locale)
+        val day: String = dayFormat.format(Date())
+        val month: String = monthFormat.format(Date()).toUpperCase(locale)
+        val year: String = yearFormat.format(Date())
+
+        return "$day $month $year"
+    }
 }
