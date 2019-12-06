@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -34,6 +35,12 @@ class OpenRequestsFragment : Fragment() {
         openRequestsViewModel.getAllRequests().observe(this, Observer {
             updateRequestData(it)
         })
+    }
+
+    override fun onResume() {
+        val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        appTitle.setText(R.string.navigation_open_requests)
+        super.onResume()
     }
 
     private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {

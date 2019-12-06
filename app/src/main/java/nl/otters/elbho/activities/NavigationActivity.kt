@@ -93,39 +93,33 @@ class NavigationActivity : AppCompatActivity(),
             R.id.open_requests -> {
                 val bundle = bundleOf("tabId" to 0)
                 navController.navigate(R.id.action_global_overviewFragment, bundle)
-                app_title.setText(R.string.navigation_overview)
                 closeMenu()
                 true
             }
             R.id.upcoming_requests -> {
                 val bundle = bundleOf("tabId" to 1)
                 navController.navigate(R.id.action_global_overviewFragment, bundle)
-                app_title.setText(R.string.navigation_overview)
                 closeMenu()
                 true
             }
             R.id.done_requests -> {
                 val bundle = bundleOf("tabId" to 2)
                 navController.navigate(R.id.action_global_overviewFragment, bundle)
-                app_title.setText(R.string.navigation_overview)
                 closeMenu()
                 true
             }
             R.id.availability -> {
                 navController.navigate(R.id.action_global_availabilityFragment)
-                app_title.setText(R.string.navigation_availability)
                 closeMenu()
                 true
             }
             R.id.vehicle -> {
                 navController.navigate(R.id.action_global_vehicleFragment)
-                app_title.setText(R.string.navigation_vehicle)
                 closeMenu()
                 true
             }
             R.id.invoice -> {
                 navController.navigate(R.id.action_global_invoiceFragment)
-                app_title.setText(R.string.navigation_invoice)
                 closeMenu()
                 true
             }
