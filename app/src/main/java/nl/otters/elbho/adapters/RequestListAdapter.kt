@@ -12,15 +12,14 @@ import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
-class ListAdapter(
+class RequestListAdapter(
     private val context: Context,
     private val items: ArrayList<Request.Properties>,
     private val listener: OnClickItemListener
 //    private val bottomReachedListener: OnBottomReachedListener
-) : RecyclerView.Adapter<ListAdapter.ViewHolder>(){
+) : RecyclerView.Adapter<RequestListAdapter.ViewHolder>() {
 
     interface OnClickItemListener{
         fun onItemClick(position: Int, view: View)

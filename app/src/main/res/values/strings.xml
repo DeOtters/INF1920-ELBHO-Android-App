@@ -52,4 +52,7 @@
     <string name="listItem_text_title">Simpel BV</string>
     <string name="listItem_text_description">20.00 - 13.15, Amsterdam</string>
     <string name="listItem_image_contentDescription">Clickable Icon to Detail page</string>
+    <string name="icon_invoice">Factuur icoon</string>
+    <string name="elbho_logo">ELBHO logo</string>
+    <string name="invoice_uploaded_on">Datum geüpload: [nog niet geïmplementeerd]</string>
 </resources>
