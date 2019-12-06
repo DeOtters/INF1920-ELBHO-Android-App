@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.otters.elbho.R
@@ -39,16 +38,6 @@ class OverviewFragment : Fragment() {
 
         setupViewPager()
         todayTextView.text = getDateToday()
-    }
-
-    override fun onResume() {
-        val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        when (arguments!!.get("tabId") as Int) {
-            0 -> appTitle.setText(R.string.navigation_open_requests)
-            1 -> appTitle.setText(R.string.navigation_upcoming_requests)
-            2 -> appTitle.setText(R.string.navigation_done_requests)
-        }
-        super.onResume()
     }
 
     private fun getDateToday(): String {
