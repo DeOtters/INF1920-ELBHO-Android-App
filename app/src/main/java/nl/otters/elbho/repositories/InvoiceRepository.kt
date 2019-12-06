@@ -14,18 +14,18 @@ import retrofit2.Response
 class InvoiceRepository(private val context: Context) {
     private val invoiceService = RetrofitFactory.get().create(InvoiceService::class.java)
 
-    fun getAllInvoices(): LiveData<ArrayList<Invoice>>? {
-        val invoices = MutableLiveData<ArrayList<Invoice>>()
+    fun getAllInvoices(): LiveData<ArrayList<Invoice.File>> {
+        val invoices = MutableLiveData<ArrayList<Invoice.File>>()
         invoiceService.getAllInvoices(getAuthToken())
-            .enqueue(object : Callback<ArrayList<Invoice>> {
+            .enqueue(object : Callback<ArrayList<Invoice.File>> {
 
-                override fun onFailure(call: Call<ArrayList<Invoice>>, t: Throwable) {
+                override fun onFailure(call: Call<ArrayList<Invoice.File>>, t: Throwable) {
                     // TODO: not implemented
                 }
 
                 override fun onResponse(
-                    call: Call<ArrayList<Invoice>>,
-                    response: Response<ArrayList<Invoice>>
+                    call: Call<ArrayList<Invoice.File>>,
+                    response: Response<ArrayList<Invoice.File>>
                 ) {
                     invoices.value = response.body()
                 }
@@ -34,15 +34,15 @@ class InvoiceRepository(private val context: Context) {
         return invoices
     }
 
-    fun getInvoice(id: Int): LiveData<Invoice> {
-        val invoice = MutableLiveData<Invoice>()
-        invoiceService.getInvoice(getAuthToken(), id).enqueue(object : Callback<Invoice> {
+    fun getInvoice(id: Int): LiveData<Invoice.File> {
+        val invoice = MutableLiveData<Invoice.File>()
+        invoiceService.getInvoice(getAuthToken(), id).enqueue(object : Callback<Invoice.File> {
 
-            override fun onFailure(call: Call<Invoice>, t: Throwable) {
+            override fun onFailure(call: Call<Invoice.File>, t: Throwable) {
                 // TODO: not implemented
             }
 
-            override fun onResponse(call: Call<Invoice>, response: Response<Invoice>) {
+            override fun onResponse(call: Call<Invoice.File>, response: Response<Invoice.File>) {
                 invoice.value = response.body()
             }
 
@@ -51,7 +51,7 @@ class InvoiceRepository(private val context: Context) {
         return invoice
     }
 
-    fun createInvoice(invoice: Invoice) {
+    fun createInvoice(invoice: Invoice.File) {
         invoiceService.createInvoice(getAuthToken(), invoice).enqueue(object : Callback<Unit> {
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 // TODO: not implemented
@@ -64,7 +64,7 @@ class InvoiceRepository(private val context: Context) {
         })
     }
 
-    fun updateInvoice(id: Int, invoice: Invoice) {
+    fun updateInvoice(id: Int, invoice: Invoice.File) {
         invoiceService.updateInvoice(getAuthToken(), id, invoice).enqueue(object : Callback<Unit> {
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 // TODO: not implemented
