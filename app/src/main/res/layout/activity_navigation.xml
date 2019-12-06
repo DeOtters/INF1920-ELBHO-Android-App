@@ -79,6 +79,7 @@
                     app:layout_constraintBottom_toTopOf="@id/logged_in_user"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    android:contentDescription="@string/elbho_logo"
                     app:srcCompat="@drawable/ic_logo" />
 
                 <TextView
