@@ -42,6 +42,14 @@ class NavigationActivity : AppCompatActivity(),
         }
     }
 
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            closeMenu()
+        } else {
+            navController.navigateUp()
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp()
     }
