@@ -6,14 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.ViewPagerAdapter
+import nl.otters.elbho.models.Request
+import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.SharedPreferences
+import nl.otters.elbho.viewModels.OverviewViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class OverviewFragment : Fragment() {
+    private var requests: ArrayList<Request.Properties> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +30,16 @@ class OverviewFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        //TODO: GetAllRequests + GetAllRequestAssignments here
+        //TODO: Pass data to child fragments
+        //TODO: assign requests.length and requestsAssignments to badge.number
+        val requestRepository = RequestRepository(activity!!.applicationContext)
+        val overviewViewModel = OverviewViewModel(requestRepository)
+
+        overviewViewModel.getAllRequests().observe(this, Observer {
+            requests = it
+        })
+
         super.onActivityCreated(savedInstanceState)
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
@@ -35,6 +51,7 @@ class OverviewFragment : Fragment() {
         setupViewPager()
         todayTextView.text = getDateToday()
     }
+
 
     private fun getDateToday(): String{
         //Couldnt achieve this with one simpleDateFormat because we need the month to be uppercase
