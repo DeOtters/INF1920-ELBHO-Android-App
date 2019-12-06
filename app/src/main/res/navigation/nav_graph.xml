@@ -2,10 +2,15 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:startDestination="@id/overviewFragment">
+
     <fragment
         android:id="@+id/overviewFragment"
         android:name="nl.otters.elbho.activities.OverviewFragment"
         android:label="OverviewFragment">
+        <argument
+            android:name="tabId"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <action
         android:id="@+id/action_global_overviewFragment"
@@ -14,6 +19,7 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     <fragment
         android:id="@+id/availabilityFragment"
         android:name="nl.otters.elbho.activities.AvailabilityFragment"
@@ -25,6 +31,7 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     <fragment
         android:id="@+id/invoiceFragment"
         android:name="nl.otters.elbho.activities.InvoiceFragment"
@@ -36,6 +43,7 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     <fragment
         android:id="@+id/vehicleFragment"
         android:name="nl.otters.elbho.activities.VehicleFragment"
@@ -47,6 +55,7 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     <fragment
         android:id="@+id/trackingFragment"
         android:name="nl.otters.elbho.activities.TrackingFragment"
@@ -58,6 +67,7 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     <fragment
         android:id="@+id/requestFragment"
         android:name="nl.otters.elbho.activities.RequestFragment"
