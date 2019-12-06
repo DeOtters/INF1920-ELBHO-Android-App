@@ -1,13 +1,11 @@
 package nl.otters.elbho.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_open_requests.*
@@ -15,7 +13,6 @@ import nl.otters.elbho.R
 import nl.otters.elbho.adapters.ListAdapter
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.repositories.RequestRepository
-import nl.otters.elbho.viewModels.OpenRequestsViewModel
 import nl.otters.elbho.viewModels.OverviewViewModel
 
 class OpenRequestsFragment : Fragment() {
