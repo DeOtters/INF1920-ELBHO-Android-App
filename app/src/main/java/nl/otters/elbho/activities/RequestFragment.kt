@@ -11,9 +11,11 @@ import kotlinx.android.synthetic.main.component_textdisplay.view.*
 import kotlinx.android.synthetic.main.fragment_request_refactor.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
+import nl.otters.elbho.utils.DateParser
 
 class RequestFragment : Fragment() {
     private var request: Request.Properties? = null
+    private val dateParser: DateParser = DateParser()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +30,7 @@ class RequestFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setFieldLabels()
         setFieldIcons()
+        setFieldValues(request!!)
     }
 
     override fun onResume() {
@@ -56,6 +59,18 @@ class RequestFragment : Fragment() {
         textDisplay_contactPersonEmail.icon.setImageResource(R.drawable.ic_email_orange_24dp)
         textDisplay_contactPersonPhoneNumber.icon.setImageResource(R.drawable.ic_phone_orange_24dp)
         textDisplay_address.icon.setImageResource(R.drawable.ic_directions_orange_24dp)
+    }
+    
+    private fun setFieldValues(request: Request.Properties){
+        textDisplay_address.value.text = request.address
+        textDisplay_appointmentDate.value.text = dateParser.toFormattedDate(request.appointmentDatetime)
+        textDisplay_appointmentTime.value.text = dateParser.toFormattedTime(request.appointmentDatetime)
+        textDisplay_cocName.value.text = request.cocName
+        textDisplay_comment.value.text = request.comment
+        textDisplay_contactPersonEmail.value.text = request.phoneNumber
+        textDisplay_contactPersonFunction.value.text = request.contactPersonFunction
+        textDisplay_contactPersonName.value.text = request.contactPersonName
+        textDisplay_contactPersonPhoneNumber.value.text = request.phoneNumber
     }
 
     //TODO: private fun set buttonListeners to start mail, phone and maps intent
