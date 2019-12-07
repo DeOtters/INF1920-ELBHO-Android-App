@@ -1,7 +1,6 @@
 package nl.otters.elbho.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +62,7 @@ class OpenRequestsFragment : Fragment() {
                 override fun onItemClick(position: Int, view: View) {
                     val bundle = Bundle()
                     bundle.putParcelable("KEY_REQUEST", requests[position])
-                    bundle.putString("KEY_APP_TITLE", resources.getString(R.string.request_app_title) )
+                    bundle.putString("KEY_APP_TITLE", resources.getString(R.string.navigation_open_requests) )
                     findNavController().navigate(R.id.action_global_requestFragment, bundle)
                 }
             })
