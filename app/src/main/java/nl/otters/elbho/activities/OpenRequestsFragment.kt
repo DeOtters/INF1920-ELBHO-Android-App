@@ -1,6 +1,7 @@
 package nl.otters.elbho.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,9 +61,9 @@ class OpenRequestsFragment : Fragment() {
             requests,
             object : ListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
-//                  TODO: will do this next
-//                  TODO: add bundle here, make a private fun PairRequest(request) to budle\
-                    findNavController().navigate(R.id.action_global_requestFragment)
+                    val bundle = Bundle()
+                    bundle.putParcelable("KEY_REQUEST", requests[position])
+                    findNavController().navigate(R.id.action_global_requestFragment, bundle)
                 }
             })
 

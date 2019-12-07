@@ -1,6 +1,7 @@
 package nl.otters.elbho.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +10,17 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.component_textdisplay.view.*
 import kotlinx.android.synthetic.main.fragment_request_refactor.*
 import nl.otters.elbho.R
+import nl.otters.elbho.models.Request
 
 class RequestFragment : Fragment() {
+    private var request: Request.Properties? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        request = arguments!!.getParcelable("KEY_REQUEST")
         return inflater.inflate(R.layout.fragment_request_refactor, container, false)
     }
 
