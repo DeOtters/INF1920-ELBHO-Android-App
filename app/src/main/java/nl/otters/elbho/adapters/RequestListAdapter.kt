@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
-import java.text.SimpleDateFormat
+import nl.otters.elbho.utils.DateParser
 import java.util.*
 
 
@@ -20,15 +20,16 @@ class RequestListAdapter(
     private val listener: OnClickItemListener
 //    private val bottomReachedListener: OnBottomReachedListener
 ) : RecyclerView.Adapter<RequestListAdapter.ViewHolder>() {
+    private val dateParser = DateParser()
 
-    interface OnClickItemListener{
+    interface OnClickItemListener {
         fun onItemClick(position: Int, view: View)
     }
 //    interface OnBottomReachedListener {
 //        fun onBottomReached(position: Int)
 //    }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dayView: TextView = itemView.invoice_listItem_monthTextView
         val dateView: TextView = itemView.listItem_dateTextView
         val titleView: TextView = itemView.invoice_listItem_fileNameTextView
@@ -49,46 +50,27 @@ class RequestListAdapter(
 
         holder.titleView.text = item.cocName
         holder.descriptionView.text = formatDescription(
-            parseToTime(item.appointmentDatetime),
-            parseToTime((item.appointmentDatetime)),
+            dateParser.toFormattedTime(item.appointmentDatetime),
+            dateParser.toFormattedTime((item.appointmentDatetime)),
             item.address
         )
-        holder.dateView.text = parseToDate(item.appointmentDatetime)
-        holder.dayView.text = parseToDay(item.appointmentDatetime)
+        holder.dateView.text = dateParser.toFormattedDate(item.appointmentDatetime)
+        holder.dayView.text = dateParser.toFormattedDay(item.appointmentDatetime)
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)
         }
     }
 
-    // TODO: put this in a util class
-    // TODO: do something with the Locale, like a factory or safe it in the sharedpref
-    private fun parseToDay(dateTime: String): String {
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
-        val formatter = SimpleDateFormat("EE", Locale("nl"))
-        return formatter.format(parser.parse(dateTime)).toUpperCase()
-    }
-
-    private fun parseToDate(dateTime: String): String {
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
-        val formatter = SimpleDateFormat("dd-MM", Locale("nl"))
-        return formatter.format(parser.parse(dateTime))
-    }
-
-    private fun parseToTime(dateTime: String): String {
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
-        val formatter = SimpleDateFormat("HH:mm", Locale("nl"))
-        return formatter.format(parser.parse(dateTime))
-    }
-
     // TODO: endtime
-    private fun formatDescription(startTime: String, endTime: String, address: String): String{
+    private fun formatDescription(startTime: String, endTime: String, address: String): String {
         return startTime
-            .plus( " - ")
+            .plus(" - ")
             .plus(endTime)
-            .plus( ", ")
-            .plus(address.removeRange(address.indexOf(','), address.length)
-        )
+            .plus(", ")
+            .plus(
+                address.removeRange(address.indexOf(','), address.length)
+            )
     }
 }
 
