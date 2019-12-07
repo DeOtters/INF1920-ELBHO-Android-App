@@ -27,15 +27,15 @@ class InvoiceListAdapter(
 //    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dayView: TextView = itemView.listItem_dayTextView
-        val dateView: TextView = itemView.listItem_dateTextView
-        val titleView: TextView = itemView.listItem_titleTextView
-        val descriptionView: TextView = itemView.lisItem_descriptionTextView
+        val monthView: TextView = itemView.invoice_listItem_monthTextView
+        val fileNameView: TextView = itemView.invoice_listItem_fileNameTextView
+        val uploadedDateView: TextView = itemView.invoice_lisItem_uploadedDateTextView
         val icon: ImageView = itemView.listItem_iconImageView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.fragment_listitem, parent, false)
+        val view =
+            LayoutInflater.from(context).inflate(R.layout.fragment_invoice_listitem, parent, false)
         return ViewHolder(view)
     }
 
@@ -44,10 +44,9 @@ class InvoiceListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item: Invoice.File = items[position]
 
-        holder.titleView.text = item.fileName
-        holder.descriptionView.text = context.getString(R.string.invoice_uploaded_on)
-        holder.dateView.text = item.month
-        holder.dayView.text = "placeholder"
+        holder.fileNameView.text = item.fileName
+        holder.uploadedDateView.text = context.getString(R.string.invoice_uploaded_on)
+        holder.monthView.text = item.month.substring(0, 3)
         holder.icon.setImageResource(R.drawable.ic_file_download_gray_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)
