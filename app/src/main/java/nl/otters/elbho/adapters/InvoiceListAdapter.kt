@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_listitem.view.*
+import kotlinx.android.synthetic.main.component_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Invoice
 
