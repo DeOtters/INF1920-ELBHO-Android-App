@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_open_requests.*
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.InvoiceListAdapter
@@ -63,7 +64,7 @@ class InvoiceFragment : Fragment() {
             invoices,
             object : InvoiceListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
-                    //findNavController().navigate(R.id.action_global_createInvoiceFragment)
+                    showAlert()
                 }
             })
 
@@ -71,6 +72,15 @@ class InvoiceFragment : Fragment() {
             this.layoutManager = viewManager
             this.adapter = invoiceListAdapter
         }
+    }
+
+    private fun showAlert() {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(getString(R.string.invoice_download_message))
+            .setPositiveButton(getString(R.string.invoice_download)) { _, _ ->
+                // TODO: Download file to device
+            }.setNegativeButton(getString(R.string.invoice_cancel), null)
+            .show()
     }
 
     override fun onResume() {
