@@ -29,10 +29,10 @@ class RequestListAdapter(
 //    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val dayView: TextView = itemView.listItem_dayTextView
+        val dayView: TextView = itemView.invoice_listItem_monthTextView
         val dateView: TextView = itemView.listItem_dateTextView
-        val titleView: TextView = itemView.listItem_titleTextView
-        val descriptionView: TextView = itemView.lisItem_descriptionTextView
+        val titleView: TextView = itemView.invoice_listItem_fileNameTextView
+        val descriptionView: TextView = itemView.invoice_lisItem_uploadedDateTextView
         val icon: ImageView = itemView.listItem_iconImageView
     }
 

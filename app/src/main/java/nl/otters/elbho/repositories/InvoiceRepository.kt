@@ -14,7 +14,7 @@ import retrofit2.Response
 class InvoiceRepository(private val context: Context) {
     private val invoiceService = RetrofitFactory.get().create(InvoiceService::class.java)
 
-    fun getAllInvoices(): LiveData<ArrayList<Invoice.File>> {
+    fun getAllInvoices(): LiveData<ArrayList<Invoice.File>>? {
         val invoices = MutableLiveData<ArrayList<Invoice.File>>()
         invoiceService.getAllInvoices(getAuthToken())
             .enqueue(object : Callback<ArrayList<Invoice.File>> {
@@ -34,7 +34,7 @@ class InvoiceRepository(private val context: Context) {
         return invoices
     }
 
-    fun getInvoice(id: Int): LiveData<Invoice.File> {
+    fun getInvoice(id: Int): LiveData<Invoice.File>? {
         val invoice = MutableLiveData<Invoice.File>()
         invoiceService.getInvoice(getAuthToken(), id).enqueue(object : Callback<Invoice.File> {
 

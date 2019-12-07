@@ -6,7 +6,7 @@ import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.repositories.InvoiceRepository
 
 class InvoiceViewModel(private val invoiceRepository: InvoiceRepository) : ViewModel() {
-    fun getAllInvoices(): LiveData<ArrayList<Invoice.File>> {
+    fun getAllInvoices(): LiveData<ArrayList<Invoice.File>>? {
         return invoiceRepository.getAllInvoices()
     }
 }

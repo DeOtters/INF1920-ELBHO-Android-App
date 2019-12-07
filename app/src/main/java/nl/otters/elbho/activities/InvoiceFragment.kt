@@ -24,6 +24,16 @@ class InvoiceFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        invoices.add(
+            Invoice.File(
+                id = 1,
+                adviserId = "fff",
+                month = "APRIL",
+                fileName = "Factuur van je moeder.pdf",
+                filePath = "/troep/",
+                document = "Random string"
+            )
+        )
         return inflater.inflate(R.layout.fragment_invoice, container, false)
     }
 
@@ -33,8 +43,8 @@ class InvoiceFragment : Fragment() {
         val invoicesViewModel = InvoiceViewModel(invoiceRepository)
         setupRecyclerView()
 
-        invoicesViewModel.getAllInvoices().observe(this, Observer {
-            if(it != null){
+        invoicesViewModel.getAllInvoices()?.observe(this, Observer {
+            if (it != null) {
                 updateInvoiceData(it)
             }
         })
