@@ -1,7 +1,8 @@
 package nl.otters.elbho.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class RequestFragment : Fragment() {
         setFieldLabels()
         setFieldIcons()
         setFieldValues(request!!)
+        setButtonListeners(request!!)
     }
 
     override fun onResume() {
@@ -40,7 +42,7 @@ class RequestFragment : Fragment() {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.setText(R.string.temp_request)
+        appTitle.text = (arguments!!.getString("KEY_APP_TITLE"))
     }
 
     private fun setFieldLabels(){
@@ -67,11 +69,37 @@ class RequestFragment : Fragment() {
         textDisplay_appointmentTime.value.text = dateParser.toFormattedTime(request.appointmentDatetime)
         textDisplay_cocName.value.text = request.cocName
         textDisplay_comment.value.text = request.comment
-        textDisplay_contactPersonEmail.value.text = request.phoneNumber
+        textDisplay_contactPersonEmail.value.text = request.website
         textDisplay_contactPersonFunction.value.text = request.contactPersonFunction
         textDisplay_contactPersonName.value.text = request.contactPersonName
         textDisplay_contactPersonPhoneNumber.value.text = request.phoneNumber
     }
 
     //TODO: private fun set buttonListeners to start mail, phone and maps intent
+    private fun setButtonListeners(request: Request.Properties){
+        textDisplay_contactPersonEmail.icon.setOnClickListener{
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "text/html"
+            // TODO: we should put a email address here, but the api doesn't support it at this time
+            intent.putExtra(Intent.EXTRA_EMAIL, "emailaddress@emailaddress.com")
+            intent.putExtra(Intent.EXTRA_SUBJECT, "We can put a email subject here")
+            intent.putExtra(Intent.EXTRA_TEXT, "We can put email body here.")
+
+            startActivity(Intent.createChooser(intent, "Send Email"))
+        }
+
+        textDisplay_contactPersonPhoneNumber.icon.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.phoneNumber))
+            startActivity(intent)
+        }
+
+        // https://developers.google.com/maps/documentation/urls/android-intents
+        textDisplay_address.icon.setOnClickListener {
+            // TODO: So here we should insert the long lat values from the api, which it doesn't support at the time.
+            val gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+        }
+    }
 }
