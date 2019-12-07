@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -47,14 +48,37 @@ class RequestListAdapter(
         val item = items[position]
 
         holder.titleView.text = item.cocName
-        holder.descriptionView.text =
-            formatDescription(item.appointmentDatetime, (item.appointmentDatetime), item.address)
-        holder.dateView.text = item.appointmentDatetime
-        holder.dayView.text = item.appointmentDatetime
+        holder.descriptionView.text = formatDescription(
+            parseToTime(item.appointmentDatetime),
+            parseToTime((item.appointmentDatetime)),
+            item.address
+        )
+        holder.dateView.text = parseToDate(item.appointmentDatetime)
+        holder.dayView.text = parseToDay(item.appointmentDatetime)
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
         holder.itemView.setOnClickListener{
             listener.onItemClick(holder.adapterPosition, it)
         }
+    }
+
+    // TODO: put this in a util class
+    // TODO: do something with the Locale, like a factory or safe it in the sharedpref
+    private fun parseToDay(dateTime: String): String {
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
+        val formatter = SimpleDateFormat("EE", Locale("nl"))
+        return formatter.format(parser.parse(dateTime)).toUpperCase()
+    }
+
+    private fun parseToDate(dateTime: String): String {
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
+        val formatter = SimpleDateFormat("dd-MM", Locale("nl"))
+        return formatter.format(parser.parse(dateTime))
+    }
+
+    private fun parseToTime(dateTime: String): String {
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
+        val formatter = SimpleDateFormat("HH:mm", Locale("nl"))
+        return formatter.format(parser.parse(dateTime))
     }
 
     // TODO: endtime
