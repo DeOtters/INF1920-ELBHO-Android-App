@@ -60,6 +60,8 @@ class OpenRequestsFragment : Fragment() {
             requests,
             object : ListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
+//                  TODO: will do this next
+//                  TODO: add bundle here, make a private fun PairRequest(request) to budle\
                     findNavController().navigate(R.id.action_global_requestFragment)
                 }
             })

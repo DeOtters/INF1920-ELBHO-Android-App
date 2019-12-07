@@ -54,4 +54,5 @@ class RequestFragment : Fragment() {
         textDisplay_address.icon.setImageResource(R.drawable.ic_directions_orange_24dp)
     }
 
+    //TODO: private fun set buttonListeners to start mail, phone and maps intent
 }
