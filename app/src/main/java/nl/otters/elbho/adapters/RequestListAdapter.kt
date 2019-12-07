@@ -11,29 +11,29 @@ import kotlinx.android.synthetic.main.component_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.utils.DateParser
-import kotlin.collections.ArrayList
+import java.util.*
 
 
-class ListAdapter(
+class RequestListAdapter(
     private val context: Context,
     private val items: ArrayList<Request.Properties>,
     private val listener: OnClickItemListener
 //    private val bottomReachedListener: OnBottomReachedListener
-) : RecyclerView.Adapter<ListAdapter.ViewHolder>(){
+) : RecyclerView.Adapter<RequestListAdapter.ViewHolder>() {
     private val dateParser = DateParser()
 
-    interface OnClickItemListener{
+    interface OnClickItemListener {
         fun onItemClick(position: Int, view: View)
     }
 //    interface OnBottomReachedListener {
 //        fun onBottomReached(position: Int)
 //    }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val dayView: TextView = itemView.listItem_dayTextView
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val dayView: TextView = itemView.invoice_listItem_monthTextView
         val dateView: TextView = itemView.listItem_dateTextView
-        val titleView: TextView = itemView.listItem_titleTextView
-        val descriptionView: TextView = itemView.lisItem_descriptionTextView
+        val titleView: TextView = itemView.invoice_listItem_fileNameTextView
+        val descriptionView: TextView = itemView.invoice_lisItem_uploadedDateTextView
         val icon: ImageView = itemView.listItem_iconImageView
     }
 
@@ -49,26 +49,28 @@ class ListAdapter(
         val item = items[position]
 
         holder.titleView.text = item.cocName
-        holder.descriptionView.text = formatDescription(item.appointmentDatetime, item.address)
+        holder.descriptionView.text = formatDescription(
+            dateParser.toFormattedTime(item.appointmentDatetime),
+            dateParser.toFormattedTime((item.appointmentDatetime)),
+            item.address
+        )
         holder.dateView.text = dateParser.toFormattedDate(item.appointmentDatetime)
         holder.dayView.text = dateParser.toFormattedDay(item.appointmentDatetime)
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)
         }
     }
 
-    private fun formatDescription(startTime: String, address: String): String{
-        val parsedStartTime: String = dateParser.toFormattedTime(startTime)
-        val endTime: String = dateParser.addHours(startTime, 1)
-        val parsedEndTime: String = dateParser.toFormattedTime(endTime)
-
-        return parsedStartTime
-            .plus( " - ")
-            .plus(parsedEndTime)
-            .plus( ", ")
-            .plus(address.removeRange(address.indexOf(','), address.length)
-        )
+    // TODO: endtime
+    private fun formatDescription(startTime: String, endTime: String, address: String): String {
+        return startTime
+            .plus(" - ")
+            .plus(endTime)
+            .plus(", ")
+            .plus(
+                address.removeRange(address.indexOf(','), address.length)
+            )
     }
 }
 

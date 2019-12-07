@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_open_requests.*
 import nl.otters.elbho.R
-import nl.otters.elbho.adapters.ListAdapter
+import nl.otters.elbho.adapters.RequestListAdapter
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.viewModels.OverviewViewModel
@@ -56,10 +56,10 @@ class OpenRequestsFragment : Fragment() {
 
     private fun setupRecyclerView() {
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
-        val listAdapter = ListAdapter(
+        val listAdapter = RequestListAdapter(
             activity!!.applicationContext,
             requests,
-            object : ListAdapter.OnClickItemListener {
+            object : RequestListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
                     val bundle = Bundle()
                     bundle.putParcelable("KEY_REQUEST", requests[position])
