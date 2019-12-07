@@ -38,7 +38,6 @@
     <string name="overview_dateToday_text">26 November 2019</string>
 
     <!-- Request Fragment -->
-    <string name="request_app_title">Openstaande afspraak</string>
     <string name="field_company_name">Bedrijfsnaam</string>
     <string name="field_company_address">Adres</string>
     <string name="field_contact_name">Contactpersoon</string>
@@ -50,7 +49,7 @@
     <string name="field_appointment_notes">Opmerking</string>
     <string name="button_accept_appointment">Accepteren</string>
     <string name="button_deny_appointment">Afwijzen</string>
-
+    <string name="button_leave">Vertrek</string>
 
     <!-- Fragment List Item -->
     <string name="listItem_text_day">DO</string>

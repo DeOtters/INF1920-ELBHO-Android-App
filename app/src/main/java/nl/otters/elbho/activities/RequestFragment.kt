@@ -7,9 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.component_textdisplay.view.*
-import kotlinx.android.synthetic.main.fragment_request_refactor.*
+import kotlinx.android.synthetic.main.fragment_request.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.utils.DateParser
@@ -24,7 +25,7 @@ class RequestFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         request = arguments!!.getParcelable("KEY_REQUEST")
-        return inflater.inflate(R.layout.fragment_request_refactor, container, false)
+        return inflater.inflate(R.layout.fragment_request, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,6 +34,7 @@ class RequestFragment : Fragment() {
         setFieldIcons()
         setFieldValues(request!!)
         setButtonListeners(request!!)
+        setPrimaryButtons(arguments!!.getString("KEY_APP_TITLE")!!)
     }
 
     override fun onResume() {
@@ -75,7 +77,6 @@ class RequestFragment : Fragment() {
         textDisplay_contactPersonPhoneNumber.value.text = request.phoneNumber
     }
 
-    //TODO: private fun set buttonListeners to start mail, phone and maps intent
     private fun setButtonListeners(request: Request.Properties){
         textDisplay_contactPersonEmail.icon.setOnClickListener{
             val intent = Intent(Intent.ACTION_SEND)
@@ -100,6 +101,32 @@ class RequestFragment : Fragment() {
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             startActivity(mapIntent)
+        }
+    }
+
+    private fun setPrimaryButtons(parentFragmentTitle: String){
+        // When showing only 1 button, use topButton because of constrains :)
+        // when() is just a switch with superpowers
+        when(parentFragmentTitle){
+            resources.getString(R.string.navigation_open_requests) -> {
+                topButton.setIconResource(R.drawable.ic_close_24dp)
+                topButton.setText(R.string.button_deny_appointment)
+                topButton.setBackgroundColor(ContextCompat.getColor(this.context!!, R.color.red_button))
+
+                bottomButton.setIconResource(R.drawable.ic_done_24dp)
+                bottomButton.setText(R.string.button_accept_appointment)
+            }
+
+            resources.getString(R.string.navigation_upcoming_requests) -> {
+                bottomButton.visibility = View.GONE
+                topButton.setIconResource(R.drawable.ic_directions_car_white_24dp)
+                topButton.setText(R.string.button_leave)
+            }
+
+            resources.getString(R.string.navigation_done_requests) -> {
+                topButton.visibility = View.GONE
+                bottomButton.visibility = View.GONE
+            }
         }
     }
 }
