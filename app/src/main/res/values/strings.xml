@@ -38,6 +38,7 @@
     <string name="overview_dateToday_text">26 November 2019</string>
 
     <!-- Request Fragment -->
+    <string name="request_app_title">Openstaande afspraak</string>
     <string name="field_company_name">Bedrijfsnaam</string>
     <string name="field_company_address">Adres</string>
     <string name="field_contact_name">Contactpersoon</string>
