@@ -23,6 +23,7 @@ class RequestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setFieldLabels()
+        setFieldIcons()
     }
 
     override fun onResume() {
@@ -45,6 +46,12 @@ class RequestFragment : Fragment() {
         textDisplay_contactPersonFunction.label.text = resources.getText(R.string.field_contact_title)
         textDisplay_contactPersonName.label.text = resources.getText(R.string.field_contact_name)
         textDisplay_contactPersonPhoneNumber.label.text = resources.getText(R.string.field_contact_phone)
+    }
+
+    private fun setFieldIcons(){
+        textDisplay_contactPersonEmail.icon.setImageResource(R.drawable.ic_email_orange_24dp)
+        textDisplay_contactPersonPhoneNumber.icon.setImageResource(R.drawable.ic_phone_orange_24dp)
+        textDisplay_address.icon.setImageResource(R.drawable.ic_directions_orange_24dp)
     }
 
 }
