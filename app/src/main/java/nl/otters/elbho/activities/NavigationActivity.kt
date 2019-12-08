@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -24,6 +25,7 @@ class NavigationActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var navController: NavController
+    private lateinit var drawerToggle: ActionBarDrawerToggle
     private val adviserRepository = AdviserRepository(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,9 +73,12 @@ class NavigationActivity : AppCompatActivity(),
     private fun setupNavigationDrawer() {
         app_menu_title.setText(R.string.app_name)
         navigation.setNavigationItemSelectedListener(this)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val drawerToggle = object : ActionBarDrawerToggle(
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        drawerToggle = object : ActionBarDrawerToggle(
             this,
             drawer_layout,
             toolbar,
@@ -90,6 +95,21 @@ class NavigationActivity : AppCompatActivity(),
         drawerToggle.isDrawerIndicatorEnabled = true
         drawer_layout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
+        drawerToggle.setToolbarNavigationClickListener {
+            navController.navigateUp()
+        }
+    }
+
+    fun setDrawerEnabled(visible: Boolean) {
+        drawerToggle.isDrawerIndicatorEnabled = visible
+        if (visible) {
+            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
+        } else {
+            drawer_layout.setDrawerLockMode(
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
+                GravityCompat.END
+            )
+        }
     }
 
     private fun closeMenu() {
@@ -131,7 +151,9 @@ class NavigationActivity : AppCompatActivity(),
                 closeMenu()
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 }
