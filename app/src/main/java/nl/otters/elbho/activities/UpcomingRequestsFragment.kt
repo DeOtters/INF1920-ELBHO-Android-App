@@ -43,8 +43,8 @@ class UpcomingRequestsFragment : Fragment() {
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
-        navigation.setCheckedItem(R.id.open_requests)
-        appTitle.setText(R.string.navigation_open_requests)
+        navigation.setCheckedItem(R.id.upcoming_requests)
+        appTitle.setText(R.string.navigation_upcoming_requests)
     }
 
     private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {
