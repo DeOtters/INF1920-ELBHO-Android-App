@@ -43,7 +43,20 @@
     <fragment
         android:id="@+id/createAvailabilityFragment"
         android:name="nl.otters.elbho.views.fragments.CreateAvailabilityFragment"
-        android:label="CreateAvailabilityFragment" />
+        android:label="CreateAvailabilityFragment">
+        <action
+            android:id="@+id/action_createAvailabilityFragment_to_copyWeekFragment"
+            app:destination="@id/copyWeekFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/copyWeekFragment"
+        android:name="nl.otters.elbho.views.fragments.CopyWeekFragment"
+        android:label="CopyWeekFragment" />
 
     <fragment
         android:id="@+id/invoiceFragment"
