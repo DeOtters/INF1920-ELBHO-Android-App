@@ -36,6 +36,17 @@
         <item name="android:insetTop">0dp</item>
     </style>
 
+    <style name="CustomMaterialIconButton" parent="@style/Widget.MaterialComponents.Button.Icon">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
+    </style>
+
     <style name="CustomMaterialButtonText" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textSize">16sp</item>
     </style>
