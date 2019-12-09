@@ -15,7 +15,8 @@
         android:layout_height="0dp"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <TextView
             android:id="@+id/invoice_listItem_monthTextView"

@@ -60,7 +60,10 @@ class OpenRequestsFragment : Fragment() {
             requests,
             object : RequestListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
-                    findNavController().navigate(R.id.action_global_requestFragment)
+                    val bundle = Bundle()
+                    bundle.putParcelable("KEY_REQUEST", requests[position])
+                    bundle.putString("KEY_APP_TITLE", resources.getString(R.string.navigation_open_requests) )
+                    findNavController().navigate(R.id.action_global_requestFragment, bundle)
                 }
             })
 
