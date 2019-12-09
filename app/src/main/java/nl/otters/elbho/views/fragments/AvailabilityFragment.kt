@@ -44,11 +44,8 @@ class AvailabilityFragment : Fragment() {
         })
 
 
+
         super.onActivityCreated(savedInstanceState)
-        calendarView.setOnDateChangeListener { calenderView: CalendarView, year: Int, month: Int, day: Int ->
-            // availability van die week doorsturen
-            // week doorsturen
-        }
     }
 
     override fun onResume() {
