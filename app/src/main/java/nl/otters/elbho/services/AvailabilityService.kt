@@ -7,7 +7,7 @@ import retrofit2.http.*
 interface AvailabilityService {
     @Headers("Content-type: application/json")
     @GET("advisor/me/availabilities")
-    fun getAllAvailabilities(@Header("x-jwt") auth: String): Call<ArrayList<Availability>>
+    fun getAllAvailabilities(@Header("x-jwt") auth: String): Call<ArrayList<Availability.Slot>>
 
     @Headers("Content-type: application/json")
     @GET("/availabilities/{id}")

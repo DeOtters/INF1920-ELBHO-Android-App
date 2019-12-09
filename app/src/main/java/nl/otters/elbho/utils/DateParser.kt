@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DateParser {
-    private val locale: Locale = Locale.Builder().setLanguage("nl").build()
+    private val locale: Locale = Locale.Builder().setLanguage("nl").setRegion("nl").build()
     //This is the format we get back from the database
     private val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", locale)
 
@@ -34,6 +34,16 @@ class DateParser {
         val formatter = SimpleDateFormat("HH:mm",  Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
     }
+
+    fun toFormattedLong(dateTime: String) : Long{
+        return parser.parse(dateTime).time
+    }
+
+    fun toMilliseconds(dateTime: String) : Long{
+        val formatter = SimpleDateFormat("ss.SSS",  Locale("nl"))
+        return formatter.parse(dateTime).time
+    }
+
 
     /*
    * @params string -> yyyy-MM-dd'T'HH:mm:ss
