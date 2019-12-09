@@ -13,13 +13,7 @@ import nl.otters.elbho.R
 
 class CreateAvailabilityFragment : DetailFragment() {
 
-    private val inputFieldList = arrayListOf<View>(
-        availability_monday,
-        availability_tuesday,
-        availability_wednesday,
-        availability_thursday,
-        availability_friday
-    )
+    private lateinit var inputFieldList: ArrayList<View>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +25,14 @@ class CreateAvailabilityFragment : DetailFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        inputFieldList = arrayListOf(
+            availability_monday,
+            availability_tuesday,
+            availability_wednesday,
+            availability_thursday,
+            availability_friday
+        )
         setDayLabels()
         setOnClickListeners()
     }
@@ -47,25 +49,30 @@ class CreateAvailabilityFragment : DetailFragment() {
             item.availability_time_to.setOnClickListener {
                 // TODO: Open time picker and set time to text field
             }
+            item.availability_clear.setOnClickListener {
+                // TODO: Ask for confirmation
+                item.availability_time_from.setText("")
+                item.availability_time_to.setText("")
+            }
         }
     }
 
     private fun setDayLabels() {
         // TODO: Improve this
-        availability_monday.availability_listItem_dayTextView.text = "MA"
-        availability_monday.availability_listItem_dateTextView.text = "9/12"
+        availability_monday.availability_dayText.text = "MA"
+        availability_monday.availability_dateText.text = "9/12"
 
-        availability_tuesday.availability_listItem_dayTextView.text = "DI"
-        availability_tuesday.availability_listItem_dateTextView.text = "10/12"
+        availability_tuesday.availability_dayText.text = "DI"
+        availability_tuesday.availability_dateText.text = "10/12"
 
-        availability_wednesday.availability_listItem_dayTextView.text = "WO"
-        availability_wednesday.availability_listItem_dateTextView.text = "11/12"
+        availability_wednesday.availability_dayText.text = "WO"
+        availability_wednesday.availability_dateText.text = "11/12"
 
-        availability_thursday.availability_listItem_dayTextView.text = "DO"
-        availability_thursday.availability_listItem_dateTextView.text = "12/12"
+        availability_thursday.availability_dayText.text = "DO"
+        availability_thursday.availability_dateText.text = "12/12"
 
-        availability_friday.availability_listItem_dayTextView.text = "VR"
-        availability_friday.availability_listItem_dateTextView.text = "13/12"
+        availability_friday.availability_dayText.text = "VR"
+        availability_friday.availability_dateText.text = "13/12"
     }
 
     private fun selectWeek() {

@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/availability_listItem_dayTextView"
+            android:id="@+id/availability_dayText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/availability_listItem_dateTextView"
+            android:id="@+id/availability_dateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/availability_listItem_dayTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/availability_dayText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -62,12 +62,12 @@
         android:inputType="time"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/listItem_iconImageView"
+        app:layout_constraintEnd_toStartOf="@+id/availability_clear"
         app:layout_constraintStart_toEndOf="@+id/availability_time_from"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/listItem_iconImageView"
+        android:id="@+id/availability_clear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/availability_delete_contentDescription"
