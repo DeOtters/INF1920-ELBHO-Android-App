@@ -10,15 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_open_requests.*
 import kotlinx.android.synthetic.main.fragment_vehicle.*
-import kotlinx.android.synthetic.main.fragment_vehicle.recyclerView
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.VehicleListAdapter
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
+import nl.otters.elbho.views.activities.LoginActivity
 
 class VehicleFragment : Fragment() {
     private var vehicleReservationsList: ArrayList<Vehicle.Reservation> = ArrayList()
