@@ -67,6 +67,27 @@ class VehicleRepository (private val context: Context) {
         })
     }
 
+    fun getAllVehicleClaims(): LiveData<ArrayList<Vehicle.Reservation>> {
+        val reservedVehicles: MutableLiveData<ArrayList<Vehicle.Reservation>> = MutableLiveData()
+
+        vehicleService.getAllVehiclesClaims(getAuthToken()).enqueue(object : Callback<ArrayList<Vehicle.Reservation>> {
+            override fun onResponse(
+                call: Call<ArrayList<Vehicle.Reservation>>,
+                response: Response<ArrayList<Vehicle.Reservation>>
+            ) {
+                if (response.message() == "OK" && response.body() != null){
+                    reservedVehicles.value = response.body()!!
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<Vehicle.Reservation>>, t: Throwable) {
+                //TODO: implement error handling
+                Log.e("HTTP Vehicles: ", "Could not fetch data" , t)
+            }
+        })
+        return reservedVehicles
+    }
+
     private fun getAuthToken(): String {
         val sharedPreferences = SharedPreferences(context)
         return sharedPreferences.getValueString("auth-token") ?: ""
