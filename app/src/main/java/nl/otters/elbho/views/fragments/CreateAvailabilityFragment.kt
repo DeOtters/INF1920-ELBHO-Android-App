@@ -80,7 +80,7 @@ class CreateAvailabilityFragment : DetailFragment() {
     }
 
     private fun copyWeek() {
-        // TODO: Copy week
+        findNavController().navigate(R.id.action_createAvailabilityFragment_to_copyWeekFragment)
     }
 
     private fun createAvailability(view: View) {
