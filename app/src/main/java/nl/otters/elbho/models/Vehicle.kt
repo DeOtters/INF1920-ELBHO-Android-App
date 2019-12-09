@@ -10,7 +10,7 @@ object Vehicle {
         @SerializedName("licenseplate")
         val licensePlate: String,
         val brand: String,
-        val Model: String,
+        val model: String,
         val transmission: Boolean,
         val color: String,
         val location: String,
@@ -19,21 +19,10 @@ object Vehicle {
 
     data class Reservation(
 
-        @SerializedName("vehicle-id")
         val vehicleId: String,
-        @SerializedName("user-id")
-        val userId: String,
-        @SerializedName("request-id")
+        val advisorId: String,
         val requestId: String,
-        @SerializedName("datetimeslot")
-        val dateTimeSlot: DateTimeSlot
-    )
-
-    data class DateTimeSlot(
-
-        @SerializedName("start-datetime")
         val startDateTime: String,
-        @SerializedName("end-datetime")
         val endDateTime: String
     )
 }
