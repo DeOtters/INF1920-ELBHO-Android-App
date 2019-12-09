@@ -35,7 +35,16 @@
     <fragment
         android:id="@+id/invoiceFragment"
         android:name="nl.otters.elbho.activities.InvoiceFragment"
-        android:label="InvoiceFragment" />
+        android:label="InvoiceFragment">
+        <action
+            android:id="@+id/action_invoiceFragment_to_createInvoiceFragment"
+            app:destination="@+id/createInvoiceFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <action
         android:id="@+id/action_global_invoiceFragment"
         app:destination="@id/invoiceFragment"
@@ -43,6 +52,11 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/createInvoiceFragment"
+        android:name="nl.otters.elbho.activities.CreateInvoiceFragment"
+        android:label="CreateInvoiceFragment" />
 
     <fragment
         android:id="@+id/vehicleFragment"

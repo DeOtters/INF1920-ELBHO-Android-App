@@ -35,7 +35,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.textfield.TextInputLayout
         style="@style/FieldLayout.Disabled"
         android:hint="@string/field_company_address"

@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.fragment_open_requests.*
+import kotlinx.android.synthetic.main.fragment_invoice.*
+import kotlinx.android.synthetic.main.fragment_open_requests.recyclerView
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.InvoiceListAdapter
 import nl.otters.elbho.models.Invoice
@@ -17,7 +19,6 @@ import nl.otters.elbho.repositories.InvoiceRepository
 import nl.otters.elbho.viewModels.InvoiceViewModel
 
 class InvoiceFragment : Fragment() {
-    //Deze lijst moet je vullen met "neppe" data
     private var invoices: ArrayList<Invoice.File> = ArrayList()
 
     override fun onCreateView(
@@ -43,12 +44,19 @@ class InvoiceFragment : Fragment() {
         val invoiceRepository = InvoiceRepository(activity!!.applicationContext)
         val invoicesViewModel = InvoiceViewModel(invoiceRepository)
         setupRecyclerView()
+        setupButtonListener()
 
         invoicesViewModel.getAllInvoices()?.observe(this, Observer {
             if (it != null) {
                 updateInvoiceData(it)
             }
         })
+    }
+
+    private fun setupButtonListener() {
+        add_new_invoice.setOnClickListener {
+            findNavController().navigate(R.id.action_invoiceFragment_to_createInvoiceFragment)
+        }
     }
 
     private fun updateInvoiceData(newRequests: ArrayList<Invoice.File>) {
