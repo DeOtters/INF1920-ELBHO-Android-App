@@ -1,5 +1,6 @@
 package nl.otters.elbho.utils
 
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,6 +34,10 @@ class DateParser {
     fun toFormattedTime(dateTime: String) : String{
         val formatter = SimpleDateFormat("HH:mm",  Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
+    }
+
+    fun toCalendarDay(dateTime: String) : CalendarDay {
+        return CalendarDay(parser.parse(dateTime))
     }
 
     fun toFormattedLong(dateTime: String) : Long{

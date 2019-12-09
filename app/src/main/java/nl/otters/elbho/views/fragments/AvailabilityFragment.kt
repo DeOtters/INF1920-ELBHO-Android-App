@@ -1,31 +1,24 @@
 package nl.otters.elbho.views.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import kotlinx.android.synthetic.main.fragment_availability.*
 import nl.otters.elbho.R
-import nl.otters.elbho.models.Availability
 import nl.otters.elbho.repositories.AvailabilityRepository
-import nl.otters.elbho.utils.DateParser
+import nl.otters.elbho.utils.AvailableDayDecorator
 import nl.otters.elbho.utils.DisableWeekendsDecorator
 import nl.otters.elbho.viewModels.AvailabilityViewModel
 
-class AvailabilityFragment : Fragment() {
-    private var availability: ArrayList<Availability.Slot> = ArrayList()
-    private val dateParser: DateParser = DateParser()
-
-    //Eerst moet ik een lijst met de availability ophalen van de DB CHECK
-    //TODO: Vervolgens moet ik deze data vullen in de calendar
-    //TODO: Ook moet er een OnDateChangeListener toegevoegd
-        // Pak de datum
-        // Pak de week van deze datum
-        // Stuur die mee als bundle naar de volgende pagina
-
+class AvailabilityFragment : Fragment(), OnDateSelectedListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,16 +28,19 @@ class AvailabilityFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
         val availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
         val availabilityViewModel = AvailabilityViewModel(availabilityRepository)
-        val disableWeekendsDecorator = DisableWeekendsDecorator()
-        calendarView.addDecorator(disableWeekendsDecorator)
+
+        setupCalendar()
 
         availabilityViewModel.getAllAvailabilities()?.observe(this, Observer {
-            availability = it
+            for (timeSlot in it){
+                //Here we add the ui for a available day from database
+                calendarView.addDecorator(AvailableDayDecorator(timeSlot.startDateTime))
+            }
         })
-
-        super.onActivityCreated(savedInstanceState)
     }
 
     override fun onResume() {
@@ -55,5 +51,22 @@ class AvailabilityFragment : Fragment() {
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_availability)
+    }
+
+    private fun setupCalendar(){
+        val disableWeekendsDecorator = DisableWeekendsDecorator()
+        calendarView.addDecorator(disableWeekendsDecorator)
+        calendarView.setOnDateChangedListener(this)
+        // This means that we can only select 1 date at a time in the calendar
+        calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
+    }
+
+    override fun onDateSelected(
+        widget: MaterialCalendarView,
+        date: CalendarDay,
+        selected: Boolean
+    ) {
+        //TODO: send this date over to the next view.
+        Log.e("Selected Date", date.toString())
     }
 }
