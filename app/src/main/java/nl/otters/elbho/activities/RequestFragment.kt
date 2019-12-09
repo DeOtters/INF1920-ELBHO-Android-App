@@ -16,7 +16,7 @@ import nl.otters.elbho.models.Request
 import nl.otters.elbho.utils.DateParser
 
 class RequestFragment : Fragment() {
-    private var request: Request.Properties? = null
+    private lateinit var request: Request.Properties
     private val dateParser: DateParser = DateParser()
 
     override fun onCreateView(
@@ -24,7 +24,7 @@ class RequestFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        request = arguments!!.getParcelable("KEY_REQUEST")
+        request = arguments?.getParcelable("KEY_REQUEST")!!
         return inflater.inflate(R.layout.fragment_request, container, false)
     }
 
@@ -32,9 +32,9 @@ class RequestFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setFieldLabels()
         setFieldIcons()
-        setFieldValues(request!!)
-        setButtonListeners(request!!)
-        setPrimaryButtons(arguments!!.getString("KEY_APP_TITLE")!!)
+        setFieldValues(request)
+        setButtonListeners(request)
+        setPrimaryButtons(arguments?.getString("KEY_APP_TITLE")!!)
     }
 
     override fun onResume() {
