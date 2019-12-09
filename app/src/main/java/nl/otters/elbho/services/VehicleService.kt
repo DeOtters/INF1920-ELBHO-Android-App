@@ -17,4 +17,8 @@ interface VehicleService {
     @Headers("Content-type: application/json")
     @PUT("vehicles/{id}")
     fun updateVehicle(@Header( "x-jwt") authToken : String?, @Path("id") vehicleId: String): Call<Vehicle.Car>
+
+    @Headers("Content-type: application/json")
+    @GET("advisors/me/vehicles/claims")
+    fun getAllVehiclesClaims(@Header( "x-jwt") authToken : String?): Call<ArrayList<Vehicle.Reservation>>
 }
