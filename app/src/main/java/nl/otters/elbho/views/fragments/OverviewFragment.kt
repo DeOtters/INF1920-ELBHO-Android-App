@@ -1,4 +1,4 @@
-package nl.otters.elbho.activities
+package nl.otters.elbho.views.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,7 @@ import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.OverviewViewModel
-import kotlin.collections.ArrayList
+import nl.otters.elbho.views.activities.LoginActivity
 
 class OverviewFragment : Fragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()

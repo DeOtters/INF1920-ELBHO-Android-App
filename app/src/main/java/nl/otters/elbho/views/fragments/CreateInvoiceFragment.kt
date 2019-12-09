@@ -1,17 +1,16 @@
-package nl.otters.elbho.activities
+package nl.otters.elbho.views.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
 import nl.otters.elbho.R
 
-class CreateInvoiceFragment : Fragment() {
+class CreateInvoiceFragment : DetailFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,13 +41,7 @@ class CreateInvoiceFragment : Fragment() {
 
     override fun onResume() {
         setTitle()
-        (activity as NavigationActivity).setDrawerEnabled(false)
         super.onResume()
-    }
-
-    override fun onPause() {
-        (activity as NavigationActivity).setDrawerEnabled(true)
-        super.onPause()
     }
 
     private fun setTitle() {

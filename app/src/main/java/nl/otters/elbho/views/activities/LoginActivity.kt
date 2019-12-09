@@ -1,4 +1,4 @@
-package nl.otters.elbho.activities
+package nl.otters.elbho.views.activities
 
 import android.content.Intent
 import android.os.Bundle

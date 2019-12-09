@@ -1,4 +1,4 @@
-package nl.otters.elbho.activities
+package nl.otters.elbho.views.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import nl.otters.elbho.models.Request
 import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.viewModels.OverviewViewModel
 
-class OpenRequestsFragment : Fragment() {
+class DoneRequestsFragment : Fragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
@@ -43,8 +43,8 @@ class OpenRequestsFragment : Fragment() {
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
-        navigation.setCheckedItem(R.id.open_requests)
-        appTitle.setText(R.string.navigation_open_requests)
+        navigation.setCheckedItem(R.id.done_requests)
+        appTitle.setText(R.string.navigation_done_requests)
     }
 
     private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {
@@ -62,7 +62,7 @@ class OpenRequestsFragment : Fragment() {
                 override fun onItemClick(position: Int, view: View) {
                     val bundle = Bundle()
                     bundle.putParcelable("KEY_REQUEST", requests[position])
-                    bundle.putString("KEY_APP_TITLE", resources.getString(R.string.navigation_open_requests) )
+                    bundle.putString("KEY_APP_TITLE", resources.getString(R.string.navigation_done_requests))
                     findNavController().navigate(R.id.action_global_requestFragment, bundle)
                 }
             })
