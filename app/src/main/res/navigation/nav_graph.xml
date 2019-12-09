@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/overviewFragment"
-        android:name="nl.otters.elbho.activities.OverviewFragment"
+        android:name="nl.otters.elbho.views.fragments.OverviewFragment"
         android:label="OverviewFragment">
         <argument
             android:name="tabId"
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/availabilityFragment"
-        android:name="nl.otters.elbho.activities.AvailabilityFragment"
+        android:name="nl.otters.elbho.views.fragments.AvailabilityFragment"
         android:label="AvailabilityFragment" />
     <action
         android:id="@+id/action_global_availabilityFragment"
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/invoiceFragment"
-        android:name="nl.otters.elbho.activities.InvoiceFragment"
+        android:name="nl.otters.elbho.views.fragments.InvoiceFragment"
         android:label="InvoiceFragment">
         <action
             android:id="@+id/action_invoiceFragment_to_createInvoiceFragment"
@@ -55,12 +55,12 @@
 
     <fragment
         android:id="@+id/createInvoiceFragment"
-        android:name="nl.otters.elbho.activities.CreateInvoiceFragment"
+        android:name="nl.otters.elbho.views.fragments.CreateInvoiceFragment"
         android:label="CreateInvoiceFragment" />
 
     <fragment
         android:id="@+id/vehicleFragment"
-        android:name="nl.otters.elbho.activities.VehicleFragment"
+        android:name="nl.otters.elbho.views.fragments.VehicleFragment"
         android:label="VehicleFragment" />
     <action
         android:id="@+id/action_global_vehicleFragment"
@@ -72,7 +72,7 @@
 
     <fragment
         android:id="@+id/trackingFragment"
-        android:name="nl.otters.elbho.activities.TrackingFragment"
+        android:name="nl.otters.elbho.views.fragments.TrackingFragment"
         android:label="TrackingFragment" />
     <action
         android:id="@+id/action_global_trackingFragment"
@@ -84,7 +84,7 @@
 
     <fragment
         android:id="@+id/requestFragment"
-        android:name="nl.otters.elbho.activities.RequestFragment"
+        android:name="nl.otters.elbho.views.fragments.RequestFragment"
         android:label="RequestFragment" />
     <action
         android:id="@+id/action_global_requestFragment"

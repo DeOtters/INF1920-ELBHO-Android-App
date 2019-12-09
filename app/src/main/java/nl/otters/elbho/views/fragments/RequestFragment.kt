@@ -1,4 +1,4 @@
-package nl.otters.elbho.activities
+package nl.otters.elbho.views.fragments
 
 import android.content.Intent
 import android.net.Uri
@@ -8,14 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.component_textdisplay.view.*
 import kotlinx.android.synthetic.main.fragment_request.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.utils.DateParser
 
-class RequestFragment : Fragment() {
+class RequestFragment : DetailFragment() {
     private lateinit var request: Request.Properties
     private val dateParser: DateParser = DateParser()
 
