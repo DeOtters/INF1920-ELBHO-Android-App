@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.component_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.utils.DateParser
+import kotlin.collections.ArrayList
 
 
 class VehicleListAdapter(
