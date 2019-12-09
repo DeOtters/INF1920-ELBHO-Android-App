@@ -69,4 +69,11 @@
     <string name="create_invoice_year">Jaar</string>
     <string name="create_invoice_month">Maand</string>
     <string name="create_invoice_file">Bestand</string>
+    <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>
+    <string name="create_new_availability_title">Nieuwe beschikbaarheid</string>
+    <string name="button_copy_week">Kopiëer week</string>
+    <string name="availability_delete_contentDescription">Verwijder de beschikbaarheid op deze dag</string>
+    <string name="availability_from">van</string>
+    <string name="availability_to">tot</string>
+    <string name="button_add_availability">Wijziging opslaan</string>
 </resources>

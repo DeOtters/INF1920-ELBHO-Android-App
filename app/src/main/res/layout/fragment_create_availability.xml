@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/container_spacing"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/container_spacing"
+        app:layout_constraintBottom_toTopOf="@+id/availability_copy_week"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:id="@+id/invoiceScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/container_spacing"
+            android:layout_marginEnd="@dimen/container_spacing"
+            android:layout_marginBottom="@dimen/container_spacing"
+            app:layout_constraintBottom_toTopOf="@+id/availability_copy_week"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/availability_days"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/availability_week_selector"
+                    style="@style/CustomMaterialDropdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/container_spacing"
+                    android:drawableEnd="@drawable/ic_drop_down_24dp"
+                    android:text="week 51"
+                    android:textColor="@color/colorDisabledButtonText" />
+
+                <include
+                    android:id="@+id/availability_monday"
+                    layout="@layout/component_availability_input" />
+
+                <include
+                    android:id="@+id/availability_tuesday"
+                    layout="@layout/component_availability_input" />
+
+                <include
+                    android:id="@+id/availability_wednesday"
+                    layout="@layout/component_availability_input" />
+
+                <include
+                    android:id="@+id/availability_thursday"
+                    layout="@layout/component_availability_input" />
+
+                <include
+                    android:id="@+id/availability_friday"
+                    layout="@layout/component_availability_input" />
+
+            </LinearLayout>
+        </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/availability_copy_week"
+        style="@style/CustomMaterialButton.Secondary"
+        android:layout_margin="@dimen/container_spacing"
+        android:layout_marginBottom="16dp"
+        android:text="@string/button_copy_week"
+        app:icon="@drawable/ic_copy_week"
+        app:iconGravity="textStart"
+        app:iconPadding="16dp"
+        app:iconSize="32dp"
+        app:layout_constraintBottom_toTopOf="@id/availability_create"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/availability_create"
+        style="@style/CustomMaterialButton"
+        android:layout_margin="@dimen/container_spacing"
+        android:text="@string/button_add_availability"
+        app:icon="@drawable/ic_done_gray_24dp"
+        app:iconGravity="textStart"
+        app:iconPadding="16dp"
+        app:iconSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
