@@ -42,6 +42,20 @@ class NavigationActivity : AppCompatActivity(),
             sharedPreferences.clear()
             startLoginActivity()
         }
+
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                if ("application/pdf" == intent.type) {
+                    handlePDF(intent)
+                }
+            }
+        }
+    }
+
+    private fun handlePDF(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_STREAM)?.let {
+            // TODO: Send pdf to CreateInvoiceFragment
+        }
     }
 
     override fun onBackPressed() {
