@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ELBHO Adviseursapp</string>
+    <string name="app_name">Adviseursapp</string>
     <string name="action_settings">Settings</string>
 
     <!-- Login Activity   -->
@@ -100,4 +100,9 @@
     <string name="temp_copy_week"><b>Week 50</b>, 9 dec tot 15 dec</string>
     <string name="copy_week_saved">De beschikbaarheid is gekopiëerd</string>
     <string name="copy_week_title_bar">Week kopïeren</string>
+
+    <!-- Fragment Availability   -->
+    <string name="availability_helper_text">Selecteer een dag om de beschikbaarheid van die week aan te passen</string>
+
+
 </resources>

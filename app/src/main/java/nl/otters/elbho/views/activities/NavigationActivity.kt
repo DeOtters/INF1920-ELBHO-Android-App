@@ -102,7 +102,6 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     fun setDrawerEnabled(visible: Boolean) {
-        drawerToggle.isDrawerIndicatorEnabled = visible
         if (visible) {
             drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
         } else {
@@ -111,10 +110,13 @@ class NavigationActivity : AppCompatActivity(),
                 GravityCompat.END
             )
         }
+        drawerToggle.isDrawerIndicatorEnabled = visible
+        drawerToggle.syncState()
     }
 
     private fun closeMenu() {
         drawer_layout.closeDrawer(GravityCompat.START)
+        drawerToggle.syncState()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

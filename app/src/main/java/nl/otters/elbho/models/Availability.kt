@@ -6,13 +6,14 @@ object Availability {
 
     data class Slot(
 
-        @SerializedName("availability-id")
         val id: String,
-        @SerializedName("advisor-id")
+        @SerializedName("advisorGuid")
         val adviserId: String,
         @SerializedName("startdatetime")
         val startDateTime: String,
         @SerializedName("enddatetime")
-        val endDateTime: String
+        val endDateTime: String,
+        val createdDate: String,
+        val modifiedDate: String
     )
 }

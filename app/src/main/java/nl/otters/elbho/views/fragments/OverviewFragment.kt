@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.otters.elbho.R
@@ -17,7 +16,7 @@ import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.OverviewViewModel
 import nl.otters.elbho.views.activities.LoginActivity
 
-class OverviewFragment : Fragment() {
+class OverviewFragment : BaseFragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()
     private val dateParser: DateParser = DateParser()
 
