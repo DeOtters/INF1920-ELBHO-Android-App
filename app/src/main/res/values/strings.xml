@@ -71,6 +71,7 @@
     <string name="create_invoice_month">Maand</string>
     <string name="create_invoice_file">Bestand</string>
 
+
     <!-- Fragment Vehicle -->
     <string name="vehicle_transmission_false">schakel</string>
     <string name="vehicle_transmission_true">automaat</string>
@@ -86,4 +87,17 @@
     <string name="car_picture">ELBHO auto</string>
     <string name="map_picture">Locatie auto</string>
 
+
+    <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>
+    <string name="create_new_availability_title">Nieuwe beschikbaarheid</string>
+    <string name="button_copy_week">Kopiëer week</string>
+    <string name="availability_delete_contentDescription">Verwijder de beschikbaarheid op deze dag</string>
+    <string name="availability_from">van</string>
+    <string name="availability_to">tot</string>
+    <string name="button_add_availability">Wijziging opslaan</string>
+    <string name="copy_week_title">Week 50 kopiëren</string>
+    <string name="button_copy_week_confirm"><![CDATA[Kopiëren & opslaan]]></string>
+    <string name="temp_copy_week"><b>Week 50</b>, 9 dec tot 15 dec</string>
+    <string name="copy_week_saved">De beschikbaarheid is gekopiëerd</string>
+    <string name="copy_week_title_bar">Week kopïeren</string>
 </resources>
