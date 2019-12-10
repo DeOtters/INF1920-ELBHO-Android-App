@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.fragment_open_requests.*
+import kotlinx.android.synthetic.main.fragment_done_requests.*
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.RequestListAdapter
 import nl.otters.elbho.models.Request
