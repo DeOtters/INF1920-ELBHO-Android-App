@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/container_spacing"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/container_spacing"
+        app:layout_constraintBottom_toTopOf="@+id/copy_week_confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ScrollView
+            android:id="@+id/invoiceScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/container_spacing"
+            android:layout_marginEnd="@dimen/container_spacing"
+            android:layout_marginBottom="@dimen/container_spacing"
+            app:layout_constraintBottom_toTopOf="@+id/availability_copy_week"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/availability_days"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:gravity="center"
+                    android:text="@string/copy_week_title"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+                <include
+                    android:id="@+id/copy_week_A"
+                    layout="@layout/component_copy_week" />
+
+                <include
+                    android:id="@+id/copy_week_B"
+                    layout="@layout/component_copy_week" />
+
+                <include
+                    android:id="@+id/copy_week_C"
+                    layout="@layout/component_copy_week" />
+
+                <include
+                    android:id="@+id/copy_week_D"
+                    layout="@layout/component_copy_week" />
+
+                <include
+                    android:id="@+id/copy_week_E"
+                    layout="@layout/component_copy_week" />
+
+                <include
+                    android:id="@+id/copy_week_F"
+                    layout="@layout/component_copy_week" />
+
+                <include
+                    android:id="@+id/copy_week_G"
+                    layout="@layout/component_copy_week" />
+
+                <include
+                    android:id="@+id/copy_week_H"
+                    layout="@layout/component_copy_week" />
+
+                <include
+                    android:id="@+id/copy_week_I"
+                    layout="@layout/component_copy_week" />
+
+            </LinearLayout>
+        </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/copy_week_confirm"
+        style="@style/CustomMaterialButton"
+        android:layout_margin="@dimen/container_spacing"
+        android:text="@string/button_copy_week_confirm"
+        app:icon="@drawable/ic_done_gray_24dp"
+        app:iconGravity="textStart"
+        app:iconPadding="16dp"
+        app:iconSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

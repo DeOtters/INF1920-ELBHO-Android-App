@@ -2,10 +2,15 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:startDestination="@id/overviewFragment">
+
     <fragment
         android:id="@+id/overviewFragment"
-        android:name="nl.otters.elbho.activities.OverviewFragment"
+        android:name="nl.otters.elbho.views.fragments.OverviewFragment"
         android:label="OverviewFragment">
+        <argument
+            android:name="tabId"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <action
         android:id="@+id/action_global_overviewFragment"
@@ -14,10 +19,19 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     <fragment
         android:id="@+id/availabilityFragment"
-        android:name="nl.otters.elbho.activities.AvailabilityFragment"
-        android:label="AvailabilityFragment" />
+        android:name="nl.otters.elbho.views.fragments.AvailabilityFragment"
+        android:label="AvailabilityFragment">
+        <action
+            android:id="@+id/action_availabilityFragment_to_createAvailabilityFragment"
+            app:destination="@id/createAvailabilityFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <action
         android:id="@+id/action_global_availabilityFragment"
         app:destination="@id/availabilityFragment"
@@ -25,10 +39,38 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/createAvailabilityFragment"
+        android:name="nl.otters.elbho.views.fragments.CreateAvailabilityFragment"
+        android:label="CreateAvailabilityFragment">
+        <action
+            android:id="@+id/action_createAvailabilityFragment_to_copyWeekFragment"
+            app:destination="@id/copyWeekFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/copyWeekFragment"
+        android:name="nl.otters.elbho.views.fragments.CopyWeekFragment"
+        android:label="CopyWeekFragment" />
+
     <fragment
         android:id="@+id/invoiceFragment"
-        android:name="nl.otters.elbho.activities.InvoiceFragment"
-        android:label="InvoiceFragment" />
+        android:name="nl.otters.elbho.views.fragments.InvoiceFragment"
+        android:label="InvoiceFragment">
+        <action
+            android:id="@+id/action_invoiceFragment_to_createInvoiceFragment"
+            app:destination="@+id/createInvoiceFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <action
         android:id="@+id/action_global_invoiceFragment"
         app:destination="@id/invoiceFragment"
@@ -36,9 +78,15 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/createInvoiceFragment"
+        android:name="nl.otters.elbho.views.fragments.CreateInvoiceFragment"
+        android:label="CreateInvoiceFragment" />
+
     <fragment
         android:id="@+id/vehicleFragment"
-        android:name="nl.otters.elbho.activities.VehicleFragment"
+        android:name="nl.otters.elbho.views.fragments.VehicleFragment"
         android:label="VehicleFragment" />
     <action
         android:id="@+id/action_global_vehicleFragment"
@@ -47,9 +95,34 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/vehicleReservedFragment"
+        android:name="nl.otters.elbho.views.fragments.VehicleReservedFragment"
+        android:label="VehicleReservedFragment" />
+    <action
+        android:id="@+id/action_global_vehicleReservedFragment"
+        app:destination="@id/vehicleReservedFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <fragment
+        android:id="@+id/vehicleReservationFragment"
+        android:name="nl.otters.elbho.views.fragments.VehicleReservationFragment"
+        android:label="VehicleReservationFragment" />
+    <action
+        android:id="@+id/action_global_vehicleReservationFragment"
+        app:destination="@id/vehicleReservationFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     <fragment
         android:id="@+id/trackingFragment"
-        android:name="nl.otters.elbho.activities.TrackingFragment"
+        android:name="nl.otters.elbho.views.fragments.TrackingFragment"
         android:label="TrackingFragment" />
     <action
         android:id="@+id/action_global_trackingFragment"
@@ -58,9 +131,10 @@
         app:exitAnim="@anim/nav_default_exit_anim"
         app:popEnterAnim="@anim/nav_default_pop_enter_anim"
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     <fragment
         android:id="@+id/requestFragment"
-        android:name="nl.otters.elbho.activities.RequestFragment"
+        android:name="nl.otters.elbho.views.fragments.RequestFragment"
         android:label="RequestFragment" />
     <action
         android:id="@+id/action_global_requestFragment"

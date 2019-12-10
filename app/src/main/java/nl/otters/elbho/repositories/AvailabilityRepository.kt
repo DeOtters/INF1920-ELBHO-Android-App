@@ -14,18 +14,18 @@ import retrofit2.Response
 class AvailabilityRepository(private val context: Context) {
     private val availabilityService = RetrofitFactory.get().create(AvailabilityService::class.java)
 
-    fun getAllAvailabilities(): LiveData<ArrayList<Availability>>? {
-        val availabilities = MutableLiveData<ArrayList<Availability>>()
+    fun getAllAvailabilities(): LiveData<ArrayList<Availability.Slot>>? {
+        val availabilities = MutableLiveData<ArrayList<Availability.Slot>>()
         availabilityService.getAllAvailabilities(getAuthToken())
-            .enqueue(object : Callback<ArrayList<Availability>> {
+            .enqueue(object : Callback<ArrayList<Availability.Slot>> {
 
-                override fun onFailure(call: Call<ArrayList<Availability>>, t: Throwable) {
+                override fun onFailure(call: Call<ArrayList<Availability.Slot>>, t: Throwable) {
                     // TODO: not implemented
                 }
 
                 override fun onResponse(
-                    call: Call<ArrayList<Availability>>,
-                    response: Response<ArrayList<Availability>>
+                    call: Call<ArrayList<Availability.Slot>>,
+                    response: Response<ArrayList<Availability.Slot>>
                 ) {
                     availabilities.value = response.body()
                 }
