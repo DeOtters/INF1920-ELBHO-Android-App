@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
@@ -18,7 +18,7 @@ import nl.otters.elbho.utils.AvailableDayDecorator
 import nl.otters.elbho.utils.DisableWeekendsDecorator
 import nl.otters.elbho.viewModels.AvailabilityViewModel
 
-class AvailabilityFragment : Fragment(), OnDateSelectedListener {
+class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,5 +68,6 @@ class AvailabilityFragment : Fragment(), OnDateSelectedListener {
     ) {
         //TODO: send this date over to the next view.
         Log.e("Selected Date", date.toString())
+        findNavController().navigate(R.id.action_availabilityFragment_to_createAvailabilityFragment)
     }
 }
