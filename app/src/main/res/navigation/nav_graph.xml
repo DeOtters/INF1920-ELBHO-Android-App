@@ -72,7 +72,7 @@
 
     <fragment
         android:id="@+id/vehicleReservedFragment"
-        android:name="nl.otters.elbho.activities.VehicleReservedFragment"
+        android:name="nl.otters.elbho.views.fragments.VehicleReservedFragment"
         android:label="VehicleReservedFragment" />
     <action
         android:id="@+id/action_global_vehicleReservedFragment"
@@ -84,7 +84,7 @@
 
     <fragment
         android:id="@+id/vehicleReservationFragment"
-        android:name="nl.otters.elbho.activities.VehicleReservationFragment"
+        android:name="nl.otters.elbho.views.fragments.VehicleReservationFragment"
         android:label="VehicleReservationFragment" />
     <action
         android:id="@+id/action_global_vehicleReservationFragment"

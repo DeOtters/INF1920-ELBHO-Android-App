@@ -21,4 +21,8 @@ interface VehicleService {
     @Headers("Content-type: application/json")
     @GET("advisors/me/vehicles/claims")
     fun getAllVehiclesClaims(@Header( "x-jwt") authToken : String?): Call<ArrayList<Vehicle.Reservation>>
+
+    @Headers("Content-type: application/json")
+    @DELETE("vehicles/claims/{id}")
+    fun deleteClaim(@Header( "x-jwt") authToken : String?, @Path("id") claimId: String): Call<Unit>
 }

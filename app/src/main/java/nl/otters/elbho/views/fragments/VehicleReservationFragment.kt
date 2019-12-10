@@ -1,14 +1,14 @@
-package nl.otters.elbho.activities
+package nl.otters.elbho.views.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import nl.otters.elbho.R
+import nl.otters.elbho.views.fragments.DetailFragment
 
-class VehicleReservationFragment : Fragment() {
+class VehicleReservationFragment : DetailFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -16,11 +16,6 @@ class VehicleReservationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_vehicle_reservation, container, false)
-    }
-
-    override fun onResume() {
-        setTitle()
-        super.onResume()
     }
 
     private fun setTitle() {

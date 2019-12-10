@@ -16,8 +16,7 @@ import kotlin.collections.ArrayList
 
 class VehicleListAdapter(
     private val context: Context,
-    private val vehicleClaim: ArrayList<Vehicle.Reservation>,
-    private val vehicleCar: ArrayList<Vehicle.Car>,
+    private val vehicleClaim: ArrayList<Vehicle.Claim>,
     private val listener: OnClickItemListener
 //    private val bottomReachedListener: OnBottomReachedListener
 ) : RecyclerView.Adapter<VehicleListAdapter.ViewHolder>() {
@@ -47,18 +46,17 @@ class VehicleListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val claim = vehicleClaim[position]
-        val car = vehicleCar[position]
 
         holder.titleView.text = formatCarTitle(
-            car.brand,
-            car.model,
-            car.transmission)
+            claim.car.brand,
+            claim.car.model,
+            claim.car.transmission)
         holder.descriptionView.text = formatDescription(
-            dateParser.toFormattedTime(claim.startDateTime),
-            dateParser.toFormattedTime((claim.endDateTime)),
-            car.location)
-        holder.dateView.text = dateParser.toFormattedDate(claim.startDateTime)
-        holder.dayView.text = dateParser.toFormattedDay(claim.startDateTime)
+            dateParser.toFormattedTime(claim.reservation.startDateTime),
+            dateParser.toFormattedTime((claim.reservation.endDateTime)),
+            claim.car.location)
+        holder.dateView.text = dateParser.toFormattedDate(claim.reservation.startDateTime)
+        holder.dayView.text = dateParser.toFormattedDay(claim.reservation.startDateTime)
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)

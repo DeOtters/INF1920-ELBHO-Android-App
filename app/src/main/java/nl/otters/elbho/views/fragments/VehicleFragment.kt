@@ -18,17 +18,16 @@ import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.LoginActivity
+import kotlinx.coroutines.*
 
 class VehicleFragment : Fragment() {
-    private var vehicleReservationsList: ArrayList<Vehicle.Reservation> = ArrayList()
-    private var reservedCarsList: ArrayList<Vehicle.Car> = ArrayList()
+    private var vehicleClaimList: ArrayList<Vehicle.Claim> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_vehicle, container, false)
     }
 
@@ -46,55 +45,47 @@ class VehicleFragment : Fragment() {
             startLoginActivity()
         }
 
-        vehicleViewModel.getAllVehiclesClaims()?.observe(this, Observer {
-            if (it != null) {
-                updateVehicleData(it)
-                setupCarsList(vehicleViewModel)
-            }
-        })
+        setupReservation(vehicleViewModel)
 
         goVehicleReservation.setOnClickListener {
             findNavController().navigate(R.id.action_global_vehicleReservationFragment)
         }
     }
 
-    private fun updateVehicleData(newRequests: ArrayList<Vehicle.Reservation>) {
-        vehicleReservationsList.clear()
-        vehicleReservationsList.addAll(newRequests)
-        recyclerView.adapter!!.notifyDataSetChanged()
+   private fun setupReservation(vehicleViewModel: VehicleViewModel){
+        vehicleViewModel.getAllVehiclesClaims()?.observe(this, Observer {
+            if (it != null) {
+                setupCar(it, vehicleViewModel)
+            }
+        })
     }
 
-    private fun setupCarsList(vehicleViewModel: VehicleViewModel){
-//        TODO: dit moet het dus worden...
-//        for(claim in vehicleReservationsList) {
-//            vehicleViewModel.getVehicle(claim.vehicleId)?.observe(this, Observer {
-//                reservedCarsList.add(it)
-//            })
-//        }
-
-        for(claim in vehicleReservationsList) {
-            reservedCarsList.add(Vehicle.Car(
-                id = "3345fcc1-f94f-4afd-a05a-7a9091c88b71",
-                licensePlate = "BC-56-OP",
-                brand = "Tesla",
-                model = "Model 3",
-                transmission = true,
-                color = "Blue",
-                location = "Almere",
-                picture = "blabla.jpg"))
+    private fun setupCar(reservation: ArrayList<Vehicle.Reservation>, vehicleViewModel: VehicleViewModel){
+        val newRequests: ArrayList<Vehicle.Claim> = ArrayList()
+        for(claim in reservation) {
+            vehicleViewModel.getVehicle(claim.vehicleId)?.observe(this, Observer {
+                newRequests.add(Vehicle.Claim(claim, it))
+                updateVehicleData(newRequests)
+            })
         }
+    }
 
+    private fun updateVehicleData(newRequests: ArrayList<Vehicle.Claim>) {
+        vehicleClaimList.clear()
+        vehicleClaimList.addAll(newRequests)
+        recyclerView.adapter!!.notifyDataSetChanged()
     }
 
     private fun setupRecyclerView() {
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
         val vehicleListAdapter = VehicleListAdapter(
             activity!!.applicationContext,
-            vehicleReservationsList,
-            reservedCarsList,
+            vehicleClaimList,
             object : VehicleListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
-                    findNavController().navigate(R.id.action_global_vehicleReservedFragment)
+                    val bundle = Bundle()
+                    bundle.putParcelable("KEY_CLAIM", vehicleClaimList[position])
+                    findNavController().navigate(R.id.action_global_vehicleReservedFragment, bundle)
                 }
             })
 

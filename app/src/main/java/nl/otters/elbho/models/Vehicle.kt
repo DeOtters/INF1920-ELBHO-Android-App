@@ -1,9 +1,12 @@
 package nl.otters.elbho.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 object Vehicle {
 
+    @Parcelize
     data class Car(
 
         val id: String,
@@ -15,14 +18,23 @@ object Vehicle {
         val color: String,
         val location: String,
         val picture: String
-    )
+    ): Parcelable
 
+    @Parcelize
     data class Reservation(
 
+        val id: String,
         val vehicleId: String,
         val advisorId: String,
         val requestId: String,
         val startDateTime: String,
         val endDateTime: String
-    )
+    ): Parcelable
+
+    @Parcelize
+    data class Claim(
+
+        val reservation: Reservation,
+        val car: Car
+    ): Parcelable
 }
