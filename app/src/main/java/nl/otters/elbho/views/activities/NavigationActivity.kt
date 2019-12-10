@@ -42,6 +42,20 @@ class NavigationActivity : AppCompatActivity(),
             sharedPreferences.clear()
             startLoginActivity()
         }
+
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                if ("application/pdf" == intent.type) {
+                    handlePDF(intent)
+                }
+            }
+        }
+    }
+
+    private fun handlePDF(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_STREAM)?.let {
+            // TODO: Send pdf to CreateInvoiceFragment
+        }
     }
 
     override fun onBackPressed() {
@@ -102,7 +116,6 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     fun setDrawerEnabled(visible: Boolean) {
-        drawerToggle.isDrawerIndicatorEnabled = visible
         if (visible) {
             drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
         } else {
@@ -111,10 +124,13 @@ class NavigationActivity : AppCompatActivity(),
                 GravityCompat.END
             )
         }
+        drawerToggle.isDrawerIndicatorEnabled = visible
+        drawerToggle.syncState()
     }
 
     private fun closeMenu() {
         drawer_layout.closeDrawer(GravityCompat.START)
+        drawerToggle.syncState()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

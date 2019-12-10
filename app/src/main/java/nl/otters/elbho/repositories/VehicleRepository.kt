@@ -88,6 +88,18 @@ class VehicleRepository (private val context: Context) {
         return reservedVehicles
     }
 
+    fun deleteClaim(claimId: String) {
+        vehicleService.deleteClaim(getAuthToken(), claimId).enqueue(object : Callback<Unit> {
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                // TODO: not implemented
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                // TODO: not implemented
+            }
+        })
+    }
+
     private fun getAuthToken(): String {
         val sharedPreferences = SharedPreferences(context)
         return sharedPreferences.getValueString("auth-token") ?: ""

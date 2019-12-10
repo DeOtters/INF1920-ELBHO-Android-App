@@ -13,4 +13,8 @@ class VehicleViewModel(private val vehicleRepository: VehicleRepository): ViewMo
     fun getVehicle(id: String): LiveData<Vehicle.Car>? {
         return vehicleRepository.getVehicle(id)
     }
+
+    fun deleteClaim(claimId: String) {
+        return vehicleRepository.deleteClaim(claimId)
+    }
 }
