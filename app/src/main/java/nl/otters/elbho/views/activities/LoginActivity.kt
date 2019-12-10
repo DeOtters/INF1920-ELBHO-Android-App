@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateUI(loginViewModel: LoginViewModel) {
         progressBar.isVisible = true
+        loginButton.isEnabled = false
         val loginCredentials: Adviser.Login =
             Adviser.Login(emailTextInputEdit.text.toString(), passwordTextInputEdit.text.toString())
         loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
@@ -48,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
                 startOverviewActivity()
             } else {
                 progressBar.isVisible = false
+                loginButton.isEnabled = true
                 Snackbar.make(
                     container,
                     R.string.login_snackbar_message_wrongCredentials,

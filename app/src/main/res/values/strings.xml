@@ -61,7 +61,7 @@
     <string name="invoice_listItem_image_contentDescription">Clickable Icon to download file</string>
     <string name="icon_invoice">Factuur icoon</string>
     <string name="elbho_logo">ELBHO logo</string>
-    <string name="invoice_uploaded_on">Datum geüpload: <b>nog niet geïmplementeerd</b></string>
+    <string name="invoice_uploaded_on">Datum geüpload: 30/10/2019</string>
     <string name="invoice_cancel">Nee</string>
     <string name="invoice_download_message">Wilt u deze factuur downloaden?</string>
     <string name="invoice_download">Downloaden</string>
