@@ -60,19 +60,34 @@
     <string name="listItem_image_contentDescription">Clickable Icon to Detail page</string>
     <string name="invoice_listItem_image_contentDescription">Clickable Icon to download file</string>
     <string name="icon_invoice">Factuur icoon</string>
-    <string name="icon_vehicle">Auto icoon</string>
     <string name="elbho_logo">ELBHO logo</string>
     <string name="invoice_uploaded_on">Datum geüpload: <b>nog niet geïmplementeerd</b></string>
     <string name="invoice_cancel">Nee</string>
     <string name="invoice_download_message">Wilt u deze factuur downloaden?</string>
     <string name="invoice_download">Downloaden</string>
-    <string name="vehicle_transmission_false">schakel</string>
-    <string name="vehicle_transmission_true">automaat</string>
     <string name="add_new_invoice_title">Nieuwe factuur toevoegen</string>
     <string name="create_invoice_uploaded">De factuur is geüpload naar ELBHO</string>
     <string name="create_invoice_year">Jaar</string>
     <string name="create_invoice_month">Maand</string>
     <string name="create_invoice_file">Bestand</string>
+
+
+    <!-- Fragment Vehicle -->
+    <string name="vehicle_transmission_false">schakel</string>
+    <string name="vehicle_transmission_true">automaat</string>
+    <string name="icon_vehicle">Auto icoon</string>
+    <string name="button_delete_claim">Reservering annuleren</string>
+    <string name="car_location">Adres</string>
+    <string name="car_licensePlate">Kenteken</string>
+    <string name="car_reservation_time">Tijd</string>
+    <string name="car_reservation_date">Datum</string>
+    <string name="vehicle_delete_message">Wilt u deze reservering annuleren?</string>
+    <string name="vehicle_delete_message_true">Ja</string>
+    <string name="vehicle_delete_message_false">Nee</string>
+    <string name="car_picture">ELBHO auto</string>
+    <string name="map_picture">Locatie auto</string>
+
+
     <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>
     <string name="create_new_availability_title">Nieuwe beschikbaarheid</string>
     <string name="button_copy_week">Kopiëer week</string>
