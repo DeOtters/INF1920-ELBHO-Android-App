@@ -121,18 +121,6 @@
         app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     <fragment
-        android:id="@+id/trackingFragment"
-        android:name="nl.otters.elbho.views.fragments.TrackingFragment"
-        android:label="TrackingFragment" />
-    <action
-        android:id="@+id/action_global_trackingFragment"
-        app:destination="@id/trackingFragment"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-
-    <fragment
         android:id="@+id/requestFragment"
         android:name="nl.otters.elbho.views.fragments.RequestFragment"
         android:label="RequestFragment" />
