@@ -103,6 +103,7 @@
 
     <!-- Fragment Availability   -->
     <string name="availability_helper_text">Selecteer een dag om de beschikbaarheid van die week aan te passen</string>
+    <string name="button_arrived">Bestemming bereikt</string>
 
 
 </resources>
