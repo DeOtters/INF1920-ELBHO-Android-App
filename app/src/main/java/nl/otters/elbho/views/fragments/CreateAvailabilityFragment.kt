@@ -7,12 +7,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.component_availability_input.view.*
 import kotlinx.android.synthetic.main.fragment_create_availability.*
 import nl.otters.elbho.R
+import nl.otters.elbho.models.Availability
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
+
+// TODO: use ThreeTen library
+// We are using, Date, CalendarDay, Calendar and Strings all for days. This code is getting really messy.
+// LocalDate is not an options since we need to support API 21 >
 class CreateAvailabilityFragment : DetailFragment() {
-
+    private lateinit var chosenDay: CalendarDay
+    private lateinit var availability: ArrayList<Availability.Slot>
     private lateinit var inputFieldList: ArrayList<View>
 
     override fun onCreateView(
@@ -25,7 +35,38 @@ class CreateAvailabilityFragment : DetailFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        chosenDay = arguments?.getParcelable("KEY_CHOSEN_DATE")!!
+        availability = arguments?.getParcelableArrayList("KEY_AVAILABILITY")!!
 
+        setWeekSelector(chosenDay)
+        setDayLabels()
+        setOnClickListeners()
+    }
+
+    private fun setWeekSelector(date: CalendarDay){
+        val calendar: Calendar =  Calendar.getInstance()
+        calendar.set(date.year, date.month, date.day)
+        availability_week_selector.text = resources.getString(R.string.create_availability_week_selector, calendar.get(Calendar.WEEK_OF_YEAR))
+    }
+
+    private fun getDaysOfWeek(date: CalendarDay): ArrayList<String>{
+        val calendar: Calendar = Calendar.getInstance()
+        val format = SimpleDateFormat("dd/MM", Locale("nl"))
+
+        calendar.time = date.date
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+
+        val daysOfWeek: ArrayList<String> = ArrayList()
+
+        for(i in 0..4){
+            daysOfWeek.add(format.format(calendar.time))
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        return daysOfWeek
+    }
+
+    private fun setOnClickListeners() {
         inputFieldList = arrayListOf(
             availability_monday,
             availability_tuesday,
@@ -33,46 +74,44 @@ class CreateAvailabilityFragment : DetailFragment() {
             availability_thursday,
             availability_friday
         )
-        setDayLabels()
-        setOnClickListeners()
-    }
 
-    private fun setOnClickListeners() {
         availability_week_selector.setOnClickListener { selectWeek() }
         availability_copy_week.setOnClickListener { copyWeek() }
         availability_create.setOnClickListener { createAvailability(view!!) }
 
         for (item in inputFieldList) {
-            item.availability_time_from.setOnClickListener {
-                // TODO: Open time picker and set time to text field
-            }
-            item.availability_time_to.setOnClickListener {
-                // TODO: Open time picker and set time to text field
-            }
-            item.availability_clear.setOnClickListener {
-                // TODO: Ask for confirmation
-                item.availability_time_from.setText("")
-                item.availability_time_to.setText("")
-            }
+//            item.availability_time_from.setOnClickListener {
+//                // TODO: Open time picker and set time to text field
+//            }
+//            item.availability_time_to.setOnClickListener {
+//                // TODO: Open time picker and set time to text field
+//            }
+//            item.availability_clear.setOnClickListener {
+//                // TODO: Ask for confirmation
+//                item.availability_time_from.setText("")
+//                item.availability_time_to.setText("")
+//            }
         }
     }
 
     private fun setDayLabels() {
         // TODO: Improve this
+        val daysOfWeek: ArrayList<String> = getDaysOfWeek(chosenDay)
+
         availability_monday.availability_dayText.text = "MA"
-        availability_monday.availability_dateText.text = "9/12"
+        availability_monday.availability_dateText.text = daysOfWeek[0]
 
         availability_tuesday.availability_dayText.text = "DI"
-        availability_tuesday.availability_dateText.text = "10/12"
+        availability_tuesday.availability_dateText.text = daysOfWeek[1]
 
         availability_wednesday.availability_dayText.text = "WO"
-        availability_wednesday.availability_dateText.text = "11/12"
+        availability_wednesday.availability_dateText.text = daysOfWeek[2]
 
         availability_thursday.availability_dayText.text = "DO"
-        availability_thursday.availability_dateText.text = "12/12"
+        availability_thursday.availability_dateText.text = daysOfWeek[3]
 
         availability_friday.availability_dayText.text = "VR"
-        availability_friday.availability_dateText.text = "13/12"
+        availability_friday.availability_dateText.text = daysOfWeek[4]
     }
 
     private fun selectWeek() {
@@ -104,3 +143,4 @@ class CreateAvailabilityFragment : DetailFragment() {
         appTitle.setText(R.string.create_new_availability_title)
     }
 }
+
