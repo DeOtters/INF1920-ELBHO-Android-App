@@ -87,7 +87,7 @@
             android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="@id/startTime"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_add_white_24dp"
+            app:srcCompat="@drawable/ic_drop_down_24dp"
             android:contentDescription="" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -136,7 +136,7 @@
             android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="@id/endTime"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_add_white_24dp"
+            app:srcCompat="@drawable/ic_drop_down_24dp"
             android:contentDescription="TODO" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
