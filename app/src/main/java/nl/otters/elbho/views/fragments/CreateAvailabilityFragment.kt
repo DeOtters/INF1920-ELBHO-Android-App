@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.component_availability_input.view.*
-import kotlinx.android.synthetic.main.component_availability_input.view.startTime
 import kotlinx.android.synthetic.main.fragment_create_availability.*
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import nl.otters.elbho.R
@@ -48,7 +46,6 @@ class CreateAvailabilityFragment : DetailFragment() {
         chosenDay = arguments?.getParcelable("KEY_CHOSEN_DATE")!!
         availability = arguments?.getParcelableArrayList("KEY_AVAILABILITY")!!
 
-        setWeekSelector(chosenDay)
         setDayLabels(chosenDay)
         setOnClickListeners()
     }
@@ -210,6 +207,7 @@ class CreateAvailabilityFragment : DetailFragment() {
     override fun onResume() {
         setTitle()
         super.onResume()
+        setWeekSelector(chosenDay)
     }
 
     private fun setTitle() {
