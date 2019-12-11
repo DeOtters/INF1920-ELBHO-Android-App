@@ -1,5 +1,7 @@
 package nl.otters.elbho.views.fragments
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,9 +24,30 @@ class CreateInvoiceFragment : DetailFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setOnClickListeners()
+    }
 
-        create_invoice.setOnClickListener {
-            createInvoice(view!!)
+    private fun setOnClickListeners() {
+        invoiceFileTextView.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                val intent = Intent()
+                    .setType("application/pdf")
+                    .setAction(Intent.ACTION_GET_CONTENT)
+
+                startActivityForResult(Intent.createChooser(intent, "Select a file"), 42069)
+            }
+        }
+        create_invoice.setOnClickListener { createInvoice(view!!) }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 42069 && resultCode == RESULT_OK) {
+            val selectedFile = data?.data //The uri with the location of the file
+            val fileName = selectedFile?.path.toString().substringBeforeLast(".")
+
+            invoiceFileTextView.setText(fileName)
         }
     }
 

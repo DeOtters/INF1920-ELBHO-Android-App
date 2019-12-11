@@ -13,8 +13,11 @@ import nl.otters.elbho.models.Request
 import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
+import nl.otters.elbho.utils.ZoomOutPageTransformer
 import nl.otters.elbho.viewModels.OverviewViewModel
 import nl.otters.elbho.views.activities.LoginActivity
+import nl.otters.elbho.views.activities.NavigationActivity
+
 
 class OverviewFragment : BaseFragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()
@@ -32,8 +35,10 @@ class OverviewFragment : BaseFragment() {
         val requestRepository = RequestRepository(activity!!.applicationContext)
         val overviewViewModel = OverviewViewModel(requestRepository)
 
+        (activity as NavigationActivity).setProgressBarVisible(true)
         overviewViewModel.getAllRequests().observe(this, Observer {
             requests = it
+            (activity as NavigationActivity).setProgressBarVisible(false)
             tabs.getTabAt(0)!!.orCreateBadge.number = requests.count()
         })
 
@@ -59,8 +64,8 @@ class OverviewFragment : BaseFragment() {
         tabs.getTabAt(0)!!.setIcon(R.drawable.ic_event_available_24dp)
         tabs.getTabAt(1)!!.setIcon(R.drawable.ic_event_24dp)
         tabs.getTabAt(2)!!.setIcon(R.drawable.ic_event_done_24dp)
-
         tabs.getTabAt(arguments!!.get("tabId") as Int)!!.select()
+        viewPager.setPageTransformer(true, ZoomOutPageTransformer())
     }
 
     private fun startLoginActivity() {

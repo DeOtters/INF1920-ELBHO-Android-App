@@ -61,7 +61,7 @@
     <string name="invoice_listItem_image_contentDescription">Clickable Icon to download file</string>
     <string name="icon_invoice">Factuur icoon</string>
     <string name="elbho_logo">ELBHO logo</string>
-    <string name="invoice_uploaded_on">Datum geüpload: <b>nog niet geïmplementeerd</b></string>
+    <string name="invoice_uploaded_on">Datum geüpload: 30/10/2019</string>
     <string name="invoice_cancel">Nee</string>
     <string name="invoice_download_message">Wilt u deze factuur downloaden?</string>
     <string name="invoice_download">Downloaden</string>
@@ -86,6 +86,18 @@
     <string name="vehicle_delete_message_false">Nee</string>
     <string name="car_picture">ELBHO auto</string>
     <string name="map_picture">Locatie auto</string>
+    <string name="vehicle_time_from">van</string>
+    <string name="vehicle_time_to">tot</string>
+    <string name="ic_dropdown">dropdown arrow</string>
+    <string name="toast_start_before">Begin tijd moet eerder zijn dan de eind tijd.</string>
+    <string name="toast_end_after">Eind tijd moet later zijn dan de begin tijd.</string>
+    <string name="toast_select_all_inputs">Selecteer begin en eind tijd om te reserveren.</string>
+    <string name="confirm_reservation">Wil je deze auto reserveren?</string>
+    <string name="alert_car_info">Auto:</string>
+    <string name="alert_time_info">Tijd:</string>
+    <string name="alert_date_info">Datum:</string>
+    <string name="empty_time">--:--</string>
+    <string name="hint_time">Time input</string>
 
     <!-- Create Availability Fragment  -->
     <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>
@@ -105,6 +117,7 @@
 
     <!-- Fragment Availability   -->
     <string name="availability_helper_text">Selecteer een dag om de beschikbaarheid van die week aan te passen</string>
+    <string name="button_arrived">Bestemming bereikt</string>
 
     <!-- Component Availability Input   -->
     <string name="input_placeholder">--:--</string>

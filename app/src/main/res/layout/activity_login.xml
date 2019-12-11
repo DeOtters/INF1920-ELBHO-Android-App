@@ -23,11 +23,9 @@
     <!-- ELBHO LOGO   -->
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="225dp"
-        android:layout_marginStart="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
-        android:layout_marginEnd="80dp"
         android:contentDescription="@string/login_image_contentDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,21 +45,21 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <TextView
-            style="@style/FieldLabel"
             android:id="@+id/emailInputFieldTextView"
+            style="@style/FieldLabel"
             android:text="@string/login_input_label_email"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/FieldLayout"
             android:id="@+id/emailTextInputLayout"
+            style="@style/FieldLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                style="@style/FieldText"
                 android:id="@+id/emailTextInputEdit"
+                style="@style/FieldText"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -72,28 +70,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailInputField">
 
         <TextView
-            style="@style/FieldLabel"
             android:id="@+id/passwordInputFieldTextView"
+            style="@style/FieldLabel"
             android:text="@string/login_input_label_password"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/FieldLayout"
             android:id="@+id/passwordTextInputLayout"
+            style="@style/FieldLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                style="@style/FieldText"
                 android:id="@+id/passwordTextInputEdit"
+                style="@style/FieldText"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -103,11 +101,13 @@
         android:id="@+id/loginButton"
         style="@style/CustomMaterialButton"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:layout_margin="@dimen/container_spacing"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="48dp"
         android:enabled="false"
         android:text="@string/login_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordInputField" />
 </androidx.constraintlayout.widget.ConstraintLayout>

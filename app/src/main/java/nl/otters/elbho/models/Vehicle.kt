@@ -31,6 +31,14 @@ object Vehicle {
         val endDateTime: String
     ): Parcelable
 
+    data class CreateReservation(
+
+        val vehicleId: String,
+        val advisorId: String?,
+        val startDateTime: String,
+        val endDateTime: String
+    )
+
     @Parcelize
     data class Claim(
 
