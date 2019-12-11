@@ -16,6 +16,7 @@ import nl.otters.elbho.adapters.InvoiceListAdapter
 import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.repositories.InvoiceRepository
 import nl.otters.elbho.viewModels.InvoiceViewModel
+import nl.otters.elbho.views.activities.NavigationActivity
 
 class InvoiceFragment : BaseFragment() {
     private var invoices: ArrayList<Invoice.File> = ArrayList()
@@ -25,16 +26,6 @@ class InvoiceFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        invoices.add(
-            Invoice.File(
-                id = 1,
-                adviserId = "fff",
-                month = "APRIL",
-                fileName = "Factuur van je moeder.pdf",
-                filePath = "/troep/",
-                document = "Random string"
-            )
-        )
         return inflater.inflate(R.layout.fragment_invoice, container, false)
     }
 
@@ -45,10 +36,24 @@ class InvoiceFragment : BaseFragment() {
         setupRecyclerView()
         setupButtonListener()
 
+        invoices.clear()
+        invoices.add(
+            Invoice.File(
+                id = 1,
+                adviserId = "fff",
+                month = "OKTOBER",
+                fileName = "Factuur van oktober.pdf",
+                filePath = "/troep/",
+                document = "Random string"
+            )
+        )
+
+        (activity as NavigationActivity).setProgressBarVisible(true)
         invoicesViewModel.getAllInvoices()?.observe(this, Observer {
             if (it != null) {
                 updateInvoiceData(it)
             }
+            (activity as NavigationActivity).setProgressBarVisible(false)
         })
     }
 

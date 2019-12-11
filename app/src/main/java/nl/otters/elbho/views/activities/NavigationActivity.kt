@@ -8,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -126,6 +127,10 @@ class NavigationActivity : AppCompatActivity(),
         }
         drawerToggle.isDrawerIndicatorEnabled = visible
         drawerToggle.syncState()
+    }
+
+    fun setProgressBarVisible(visible: Boolean) {
+        progressBar.isVisible = visible
     }
 
     private fun closeMenu() {
