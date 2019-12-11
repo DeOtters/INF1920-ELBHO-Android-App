@@ -50,6 +50,9 @@ class AdviserRepository(private val context: Context) {
         adviserService.getAdviser(getAuthToken()).enqueue(object : Callback<Adviser.Properties> {
 
             override fun onResponse(call: Call<Adviser.Properties>, response: Response<Adviser.Properties>) {
+                val loggedInAdviser: Adviser.Properties? = response.body()
+                val sharedPreferences = SharedPreferences(context)
+                sharedPreferences.save("adviser-id", loggedInAdviser!!.id)
                 adviser.value = response.body()
             }
 

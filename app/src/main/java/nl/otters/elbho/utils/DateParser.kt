@@ -8,6 +8,7 @@ class DateParser {
     private val locale: Locale = Locale.Builder().setLanguage("nl").setRegion("nl").build()
     //This is the format we get back from the database
     private val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", locale)
+    private val dateParser = SimpleDateFormat("yyyy-MM-dd", locale)
 
     /*
     * @params string -> yyyy-MM-dd'T'HH:mm:ss
@@ -19,12 +20,30 @@ class DateParser {
     }
 
     /*
+   * @params string -> yyyy-MM-dd
+   * @return string -> EE, e.g. MA
+   */
+    fun dateToFormattedDay(dateTime: String) : String{
+        val formatter = SimpleDateFormat("EE", locale)
+        return formatter.format(dateParser.parse(dateTime)!!).toUpperCase(locale)
+    }
+
+    /*
    * @params string -> yyyy-MM-dd'T'HH:mm:ss
    * @return string -> dd-MM, e.g. 01-11
    */
     fun toFormattedDate(dateTime: String) : String{
         val formatter = SimpleDateFormat("dd-MM",  Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
+    }
+
+    /*
+   * @params string -> yyyy-MM-dd
+   * @return string -> dd-MM, e.g. 01-11
+   */
+    fun dateToFormattedDate(dateTime: String) : String{
+        val formatter = SimpleDateFormat("dd-MM",  Locale("nl"))
+        return formatter.format(dateParser.parse(dateTime)!!)
     }
 
     /*

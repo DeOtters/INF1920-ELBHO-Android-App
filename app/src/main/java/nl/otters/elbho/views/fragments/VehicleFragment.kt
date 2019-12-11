@@ -61,6 +61,7 @@ class VehicleFragment : BaseFragment() {
         })
     }
 
+    // TODO: Use Synchronize to call updateVehicleData once instead for every car
     private fun setupCar(reservation: ArrayList<Vehicle.Reservation>, vehicleViewModel: VehicleViewModel){
         val newRequests: ArrayList<Vehicle.Claim> = ArrayList()
         for(claim in reservation) {
