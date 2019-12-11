@@ -23,6 +23,10 @@ interface VehicleService {
     fun getAllVehiclesClaims(@Header( "x-jwt") authToken : String?): Call<ArrayList<Vehicle.Reservation>>
 
     @Headers("Content-type: application/json")
+    @POST("vehicles/claims")
+    fun createClaim(@Header( "x-jwt") authToken : String?, @Body invoice: Vehicle.CreateReservation): Call<Unit>
+
+    @Headers("Content-type: application/json")
     @DELETE("vehicles/claims/{id}")
     fun deleteClaim(@Header( "x-jwt") authToken : String?, @Path("id") claimId: String): Call<Unit>
 }

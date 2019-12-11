@@ -42,6 +42,7 @@ class VehicleReservedFragment : DetailFragment() {
         }
     }
 
+    // TODO: Use Synchronize instead of Thread.Sleep
     private fun showAlert(vehicleViewModel: VehicleViewModel) {
         MaterialAlertDialogBuilder(context)
             .setTitle(getString(R.string.vehicle_delete_message))
