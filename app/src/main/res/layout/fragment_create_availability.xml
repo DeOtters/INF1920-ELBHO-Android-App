@@ -41,7 +41,6 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/container_spacing"
                     android:drawableEnd="@drawable/ic_drop_down_24dp"
-                    android:text="week 51"
                     android:textColor="@color/colorDisabledButtonText" />
 
                 <include

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/listItem_margin">
@@ -9,7 +10,10 @@
         android:id="@+id/constraintLayout"
         android:layout_width="64dp"
         android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/colorDisabledButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/constraint_start"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -40,31 +44,101 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <EditText
-        android:id="@+id/availability_time_from"
-        android:layout_width="140dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:hint="@string/availability_from"
-        android:inputType="time"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/availability_time_to"
-        app:layout_constraintStart_toEndOf="@+id/constraintLayout"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- START  -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_start"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/constraint_end"
+        app:layout_constraintStart_toEndOf="@id/constraintLayout"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/availability_time_to"
-        android:layout_width="140dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:hint="@string/availability_to"
-        android:inputType="time"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        <TextView
+            android:id="@+id/label_time_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="15dp"
+            android:letterSpacing="0.16"
+            android:text="@string/input_label_from"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:textColor="#99000000"
+            app:layout_constraintBottom_toTopOf="@+id/startTime"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/startTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:ems="10"
+            android:focusable="true"
+            android:inputType="time"
+            android:paddingBottom="20dp"
+            android:text="@string/input_placeholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_time_from"
+            android:importantForAutofill="no" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="25dp"
+            app:layout_constraintBottom_toBottomOf="@id/startTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            android:contentDescription="" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!-- END  -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_end"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toStartOf="@+id/availability_clear"
-        app:layout_constraintStart_toEndOf="@+id/availability_time_from"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/constraint_start"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/label_time_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="15dp"
+            android:letterSpacing="0.16"
+            android:text="@string/input_label_to"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:textColor="#99000000"
+            app:layout_constraintBottom_toTopOf="@+id/endTime"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/endTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:ems="10"
+            android:focusable="true"
+            android:inputType="time"
+            android:paddingBottom="20dp"
+            android:text="@string/input_placeholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_time_to"
+            android:importantForAutofill="no" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="25dp"
+            app:layout_constraintBottom_toBottomOf="@id/endTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            android:contentDescription="TODO" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/availability_clear"
@@ -74,7 +148,6 @@
         android:src="@drawable/ic_delete_red_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/availability_time_to"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
