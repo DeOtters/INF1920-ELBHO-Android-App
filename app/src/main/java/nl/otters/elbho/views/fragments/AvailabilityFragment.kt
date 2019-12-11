@@ -13,6 +13,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import kotlinx.android.synthetic.main.fragment_availability.*
 import nl.otters.elbho.R
+import nl.otters.elbho.models.Availability
 import nl.otters.elbho.repositories.AvailabilityRepository
 import nl.otters.elbho.utils.AvailableDayDecorator
 import nl.otters.elbho.utils.DisableWeekendsDecorator
@@ -20,6 +21,8 @@ import nl.otters.elbho.viewModels.AvailabilityViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
 
 class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
+    private var availability: ArrayList<Availability.Slot> = ArrayList()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,7 +40,8 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         setupCalendar()
         (activity as NavigationActivity).setProgressBarVisible(true)
         availabilityViewModel.getAllAvailabilities()?.observe(this, Observer {
-            for (timeSlot in it) {
+            availability = it
+            for (timeSlot in it){
                 //Here we add the ui for a available day from database
                 calendarView.addDecorator(AvailableDayDecorator(timeSlot.startDateTime))
                 (activity as NavigationActivity).setProgressBarVisible(false)
@@ -68,8 +72,9 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         date: CalendarDay,
         selected: Boolean
     ) {
-        //TODO: send this date over to the next view.
-        Log.e("Selected Date", date.toString())
-        findNavController().navigate(R.id.action_availabilityFragment_to_createAvailabilityFragment)
+        val bundle = Bundle()
+        bundle.putParcelable("KEY_CHOSEN_DATE", date)
+        bundle.putParcelableArrayList("KEY_AVAILABILITY", availability)
+        findNavController().navigate(R.id.action_availabilityFragment_to_createAvailabilityFragment, bundle)
     }
 }

@@ -1,11 +1,12 @@
 package nl.otters.elbho.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 object Availability {
-
-    data class Slot(
-
+    @Parcelize
+    data class Slot (
         val id: String,
         @SerializedName("advisorGuid")
         val adviserId: String,
@@ -15,5 +16,5 @@ object Availability {
         val endDateTime: String,
         val createdDate: String,
         val modifiedDate: String
-    )
+    ): Parcelable
 }
