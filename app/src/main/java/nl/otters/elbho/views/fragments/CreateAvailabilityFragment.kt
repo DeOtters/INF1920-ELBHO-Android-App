@@ -1,5 +1,7 @@
 package nl.otters.elbho.views.fragments
 
+import android.annotation.SuppressLint
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
@@ -11,10 +13,14 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.component_availability_input.view.*
+import kotlinx.android.synthetic.main.component_availability_input.view.startTime
 import kotlinx.android.synthetic.main.fragment_create_availability.*
+import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
+import kotlinx.android.synthetic.main.fragment_vehicle_reservation.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Availability
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,6 +32,14 @@ class CreateAvailabilityFragment : DetailFragment() {
     private lateinit var chosenDay: CalendarDay
     private lateinit var availability: ArrayList<Availability.Slot>
     private lateinit var inputFieldList: ArrayList<View>
+
+    private var startReservationTime: String = " "
+    private var endReservationTime: String = " "
+    @SuppressLint("NewApi")
+    private var reservationDate: String = LocalDate.now().toString()
+
+    private val calStart = Calendar.getInstance()
+    private val calEnd = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -105,6 +119,22 @@ class CreateAvailabilityFragment : DetailFragment() {
         availability_create.setOnClickListener { createAvailability(view!!) }
 
         for (item in inputFieldList) {
+            item.startTime.setOnClickListener {
+                val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                calStart.set(Calendar.HOUR_OF_DAY, hour)
+                calStart.set(Calendar.MINUTE, minute)
+
+                calEnd.set(Calendar.HOUR_OF_DAY, hour + 2)
+                calEnd.set(Calendar.MINUTE, minute)
+
+                startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
+                startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
+
+                endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
+            }
+                TimePickerDialog(context, timeSetListener, calStart.get(Calendar.HOUR_OF_DAY), calStart.get(Calendar.MINUTE), true).show()
+            }
 //            item.availability_time_from.setOnClickListener {
 //                // TODO: Open time picker and set time to text field
 //            }
