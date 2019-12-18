@@ -7,21 +7,21 @@ import retrofit2.http.*
 interface AvailabilityService {
     @Headers("Content-type: application/json")
     @GET("advisor/me/availabilities")
-    fun getAllAvailabilities(@Header("x-jwt") auth: String): Call<ArrayList<Availability.Slot>>
+    fun getAllAvailabilities(@Header("Authorization") auth: String): Call<ArrayList<Availability.Slot>>
 
     @Headers("Content-type: application/json")
     @GET("/availabilities/{id}")
-    fun getAvailability(@Header("x-jwt") auth: String, @Path("id") id: Int): Call<Availability>
+    fun getAvailability(@Header("Authorization") auth: String, @Path("id") id: Int): Call<Availability>
 
     @Headers("Content-type: application/json")
     @POST("/availabilities")
-    fun createAvailability(@Header("x-jwt") auth: String, @Body availability: Availability): Call<Unit>
+    fun createAvailability(@Header("Authorization") auth: String, @Body availability: Availability): Call<Unit>
 
     @Headers("Content-type: application/json")
     @PUT("/availabilities/{id}")
-    fun updateAvailability(@Header("x-jwt") auth: String, @Path("id") id: Int, @Body availability: Availability): Call<Unit>
+    fun updateAvailability(@Header("Authorization") auth: String, @Path("id") id: Int, @Body availability: Availability): Call<Unit>
 
     @Headers("Content-type: application/json")
     @PUT("/availabilities/{id}")
-    fun deleteAvailability(@Header("x-jwt") auth: String, @Path("id") id: Int): Call<Unit>
+    fun deleteAvailability(@Header("Authorization") auth: String, @Path("id") id: Int): Call<Unit>
 }

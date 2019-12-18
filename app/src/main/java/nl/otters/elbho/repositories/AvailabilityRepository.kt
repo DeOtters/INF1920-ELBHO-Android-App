@@ -98,6 +98,6 @@ class AvailabilityRepository(private val context: Context) {
 
     private fun getAuthToken(): String {
         val sharedPreferences = SharedPreferences(context)
-        return sharedPreferences.getValueString("auth-token") ?: ""
+        return "Bearer " + (sharedPreferences.getValueString("auth-token") ?: "")
     }
 }

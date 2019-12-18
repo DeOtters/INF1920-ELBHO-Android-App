@@ -11,9 +11,9 @@ interface RequestService {
 
     @Headers("Content-type: application/json")
     @GET("requests/{id}")
-    fun getRequest(@Header("x-jwt") auth: String, @Path("id") id: Int): Call<Request.Properties>
+    fun getRequest(@Header("Authorization") auth: String, @Path("id") id: Int): Call<Request.Properties>
 
     @Headers("Content-type: application/json")
     @GET("requests/")
-    fun getAllRequests(@Header("x-jwt") auth: String): Call<ArrayList<Request.Properties>>
+    fun getAllRequests(@Header("Authorization") auth: String): Call<ArrayList<Request.Properties>>
 }

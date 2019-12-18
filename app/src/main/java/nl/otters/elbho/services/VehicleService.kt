@@ -7,26 +7,26 @@ import retrofit2.http.*
 interface VehicleService {
     @Headers("Content-type: application/json")
     @GET("vehicles")
-    fun getAllVehicles(@Header( "x-jwt") authToken : String?): Call<ArrayList<Vehicle.Car>>
+    fun getAllVehicles(@Header("Authorization") authToken: String?): Call<ArrayList<Vehicle.Car>>
 
     @Headers("Content-type: application/json")
     @GET("vehicles/{id}")
-    fun getVehicle(@Header( "x-jwt") authToken : String?, @Path("id") vehicleId: String): Call<Vehicle.Car>
+    fun getVehicle(@Header("Authorization") authToken: String?, @Path("id") vehicleId: String): Call<Vehicle.Car>
 
     // We should only update the location of the Vehicle
     @Headers("Content-type: application/json")
     @PUT("vehicles/{id}")
-    fun updateVehicle(@Header( "x-jwt") authToken : String?, @Path("id") vehicleId: String): Call<Vehicle.Car>
+    fun updateVehicle(@Header("Authorization") authToken: String?, @Path("id") vehicleId: String): Call<Vehicle.Car>
 
     @Headers("Content-type: application/json")
     @GET("advisors/me/vehicles/claims")
-    fun getAllVehiclesClaims(@Header( "x-jwt") authToken : String?): Call<ArrayList<Vehicle.Reservation>>
+    fun getAllVehiclesClaims(@Header("Authorization") authToken: String?): Call<ArrayList<Vehicle.Reservation>>
 
     @Headers("Content-type: application/json")
     @POST("vehicles/claims")
-    fun createClaim(@Header( "x-jwt") authToken : String?, @Body invoice: Vehicle.CreateReservation): Call<Unit>
+    fun createClaim(@Header("Authorization") authToken: String?, @Body invoice: Vehicle.CreateReservation): Call<Unit>
 
     @Headers("Content-type: application/json")
     @DELETE("vehicles/claims/{id}")
-    fun deleteClaim(@Header( "x-jwt") authToken : String?, @Path("id") claimId: String): Call<Unit>
+    fun deleteClaim(@Header("Authorization") authToken: String?, @Path("id") claimId: String): Call<Unit>
 }
