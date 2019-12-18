@@ -9,17 +9,18 @@ object Adviser {
 
         @SerializedName("_id")
         val id: String,
-        val active: Boolean,
-        val location: String,
-        val permissionLevel: Int,
         val firstName: String,
         val lastName: String,
         val gender: String,
+        val email: String,
         val phoneNumber: String,
+        val active: Boolean,
         val status: String,
+        val location: String,
         val workArea: String,
         val region: String,
-        val email: String,
+        val permissionLevel: Int,
+        val lastPinged: String,
         val createdAt: String,
         val updatedAt: String
     )
