@@ -43,20 +43,20 @@ class LoginActivity : AppCompatActivity() {
         loginButton.isEnabled = false
         val loginCredentials: Adviser.Login =
             Adviser.Login(emailTextInputEdit.text.toString(), passwordTextInputEdit.text.toString())
-        loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
-            //val success: Boolean
-            if (it) {
-                startOverviewActivity()
-            } else {
-                progressBar.isVisible = false
-                loginButton.isEnabled = true
-                Snackbar.make(
-                    container,
-                    R.string.login_snackbar_message_wrongCredentials,
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        })
+//        loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
+//            //val success: Boolean
+//            if (it) {
+//                startOverviewActivity()
+//            } else {
+//                progressBar.isVisible = false
+//                loginButton.isEnabled = true
+//                Snackbar.make(
+//                    container,
+//                    R.string.login_snackbar_message_wrongCredentials,
+//                    Snackbar.LENGTH_SHORT
+//                ).show()
+//            }
+//        })
     }
 
     private fun startOverviewActivity() {

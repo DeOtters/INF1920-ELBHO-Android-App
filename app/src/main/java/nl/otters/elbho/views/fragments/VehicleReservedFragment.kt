@@ -16,7 +16,7 @@ import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.viewModels.VehicleViewModel
 
 class VehicleReservedFragment : DetailFragment() {
-    private lateinit var claim: Vehicle.Claim
+//    private lateinit var claim: Vehicle.Claim
     private val dateParser: DateParser = DateParser()
 
     override fun onCreateView(
@@ -24,7 +24,7 @@ class VehicleReservedFragment : DetailFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        claim = arguments?.getParcelable("KEY_CLAIM")!!
+//        claim = arguments?.getParcelable("KEY_CLAIM")!!
         return inflater.inflate(R.layout.fragment_vehicle_reserved, container, false)
     }
 
@@ -35,7 +35,7 @@ class VehicleReservedFragment : DetailFragment() {
 
         setFieldLabels()
         setFieldIcons()
-        setFieldValues(claim)
+//        setFieldValues(claim)
 
         bottomButton.setOnClickListener {
             showAlert(vehicleViewModel)
@@ -48,7 +48,7 @@ class VehicleReservedFragment : DetailFragment() {
             .setTitle(getString(R.string.vehicle_delete_message))
             .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
 
-                vehicleViewModel.deleteClaim(claim.reservation.id)
+//                vehicleViewModel.deleteClaim(claim.reservation.id)
                 Thread.sleep(500)
                 super.getFragmentManager()?.popBackStack()
 
@@ -72,21 +72,21 @@ class VehicleReservedFragment : DetailFragment() {
         textDisplay_carLocation.icon.setImageResource(R.drawable.ic_directions_orange_24dp)
     }
 
-    private fun setFieldValues(claim: Vehicle.Claim) {
-        textDisplay_carInfo.text = formatCarTitle(
-            claim.car.brand,
-            claim.car.model,
-            claim.car.transmission
-        )
-        textDisplay_carLicensePlate.value.text = claim.car.licensePlate
-        textDisplay_carReservationDate.value.text =
-            dateParser.toFormattedDate(claim.reservation.startDateTime)
-        textDisplay_carReservationTime.value.text = formatTime(
-            dateParser.toFormattedTime(claim.reservation.startDateTime),
-            dateParser.toFormattedTime(claim.reservation.endDateTime)
-        )
-        textDisplay_carLocation.value.text = claim.car.location
-    }
+//    private fun setFieldValues(claim: Vehicle.Claim) {
+//        textDisplay_carInfo.text = formatCarTitle(
+//            claim.car.brand,
+//            claim.car.model,
+//            claim.car.transmission
+//        )
+//        textDisplay_carLicensePlate.value.text = claim.car.licensePlate
+//        textDisplay_carReservationDate.value.text =
+//            dateParser.toFormattedDate(claim.reservation.startDateTime)
+//        textDisplay_carReservationTime.value.text = formatTime(
+//            dateParser.toFormattedTime(claim.reservation.startDateTime),
+//            dateParser.toFormattedTime(claim.reservation.endDateTime)
+//        )
+//        textDisplay_carLocation.value.text = claim.car.location
+//    }
 
     private fun formatCarTitle(brand: String, model: String, transmissionBool: Boolean): String {
         val transmission: String

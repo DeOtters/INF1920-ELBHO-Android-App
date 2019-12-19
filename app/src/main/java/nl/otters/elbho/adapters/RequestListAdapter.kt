@@ -48,18 +48,18 @@ class RequestListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
 
-        holder.titleView.text = item.cocName
-        holder.descriptionView.text = formatDescription(
-            dateParser.toFormattedTime(item.appointmentDatetime),
-            dateParser.toFormattedTime((item.appointmentDatetime)),
-            item.address
-        )
-        holder.dateView.text = dateParser.toFormattedDate(item.appointmentDatetime)
-        holder.dayView.text = dateParser.toFormattedDay(item.appointmentDatetime)
-        holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
-        holder.itemView.setOnClickListener {
-            listener.onItemClick(holder.adapterPosition, it)
-        }
+//        holder.titleView.text = item.cocName
+//        holder.descriptionView.text = formatDescription(
+//            dateParser.toFormattedTime(item.appointmentDatetime),
+//            dateParser.toFormattedTime((item.appointmentDatetime)),
+//            item.address
+//        )
+//        holder.dateView.text = dateParser.toFormattedDate(item.appointmentDatetime)
+//        holder.dayView.text = dateParser.toFormattedDay(item.appointmentDatetime)
+//        holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
+//        holder.itemView.setOnClickListener {
+//            listener.onItemClick(holder.adapterPosition, it)
+//        }
     }
 
     // TODO: endtime

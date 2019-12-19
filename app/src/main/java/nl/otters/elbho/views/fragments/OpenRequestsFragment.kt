@@ -28,11 +28,11 @@ class OpenRequestsFragment : Fragment() {
         val requestRepository = RequestRepository(activity!!.applicationContext)
         val overviewViewModel = OverviewViewModel(requestRepository)
 
-        setupRecyclerView()
-
-        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
-            updateRequestData(it)
-        })
+//        setupRecyclerView()
+//
+//        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
+//            updateRequestData(it)
+//        })
     }
 
     override fun onResume() {

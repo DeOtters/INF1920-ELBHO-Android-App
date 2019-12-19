@@ -44,6 +44,7 @@ class NavigationActivity : AppCompatActivity(),
             startLoginActivity()
         }
 
+        //TODO: huh waarom staat dit hier?
         when (intent?.action) {
             Intent.ACTION_SEND -> {
                 if ("application/pdf" == intent.type) {

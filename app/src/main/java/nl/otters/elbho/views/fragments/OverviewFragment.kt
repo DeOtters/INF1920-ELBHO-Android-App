@@ -36,21 +36,21 @@ class OverviewFragment : BaseFragment() {
         val overviewViewModel = OverviewViewModel(requestRepository)
 
         (activity as NavigationActivity).setProgressBarVisible(true)
-        overviewViewModel.getAllRequests().observe(this, Observer {
-            requests = it
-            (activity as NavigationActivity).setProgressBarVisible(false)
-            tabs.getTabAt(0)!!.orCreateBadge.number = requests.count()
-        })
+//        overviewViewModel.getAllRequests().observe(this, Observer {
+//            requests = it
+//            (activity as NavigationActivity).setProgressBarVisible(false)
+//            tabs.getTabAt(0)!!.orCreateBadge.number = requests.count()
+//        })
 
         super.onActivityCreated(savedInstanceState)
-        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
-        val authToken: String? = sharedPreferences.getValueString("auth-token")
-
-        if (authToken == null) {
-            startLoginActivity()
-        }
-
-        setupViewPager()
+//        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
+//        val authToken: String? = sharedPreferences.getValueString("auth-token")
+//
+//        if (authToken == null) {
+//            startLoginActivity()
+//        }
+//
+//        setupViewPager()
         todayTextView.text = dateParser.getDateToday()
     }
 

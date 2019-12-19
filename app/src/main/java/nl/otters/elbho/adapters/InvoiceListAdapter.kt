@@ -46,7 +46,7 @@ class InvoiceListAdapter(
 
         holder.fileNameView.text = item.fileName
         holder.uploadedDateView.text = context.getString(R.string.invoice_uploaded_on)
-        holder.monthView.text = item.month.substring(0, 3)
+        holder.monthView.text = item.invoiceMonth.substring(0, 3)
         holder.icon.setImageResource(R.drawable.ic_file_download_gray_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)

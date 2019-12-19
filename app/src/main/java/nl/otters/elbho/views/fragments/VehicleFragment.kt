@@ -20,7 +20,7 @@ import nl.otters.elbho.views.activities.LoginActivity
 import nl.otters.elbho.views.activities.NavigationActivity
 
 class VehicleFragment : BaseFragment() {
-    private var vehicleClaimList: ArrayList<Vehicle.Claim> = ArrayList()
+    private var vehicleReservationList: ArrayList<Vehicle.Reservation> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,30 +53,30 @@ class VehicleFragment : BaseFragment() {
 
    private fun setupReservation(vehicleViewModel: VehicleViewModel){
        (activity as NavigationActivity).setProgressBarVisible(true)
-        vehicleViewModel.getAllVehiclesClaims()?.observe(this, Observer {
-            (activity as NavigationActivity).setProgressBarVisible(false)
-            if (it != null) {
-                setupCar(it, vehicleViewModel)
-            }
-        })
+//        vehicleViewModel.getAllVehiclesReservations()?.observe(this, Observer {
+//            (activity as NavigationActivity).setProgressBarVisible(false)
+//            if (it != null) {
+//                setupCar(it, vehicleViewModel)
+//            }
+//        })
     }
 
     // TODO: Use Synchronize to call updateVehicleData once instead for every car
     private fun setupCar(reservation: ArrayList<Vehicle.Reservation>, vehicleViewModel: VehicleViewModel){
-        val newRequests: ArrayList<Vehicle.Claim> = ArrayList()
-        for(claim in reservation) {
+        val newRequests: ArrayList<Vehicle.Reservation> = ArrayList()
+        for(Reservation in reservation) {
             (activity as NavigationActivity).setProgressBarVisible(true)
-            vehicleViewModel.getVehicle(claim.vehicleId)?.observe(this, Observer {
-                (activity as NavigationActivity).setProgressBarVisible(false)
-                newRequests.add(Vehicle.Claim(claim, it))
-                updateVehicleData(newRequests)
-            })
+//            vehicleViewModel.getVehicle(Reservation.vehicleId)?.observe(this, Observer {
+//                (activity as NavigationActivity).setProgressBarVisible(false)
+//                newRequests.add(Vehicle.Reservation(Reservation, it))
+//                updateVehicleData(newRequests)
+//            })
         }
     }
 
-    private fun updateVehicleData(newRequests: ArrayList<Vehicle.Claim>) {
-        vehicleClaimList.clear()
-        vehicleClaimList.addAll(newRequests)
+    private fun updateVehicleData(newRequests: ArrayList<Vehicle.Reservation>) {
+        vehicleReservationList.clear()
+        vehicleReservationList.addAll(newRequests)
         recyclerView.adapter!!.notifyDataSetChanged()
     }
 
@@ -84,11 +84,11 @@ class VehicleFragment : BaseFragment() {
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
         val vehicleListAdapter = VehicleListAdapter(
             activity!!.applicationContext,
-            vehicleClaimList,
+            vehicleReservationList,
             object : VehicleListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
                     val bundle = Bundle()
-                    bundle.putParcelable("KEY_CLAIM", vehicleClaimList[position])
+                    bundle.putParcelable("KEY_Reservation", vehicleReservationList[position])
                     findNavController().navigate(R.id.action_global_vehicleReservedFragment, bundle)
                 }
             })

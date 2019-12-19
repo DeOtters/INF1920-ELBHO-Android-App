@@ -52,7 +52,7 @@ class VehicleReservationFragment : DetailFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val vehicleRepository = VehicleRepository(activity!!.applicationContext)
-        val vehicleViewModel = VehicleViewModel(vehicleRepository)
+//        val vehicleViewModel = VehicleViewModel(vehicleRepository)
 
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
@@ -60,13 +60,13 @@ class VehicleReservationFragment : DetailFragment() {
         if (authToken == null){
             startLoginActivity()
         }
+//
+//        vehicleViewModel.getAllVehicles()?.observe(this, androidx.lifecycle.Observer {
+//            vehicleCarList.addAll(it)
+//            setupRecyclerView(vehicleViewModel)
+//        })
 
-        vehicleViewModel.getAllVehicles()?.observe(this, androidx.lifecycle.Observer {
-            vehicleCarList.addAll(it)
-            setupRecyclerView(vehicleViewModel)
-        })
-
-        setupDateComponents(vehicleViewModel)
+//        setupDateComponents(vehicleViewModel)
     }
 
     private fun setupDateComponents(vehicleViewModel: VehicleViewModel) {
@@ -157,17 +157,18 @@ class VehicleReservationFragment : DetailFragment() {
                             .setMessage(formatAlertDialog(
                                 brand = car.brand,
                                 model = car.model,
-                                transmissionBool = car.transmission,
+//                                transmissionBool = car.transmission,
+                                transmissionBool = true,
                                 date = reservationDate,
                                 startTime = startReservationTime,
                                 endTime = endReservationTime))
                             .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
 
-                                vehicleViewModel.createClaim(Vehicle.CreateReservation(
-                                    vehicleId = carId,
-                                    advisorId = adviserId,
-                                    startDateTime = fromTime,
-                                    endDateTime = toTime))
+//                                vehicleViewModel.createClaim(Vehicle.CreateReservation(
+//                                    vehicleId = carId,
+//                                    advisorId = adviserId,
+//                                    startDateTime = fromTime,
+//                                    endDateTime = toTime))
                                 Thread.sleep(500)
                                 findNavController().navigate(R.id.action_global_vehicleFragment)
 

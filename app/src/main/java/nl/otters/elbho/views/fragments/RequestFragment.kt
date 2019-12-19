@@ -35,10 +35,10 @@ class RequestFragment : DetailFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setFieldLabels()
-        setFieldIcons()
-        setFieldValues(request)
-        setButtonListeners(request)
-        setPrimaryButtons(arguments?.getString("KEY_APP_TITLE")!!)
+//        setFieldIcons()
+//        setFieldValues(request)
+//        setButtonListeners(request)
+//        setPrimaryButtons(arguments?.getString("KEY_APP_TITLE")!!)
         vehicleLocationProvider =
             VehicleLocationProvider.getInstance(this.requireActivity(), this.requireContext())
     }
@@ -74,19 +74,19 @@ class RequestFragment : DetailFragment() {
         textDisplay_address.icon.setImageResource(R.drawable.ic_directions_orange_24dp)
     }
 
-    private fun setFieldValues(request: Request.Properties) {
-        textDisplay_address.value.text = request.address
-        textDisplay_appointmentDate.value.text =
-            dateParser.toFormattedDate(request.appointmentDatetime)
-        textDisplay_appointmentTime.value.text =
-            dateParser.toFormattedTime(request.appointmentDatetime)
-        textDisplay_cocName.value.text = request.cocName
-        textDisplay_comment.value.text = request.comment
-        textDisplay_contactPersonEmail.value.text = request.website
-        textDisplay_contactPersonFunction.value.text = request.contactPersonFunction
-        textDisplay_contactPersonName.value.text = request.contactPersonName
-        textDisplay_contactPersonPhoneNumber.value.text = request.phoneNumber
-    }
+//    private fun setFieldValues(request: Request.Properties) {
+//        textDisplay_address.value.text = request.address
+//        textDisplay_appointmentDate.value.text =
+//            dateParser.toFormattedDate(request.appointmentDatetime)
+//        textDisplay_appointmentTime.value.text =
+//            dateParser.toFormattedTime(request.appointmentDatetime)
+//        textDisplay_cocName.value.text = request.cocName
+//        textDisplay_comment.value.text = request.comment
+//        textDisplay_contactPersonEmail.value.text = request.website
+//        textDisplay_contactPersonFunction.value.text = request.contactPersonFunction
+//        textDisplay_contactPersonName.value.text = request.contactPersonName
+//        textDisplay_contactPersonPhoneNumber.value.text = request.phoneNumber
+//    }
 
     private fun setButtonListeners(request: Request.Properties) {
         textDisplay_contactPersonEmail.icon.setOnClickListener {
@@ -101,8 +101,8 @@ class RequestFragment : DetailFragment() {
         }
 
         textDisplay_contactPersonPhoneNumber.icon.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.phoneNumber))
-            startActivity(intent)
+//            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.phoneNumber))
+//            startActivity(intent)
         }
 
         // https://developers.google.com/maps/documentation/urls/android-intents

@@ -49,10 +49,11 @@ class VehicleCarListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val car = vehicleCarList[position]
 
-        holder.titleView.text = formatCarTitle(
-            car.brand,
-            car.model,
-            car.transmission)
+//        holder.titleView.text = formatCarTitle(
+//            car.brand,
+//            car.model,
+//            car.transmission
+//        )
 
         if(reservationStartdate.equals(" ") && reservationEndDate.equals(" ")){
             holder.descriptionView.text = formatDescription(

@@ -39,14 +39,14 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
 
         setupCalendar()
         (activity as NavigationActivity).setProgressBarVisible(true)
-        availabilityViewModel.getAllAvailabilities()?.observe(this, Observer {
-            availability = it
-            for (timeSlot in it){
-                //Here we add the ui for a available day from database
-                calendarView.addDecorator(AvailableDayDecorator(timeSlot.startDateTime))
-                (activity as NavigationActivity).setProgressBarVisible(false)
-            }
-        })
+//        availabilityViewModel.getAllAvailabilities()?.observe(this, Observer {
+//            availability = it
+//            for (timeSlot in it){
+//                //Here we add the ui for a available day from database
+//                calendarView.addDecorator(AvailableDayDecorator(timeSlot.startDateTime))
+//                (activity as NavigationActivity).setProgressBarVisible(false)
+//            }
+//        })
     }
 
     override fun onResume() {

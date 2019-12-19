@@ -37,16 +37,16 @@ class InvoiceFragment : BaseFragment() {
         setupButtonListener()
 
         invoices.clear()
-        invoices.add(
-            Invoice.File(
-                id = 1,
-                adviserId = "fff",
-                month = "OKTOBER",
-                fileName = "Factuur van oktober.pdf",
-                filePath = "/troep/",
-                document = "Random string"
-            )
-        )
+//        invoices.add(
+//            Invoice.File(
+//                id = 1,
+//                adviserId = "fff",
+//                month = "OKTOBER",
+//                fileName = "Factuur van oktober.pdf",
+//                filePath = "/troep/",
+//                document = "Random string"
+//            )
+//        )
 
         (activity as NavigationActivity).setProgressBarVisible(true)
         invoicesViewModel.getAllInvoices()?.observe(this, Observer {
