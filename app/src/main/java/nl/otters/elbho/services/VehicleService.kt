@@ -17,7 +17,7 @@ interface VehicleService {
 
     @Headers("Content-type: application/json")
     @GET("/auth/reservation/me")
-    fun getAllVehicleReservationsByAdviser(@Header("Authorization") auth: String, @Body after: String): Call<ArrayList<Vehicle.Reservation>>
+    fun getAllVehicleReservationsByAdviser(@Header("Authorization") auth: String, @Body after: String?): Call<ArrayList<Vehicle.Reservation>>
 
     @Headers("Content-type: application/json")
     @POST("/auth/reservation")

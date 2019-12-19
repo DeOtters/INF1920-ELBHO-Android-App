@@ -15,28 +15,6 @@ import retrofit2.Response
 class RequestRepository(private val context: Context) {
     private val requestService = RetrofitFactory.get().create(RequestService::class.java)
 
-    fun getRequest(id: Int): LiveData<Request.Properties> {
-        val request = MutableLiveData<Request.Properties>()
-        requestService.getRequest(getAuthToken(), id).enqueue(object : Callback<Request.Properties> {
-            override fun onResponse(
-                call: Call<Request.Properties>,
-                response: Response<Request.Properties>
-            ) {
-                if (response.isSuccessful && response.body() != null){
-                    request.value = response.body()
-                }else{
-                    Log.e("HTTP: ", "Could not fetch data, id doesn't exist?")
-                }
-            }
-
-            override fun onFailure(call: Call<Request.Properties>, t: Throwable) {
-                //TODO: implement error handling
-                //TODO: with current api state, show message like: couldn't establish network connection
-                Log.e("HTTP: ", "Could not fetch data" , t)
-            }
-        })
-        return request
-    }
     fun getAllRequests(): LiveData<ArrayList<Request.Properties>> {
         val requests = MutableLiveData<ArrayList<Request.Properties>>()
         requestService.getAllRequests(getAuthToken()).enqueue(object : Callback<ArrayList<Request.Properties>> {
@@ -46,10 +24,6 @@ class RequestRepository(private val context: Context) {
             ) {
                 if (response.isSuccessful && response.body() != null){
                     requests.value = response.body()
-                }else{
-                    Log.e("Authtoken at getALl", getAuthToken())
-                    Log.e("HTTP: ", "Could not fetch data, no authtoken?")
-                    Log.e("response ", response.body().toString())
                 }
             }
 
@@ -60,6 +34,26 @@ class RequestRepository(private val context: Context) {
             }
         })
         return requests
+    }
+
+    fun respondToRequest(appointmentId: String, accept: Boolean){
+        val requests = MutableLiveData<ArrayList<Request.Properties>>()
+        requestService.respondToRequest(getAuthToken(),appointmentId, accept).enqueue(object : Callback<Unit> {
+            override fun onResponse(
+                call: Call<Unit>,
+                response: Response<Unit>
+            ) {
+                if (response.isSuccessful && response.body() != null){
+                    // TODO: not implemented
+                }
+            }
+
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+                //TODO: implement error handling
+                //TODO: with current api state, show message like: couldn't establish network connection
+                Log.e("HTTP: ", "Could not fetch data" , t)
+            }
+        })
     }
 
     private fun getAuthToken(): String {

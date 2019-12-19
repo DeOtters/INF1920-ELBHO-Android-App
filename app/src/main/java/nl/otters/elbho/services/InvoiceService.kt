@@ -8,9 +8,9 @@ interface InvoiceService {
 
     @Headers("Content-type: application/json")
     @GET("auth/invoice/me")
-    fun getInvoices(@Header("Authorization") auth: String): Call<ArrayList<Invoice.File>>
+    fun getAllInvoices(@Header("Authorization") auth: String): Call<ArrayList<Invoice.File>>
 
     @Headers("Content-type: application/json")
     @POST("/invoices")
-    fun createInvoice(@Header("Authorization") auth: String, @Body date: String, @Body file: String): Call<Unit>
+    fun createInvoice(@Header("Authorization") auth: String, @Body properties: Invoice.CreationProperties): Call<Unit>
 }

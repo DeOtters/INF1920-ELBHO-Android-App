@@ -19,7 +19,7 @@ object Availability {
     ): Parcelable
 
     data class TimePeriod (
-        val before: String,
-        val after: String
+        val before: String?,
+        val after: String?
     )
 }

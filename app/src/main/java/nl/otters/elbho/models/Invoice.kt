@@ -16,4 +16,9 @@ object Invoice {
         val createdAt: String,
         val updatedAt: String
     )
+    // TODO: DIS-GUIS-TING, could somejuan please come up with a better name
+    data class CreationProperties(
+        val date: String,
+        val file: String
+    )
 }
