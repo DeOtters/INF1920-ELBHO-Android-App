@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 object Appointment {
 
     data class Properties(
-
         @SerializedName("_id")
         val id: String,
         val startTime: String,
@@ -24,5 +23,13 @@ object Appointment {
         val adviser: String,
         val createdAt: String,
         val updatedAt: String
+    )
+
+// TODO: Could somejuan please come up with a better name?
+    data class Options(
+    val page: Number?,
+    val limit: Number?,
+    val before: String?,
+    val after: String?
     )
 }

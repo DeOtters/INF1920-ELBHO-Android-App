@@ -17,4 +17,9 @@ object Availability {
         val createdAt: String,
         val updatedAt: String
     ): Parcelable
+
+    data class TimePeriod (
+        val before: String,
+        val after: String
+    )
 }

@@ -42,4 +42,16 @@ object Vehicle {
         val start: String,
         val end: String
     )
+
+    data class CarOptions(
+
+        val page: Number?,
+        val limit: Number?
+    )
+
+    data class ReservationOptions(
+
+        val date: String?,
+        val after: String?
+    )
 }

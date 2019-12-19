@@ -5,28 +5,25 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface VehicleService {
+    // VEHICLES
     @Headers("Content-type: application/json")
-    @GET("vehicles")
-    fun getAllVehicles(@Header("Authorization") authToken: String?): Call<ArrayList<Vehicle.Car>>
+    @GET("/auth/vehicle")
+    fun getAllVehicles(@Header("Authorization") auth: String, @Body options: Vehicle.CarOptions?): Call<ArrayList<Vehicle.Car>>
+
+    // VEHICLE RESERVATIONS
+    @Headers("Content-type: application/json")
+    @GET("/auth/reservation")
+    fun getAllVehicleReservations(@Header("Authorization") auth: String, @Body options: Vehicle.ReservationOptions?): Call<ArrayList<Vehicle.Reservation>>
 
     @Headers("Content-type: application/json")
-    @GET("vehicles/{id}")
-    fun getVehicle(@Header("Authorization") authToken: String?, @Path("id") vehicleId: String): Call<Vehicle.Car>
-
-    // We should only update the location of the Vehicle
-    @Headers("Content-type: application/json")
-    @PUT("vehicles/{id}")
-    fun updateVehicle(@Header("Authorization") authToken: String?, @Path("id") vehicleId: String): Call<Vehicle.Car>
+    @GET("/auth/reservation/me")
+    fun getAllVehicleReservationsByAdviser(@Header("Authorization") auth: String, @Body after: String): Call<ArrayList<Vehicle.Reservation>>
 
     @Headers("Content-type: application/json")
-    @GET("advisors/me/vehicles/claims")
-    fun getAllVehiclesClaims(@Header("Authorization") authToken: String?): Call<ArrayList<Vehicle.Reservation>>
+    @POST("/auth/reservation")
+    fun createVehicleReservation(@Header("Authorization") auth: String, @Body vehicle: Vehicle.Reservation): Call<Unit>
 
     @Headers("Content-type: application/json")
-    @POST("vehicles/claims")
-    fun createClaim(@Header("Authorization") authToken: String?, @Body invoice: Vehicle.CreateReservation): Call<Unit>
-
-    @Headers("Content-type: application/json")
-    @DELETE("vehicles/claims/{id}")
-    fun deleteClaim(@Header("Authorization") authToken: String?, @Path("id") claimId: String): Call<Unit>
+    @DELETE("/auth/reservation/{reservationId}")
+    fun removeVehicleReservation(@Header("Authorization") auth: String, @Body reservationId: String): Call<Unit>
 }
