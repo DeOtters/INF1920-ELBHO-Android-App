@@ -1,6 +1,7 @@
 package nl.otters.elbho.views.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,11 +29,13 @@ class OpenRequestsFragment : Fragment() {
         val requestRepository = RequestRepository(activity!!.applicationContext)
         val overviewViewModel = OverviewViewModel(requestRepository)
 
-//        setupRecyclerView()
-//
-//        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
-//            updateRequestData(it)
-//        })
+        setupRecyclerView()
+        Log.e("test", "test")
+
+        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
+            Log.e("it", it.toString())
+            updateRequestData(it)
+        })
     }
 
     override fun onResume() {
