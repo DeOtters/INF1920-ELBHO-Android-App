@@ -7,7 +7,8 @@ import retrofit2.http.*
 interface AvailabilityService {
     @Headers("Content-type: application/json")
     @GET("auth/availability/me")
-    fun getAvailabilities(@Header("Authorization") auth: String, @Body timePeriod: Availability.TimePeriod? ): Call<ArrayList<Availability.Slot>>
+//    fun getAvailabilities(@Header("Authorization") auth: String, @Body timePeriod: Availability.TimePeriod? ): Call<ArrayList<Availability.Slot>>
+    fun getAvailabilities(@Header("Authorization") auth: String, @Query("before") before: String?, @Query("after") after: String?): Call<ArrayList<Availability.Slot>>
 
     @Headers("Content-type: application/json")
     @POST("auth/availability")
