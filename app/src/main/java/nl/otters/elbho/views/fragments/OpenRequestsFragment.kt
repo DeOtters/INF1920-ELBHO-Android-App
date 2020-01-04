@@ -30,10 +30,8 @@ class OpenRequestsFragment : Fragment() {
         val overviewViewModel = OverviewViewModel(requestRepository)
 
         setupRecyclerView()
-        Log.e("test", "test")
 
         overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
-            Log.e("it", it.toString())
             updateRequestData(it)
         })
     }

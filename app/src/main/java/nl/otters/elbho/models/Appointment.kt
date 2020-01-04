@@ -16,7 +16,7 @@ object Appointment {
         val contactPersonEmail: String,
         val active: String,
         val website: String,
-        val logo: Int,
+        val logo: String,
         val cocNumber: String,
         val cocName: String,
         @SerializedName("advisor")
