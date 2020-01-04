@@ -30,9 +30,9 @@ class DoneRequestsFragment : Fragment() {
 
         setupRecyclerView()
 
-        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
-            updateRequestData(it)
-        })
+//        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
+//            updateRequestData(it)
+//        })
     }
 
     override fun onResume() {

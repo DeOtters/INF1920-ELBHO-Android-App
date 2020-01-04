@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.material.snackbar.Snackbar
-import nl.otters.elbho.R
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.services.AdviserService
@@ -27,7 +25,7 @@ class AdviserRepository(private val context: Context) {
                 if (response.isSuccessful && response.body() != null){
                     val authentication: Adviser.Authentication? = response.body()
                     val sharedPreferences = SharedPreferences(context)
-                    sharedPreferences.save("auth-token", authentication!!.authToken)
+                    sharedPreferences.save("auth-token", authentication!!.token)
                     success.value = true
                 }else{
                     success.value = false
@@ -45,15 +43,15 @@ class AdviserRepository(private val context: Context) {
         return success
     }
 
-    fun getAdvisor() : LiveData<Adviser.Properties> {
+    fun getAdviser(): LiveData<Adviser.Properties> {
         val adviser = MutableLiveData<Adviser.Properties>()
         adviserService.getAdviser(getAuthToken()).enqueue(object : Callback<Adviser.Properties> {
 
             override fun onResponse(call: Call<Adviser.Properties>, response: Response<Adviser.Properties>) {
-                val loggedInAdviser: Adviser.Properties? = response.body()
-                val sharedPreferences = SharedPreferences(context)
-                sharedPreferences.save("adviser-id", loggedInAdviser!!.id)
-                adviser.value = response.body()
+//                val loggedInAdviser: Adviser.Properties? = response.body()
+//                val sharedPreferences = SharedPreferences(context)
+//                sharedPreferences.save("adviser-id", loggedInAdviser!!.id)
+//                adviser.value = response.body()
             }
 
             override fun onFailure(call: Call<Adviser.Properties>, t: Throwable) {
@@ -66,6 +64,6 @@ class AdviserRepository(private val context: Context) {
 
     private fun getAuthToken(): String {
         val sharedPreferences = SharedPreferences(context)
-        return sharedPreferences.getValueString("auth-token") ?: ""
+        return "Bearer " + (sharedPreferences.getValueString("auth-token") ?: "")
     }
 }

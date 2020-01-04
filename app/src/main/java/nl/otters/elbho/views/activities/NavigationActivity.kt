@@ -31,7 +31,7 @@ class NavigationActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = SharedPreferences(this)
-        val adviser = adviserRepository.getAdvisor()
+        val adviser = adviserRepository.getAdviser()
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_navigation)
@@ -44,6 +44,7 @@ class NavigationActivity : AppCompatActivity(),
             startLoginActivity()
         }
 
+        //TODO: huh waarom staat dit hier?
         when (intent?.action) {
             Intent.ACTION_SEND -> {
                 if ("application/pdf" == intent.type) {

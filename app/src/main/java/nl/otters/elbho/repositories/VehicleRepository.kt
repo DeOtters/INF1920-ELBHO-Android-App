@@ -15,10 +15,10 @@ import retrofit2.Response
 class VehicleRepository (private val context: Context) {
     private val vehicleService: VehicleService = RetrofitFactory.get().create(VehicleService::class.java)
 
-    fun getAllVehicles(): LiveData<ArrayList<Vehicle.Car>> {
+    fun getAllVehicles(options: Vehicle.CarOptions?): LiveData<ArrayList<Vehicle.Car>> {
         val vehicles: MutableLiveData<ArrayList<Vehicle.Car>> = MutableLiveData()
 
-        vehicleService.getAllVehicles(getAuthToken()).enqueue(object : Callback<ArrayList<Vehicle.Car>> {
+        vehicleService.getAllVehicles(getAuthToken(), options).enqueue(object : Callback<ArrayList<Vehicle.Car>> {
             override fun onResponse(
                 call: Call<ArrayList<Vehicle.Car>>,
                 response: Response<ArrayList<Vehicle.Car>>
@@ -36,47 +36,16 @@ class VehicleRepository (private val context: Context) {
         return vehicles
     }
 
-    fun getVehicle(vehicleId: String): LiveData<Vehicle.Car>{
-        val vehicle: MutableLiveData<Vehicle.Car> = MutableLiveData()
+    fun getAllVehicleReservations(options: Vehicle.ReservationOptions?): LiveData<ArrayList<Vehicle.Reservation>> {
+        val vehicleReservations: MutableLiveData<ArrayList<Vehicle.Reservation>> = MutableLiveData()
 
-        vehicleService.getVehicle(getAuthToken(), vehicleId).enqueue(object : Callback<Vehicle.Car> {
-            override fun onResponse(call: Call<Vehicle.Car>, response: Response<Vehicle.Car>) {
-                if (response.message() == "OK"  && response.body() != null){
-                    vehicle.value = response.body()!!
-                    Log.e("vehicle", response.body().toString())
-                }
-            }
-
-            override fun onFailure(call: Call<Vehicle.Car>, t: Throwable) {
-                Log.e("HTTP Vehicle: ", "Could not fetch Vehicle data" , t)
-            }
-        })
-        return vehicle
-    }
-
-    // We should only update the location of the Vehicle
-    fun updateVehicle(vehicleId: String, vehicle: Vehicle){
-        vehicleService.updateVehicle(getAuthToken(), vehicleId).enqueue(object : Callback<Vehicle.Car> {
-            override fun onResponse(call: Call<Vehicle.Car>, response: Response<Vehicle.Car>) {
-                //TODO: Not implemented
-            }
-
-            override fun onFailure(call: Call<Vehicle.Car>, t: Throwable) {
-                Log.e("HTTP Vehicle: ", "Could not update Vehicle data" , t)
-            }
-        })
-    }
-
-    fun getAllVehicleClaims(): LiveData<ArrayList<Vehicle.Reservation>> {
-        val reservedVehicles: MutableLiveData<ArrayList<Vehicle.Reservation>> = MutableLiveData()
-
-        vehicleService.getAllVehiclesClaims(getAuthToken()).enqueue(object : Callback<ArrayList<Vehicle.Reservation>> {
+        vehicleService.getAllVehicleReservations(getAuthToken(), options).enqueue(object : Callback<ArrayList<Vehicle.Reservation>> {
             override fun onResponse(
                 call: Call<ArrayList<Vehicle.Reservation>>,
                 response: Response<ArrayList<Vehicle.Reservation>>
             ) {
                 if (response.message() == "OK" && response.body() != null){
-                    reservedVehicles.value = response.body()!!
+                    vehicleReservations.value = response.body()!!
                 }
             }
 
@@ -85,36 +54,68 @@ class VehicleRepository (private val context: Context) {
                 Log.e("HTTP Vehicles: ", "Could not fetch data" , t)
             }
         })
-        return reservedVehicles
+        return vehicleReservations
     }
 
-    fun createClaim(reservation: Vehicle.CreateReservation) {
-        vehicleService.createClaim(getAuthToken(), reservation).enqueue(object : Callback<Unit> {
+    fun getAllVehicleReservationsByAdviser(after: String?): LiveData<ArrayList<Vehicle.Reservation>> {
+        val vehicleReservations: MutableLiveData<ArrayList<Vehicle.Reservation>> = MutableLiveData()
+
+        vehicleService.getAllVehicleReservationsByAdviser(getAuthToken(), after).enqueue(object : Callback<ArrayList<Vehicle.Reservation>> {
+            override fun onResponse(
+                call: Call<ArrayList<Vehicle.Reservation>>,
+                response: Response<ArrayList<Vehicle.Reservation>>
+            ) {
+                if (response.message() == "OK" && response.body() != null){
+                    vehicleReservations.value = response.body()!!
+                }
+            }
+
+            override fun onFailure(call: Call<ArrayList<Vehicle.Reservation>>, t: Throwable) {
+                //TODO: implement error handling
+                Log.e("HTTP Vehicles: ", "Could not fetch data" , t)
+            }
+        })
+        return vehicleReservations
+    }
+
+    fun createVehicleReservation(vehicleReservation: Vehicle.Reservation){
+        vehicleService.createVehicleReservation(getAuthToken(), vehicleReservation).enqueue(object : Callback<Unit> {
+            override fun onResponse(
+                call: Call<Unit>,
+                response: Response<Unit>
+            ) {
+                if (response.message() == "OK" && response.body() != null){
+                    //TODO: not implemented
+                }
+            }
+
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                // TODO: not implemented
+                //TODO: implement error handling
+                Log.e("HTTP Vehicles: ", "Could not fetch data" , t)
             }
-
-            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                // TODO: not implemented
-            }
-
         })
     }
 
-    fun deleteClaim(claimId: String) {
-        vehicleService.deleteClaim(getAuthToken(), claimId).enqueue(object : Callback<Unit> {
-            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                // TODO: not implemented
+    fun removeVehicleReservation(vehicleReservationId: String){
+        vehicleService.removeVehicleReservation(getAuthToken(), vehicleReservationId).enqueue(object : Callback<Unit> {
+            override fun onResponse(
+                call: Call<Unit>,
+                response: Response<Unit>
+            ) {
+                if (response.message() == "OK" && response.body() != null){
+                    //TODO: not implemented
+                }
             }
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
-                // TODO: not implemented
+                //TODO: implement error handling
+                Log.e("HTTP Vehicles: ", "Could not fetch data" , t)
             }
         })
     }
 
     private fun getAuthToken(): String {
         val sharedPreferences = SharedPreferences(context)
-        return sharedPreferences.getValueString("auth-token") ?: ""
+        return "Bearer " + (sharedPreferences.getValueString("auth-token") ?: "")
     }
 }

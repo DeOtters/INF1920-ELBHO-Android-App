@@ -5,14 +5,20 @@ import com.google.gson.annotations.SerializedName
 object Invoice {
 
     data class File(
+        @SerializedName("_id")
         val id: Int,
-        @SerializedName("advisorId")
+        @SerializedName("advisor")
         val adviserId: String,
-        val month: String,
         val fileName: String,
+        val date: String,
         val filePath: String,
-        //TODO: Find out how to parse base64 encoded string to pdf-file
-        @SerializedName("base64EncodedPdf")
-        val document: String
+        val invoiceMonth: String,
+        val createdAt: String,
+        val updatedAt: String
+    )
+    // TODO: DIS-GUIS-TING, could somejuan please come up with a better name
+    data class CreationProperties(
+        val date: String,
+        val file: String
     )
 }

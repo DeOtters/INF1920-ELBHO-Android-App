@@ -6,22 +6,10 @@ import retrofit2.http.*
 
 interface AvailabilityService {
     @Headers("Content-type: application/json")
-    @GET("advisor/me/availabilities")
-    fun getAllAvailabilities(@Header("x-jwt") auth: String): Call<ArrayList<Availability.Slot>>
+    @GET("auth/availability/me")
+    fun getAvailabilities(@Header("Authorization") auth: String, @Body timePeriod: Availability.TimePeriod? ): Call<ArrayList<Availability.Slot>>
 
     @Headers("Content-type: application/json")
-    @GET("/availabilities/{id}")
-    fun getAvailability(@Header("x-jwt") auth: String, @Path("id") id: Int): Call<Availability>
-
-    @Headers("Content-type: application/json")
-    @POST("/availabilities")
-    fun createAvailability(@Header("x-jwt") auth: String, @Body availability: Availability): Call<Unit>
-
-    @Headers("Content-type: application/json")
-    @PUT("/availabilities/{id}")
-    fun updateAvailability(@Header("x-jwt") auth: String, @Path("id") id: Int, @Body availability: Availability): Call<Unit>
-
-    @Headers("Content-type: application/json")
-    @PUT("/availabilities/{id}")
-    fun deleteAvailability(@Header("x-jwt") auth: String, @Path("id") id: Int): Call<Unit>
+    @POST("auth/availability")
+    fun createAvailability(@Header("Authorization") auth: String, @Body availability: Availability.Slot): Call<Unit>
 }

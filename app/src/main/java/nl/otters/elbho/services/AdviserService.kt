@@ -7,10 +7,10 @@ import retrofit2.http.*
 interface AdviserService {
 
     @Headers("Content-type: application/json")
-    @POST("advisor/login")
+    @POST("login")
     fun login(@Body loginCredentials: Adviser.Login): Call<Adviser.Authentication>
 
     @Headers("Content-type: application/json")
-    @GET("advisors/me")
-    fun getAdviser(@Header("x-jwt") auth: String): Call<Adviser.Properties>
+    @GET("auth/advisor/me")
+    fun getAdviser(@Header("Authorization") auth: String): Call<Adviser.Properties>
 }

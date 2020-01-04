@@ -9,40 +9,49 @@ object Vehicle {
     @Parcelize
     data class Car(
 
+        @SerializedName("_id")
         val id: String,
-        @SerializedName("licenseplate")
         val licensePlate: String,
         val brand: String,
         val model: String,
-        val transmission: Boolean,
-        val color: String,
+        val transmission: String,
         val location: String,
-        val picture: String
-    ): Parcelable
+        val image: String,
+        val createdAt: String,
+        val updatedAt: String
+    ) : Parcelable
 
     @Parcelize
     data class Reservation(
 
+        @SerializedName("_id")
         val id: String,
-        val vehicleId: String,
-        val advisorId: String,
-        val requestId: String,
-        val startDateTime: String,
-        val endDateTime: String
-    ): Parcelable
+        val vehicle: Car,
+        @SerializedName("advisor")
+        val adviser: String,
+        val start: String,
+        val end: String,
+        val createdAt: String,
+        val updatedAt: String
+    ) : Parcelable
 
     data class CreateReservation(
 
-        val vehicleId: String,
-        val advisorId: String?,
-        val startDateTime: String,
-        val endDateTime: String
+        val vehicle: String,
+        val date: String,
+        val start: String,
+        val end: String
     )
 
-    @Parcelize
-    data class Claim(
+    data class CarOptions(
 
-        val reservation: Reservation,
-        val car: Car
-    ): Parcelable
+        val page: Number?,
+        val limit: Number?
+    )
+
+    data class ReservationOptions(
+
+        val date: String?,
+        val after: String?
+    )
 }

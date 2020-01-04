@@ -77,15 +77,15 @@ class RequestFragment : DetailFragment() {
     private fun setFieldValues(request: Request.Properties) {
         textDisplay_address.value.text = request.address
         textDisplay_appointmentDate.value.text =
-            dateParser.toFormattedDate(request.appointmentDatetime)
+            dateParser.toFormattedDate(request.startTime)
         textDisplay_appointmentTime.value.text =
-            dateParser.toFormattedTime(request.appointmentDatetime)
+            dateParser.toFormattedTime(request.endTime)
         textDisplay_cocName.value.text = request.cocName
         textDisplay_comment.value.text = request.comment
-        textDisplay_contactPersonEmail.value.text = request.website
+        textDisplay_contactPersonEmail.value.text = request.contactPersonEmail
         textDisplay_contactPersonFunction.value.text = request.contactPersonFunction
         textDisplay_contactPersonName.value.text = request.contactPersonName
-        textDisplay_contactPersonPhoneNumber.value.text = request.phoneNumber
+        textDisplay_contactPersonPhoneNumber.value.text = request.contactPersonPhoneNumber
     }
 
     private fun setButtonListeners(request: Request.Properties) {
@@ -101,7 +101,7 @@ class RequestFragment : DetailFragment() {
         }
 
         textDisplay_contactPersonPhoneNumber.icon.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.phoneNumber))
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.contactPersonPhoneNumber))
             startActivity(intent)
         }
 

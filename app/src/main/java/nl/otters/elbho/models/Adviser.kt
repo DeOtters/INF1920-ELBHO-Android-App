@@ -7,50 +7,29 @@ object Adviser {
 
     data class Properties(
 
+        @SerializedName("_id")
         val id: String,
-        @SerializedName("firstname")
         val firstName: String,
-        @SerializedName("lastname")
         val lastName: String,
-        val email: String,
-        val password: String,
         val gender: String,
-        @SerializedName("phonenumber")
+        val email: String,
         val phoneNumber: String,
-        val active: String,
+        val active: Boolean,
         val status: String,
         val location: String,
-        @SerializedName("workarea")
         val workArea: String,
-        val region: String
-    )
-
-    //TODO: Change to coordinates
-    data class Location(
-
-        val location: String
-    )
-
-    data class Status(
-
-        val status: String
+        val region: String,
+        val permissionLevel: Int,
+        val lastPinged: String,
+        val createdAt: String,
+        val updatedAt: String
     )
 
     data class Authentication(
-
-        @SerializedName("Jwt")
-        val authToken: String,
-        @SerializedName("advisor-id")
-        val adviserId: Int
-    )
-
-    data class ErrorMessage(
-
-        val message: String
+        val token: String
     )
 
     data class Login(
-
         val email: String,
         val password: String
     )

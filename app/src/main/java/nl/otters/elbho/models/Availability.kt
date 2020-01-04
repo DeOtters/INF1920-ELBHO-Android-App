@@ -7,14 +7,19 @@ import kotlinx.android.parcel.Parcelize
 object Availability {
     @Parcelize
     data class Slot (
+        @SerializedName("_id")
         val id: String,
-        @SerializedName("advisorGuid")
+        @SerializedName("advisor")
         val adviserId: String,
-        @SerializedName("startdatetime")
-        val startDateTime: String,
-        @SerializedName("enddatetime")
-        val endDateTime: String,
-        val createdDate: String,
-        val modifiedDate: String
+        val date: String,
+        val start: String,
+        val end: String,
+        val createdAt: String,
+        val updatedAt: String
     ): Parcelable
+
+    data class TimePeriod (
+        val before: String?,
+        val after: String?
+    )
 }

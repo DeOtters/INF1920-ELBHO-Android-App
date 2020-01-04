@@ -8,7 +8,7 @@ class RetrofitFactory {
         fun get(): Retrofit {
             return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://582082bastolen.azurewebsites.net/api/")
+                .baseUrl("https://bt-elbho-api.herokuapp.com/")
                 .build()
         }
     }

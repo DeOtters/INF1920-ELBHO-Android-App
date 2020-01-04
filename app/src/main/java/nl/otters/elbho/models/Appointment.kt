@@ -1,11 +1,8 @@
 package nl.otters.elbho.models
-
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-object Request {
-    @Parcelize
+object Appointment {
+
     data class Properties(
         @SerializedName("_id")
         val id: String,
@@ -22,21 +19,17 @@ object Request {
         val logo: String,
         val cocNumber: String,
         val cocName: String,
-//        @SerializedName("advisor")
-//        val adviser: String,
+        @SerializedName("advisor")
+        val adviser: String,
         val createdAt: String,
         val updatedAt: String
-    ) : Parcelable
-//    data class Properties(
-//        val _id: String,
-//        val appointment: String,
-//        val accepted: Boolean,
-//        @SerializedName("currentAdvisorIndex")
-//        val currentAdviserIndex: Number,
-//        @SerializedName("currentAdvisor")
-//        val currentAdviser: String,
-//        @SerializedName("advisors")
-//        val advisers: ArrayList<String>,
-//        val createdAt: String,
-//        val updatedAt: String) : Parcelable
+    )
+
+// TODO: Could somejuan please come up with a better name?
+    data class Options(
+    val page: Number?,
+    val limit: Number?,
+    val before: String?,
+    val after: String?
+    )
 }

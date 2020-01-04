@@ -50,27 +50,27 @@ class RequestListAdapter(
 
         holder.titleView.text = item.cocName
         holder.descriptionView.text = formatDescription(
-            dateParser.toFormattedTime(item.appointmentDatetime),
-            dateParser.toFormattedTime((item.appointmentDatetime)),
+            dateParser.toFormattedTime(item.startTime),
+            dateParser.toFormattedTime((item.endTime)),
             item.address
         )
-        holder.dateView.text = dateParser.toFormattedDate(item.appointmentDatetime)
-        holder.dayView.text = dateParser.toFormattedDay(item.appointmentDatetime)
+        holder.dateView.text = dateParser.toFormattedDate(item.startTime)
+        holder.dayView.text = dateParser.toFormattedDay(item.startTime)
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)
         }
     }
 
-    // TODO: endtime
     private fun formatDescription(startTime: String, endTime: String, address: String): String {
         return startTime
             .plus(" - ")
             .plus(endTime)
             .plus(", ")
-            .plus(
-                address.removeRange(address.indexOf(','), address.length)
-            )
+//            .plus(
+//                address.removeRange(address.indexOf(','), address.length)
+//            )
+            .plus(address)
     }
 }
 
