@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -43,20 +44,20 @@ class LoginActivity : AppCompatActivity() {
         loginButton.isEnabled = false
         val loginCredentials: Adviser.Login =
             Adviser.Login(emailTextInputEdit.text.toString(), passwordTextInputEdit.text.toString())
-//        loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
-//            //val success: Boolean
-//            if (it) {
-//                startOverviewActivity()
-//            } else {
-//                progressBar.isVisible = false
-//                loginButton.isEnabled = true
-//                Snackbar.make(
-//                    container,
-//                    R.string.login_snackbar_message_wrongCredentials,
-//                    Snackbar.LENGTH_SHORT
-//                ).show()
-//            }
-//        })
+        loginViewModel.adviserLogin(loginCredentials).observe(this, Observer {
+            //val success: Boolean
+            if (it) {
+                startOverviewActivity()
+            } else {
+                progressBar.isVisible = false
+                loginButton.isEnabled = true
+                Snackbar.make(
+                    container,
+                    R.string.login_snackbar_message_wrongCredentials,
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
 
     private fun startOverviewActivity() {
