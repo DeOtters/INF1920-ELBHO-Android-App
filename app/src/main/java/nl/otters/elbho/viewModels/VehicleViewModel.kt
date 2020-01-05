@@ -6,21 +6,21 @@ import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 
 class VehicleViewModel(private val vehicleRepository: VehicleRepository): ViewModel() {
-//    fun getAllVehiclesClaims(): LiveData<ArrayList<Vehicle.Reservation>>? {
-//        return vehicleRepository.getAllVehicleReservations()
-//    }
+    fun getAllVehicleReservationsByAdviser(options: Vehicle.ReservationOptions?): LiveData<ArrayList<Vehicle.Reservation>>? {
+        return vehicleRepository.getAllVehicleReservationsByAdviser(options)
+    }
 //
 //    fun getVehicle(id: String): LiveData<Vehicle.Car>? {
 //        return vehicleRepository.getAllVehicles(id)
 //    }
 //
-//    fun getAllVehicles(): LiveData<ArrayList<Vehicle.Car>>? {
-//        return vehicleRepository.getAllVehicles()
-//    }
+    fun getAllVehicles(options: Vehicle.CarOptions?): LiveData<ArrayList<Vehicle.Car>>? {
+        return vehicleRepository.getAllVehicles(options)
+    }
 //
-//    fun createClaim(reservation: Vehicle.CreateReservation) {
-//        return vehicleRepository.createClaim(reservation)
-//    }
+    fun createVehicleReservation(vehicleReservation: Vehicle.CreateReservation) {
+        return vehicleRepository.createVehicleReservation(vehicleReservation)
+    }
 //
 //    fun deleteClaim(claimId: String) {
 //        return vehicleRepository.deleteClaim(claimId)
