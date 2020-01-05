@@ -35,7 +35,7 @@ class AvailabilityRepository(private val context: Context) {
         return availabilities
     }
 
-    fun createAvailability(availability: Availability.Slot) {
+    fun createAvailability(availability: Availability.Availabilities) {
         availabilityService.createAvailability(getAuthToken(), availability)
             .enqueue(object : Callback<Unit> {
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {

@@ -19,7 +19,10 @@ import kotlinx.android.synthetic.main.fragment_create_availability.*
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Availability
+import nl.otters.elbho.repositories.AvailabilityRepository
 import nl.otters.elbho.utils.DateParser
+import nl.otters.elbho.utils.SharedPreferences
+import nl.otters.elbho.viewModels.AvailabilityViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -34,6 +37,7 @@ class CreateAvailabilityFragment : DetailFragment() {
     private lateinit var inputFieldList: ArrayList<View>
     private lateinit var datesOfWeek: ArrayList<String>
     private lateinit var dateParser: DateParser
+    private lateinit var availabilityViewModel: AvailabilityViewModel
     private val defaultTimePickerInputValue = "--:--"
 
     override fun onCreateView(
@@ -46,6 +50,9 @@ class CreateAvailabilityFragment : DetailFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
+        availabilityViewModel = AvailabilityViewModel(availabilityRepository)
+
         dateParser = DateParser()
         chosenDay = arguments?.getParcelable("KEY_CHOSEN_DATE")!!
         availability = arguments?.getParcelableArrayList("KEY_AVAILABILITY")!!
@@ -88,7 +95,7 @@ class CreateAvailabilityFragment : DetailFragment() {
 
     private fun getDatesOfWeek(date: CalendarDay): ArrayList<String>{
         val calendar: Calendar = Calendar.getInstance()
-        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
         val datesOfWeek: ArrayList<String> = ArrayList()
 
         calendar.time = date.date
@@ -169,47 +176,55 @@ class CreateAvailabilityFragment : DetailFragment() {
     }
 
     private fun setDayLabels() {
-        availability_monday.availability_dayText.text = dateParser.toFormattedDay(datesOfWeek[0])
-        availability_monday.availability_dateText.text = dateParser.toFormattedDate(datesOfWeek[0])
+        availability_monday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[0])
+        availability_monday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[0])
 
-        availability_tuesday.availability_dayText.text = dateParser.toFormattedDay(datesOfWeek[1])
-        availability_tuesday.availability_dateText.text = dateParser.toFormattedDate(datesOfWeek[1])
+        availability_tuesday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[1])
+        availability_tuesday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[1])
 
-        availability_wednesday.availability_dayText.text = dateParser.toFormattedDay(datesOfWeek[2])
-        availability_wednesday.availability_dateText.text = dateParser.toFormattedDate(datesOfWeek[2])
+        availability_wednesday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[2])
+        availability_wednesday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[2])
 
-        availability_thursday.availability_dayText.text = dateParser.toFormattedDay(datesOfWeek[3])
-        availability_thursday.availability_dateText.text = dateParser.toFormattedDate(datesOfWeek[3])
+        availability_thursday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[3])
+        availability_thursday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[3])
 
-        availability_friday.availability_dayText.text = dateParser.toFormattedDay(datesOfWeek[4])
-        availability_friday.availability_dateText.text = dateParser.toFormattedDate(datesOfWeek[4])
+        availability_friday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[4])
+        availability_friday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[4])
     }
 
     private fun copyWeek() {
         findNavController().navigate(R.id.action_createAvailabilityFragment_to_copyWeekFragment)
     }
 
+    private fun formatDateTime(date: String, time: String): String {
+        return date
+            .plus("T")
+            .plus(time)
+    }
+
     private fun createAvailability(view: View) {
-        // TODO: Get data from date fields and send to API
-        // 1. Loop door alle inputfields heen en kijk welke gevuld zijn
-        for(item in inputFieldList){
+        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
+        val adviserId = sharedPreferences.getValueString("adviser-id")!!
+        val newAvailabilities : Availability.Availabilities = Availability.Availabilities(ArrayList())
+
+        inputFieldList.forEachIndexed{index, item ->
             if (item.startTime.text.toString() != defaultTimePickerInputValue && item.endTime.text.toString() != defaultTimePickerInputValue){
-                // 2. Pak de waarde van de gevulde inputfieldsz
-                item.startTime.text
-                item.endTime.text
-                // 3. Creeër een availability object en vul deze
                 val newAvailability: Availability.Slot = Availability.Slot(
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "")
+                    adviserId,
+                    adviserId,
+                    datesOfWeek[index],
+                    formatDateTime(datesOfWeek[index], item.startTime.text.toString()),
+                    formatDateTime(datesOfWeek[index], item.endTime.text.toString()),
+                    "2019-12-07T17:00:46.694Z",
+                    "2019-12-07T17:00:46.694Z"
+                )
+                newAvailabilities.availabilities!!.add(newAvailability)
             }
         }
-        // 4. Maak een POST call met het object
-        // ....
+        if (newAvailabilities.availabilities!!.isNotEmpty()){
+            availabilityViewModel.createAvailabilities(newAvailabilities)
+        }
+
         Snackbar.make(
             view,
             getString(R.string.create_availability_saved),

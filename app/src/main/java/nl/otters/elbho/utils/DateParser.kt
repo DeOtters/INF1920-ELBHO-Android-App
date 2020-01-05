@@ -83,6 +83,20 @@ class DateParser {
     }
 
     /*
+    * @params string -> yyyy-MM-dd'T'HH:mm:ss
+    * @return string -> yyyy-MM-dd'T'HH:mm:ss + n HH
+    */
+    fun addHoursAndMinutes(startTime: String, hours: Int, minutes: Int): String{
+        val date: Date = parser.parse(startTime)!!
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.add(Calendar.HOUR, hours)
+        calendar.add(Calendar.MINUTE, minutes)
+
+        return parser.format(calendar.time)
+    }
+
+    /*
    * @return string -> 16 NOVEMBER 2019
    */
     fun getDateToday(): String {

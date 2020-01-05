@@ -22,4 +22,8 @@ object Availability {
         val before: String?,
         val after: String?
     )
+
+    data class Availabilities (
+        val availabilities: ArrayList<Slot>?
+    )
 }

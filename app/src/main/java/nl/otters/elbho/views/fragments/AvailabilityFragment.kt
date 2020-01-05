@@ -45,7 +45,6 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
             availability = it
             for (timeSlot in it){
                 //Here we add the ui for a available day from database
-                Log.e("timeslot", timeSlot.toString())
                 calendarView.addDecorator(AvailableDayDecorator(timeSlot.start))
                 (activity as NavigationActivity).setProgressBarVisible(false)
             }

@@ -9,4 +9,8 @@ class AvailabilityViewModel(private val availabilityRepository: AvailabilityRepo
     fun getAllAvailabilities(timePeriod: Availability.TimePeriod?): LiveData<ArrayList<Availability.Slot>>? {
         return availabilityRepository.getAvailabilities(timePeriod)
     }
+
+    fun createAvailabilities(availabilities: Availability.Availabilities){
+        availabilityRepository.createAvailability(availabilities)
+    }
 }
