@@ -18,7 +18,7 @@ class VehicleRepository (private val context: Context) {
     fun getAllVehicles(options: Vehicle.CarOptions?): LiveData<ArrayList<Vehicle.Car>> {
         val vehicles: MutableLiveData<ArrayList<Vehicle.Car>> = MutableLiveData()
 
-        vehicleService.getAllVehicles(getAuthToken(), options).enqueue(object : Callback<ArrayList<Vehicle.Car>> {
+        vehicleService.getAllVehicles(getAuthToken(), options?.page, options?.limit).enqueue(object : Callback<ArrayList<Vehicle.Car>> {
             override fun onResponse(
                 call: Call<ArrayList<Vehicle.Car>>,
                 response: Response<ArrayList<Vehicle.Car>>
@@ -57,10 +57,10 @@ class VehicleRepository (private val context: Context) {
         return vehicleReservations
     }
 
-    fun getAllVehicleReservationsByAdviser(after: String?): LiveData<ArrayList<Vehicle.Reservation>> {
+    fun getAllVehicleReservationsByAdviser(options: Vehicle.ReservationOptions?): LiveData<ArrayList<Vehicle.Reservation>> {
         val vehicleReservations: MutableLiveData<ArrayList<Vehicle.Reservation>> = MutableLiveData()
 
-        vehicleService.getAllVehicleReservationsByAdviser(getAuthToken(), after).enqueue(object : Callback<ArrayList<Vehicle.Reservation>> {
+        vehicleService.getAllVehicleReservationsByAdviser(getAuthToken(), options?.after, options?.sort).enqueue(object : Callback<ArrayList<Vehicle.Reservation>> {
             override fun onResponse(
                 call: Call<ArrayList<Vehicle.Reservation>>,
                 response: Response<ArrayList<Vehicle.Reservation>>
@@ -78,7 +78,7 @@ class VehicleRepository (private val context: Context) {
         return vehicleReservations
     }
 
-    fun createVehicleReservation(vehicleReservation: Vehicle.Reservation){
+    fun createVehicleReservation(vehicleReservation: Vehicle.CreateReservation){
         vehicleService.createVehicleReservation(getAuthToken(), vehicleReservation).enqueue(object : Callback<Unit> {
             override fun onResponse(
                 call: Call<Unit>,

@@ -44,37 +44,37 @@ class VehicleListAdapter(
     override fun getItemCount(): Int = vehicleClaim.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val claim = vehicleClaim[position]
+        val claim : Vehicle.Reservation = vehicleClaim[position]
 
-//        holder.titleView.text = formatCarTitle(
-//            claim.car.brand,
-//            claim.car.model,
-//            claim.car.transmission)
-//        holder.descriptionView.text = formatDescription(
-//            dateParser.toFormattedTime(claim.reservation.startDateTime),
-//            dateParser.toFormattedTime((claim.reservation.endDateTime)),
-//            claim.car.location)
-//        holder.dateView.text = dateParser.toFormattedDate(claim.reservation.startDateTime)
-//        holder.dayView.text = dateParser.toFormattedDay(claim.reservation.startDateTime)
-//        holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
-//        holder.itemView.setOnClickListener {
-//            listener.onItemClick(holder.adapterPosition, it)
-//        }
+        holder.titleView.text = formatCarTitle(
+            claim.vehicle.brand,
+            claim.vehicle.model,
+            claim.vehicle.transmission)
+        holder.descriptionView.text = formatDescription(
+            dateParser.toFormattedTime(claim.start),
+            dateParser.toFormattedTime((claim.end)),
+            claim.vehicle.location)
+        holder.dateView.text = dateParser.toFormattedDate(claim.start)
+        holder.dayView.text = dateParser.toFormattedDay(claim.start)
+        holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(holder.adapterPosition, it)
+        }
     }
 
-    private fun formatCarTitle(brand: String, model: String, transmissionBool: Boolean): String {
-        val transmission: String
-        if(transmissionBool){
-            transmission = context.resources.getString(R.string.vehicle_transmission_true)
+    private fun formatCarTitle(brand: String, model: String, transmission: String): String {
+        val trans: String
+        if(transmission.equals("Automaat")){
+            trans = context.resources.getString(R.string.vehicle_transmission_true)
         }else{
-            transmission = context.resources.getString(R.string.vehicle_transmission_false)
+            trans = context.resources.getString(R.string.vehicle_transmission_false)
         }
 
         return brand
             .plus(" ")
             .plus(model)
             .plus(" ")
-            .plus(transmission)
+            .plus(trans)
     }
 
     // TODO: endtime

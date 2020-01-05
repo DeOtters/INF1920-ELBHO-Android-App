@@ -1,5 +1,6 @@
 package nl.otters.elbho.views.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +19,10 @@ import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.LoginActivity
 import nl.otters.elbho.views.activities.NavigationActivity
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 class VehicleFragment : BaseFragment() {
     private var vehicleReservationList: ArrayList<Vehicle.Reservation> = ArrayList()
@@ -53,30 +58,20 @@ class VehicleFragment : BaseFragment() {
 
    private fun setupReservation(vehicleViewModel: VehicleViewModel){
        (activity as NavigationActivity).setProgressBarVisible(true)
-//        vehicleViewModel.getAllVehiclesReservations()?.observe(this, Observer {
-//            (activity as NavigationActivity).setProgressBarVisible(false)
-//            if (it != null) {
-//                setupCar(it, vehicleViewModel)
-//            }
-//        })
+       val newRequests: ArrayList<Vehicle.Reservation> = ArrayList()
+        vehicleViewModel.getAllVehicleReservationsByAdviser(Vehicle.ReservationOptions(after = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time), sort = "ASC"))?.observe(this, Observer {
+            (activity as NavigationActivity).setProgressBarVisible(false)
+            if (it != null) {
+                vehicleReservationList.addAll(it)
+                newRequests.addAll(it)
+                updateVehicleData(newRequests)
+            }
+        })
     }
 
-    // TODO: Use Synchronize to call updateVehicleData once instead for every car
-    private fun setupCar(reservation: ArrayList<Vehicle.Reservation>, vehicleViewModel: VehicleViewModel){
-        val newRequests: ArrayList<Vehicle.Reservation> = ArrayList()
-        for(Reservation in reservation) {
-            (activity as NavigationActivity).setProgressBarVisible(true)
-//            vehicleViewModel.getVehicle(Reservation.vehicleId)?.observe(this, Observer {
-//                (activity as NavigationActivity).setProgressBarVisible(false)
-//                newRequests.add(Vehicle.Reservation(Reservation, it))
-//                updateVehicleData(newRequests)
-//            })
-        }
-    }
-
-    private fun updateVehicleData(newRequests: ArrayList<Vehicle.Reservation>) {
+    private fun updateVehicleData(reservations: ArrayList<Vehicle.Reservation>) {
         vehicleReservationList.clear()
-        vehicleReservationList.addAll(newRequests)
+        vehicleReservationList.addAll(reservations)
         recyclerView.adapter!!.notifyDataSetChanged()
     }
 
