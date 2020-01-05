@@ -49,11 +49,11 @@ class VehicleCarListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val car = vehicleCarList[position]
 
-//        holder.titleView.text = formatCarTitle(
-//            car.brand,
-//            car.model,
-//            car.transmission
-//        )
+        holder.titleView.text = formatCarTitle(
+            car.brand,
+            car.model,
+            car.transmission
+        )
 
         if(reservationStartdate.equals(" ") && reservationEndDate.equals(" ")){
             holder.descriptionView.text = formatDescription(
@@ -77,19 +77,19 @@ class VehicleCarListAdapter(
         }
     }
 
-    private fun formatCarTitle(brand: String, model: String, transmissionBool: Boolean): String {
-        val transmission: String
-        if(transmissionBool){
-            transmission = context.resources.getString(R.string.vehicle_transmission_true)
+    private fun formatCarTitle(brand: String, model: String, transmission: String): String {
+        val trans: String
+        if(transmission.equals("Automaat")){
+            trans = context.resources.getString(R.string.vehicle_transmission_true)
         }else{
-            transmission = context.resources.getString(R.string.vehicle_transmission_false)
+            trans = context.resources.getString(R.string.vehicle_transmission_false)
         }
 
         return brand
             .plus(" ")
             .plus(model)
             .plus(" ")
-            .plus(transmission)
+            .plus(trans)
     }
 
     // TODO: when car location is seperated by comma, split by comma and use City name

@@ -29,6 +29,7 @@ object Vehicle {
         val vehicle: Car,
         @SerializedName("advisor")
         val adviser: String,
+        val date: String,
         val start: String,
         val end: String,
         val createdAt: String,
@@ -37,6 +38,7 @@ object Vehicle {
 
     data class CreateReservation(
 
+        val advisor: String,
         val vehicle: String,
         val date: String,
         val start: String,
@@ -45,13 +47,13 @@ object Vehicle {
 
     data class CarOptions(
 
-        val page: Number?,
-        val limit: Number?
+        val page: Int?,
+        val limit: Int?
     )
 
     data class ReservationOptions(
 
-        val date: String?,
-        val after: String?
+        val after: String?,
+        val sort: String?
     )
 }

@@ -8,7 +8,7 @@ interface VehicleService {
     // VEHICLES
     @Headers("Content-type: application/json")
     @GET("/auth/vehicle")
-    fun getAllVehicles(@Header("Authorization") auth: String, @Body options: Vehicle.CarOptions?): Call<ArrayList<Vehicle.Car>>
+    fun getAllVehicles(@Header("Authorization") auth: String, @Query("page") page: Int?, @Query("limit") limit: Int?): Call<ArrayList<Vehicle.Car>>
 
     // VEHICLE RESERVATIONS
     @Headers("Content-type: application/json")
@@ -17,11 +17,11 @@ interface VehicleService {
 
     @Headers("Content-type: application/json")
     @GET("/auth/reservation/me")
-    fun getAllVehicleReservationsByAdviser(@Header("Authorization") auth: String, @Body after: String?): Call<ArrayList<Vehicle.Reservation>>
+    fun getAllVehicleReservationsByAdviser(@Header("Authorization") auth: String, @Query("after") after: String?, @Query("Sort") sort: String?): Call<ArrayList<Vehicle.Reservation>>
 
     @Headers("Content-type: application/json")
     @POST("/auth/reservation")
-    fun createVehicleReservation(@Header("Authorization") auth: String, @Body vehicle: Vehicle.Reservation): Call<Unit>
+    fun createVehicleReservation(@Header("Authorization") auth: String, @Body vehicleReservation: Vehicle.CreateReservation): Call<Unit>
 
     @Headers("Content-type: application/json")
     @DELETE("/auth/reservation/{reservationId}")
