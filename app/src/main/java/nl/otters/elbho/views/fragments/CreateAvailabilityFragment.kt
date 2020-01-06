@@ -221,8 +221,8 @@ class CreateAvailabilityFragment : DetailFragment() {
                     datesOfWeek[index].plus("T00:00:00.694Z"),
                     formatDateTime(datesOfWeek[index], item.startTime.text.toString()),
                     formatDateTime(datesOfWeek[index], item.endTime.text.toString()),
-                    "2019-12-07T17:00:46.694Z",
-                    "2019-12-07T17:00:46.694Z"
+                    dateParser.getTimestampToday(),
+                    dateParser.getTimestampToday()
                 )
                 newAvailabilities.availabilities!!.add(newAvailability)
             }

@@ -1,5 +1,6 @@
 package nl.otters.elbho.utils
 
+import android.util.Log
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -75,6 +76,11 @@ class DateParser {
         return formatter.format(date)
     }
 
+    fun dateToFormattedDatetime(date: Date) : String{
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",  Locale("nl"))
+        return formatter.format(date)
+    }
+
 
     /*
    * @params string -> yyyy-MM-dd'T'HH:mm:ss
@@ -101,6 +107,10 @@ class DateParser {
         calendar.add(Calendar.MINUTE, minutes)
 
         return parser.format(calendar.time)
+    }
+
+    fun dateTimeStringToDate(dateTime: String): Date{
+        return parser.parse(dateTime)!!
     }
 
     /*

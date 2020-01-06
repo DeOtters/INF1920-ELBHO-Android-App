@@ -40,6 +40,7 @@ class AvailabilityRepository(private val context: Context) {
             .enqueue(object : Callback<Unit> {
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                     // TODO: not implemented
+                    Log.e("saaang", "vm wel gelukt broer")
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
