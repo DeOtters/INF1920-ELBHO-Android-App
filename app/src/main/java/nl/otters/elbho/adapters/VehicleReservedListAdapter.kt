@@ -13,12 +13,12 @@ import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.utils.DateParser
 import kotlin.collections.ArrayList
 
-class VehicleListAdapter(
+class VehicleReservedListAdapter (
     private val context: Context,
-    private val vehicleClaim: ArrayList<Vehicle.Reservation>,
+    private val vehicleReservations: ArrayList<Vehicle.Car>,
     private val listener: OnClickItemListener
 //    private val bottomReachedListener: OnBottomReachedListener
-) : RecyclerView.Adapter<VehicleListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<VehicleReservedListAdapter.ViewHolder>() {
     private val dateParser = DateParser()
 
     interface OnClickItemListener {
@@ -37,26 +37,23 @@ class VehicleListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.component_vehicle_listitem, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.component_vehicle_reserved_listitem, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = vehicleClaim.size
+    override fun getItemCount(): Int = vehicleReservations.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val claim : Vehicle.Reservation = vehicleClaim[position]
+        val car : Vehicle.Car = vehicleReservations[position]
 
         holder.titleView.text = formatCarTitle(
-            claim.vehicle.brand,
-            claim.vehicle.model,
-            claim.vehicle.transmission,
-            claim.vehicle.licensePlate)
-        holder.descriptionView.text = formatDescription(
-            dateParser.toFormattedTime(claim.start),
-            dateParser.toFormattedTime((claim.end)),
-            claim.vehicle.location)
-        holder.dateView.text = dateParser.toFormattedDate(claim.start)
-        holder.dayView.text = dateParser.toFormattedDay(claim.start)
+            car.brand,
+            car.model,
+            car.transmission,
+            car.licensePlate)
+        holder.descriptionView.text = formatDescription(car.reservations, car.location)
+        holder.dateView.text = dateParser.toFormattedDate(car.reservations[0].start)
+        holder.dayView.text = dateParser.toFormattedDay(car.reservations[0].start)
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)
@@ -80,12 +77,20 @@ class VehicleListAdapter(
             .plus(licensePlate)
     }
 
-    // TODO: endtime
-    private fun formatDescription(startTime: String, endTime: String, address: String): String {
-        return startTime
-            .plus(" - ")
-            .plus(endTime)
-            .plus(", ")
-            .plus(address.substringAfterLast(","))
+    private fun formatDescription(reservation: ArrayList<Vehicle.ReservationWithVehicleId>, address: String): String {
+        val builder = StringBuilder()
+        builder.append(context.resources.getString(R.string.reserved_txt))
+
+        for (res in reservation) {
+            builder.append("\n")
+            builder.append("\t\t\t")
+            builder.append(dateParser.toFormattedTime(res.start))
+            builder.append(" - ")
+            builder.append(dateParser.toFormattedTime(res.end))
+            builder.append(", ")
+            builder.append(address.substringAfterLast(","))
+        }
+
+        return builder.toString()
     }
 }

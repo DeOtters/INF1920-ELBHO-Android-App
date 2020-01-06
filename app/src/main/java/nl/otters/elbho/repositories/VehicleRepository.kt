@@ -36,20 +36,20 @@ class VehicleRepository (private val context: Context) {
         return vehicles
     }
 
-    fun getAllVehicleReservations(options: Vehicle.ReservationOptions?): LiveData<ArrayList<Vehicle.Reservation>> {
-        val vehicleReservations: MutableLiveData<ArrayList<Vehicle.Reservation>> = MutableLiveData()
+    fun getAllVehicleReservations(options: Vehicle.CarReservationOptions?): LiveData<ArrayList<Vehicle.Car>> {
+        val vehicleReservations: MutableLiveData<ArrayList<Vehicle.Car>> = MutableLiveData()
 
-        vehicleService.getAllVehicleReservations(getAuthToken(), options).enqueue(object : Callback<ArrayList<Vehicle.Reservation>> {
+        vehicleService.getAllVehicleReservations(getAuthToken(), options?.date, options?.after).enqueue(object : Callback<ArrayList<Vehicle.Car>> {
             override fun onResponse(
-                call: Call<ArrayList<Vehicle.Reservation>>,
-                response: Response<ArrayList<Vehicle.Reservation>>
+                call: Call<ArrayList<Vehicle.Car>>,
+                response: Response<ArrayList<Vehicle.Car>>
             ) {
                 if (response.message() == "OK" && response.body() != null){
                     vehicleReservations.value = response.body()!!
                 }
             }
 
-            override fun onFailure(call: Call<ArrayList<Vehicle.Reservation>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<Vehicle.Car>>, t: Throwable) {
                 //TODO: implement error handling
                 Log.e("HTTP Vehicles: ", "Could not fetch data" , t)
             }

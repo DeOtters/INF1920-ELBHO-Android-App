@@ -1,6 +1,8 @@
 package nl.otters.elbho.models
 
 import android.os.Parcelable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -18,7 +20,8 @@ object Vehicle {
         val location: String,
         val image: String,
         val createdAt: String,
-        val updatedAt: String
+        val updatedAt: String,
+        val reservations: ArrayList<ReservationWithVehicleId>
     ) : Parcelable
 
     @Parcelize
@@ -27,6 +30,21 @@ object Vehicle {
         @SerializedName("_id")
         val id: String,
         val vehicle: Car,
+        @SerializedName("advisor")
+        val adviser: String,
+        val date: String,
+        val start: String,
+        val end: String,
+        val createdAt: String,
+        val updatedAt: String
+    ) : Parcelable
+
+    @Parcelize
+    data class ReservationWithVehicleId(
+
+        @SerializedName("_id")
+        val id: String,
+        val vehicle: String,
         @SerializedName("advisor")
         val adviser: String,
         val date: String,
@@ -55,5 +73,11 @@ object Vehicle {
 
         val after: String?,
         val sort: String?
+    )
+
+    data class CarReservationOptions(
+
+        val date: String?,
+        val after: String?
     )
 }
