@@ -1,6 +1,5 @@
 package nl.otters.elbho.views.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.util.Log
@@ -8,20 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.prolificinteractive.materialcalendarview.CalendarDay
-import kotlinx.android.synthetic.main.component_availability_input.view.*
-import kotlinx.android.synthetic.main.component_copy_week.*
 import kotlinx.android.synthetic.main.component_copy_week.view.*
 import kotlinx.android.synthetic.main.fragment_copy_week.*
-import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Availability
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,8 +21,7 @@ class CopyWeekFragment : DetailFragment() {
 
     private lateinit var weekList: ArrayList<View>
     private lateinit var chosenDay: CalendarDay
-    private lateinit var firstDaysOfAllWeeks: ArrayList<Calendar>
-    private lateinit var availabilitiesToCopy: ArrayList<Availability.Slot>
+    private lateinit var availabilitiesToCopy: Availability.Availabilities
 
 
     override fun onCreateView(
@@ -44,7 +35,7 @@ class CopyWeekFragment : DetailFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         chosenDay = arguments?.getParcelable("KEY_CHOSEN_DATE")!!
-        availabilitiesToCopy = arguments?.getParcelableArrayList("KEY_AVAILABILITY")!!
+        availabilitiesToCopy = arguments?.getParcelable("KEY_NEW_AVAILABILITIES")!!
 
         weekList = arrayListOf(
             copy_week_A,
@@ -75,11 +66,12 @@ class CopyWeekFragment : DetailFragment() {
             calendar.add(Calendar.WEEK_OF_YEAR, 1)
             val weekNumber: Int = calendar.get(Calendar.WEEK_OF_YEAR)
 
+            //Here we check what the first day of that given week is
             calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
-            firstDaysOfAllWeeks.add(calendar)
             val firstDateOfWeek: String = calendar.get(Calendar.DAY_OF_MONTH).toString().plus(" "
             ).plus(DateParser().dateToFormattedMonth(calendar.time))
 
+            //Then we add 6 days to get the last day of that week
             calendar.add(Calendar.DAY_OF_YEAR, 6)
             val lastDateOfWeek: String =
                 calendar.get(Calendar.DAY_OF_MONTH).toString()
@@ -92,45 +84,32 @@ class CopyWeekFragment : DetailFragment() {
 
     private fun setOnClickListeners() {
         copy_week_confirm.setOnClickListener { copyWeek(view!!) }
-
-
     }
 
     private fun copyWeek(view: View) {
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val adviserId = sharedPreferences.getValueString("adviser-id")!!
         // TODO: Get selected checkboxes and send to API
-//        for (item in weekList) {
-//            if(item.copy_checkbox.isChecked){
-//                availabilitiesToCopy.forEachIndexed { index, availability ->
-//                    //match availability date to date in selected week
-//                    val calendar: Calendar = Calendar.getInstance()
-//                    val date: Date = SimpleDateFormat("yyyy-MM-dd", Locale("nl")).parse(availability.date)!!
-//                    calendar.set(date.year, date.month)
-//
-//                    firstDaysOfAllWeeks[index].add(Calendar.DAY_OF_WEEK, calendar.get(Calendar.DAY_OF_WEEK))
-//                    Log.e("bla", firstDaysOfAllWeeks[index].time.date.toString())
-//
-////                    val newAvailability: Availability.Slot = Availability.Slot(
-////                        adviserId,
-////                        adviserId,
-////                        firstDaysOfAllWeeks[index].time.date.toString()
-//////                        datesOfWeek[index],
-//////                        formatDateTime(datesOfWeek[index], item.startTime.text.toString()),
-//////                        formatDateTime(datesOfWeek[index], item.endTime.text.toString()),
-////                        "2019-12-07T17:00:46.694Z",
-////                        "2019-12-07T17:00:46.694Z"
-////                    )
-//                }
-//
-//            }
-//        }
-        Snackbar.make(
-            view,
-            getString(R.string.copy_week_saved),
-            Snackbar.LENGTH_SHORT
-        ).show()
-        findNavController().navigateUp()
+        //1. Voor elke checkbox
+        for (item in weekList) {
+            //2. Check of de checkbox is aangevinkt
+            if(item.copy_checkbox.isChecked){
+                //3. Als deze is aangevinkt
+                availabilitiesToCopy.availabilities!!.forEachIndexed { index, availability ->
+                    //4. Kijk welke dag hoort bij de ingevulde availability
+                    Log.e("toCopy", availability.toString())
+
+                    //6. Voeg toe aan newAvailabilities lijst
+                }
+
+            }
+        }
+//        Snackbar.make(
+//            view,
+//            getString(R.string.copy_week_saved),
+//            Snackbar.LENGTH_SHORT
+//        ).show()
+//        findNavController().navigateUp()
     }
 
     override fun onResume() {

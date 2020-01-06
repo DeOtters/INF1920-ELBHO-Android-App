@@ -206,6 +206,7 @@ class CreateAvailabilityFragment : DetailFragment() {
         return date
             .plus("T")
             .plus(time)
+            .plus(":00.694Z")
     }
 
     private fun getNewAvailabilities(){
@@ -217,7 +218,7 @@ class CreateAvailabilityFragment : DetailFragment() {
                 val newAvailability: Availability.Slot = Availability.Slot(
                     adviserId,
                     adviserId,
-                    datesOfWeek[index],
+                    datesOfWeek[index].plus("T00:00:00.694Z"),
                     formatDateTime(datesOfWeek[index], item.startTime.text.toString()),
                     formatDateTime(datesOfWeek[index], item.endTime.text.toString()),
                     "2019-12-07T17:00:46.694Z",
