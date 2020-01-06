@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_upcoming_requests.*
 import nl.otters.elbho.R
-import nl.otters.elbho.adapters.AppointmentListAdapter
 import nl.otters.elbho.adapters.RequestListAdapter
-import nl.otters.elbho.models.Appointment
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.repositories.AppointmentRepository
 import nl.otters.elbho.repositories.RequestRepository
