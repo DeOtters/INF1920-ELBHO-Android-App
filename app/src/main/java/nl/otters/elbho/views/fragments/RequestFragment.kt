@@ -158,7 +158,7 @@ class RequestFragment : DetailFragment() {
     }
 
     private fun denyRequest() {
-        requestViewModel.respondToRequest(request.id, false)
+        requestViewModel.respondToRequest(request.id, Request.Respond(false))
         Snackbar.make(
             view!!,
             getString(R.string.snackbar_request_denied, request.cocName),
@@ -168,7 +168,7 @@ class RequestFragment : DetailFragment() {
     }
 
     private fun acceptRequest() {
-        requestViewModel.respondToRequest(request.id, true)
+        requestViewModel.respondToRequest(request.id, Request.Respond(true))
         Snackbar.make(
             view!!,
             getString(R.string.snackbar_request_accepted, request.cocName),

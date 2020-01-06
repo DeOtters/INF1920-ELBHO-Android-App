@@ -36,13 +36,12 @@ class RequestRepository(private val context: Context) {
         return requests
     }
 
-    fun respondToRequest(appointmentId: String, accept: Boolean){
+    fun respondToRequest(appointmentId: String, accept: Request.Respond){
         requestService.respondToRequest(getAuthToken(), appointmentId, accept).enqueue(object : Callback<Unit> {
             override fun onResponse(
                 call: Call<Unit>,
                 response: Response<Unit>
             ) {
-                Log.e("!!!!", response.toString())
                 if (response.isSuccessful && response.body() != null){
                     // TODO: not implemented
                 }
