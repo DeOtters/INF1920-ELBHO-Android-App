@@ -2,6 +2,8 @@ package nl.otters.elbho.utils
 
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DateParser {
@@ -95,5 +97,9 @@ class DateParser {
         val year: String = yearFormat.format(Date())
 
         return "$day $month $year"
+    }
+
+    fun getTimestampToday(): String{
+        return parser.format(Date())
     }
 }

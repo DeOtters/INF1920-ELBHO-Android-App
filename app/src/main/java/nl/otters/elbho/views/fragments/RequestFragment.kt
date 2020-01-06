@@ -9,16 +9,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.component_textdisplay.view.*
 import kotlinx.android.synthetic.main.fragment_request.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
+import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.VehicleLocationProvider
+import nl.otters.elbho.viewModels.RequestViewModel
 
 class RequestFragment : DetailFragment() {
     private lateinit var request: Request.Properties
     private lateinit var vehicleLocationProvider: VehicleLocationProvider
+    private lateinit var requestRepository: RequestRepository
+    private lateinit var requestViewModel: RequestViewModel
     private val dateParser: DateParser = DateParser()
     private var requestingLocationUpdates = false
 
@@ -34,6 +39,9 @@ class RequestFragment : DetailFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requestRepository = RequestRepository(activity!!.applicationContext)
+        requestViewModel = RequestViewModel(requestRepository)
+
         setFieldLabels()
         setFieldIcons()
         setFieldValues(request)
@@ -150,12 +158,22 @@ class RequestFragment : DetailFragment() {
     }
 
     private fun denyRequest() {
-        // TODO: Send to API
+        requestViewModel.respondToRequest(request.id, false)
+        Snackbar.make(
+            view!!,
+            getString(R.string.snackbar_request_denied, request.cocName),
+            Snackbar.LENGTH_SHORT
+        ).show()
         findNavController().navigateUp()
     }
 
     private fun acceptRequest() {
-        // TODO: Send to API
+        requestViewModel.respondToRequest(request.id, true)
+        Snackbar.make(
+            view!!,
+            getString(R.string.snackbar_request_accepted, request.cocName),
+            Snackbar.LENGTH_SHORT
+        ).show()
         findNavController().navigateUp()
     }
 

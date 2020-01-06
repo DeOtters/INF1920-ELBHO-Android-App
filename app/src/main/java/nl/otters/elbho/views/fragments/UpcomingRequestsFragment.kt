@@ -12,13 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_upcoming_requests.*
 import nl.otters.elbho.R
+import nl.otters.elbho.adapters.AppointmentListAdapter
 import nl.otters.elbho.adapters.RequestListAdapter
+import nl.otters.elbho.models.Appointment
 import nl.otters.elbho.models.Request
+import nl.otters.elbho.repositories.AppointmentRepository
 import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.viewModels.OverviewViewModel
 
 class UpcomingRequestsFragment : Fragment() {
-    private var requests: ArrayList<Request.Properties> = ArrayList()
+    private var appointments: ArrayList<Request.Properties> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         inflater.inflate(R.layout.fragment_open_requests, container, false)!!
@@ -26,13 +29,14 @@ class UpcomingRequestsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val requestRepository = RequestRepository(activity!!.applicationContext)
-        val overviewViewModel = OverviewViewModel(requestRepository)
+        val appointmentRepository = AppointmentRepository(activity!!.applicationContext)
+        val overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
 
         setupRecyclerView()
 
-//        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
-//            updateRequestData(it)
-//        })
+        overviewViewModel.getAllUpcomingAppointments().observe( this, Observer<ArrayList<Request.Properties>> {
+            updateRequestData(it)
+        })
     }
 
     override fun onResume() {
@@ -48,8 +52,8 @@ class UpcomingRequestsFragment : Fragment() {
     }
 
     private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {
-        requests.clear()
-        requests.addAll(newRequests)
+        appointments.clear()
+        appointments.addAll(newRequests)
         recyclerView.adapter!!.notifyDataSetChanged()
     }
 
@@ -57,11 +61,11 @@ class UpcomingRequestsFragment : Fragment() {
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
         val listAdapter = RequestListAdapter(
             activity!!.applicationContext,
-            requests,
+            appointments,
             object : RequestListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
                     val bundle = Bundle()
-                    bundle.putParcelable("KEY_REQUEST", requests[position])
+                    bundle.putParcelable("KEY_REQUEST", appointments[position])
                     bundle.putString("KEY_APP_TITLE", resources.getString(R.string.navigation_upcoming_requests) )
                     findNavController().navigate(R.id.action_global_requestFragment, bundle)
                 }

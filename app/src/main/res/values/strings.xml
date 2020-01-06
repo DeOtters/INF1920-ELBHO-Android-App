@@ -51,6 +51,8 @@
     <string name="button_accept_appointment">Accepteren</string>
     <string name="button_deny_appointment">Afwijzen</string>
     <string name="button_leave">Vertrek</string>
+    <string name="snackbar_request_accepted">Afspraak met %s geaccepteerd</string>
+    <string name="snackbar_request_denied">Afsrpaak met %s afgewezen</string>
 
     <!-- Fragment List Item -->
     <string name="listItem_text_day">DO</string>
