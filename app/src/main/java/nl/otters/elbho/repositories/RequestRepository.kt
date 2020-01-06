@@ -36,9 +36,8 @@ class RequestRepository(private val context: Context) {
         return requests
     }
 
-    fun respondToRequest(appointmentId: String, accept: Boolean){
-        val requests = MutableLiveData<ArrayList<Request.Properties>>()
-        requestService.respondToRequest(getAuthToken(),appointmentId, accept).enqueue(object : Callback<Unit> {
+    fun respondToRequest(appointmentId: String, accept: Request.Respond){
+        requestService.respondToRequest(getAuthToken(), appointmentId, accept).enqueue(object : Callback<Unit> {
             override fun onResponse(
                 call: Call<Unit>,
                 response: Response<Unit>
@@ -50,7 +49,6 @@ class RequestRepository(private val context: Context) {
 
             override fun onFailure(call: Call<Unit>, t: Throwable) {
                 //TODO: implement error handling
-                //TODO: with current api state, show message like: couldn't establish network connection
                 Log.e("HTTP: ", "Could not fetch data" , t)
             }
         })

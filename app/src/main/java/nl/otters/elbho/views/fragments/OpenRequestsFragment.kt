@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_open_requests.*
 import nl.otters.elbho.R
+import nl.otters.elbho.adapters.AppointmentListAdapter
 import nl.otters.elbho.adapters.RequestListAdapter
+import nl.otters.elbho.models.Appointment
 import nl.otters.elbho.models.Request
+import nl.otters.elbho.repositories.AppointmentRepository
 import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.viewModels.OverviewViewModel
 
@@ -26,8 +29,10 @@ class OpenRequestsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        val appointmentRepository = AppointmentRepository(activity!!.applicationContext)
         val requestRepository = RequestRepository(activity!!.applicationContext)
-        val overviewViewModel = OverviewViewModel(requestRepository)
+        val overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
 
         setupRecyclerView()
 

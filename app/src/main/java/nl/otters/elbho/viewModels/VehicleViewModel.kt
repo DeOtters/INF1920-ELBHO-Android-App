@@ -21,8 +21,8 @@ class VehicleViewModel(private val vehicleRepository: VehicleRepository): ViewMo
     fun createVehicleReservation(vehicleReservation: Vehicle.CreateReservation) {
         return vehicleRepository.createVehicleReservation(vehicleReservation)
     }
-//
-//    fun deleteClaim(claimId: String) {
-//        return vehicleRepository.deleteClaim(claimId)
-//    }
+
+    fun removeVehicleReservation(reservationId: String) {
+        return vehicleRepository.removeVehicleReservation(reservationId)
+    }
 }

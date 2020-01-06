@@ -59,6 +59,8 @@ class VehicleReservationFragment : DetailFragment() {
             startLoginActivity()
         }
 
+        calendarReservationView.minDate = (System.currentTimeMillis() - 1000)
+
         vehicleViewModel.getAllVehicles(options = null)?.observe(this, androidx.lifecycle.Observer {
             vehicleCarList.addAll(it)
             setupRecyclerView(vehicleViewModel)

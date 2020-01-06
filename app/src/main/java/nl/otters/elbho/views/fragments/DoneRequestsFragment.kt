@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_done_requests.*
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.RequestListAdapter
 import nl.otters.elbho.models.Request
+import nl.otters.elbho.repositories.AppointmentRepository
 import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.viewModels.OverviewViewModel
 
@@ -26,13 +27,14 @@ class DoneRequestsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val requestRepository = RequestRepository(activity!!.applicationContext)
-        val overviewViewModel = OverviewViewModel(requestRepository)
+        val appointmentRepository = AppointmentRepository(activity!!.applicationContext)
+        val overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
 
         setupRecyclerView()
 
-//        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
-//            updateRequestData(it)
-//        })
+        overviewViewModel.getAllDoneAppointments().observe( this, Observer<ArrayList<Request.Properties>> {
+            updateRequestData(it)
+        })
     }
 
     override fun onResume() {
