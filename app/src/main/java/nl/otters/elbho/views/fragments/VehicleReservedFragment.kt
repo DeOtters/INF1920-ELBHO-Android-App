@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.component_textdisplay.view.*
 import kotlinx.android.synthetic.main.fragment_request.bottomButton
@@ -48,7 +49,7 @@ class VehicleReservedFragment : DetailFragment() {
             .setTitle(getString(R.string.vehicle_delete_message))
             .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
 
-//                vehicleViewModel.deleteClaim(claim.reservation.id)
+                vehicleViewModel.removeVehicleReservation(reservation.id)
                 Thread.sleep(500)
                 super.getFragmentManager()?.popBackStack()
 
@@ -73,6 +74,12 @@ class VehicleReservedFragment : DetailFragment() {
     }
 
     private fun setFieldValues(reservation: Vehicle.Reservation) {
+        Glide.with(this)
+            .load(reservation.vehicle.image)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_notfound)
+            .into(vehicleImage)
+
         textDisplay_carInfo.text = formatCarTitle(
             reservation.vehicle.brand,
             reservation.vehicle.model,

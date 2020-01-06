@@ -40,7 +40,7 @@ class VehicleCarListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.component_listitem, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.component_vehicle_listitem, parent, false)
         return ViewHolder(view)
     }
 
@@ -52,7 +52,8 @@ class VehicleCarListAdapter(
         holder.titleView.text = formatCarTitle(
             car.brand,
             car.model,
-            car.transmission
+            car.transmission,
+            car.licensePlate
         )
 
         if(reservationStartdate.equals(" ") && reservationEndDate.equals(" ")){
@@ -77,7 +78,7 @@ class VehicleCarListAdapter(
         }
     }
 
-    private fun formatCarTitle(brand: String, model: String, transmission: String): String {
+    private fun formatCarTitle(brand: String, model: String, transmission: String, licensePlate: String): String {
         val trans: String
         if(transmission.equals("Automaat")){
             trans = context.resources.getString(R.string.vehicle_transmission_true)
@@ -90,6 +91,8 @@ class VehicleCarListAdapter(
             .plus(model)
             .plus(" ")
             .plus(trans)
+            .plus(" ")
+            .plus(licensePlate)
     }
 
     // TODO: when car location is seperated by comma, split by comma and use City name

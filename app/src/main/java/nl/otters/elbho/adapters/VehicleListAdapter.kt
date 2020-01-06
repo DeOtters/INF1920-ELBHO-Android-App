@@ -37,7 +37,7 @@ class VehicleListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.component_listitem, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.component_vehicle_listitem, parent, false)
         return ViewHolder(view)
     }
 
@@ -49,7 +49,8 @@ class VehicleListAdapter(
         holder.titleView.text = formatCarTitle(
             claim.vehicle.brand,
             claim.vehicle.model,
-            claim.vehicle.transmission)
+            claim.vehicle.transmission,
+            claim.vehicle.licensePlate)
         holder.descriptionView.text = formatDescription(
             dateParser.toFormattedTime(claim.start),
             dateParser.toFormattedTime((claim.end)),
@@ -62,7 +63,7 @@ class VehicleListAdapter(
         }
     }
 
-    private fun formatCarTitle(brand: String, model: String, transmission: String): String {
+    private fun formatCarTitle(brand: String, model: String, transmission: String, licensePlate: String): String {
         val trans: String
         if(transmission.equals("Automaat")){
             trans = context.resources.getString(R.string.vehicle_transmission_true)
@@ -75,6 +76,8 @@ class VehicleListAdapter(
             .plus(model)
             .plus(" ")
             .plus(trans)
+            .plus(" ")
+            .plus(licensePlate)
     }
 
     // TODO: endtime
