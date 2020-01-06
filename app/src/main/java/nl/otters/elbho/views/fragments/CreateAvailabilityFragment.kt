@@ -14,9 +14,12 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.prolificinteractive.materialcalendarview.CalendarDay
+import kotlinx.android.synthetic.main.component_availability_input.*
 import kotlinx.android.synthetic.main.component_availability_input.view.*
 import kotlinx.android.synthetic.main.fragment_create_availability.*
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
+import kotlinx.android.synthetic.main.fragment_vehicle_reservation.endTime
+import kotlinx.android.synthetic.main.fragment_vehicle_reservation.startTime
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Availability
 import nl.otters.elbho.repositories.AvailabilityRepository
@@ -41,7 +44,6 @@ class CreateAvailabilityFragment : DetailFragment() {
     private val defaultTimePickerInputValue = "--:--"
     private val newAvailabilities : Availability.Availabilities = Availability.Availabilities(ArrayList())
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,6 +65,17 @@ class CreateAvailabilityFragment : DetailFragment() {
 
         setDayLabels()
         setOnClickListeners()
+    }
+
+    override fun onResume() {
+        setTitle()
+        super.onResume()
+        setWeekSelector(chosenDay)
+    }
+
+    private fun setTitle() {
+        val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        appTitle.setText(R.string.create_new_availability_title)
     }
 
     private fun setWeekSelector(date: CalendarDay){
@@ -145,8 +158,8 @@ class CreateAvailabilityFragment : DetailFragment() {
                 TimePickerDialog(context, timeSetListener, calStart.get(Calendar.HOUR_OF_DAY), calStart.get(Calendar.MINUTE), true).show()
             }
 
-            endTime.setOnClickListener {
-                val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            item.endTime.setOnClickListener {
+                val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                     calEnd.set(Calendar.HOUR_OF_DAY, hour)
                     calEnd.set(Calendar.MINUTE, minute)
 
@@ -170,9 +183,10 @@ class CreateAvailabilityFragment : DetailFragment() {
                 TimePickerDialog(context, timeSetListener, calEnd.get(Calendar.HOUR_OF_DAY), calEnd.get(Calendar.MINUTE), true).show()
             }
 
-//            item.availability_clear.setOnClickListener {
-//
-//            }
+            item.availability_clear.setOnClickListener {
+                item.startTime.setText(defaultTimePickerInputValue)
+                item.endTime.setText(defaultTimePickerInputValue)
+            }
         }
     }
 
@@ -242,17 +256,6 @@ class CreateAvailabilityFragment : DetailFragment() {
             Snackbar.LENGTH_SHORT
         ).show()
         findNavController().navigateUp()
-    }
-
-    override fun onResume() {
-        setTitle()
-        super.onResume()
-        setWeekSelector(chosenDay)
-    }
-
-    private fun setTitle() {
-        val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.setText(R.string.create_new_availability_title)
     }
 }
 
