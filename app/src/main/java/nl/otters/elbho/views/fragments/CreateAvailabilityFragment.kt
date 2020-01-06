@@ -39,6 +39,8 @@ class CreateAvailabilityFragment : DetailFragment() {
     private lateinit var dateParser: DateParser
     private lateinit var availabilityViewModel: AvailabilityViewModel
     private val defaultTimePickerInputValue = "--:--"
+    private val newAvailabilities : Availability.Availabilities = Availability.Availabilities(ArrayList())
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +52,7 @@ class CreateAvailabilityFragment : DetailFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         val availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
         availabilityViewModel = AvailabilityViewModel(availabilityRepository)
 
@@ -63,9 +66,7 @@ class CreateAvailabilityFragment : DetailFragment() {
     }
 
     private fun setWeekSelector(date: CalendarDay){
-        //TODO: onItemSelected setDayLabels
         val calendar: Calendar =  Calendar.getInstance()
-        // TODO: using two lists for the same value is not cool..
         val weeks: ArrayList<String> = ArrayList()
         val weekDates: ArrayList<Date> = ArrayList()
 
@@ -87,8 +88,8 @@ class CreateAvailabilityFragment : DetailFragment() {
         filled_exposed_dropdown.text = SpannableStringBuilder(resources.getString(R.string.create_availability_week_selector, calendar.get(Calendar.WEEK_OF_YEAR)))
         filled_exposed_dropdown.setAdapter(adapter)
         filled_exposed_dropdown.setOnItemClickListener { _, _, position, _ ->
-            val chosenDate = CalendarDay(weekDates[position])
-            datesOfWeek = getDatesOfWeek(chosenDate)
+            chosenDay = CalendarDay(weekDates[position])
+            datesOfWeek = getDatesOfWeek(chosenDay)
             setDayLabels()
         }
     }
@@ -176,24 +177,29 @@ class CreateAvailabilityFragment : DetailFragment() {
     }
 
     private fun setDayLabels() {
-        availability_monday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[0])
-        availability_monday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[0])
+        availability_monday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[0])
+        availability_monday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[0])
 
-        availability_tuesday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[1])
-        availability_tuesday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[1])
+        availability_tuesday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[1])
+        availability_tuesday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[1])
 
-        availability_wednesday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[2])
-        availability_wednesday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[2])
+        availability_wednesday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[2])
+        availability_wednesday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[2])
 
-        availability_thursday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[3])
-        availability_thursday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[3])
+        availability_thursday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[3])
+        availability_thursday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[3])
 
-        availability_friday.availability_dayText.text = dateParser.dateToFormattedDate(datesOfWeek[4])
-        availability_friday.availability_dateText.text = dateParser.dateToFormattedDay(datesOfWeek[4])
+        availability_friday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[4])
+        availability_friday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[4])
     }
 
     private fun copyWeek() {
-        findNavController().navigate(R.id.action_createAvailabilityFragment_to_copyWeekFragment)
+        getNewAvailabilities()
+
+        val bundle = Bundle()
+        bundle.putParcelable("KEY_CHOSEN_DATE", chosenDay)
+        bundle.putParcelable("KEY_NEW_AVAILABILITIES", newAvailabilities)
+        findNavController().navigate(R.id.action_createAvailabilityFragment_to_copyWeekFragment, bundle)
     }
 
     private fun formatDateTime(date: String, time: String): String {
@@ -202,10 +208,9 @@ class CreateAvailabilityFragment : DetailFragment() {
             .plus(time)
     }
 
-    private fun createAvailability(view: View) {
+    private fun getNewAvailabilities(){
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val adviserId = sharedPreferences.getValueString("adviser-id")!!
-        val newAvailabilities : Availability.Availabilities = Availability.Availabilities(ArrayList())
 
         inputFieldList.forEachIndexed{index, item ->
             if (item.startTime.text.toString() != defaultTimePickerInputValue && item.endTime.text.toString() != defaultTimePickerInputValue){
@@ -221,6 +226,11 @@ class CreateAvailabilityFragment : DetailFragment() {
                 newAvailabilities.availabilities!!.add(newAvailability)
             }
         }
+    }
+
+    private fun createAvailability(view: View) {
+        getNewAvailabilities()
+
         if (newAvailabilities.availabilities!!.isNotEmpty()){
             availabilityViewModel.createAvailabilities(newAvailabilities)
         }

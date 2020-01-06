@@ -107,13 +107,12 @@
     <string name="availability_from">van</string>
     <string name="availability_to">tot</string>
     <string name="button_add_availability">Wijziging opslaan</string>
-    <string name="copy_week_title">Week 50 kopiëren</string>
+    <string name="copy_week_title">Week %d kopiëren naar</string>
     <string name="button_copy_week_confirm"><![CDATA[Kopiëren & opslaan]]></string>
-    <string name="temp_copy_week"><b>Week 50</b>, 9 dec tot 15 dec</string>
+    <string name="temp_copy_week"><b>Week %d</b>, %s tot %s</string>
     <string name="copy_week_saved">De beschikbaarheid is gekopiëerd</string>
     <string name="copy_week_title_bar">Week kopïeren</string>
     <string name="create_availability_week_selector">Week %d</string>
-
 
     <!-- Fragment Availability   -->
     <string name="availability_helper_text">Selecteer een dag om de beschikbaarheid van die week aan te passen</string>

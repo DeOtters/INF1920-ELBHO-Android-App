@@ -68,6 +68,11 @@ class DateParser {
         return formatter.parse(dateTime).time
     }
 
+    fun dateToFormattedMonth(date: Date) : String{
+        val formatter = SimpleDateFormat("MMMM",  Locale("nl"))
+        return formatter.format(date)
+    }
+
 
     /*
    * @params string -> yyyy-MM-dd'T'HH:mm:ss

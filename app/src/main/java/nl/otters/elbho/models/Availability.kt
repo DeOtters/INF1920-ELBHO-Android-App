@@ -23,7 +23,13 @@ object Availability {
         val after: String?
     )
 
+    @Parcelize
     data class Availabilities (
         val availabilities: ArrayList<Slot>?
+    ) : Parcelable
+
+    data class CreateAvailabilities(
+        val availabilities: ArrayList<Slot>?
+
     )
 }
