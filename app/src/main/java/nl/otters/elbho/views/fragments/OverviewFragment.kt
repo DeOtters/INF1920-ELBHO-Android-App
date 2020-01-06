@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.ViewPagerAdapter
 import nl.otters.elbho.models.Request
+import nl.otters.elbho.repositories.AppointmentRepository
 import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
@@ -33,7 +34,8 @@ class OverviewFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         val requestRepository = RequestRepository(activity!!.applicationContext)
-        val overviewViewModel = OverviewViewModel(requestRepository)
+        val appointmentRepository = AppointmentRepository(activity!!.applicationContext)
+        val overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
 
         (activity as NavigationActivity).setProgressBarVisible(true)
         overviewViewModel.getAllRequests().observe(this, Observer {
