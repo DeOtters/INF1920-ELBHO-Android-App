@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.recyclerView
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.VehicleCarListAdapter
+import nl.otters.elbho.adapters.VehicleReservedListAdapter
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
@@ -61,7 +62,7 @@ class VehicleReservationFragment : DetailFragment() {
 
         calendarReservationView.minDate = (System.currentTimeMillis() - 1000)
 
-        vehicleViewModel.getAllVehicles(options = null)?.observe(this, androidx.lifecycle.Observer {
+        vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate, after = null))?.observe(this, androidx.lifecycle.Observer {
             vehicleCarList.addAll(it)
             setupRecyclerView(vehicleViewModel)
         })
@@ -77,7 +78,12 @@ class VehicleReservationFragment : DetailFragment() {
             cal.set(Calendar.YEAR, year)
 
             reservationDate = SimpleDateFormat("yyyy-MM-dd").format(cal.time)
-            setupRecyclerView(vehicleViewModel)
+
+            vehicleCarList.clear()
+            vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate, after = null))?.observe(this, androidx.lifecycle.Observer {
+                vehicleCarList.addAll(it)
+                setupRecyclerView(vehicleViewModel)
+            })
         }
 
         startTime.setOnClickListener {
@@ -183,6 +189,32 @@ class VehicleReservationFragment : DetailFragment() {
         recyclerView.apply {
             this.layoutManager = viewManager
             this.adapter = vehicleListAdapter
+        }
+
+        val viewManager2 = LinearLayoutManager(activity!!.applicationContext)
+        val reservationsList: ArrayList<Vehicle.Car> = ArrayList()
+        for (reservation in vehicleCarList) {
+            if (reservation.reservations.isEmpty()) {
+                continue
+            } else {
+                reservationsList.add(reservation)
+            }
+        }
+
+        val vehicleReservedListAdapter = VehicleReservedListAdapter(
+            activity!!.applicationContext,
+            reservationsList,
+            object : VehicleReservedListAdapter.OnClickItemListener {
+                override fun onItemClick(position: Int, view: View) {
+//                    val bundle = Bundle()
+//                    bundle.putParcelable("KEY_Reservation", vehicleCarList[position])
+//                    findNavController().navigate(R.id.action_global_vehicleReservedFragment, bundle)
+                }
+            })
+
+        recyclerViewReservations.apply {
+            this.layoutManager = viewManager2
+            this.adapter = vehicleReservedListAdapter
         }
     }
 

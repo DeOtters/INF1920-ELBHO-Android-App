@@ -98,6 +98,7 @@
     <string name="alert_date_info">Datum:</string>
     <string name="empty_time">--:--</string>
     <string name="hint_time">Time input</string>
+    <string name="reserved_txt">gereserveerd</string>
 
     <!-- Create Availability Fragment  -->
     <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>

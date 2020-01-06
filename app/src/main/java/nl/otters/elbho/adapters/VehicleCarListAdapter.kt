@@ -101,6 +101,6 @@ class VehicleCarListAdapter(
             .plus(" - ")
             .plus(endTime)
             .plus(", ")
-            .plus(address)
+            .plus(address.substringAfterLast(","))
     }
 }
