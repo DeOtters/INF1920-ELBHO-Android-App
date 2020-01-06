@@ -25,5 +25,5 @@ interface VehicleService {
 
     @Headers("Content-type: application/json")
     @DELETE("/auth/reservation/{reservationId}")
-    fun removeVehicleReservation(@Header("Authorization") auth: String, @Body reservationId: String): Call<Unit>
+    fun removeVehicleReservation(@Header("Authorization") auth: String, @Path("reservationId") reservationId: String): Call<Unit>
 }
