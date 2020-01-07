@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/container_spacing"
             android:layout_marginEnd="@dimen/container_spacing"
-            android:layout_marginBottom="@dimen/container_spacing"
+            android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toTopOf="@+id/availability_copy_week"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,6 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/copy_week_confirm"
         style="@style/CustomMaterialButton"
-        android:layout_margin="@dimen/container_spacing"
         android:text="@string/button_copy_week_confirm"
         app:icon="@drawable/ic_done_gray_24dp"
         app:iconGravity="textStart"
