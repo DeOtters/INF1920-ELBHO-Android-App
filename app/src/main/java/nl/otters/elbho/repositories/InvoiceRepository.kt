@@ -1,6 +1,7 @@
 package nl.otters.elbho.repositories
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import nl.otters.elbho.factories.RetrofitFactory
@@ -26,6 +27,7 @@ class InvoiceRepository(private val context: Context) {
                 }
 
                 override fun onFailure(call: Call<ArrayList<Invoice.File>>, t: Throwable) {
+                    Log.d("error", t.message + " " + t.cause)
                     // TODO: not implemented
                 }
             })
@@ -33,7 +35,7 @@ class InvoiceRepository(private val context: Context) {
         return invoices
     }
 
-    fun createInvoice(invoice: Invoice.CreationProperties) {
+    fun createInvoice(invoice: Invoice.Upload) {
         invoiceService.createInvoice(getAuthToken(), invoice).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 // TODO: not implemented

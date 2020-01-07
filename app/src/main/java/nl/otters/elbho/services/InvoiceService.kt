@@ -12,5 +12,5 @@ interface InvoiceService {
 
     @Headers("Content-type: application/json")
     @POST("/invoices")
-    fun createInvoice(@Header("Authorization") auth: String, @Body properties: Invoice.CreationProperties): Call<Unit>
+    fun createInvoice(@Header("Authorization") auth: String, @Body properties: Invoice.Upload): Call<Unit>
 }

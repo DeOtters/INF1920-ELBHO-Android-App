@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
 import nl.otters.elbho.R
+import java.io.File
+import java.io.IOException
 
 class CreateInvoiceFragment : DetailFragment() {
 
@@ -28,27 +30,42 @@ class CreateInvoiceFragment : DetailFragment() {
     }
 
     private fun setOnClickListeners() {
-        invoiceFileTextView.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                val intent = Intent()
-                    .setType("application/pdf")
-                    .setAction(Intent.ACTION_GET_CONTENT)
+        invoiceFileTextView.setOnClickListener {
+            val intent = Intent()
+                .setType("application/pdf")
+                .setAction(Intent.ACTION_GET_CONTENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
 
-                startActivityForResult(Intent.createChooser(intent, "Select a file"), 42069)
-            }
+            startActivityForResult(
+                Intent.createChooser(
+                    intent,
+                    getString(R.string.create_invoice_choose_file)
+                ), 42069
+            )
         }
         create_invoice.setOnClickListener { createInvoice(view!!) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == 42069 && resultCode == RESULT_OK) {
-            val selectedFile = data?.data //The uri with the location of the file
-            val fileName = selectedFile?.path.toString().substringBeforeLast(".")
 
-            invoiceFileTextView.setText(fileName)
+            data.let {
+
+                try {
+                    val file = File(it!!.data!!.encodedPath!!)
+                    //val inputStream: InputStream? = context!!.contentResolver.openInputStream(it?.data!!)
+                    invoiceFileTextView.setText(file.name)
+                } catch (e: IOException) {
+                    Snackbar.make(
+                        activity!!.findViewById(android.R.id.content),
+                        R.string.create_invoice_read_error,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun createInvoice(view: View) {

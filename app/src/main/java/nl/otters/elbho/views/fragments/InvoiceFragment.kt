@@ -1,6 +1,9 @@
 package nl.otters.elbho.views.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +23,7 @@ import nl.otters.elbho.views.activities.NavigationActivity
 
 class InvoiceFragment : BaseFragment() {
     private var invoices: ArrayList<Invoice.File> = ArrayList()
+    private var selectedFileUrl: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,20 +40,23 @@ class InvoiceFragment : BaseFragment() {
         setupRecyclerView()
         setupButtonListener()
 
-        invoices.clear()
+//        invoices.clear()
 //        invoices.add(
 //            Invoice.File(
 //                id = 1,
 //                adviserId = "fff",
-//                month = "OKTOBER",
 //                fileName = "Factuur van oktober.pdf",
+//                date = "11 november is de dag",
 //                filePath = "/troep/",
-//                document = "Random string"
+//                invoiceMonth = "Oktober",
+//                createdAt = "Geen idee",
+//                updatedAt = "Laatst nog"
 //            )
 //        )
 
         (activity as NavigationActivity).setProgressBarVisible(true)
         invoicesViewModel.getAllInvoices()?.observe(this, Observer {
+            Log.d("file", it.toString())
             if (it != null) {
                 updateInvoiceData(it)
             }
@@ -76,6 +83,7 @@ class InvoiceFragment : BaseFragment() {
             invoices,
             object : InvoiceListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
+                    selectedFileUrl = invoices[position].filePath
                     showAlert()
                 }
             })
@@ -91,6 +99,10 @@ class InvoiceFragment : BaseFragment() {
             .setTitle(getString(R.string.invoice_download_message))
             .setPositiveButton(getString(R.string.invoice_download)) { _, _ ->
                 // TODO: Download file to device
+                val intent = Intent()
+                    .setAction(Intent.ACTION_VIEW)
+                    .setData(Uri.parse(selectedFileUrl))
+                startActivity(intent)
             }.setNegativeButton(getString(R.string.invoice_cancel), null)
             .show()
     }
