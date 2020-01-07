@@ -2,8 +2,10 @@ package nl.otters.elbho.repositories
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import nl.otters.elbho.R
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.services.VehicleService
@@ -36,20 +38,20 @@ class VehicleRepository (private val context: Context) {
         return vehicles
     }
 
-    fun getAllVehicleReservations(options: Vehicle.CarReservationOptions?): LiveData<ArrayList<Vehicle.Car>> {
-        val vehicleReservations: MutableLiveData<ArrayList<Vehicle.Car>> = MutableLiveData()
+    fun getAllVehicleReservations(options: Vehicle.CarReservationOptions?): LiveData<ArrayList<Vehicle.CarWithReservations>> {
+        val vehicleReservations: MutableLiveData<ArrayList<Vehicle.CarWithReservations>> = MutableLiveData()
 
-        vehicleService.getAllVehicleReservations(getAuthToken(), options?.date, options?.after).enqueue(object : Callback<ArrayList<Vehicle.Car>> {
+        vehicleService.getAllVehicleReservations(getAuthToken(), options?.date, options?.after).enqueue(object : Callback<ArrayList<Vehicle.CarWithReservations>> {
             override fun onResponse(
-                call: Call<ArrayList<Vehicle.Car>>,
-                response: Response<ArrayList<Vehicle.Car>>
+                call: Call<ArrayList<Vehicle.CarWithReservations>>,
+                response: Response<ArrayList<Vehicle.CarWithReservations>>
             ) {
                 if (response.message() == "OK" && response.body() != null){
                     vehicleReservations.value = response.body()!!
                 }
             }
 
-            override fun onFailure(call: Call<ArrayList<Vehicle.Car>>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<Vehicle.CarWithReservations>>, t: Throwable) {
                 //TODO: implement error handling
                 Log.e("HTTP Vehicles: ", "Could not fetch data" , t)
             }
@@ -84,8 +86,11 @@ class VehicleRepository (private val context: Context) {
                 call: Call<Unit>,
                 response: Response<Unit>
             ) {
-                if (response.message() == "OK" && response.body() != null){
+                if (response.code() == 201 && response.body() != null){
                     //TODO: not implemented
+                    Toast.makeText(context, R.string.toast_vehicle_reserved,Toast.LENGTH_LONG).show()
+                } else if (response.code() == 409) {
+                    Toast.makeText(context,R.string.toast_vehicle_already_reserved,Toast.LENGTH_LONG).show()
                 }
             }
 

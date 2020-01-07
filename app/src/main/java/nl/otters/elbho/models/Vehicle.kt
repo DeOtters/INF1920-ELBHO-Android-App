@@ -20,9 +20,23 @@ object Vehicle {
         val location: String,
         val image: String,
         val createdAt: String,
+        val updatedAt: String
+    ) : Parcelable
+
+    data class CarWithReservations(
+
+        @SerializedName("_id")
+        val id: String,
+        val licensePlate: String,
+        val brand: String,
+        val model: String,
+        val transmission: String,
+        val location: String,
+        val image: String,
+        val createdAt: String,
         val updatedAt: String,
         val reservations: ArrayList<ReservationWithVehicleId>
-    ) : Parcelable
+    )
 
     @Parcelize
     data class Reservation(
@@ -39,7 +53,6 @@ object Vehicle {
         val updatedAt: String
     ) : Parcelable
 
-    @Parcelize
     data class ReservationWithVehicleId(
 
         @SerializedName("_id")
@@ -52,7 +65,7 @@ object Vehicle {
         val end: String,
         val createdAt: String,
         val updatedAt: String
-    ) : Parcelable
+    )
 
     data class CreateReservation(
 

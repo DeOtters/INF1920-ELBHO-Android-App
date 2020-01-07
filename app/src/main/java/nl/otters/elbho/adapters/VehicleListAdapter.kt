@@ -51,12 +51,15 @@ class VehicleListAdapter(
             claim.vehicle.model,
             claim.vehicle.transmission,
             claim.vehicle.licensePlate)
+
         holder.descriptionView.text = formatDescription(
             dateParser.toFormattedTime(claim.start),
             dateParser.toFormattedTime((claim.end)),
             claim.vehicle.location)
+
         holder.dateView.text = dateParser.toFormattedDate(claim.start)
         holder.dayView.text = dateParser.toFormattedDay(claim.start)
+
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)
@@ -64,18 +67,11 @@ class VehicleListAdapter(
     }
 
     private fun formatCarTitle(brand: String, model: String, transmission: String, licensePlate: String): String {
-        val trans: String
-        if(transmission.equals("Automaat")){
-            trans = context.resources.getString(R.string.vehicle_transmission_true)
-        }else{
-            trans = context.resources.getString(R.string.vehicle_transmission_false)
-        }
-
         return brand
             .plus(" ")
             .plus(model)
             .plus(" ")
-            .plus(trans)
+            .plus(transmission)
             .plus(" ")
             .plus(licensePlate)
     }
@@ -86,6 +82,6 @@ class VehicleListAdapter(
             .plus(" - ")
             .plus(endTime)
             .plus(", ")
-            .plus(address.substringAfterLast(","))
+            .plus(address.substringAfterLast(" "))
     }
 }

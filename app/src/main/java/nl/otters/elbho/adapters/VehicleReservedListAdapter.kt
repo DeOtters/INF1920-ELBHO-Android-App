@@ -15,7 +15,7 @@ import kotlin.collections.ArrayList
 
 class VehicleReservedListAdapter (
     private val context: Context,
-    private val vehicleReservations: ArrayList<Vehicle.Car>,
+    private val vehicleReservations: ArrayList<Vehicle.CarWithReservations>,
     private val listener: OnClickItemListener
 //    private val bottomReachedListener: OnBottomReachedListener
 ) : RecyclerView.Adapter<VehicleReservedListAdapter.ViewHolder>() {
@@ -44,16 +44,19 @@ class VehicleReservedListAdapter (
     override fun getItemCount(): Int = vehicleReservations.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val car : Vehicle.Car = vehicleReservations[position]
+        val car : Vehicle.CarWithReservations = vehicleReservations[position]
 
         holder.titleView.text = formatCarTitle(
             car.brand,
             car.model,
             car.transmission,
             car.licensePlate)
+
         holder.descriptionView.text = formatDescription(car.reservations, car.location)
+
         holder.dateView.text = dateParser.toFormattedDate(car.reservations[0].start)
         holder.dayView.text = dateParser.toFormattedDay(car.reservations[0].start)
+
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)
@@ -61,18 +64,11 @@ class VehicleReservedListAdapter (
     }
 
     private fun formatCarTitle(brand: String, model: String, transmission: String, licensePlate: String): String {
-        val trans: String
-        if(transmission.equals("Automaat")){
-            trans = context.resources.getString(R.string.vehicle_transmission_true)
-        }else{
-            trans = context.resources.getString(R.string.vehicle_transmission_false)
-        }
-
-        return brand
+            return brand
             .plus(" ")
             .plus(model)
             .plus(" ")
-            .plus(trans)
+            .plus(transmission)
             .plus(" ")
             .plus(licensePlate)
     }
@@ -88,7 +84,7 @@ class VehicleReservedListAdapter (
             builder.append(" - ")
             builder.append(dateParser.toFormattedTime(res.end))
             builder.append(", ")
-            builder.append(address.substringAfterLast(","))
+            builder.append(address.substringAfterLast(" "))
         }
 
         return builder.toString()

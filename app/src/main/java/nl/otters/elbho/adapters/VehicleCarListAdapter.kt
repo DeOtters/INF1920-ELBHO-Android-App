@@ -15,7 +15,7 @@ import nl.otters.elbho.utils.DateParser
 
 class VehicleCarListAdapter(
     private val context: Context,
-    private val vehicleCarList: ArrayList<Vehicle.Car>,
+    private val vehicleCarList: ArrayList<Vehicle.CarWithReservations>,
     private val reservationDate: String,
     private val reservationStartdate: String,
     private val reservationEndDate: String,
@@ -47,7 +47,7 @@ class VehicleCarListAdapter(
     override fun getItemCount(): Int = vehicleCarList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val car = vehicleCarList[position]
+        val car: Vehicle.CarWithReservations = vehicleCarList[position]
 
         holder.titleView.text = formatCarTitle(
             car.brand,
@@ -56,21 +56,12 @@ class VehicleCarListAdapter(
             car.licensePlate
         )
 
-        if(reservationStartdate.equals(" ") && reservationEndDate.equals(" ")){
-            holder.descriptionView.text = formatDescription(
-                reservationStartdate,
-                reservationEndDate,
-                car.location)
-            holder.dateView.text = dateParser.dateToFormattedDate(reservationDate)
-            holder.dayView.text = dateParser.dateToFormattedDay(reservationDate)
-        } else {
-            holder.descriptionView.text = formatDescription(
-                reservationStartdate,
-                reservationEndDate,
-                car.location)
-            holder.dateView.text = dateParser.dateToFormattedDate(reservationDate)
-            holder.dayView.text = dateParser.dateToFormattedDay(reservationDate)
-        }
+        holder.descriptionView.text = formatDescription(
+            reservationStartdate,
+            reservationEndDate,
+            car.location)
+        holder.dateView.text = dateParser.dateToFormattedDate(reservationDate)
+        holder.dayView.text = dateParser.dateToFormattedDay(reservationDate)
 
         holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
         holder.itemView.setOnClickListener {
@@ -79,18 +70,11 @@ class VehicleCarListAdapter(
     }
 
     private fun formatCarTitle(brand: String, model: String, transmission: String, licensePlate: String): String {
-        val trans: String
-        if(transmission.equals("Automaat")){
-            trans = context.resources.getString(R.string.vehicle_transmission_true)
-        }else{
-            trans = context.resources.getString(R.string.vehicle_transmission_false)
-        }
-
         return brand
             .plus(" ")
             .plus(model)
             .plus(" ")
-            .plus(trans)
+            .plus(transmission)
             .plus(" ")
             .plus(licensePlate)
     }
@@ -101,6 +85,6 @@ class VehicleCarListAdapter(
             .plus(" - ")
             .plus(endTime)
             .plus(", ")
-            .plus(address.substringAfterLast(","))
+            .plus(address.substringAfterLast(" "))
     }
 }
