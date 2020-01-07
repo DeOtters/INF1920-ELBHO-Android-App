@@ -22,7 +22,6 @@ class DisableWeekendsDecorator : DayViewDecorator {
         private val color = Color.parseColor("#228BC34A")
     }
 
-    //TODO: optimise, checking on strings is not that clean.
     override fun shouldDecorate(day: CalendarDay): Boolean {
         val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
         val weekDay: String = sdf.format(day.date).toUpperCase(Locale.ENGLISH)

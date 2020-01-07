@@ -19,6 +19,8 @@ import nl.otters.elbho.utils.AvailableDayDecorator
 import nl.otters.elbho.utils.DisableWeekendsDecorator
 import nl.otters.elbho.viewModels.AvailabilityViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     private var availability: ArrayList<Availability.Slot> = ArrayList()
@@ -74,6 +76,9 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         date: CalendarDay,
         selected: Boolean
     ) {
+        if(date.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || date.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            return
+        }
         val bundle = Bundle()
         bundle.putParcelable("KEY_CHOSEN_DATE", date)
         bundle.putParcelableArrayList("KEY_AVAILABILITY", availability)
