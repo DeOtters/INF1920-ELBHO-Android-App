@@ -17,9 +17,6 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.component_availability_input.*
 import kotlinx.android.synthetic.main.component_availability_input.view.*
 import kotlinx.android.synthetic.main.fragment_create_availability.*
-import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
-import kotlinx.android.synthetic.main.fragment_vehicle_reservation.endTime
-import kotlinx.android.synthetic.main.fragment_vehicle_reservation.startTime
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Availability
 import nl.otters.elbho.repositories.AvailabilityRepository
@@ -65,6 +62,7 @@ class CreateAvailabilityFragment : DetailFragment() {
 
         setDayLabels()
         setOnClickListeners()
+        setInputFields()
     }
 
     override fun onResume() {
@@ -103,7 +101,10 @@ class CreateAvailabilityFragment : DetailFragment() {
         filled_exposed_dropdown.setOnItemClickListener { _, _, position, _ ->
             chosenDay = CalendarDay(weekDates[position])
             datesOfWeek = getDatesOfWeek(chosenDay)
+
             setDayLabels()
+            setOnClickListeners()
+            setInputFields()
         }
     }
 
@@ -119,6 +120,7 @@ class CreateAvailabilityFragment : DetailFragment() {
             datesOfWeek.add(format.format(calendar.time))
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
+
         return datesOfWeek
     }
 
@@ -141,47 +143,47 @@ class CreateAvailabilityFragment : DetailFragment() {
             var startReservationTime: String = " "
             var endReservationTime: String = " "
 
-            item.startTime.setOnClickListener {
-                val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                calStart.set(Calendar.HOUR_OF_DAY, hour)
-                calStart.set(Calendar.MINUTE, minute)
-
-                calEnd.set(Calendar.HOUR_OF_DAY, hour + 2)
-                calEnd.set(Calendar.MINUTE, minute)
-
-                item.startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
-                startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
-
-                item.endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
-                endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
-            }
-                TimePickerDialog(context, timeSetListener, calStart.get(Calendar.HOUR_OF_DAY), calStart.get(Calendar.MINUTE), true).show()
-            }
-
-            item.endTime.setOnClickListener {
-                val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                    calEnd.set(Calendar.HOUR_OF_DAY, hour)
-                    calEnd.set(Calendar.MINUTE, minute)
-
-                    if(startReservationTime.equals(" ")) {
-                        calStart.set(Calendar.HOUR_OF_DAY, hour - 2)
+                item.startTime.setOnClickListener {
+                    val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                        calStart.set(Calendar.HOUR_OF_DAY, hour)
                         calStart.set(Calendar.MINUTE, minute)
 
-                        startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
+                        calEnd.set(Calendar.HOUR_OF_DAY, hour + 2)
+                        calEnd.set(Calendar.MINUTE, minute)
+
+                        item.startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
                         startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
 
-                        endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                        item.endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
                         endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
                     }
-                    if(calEnd.after(calStart)){
-                        endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
-                        SimpleDateFormat("HH:mm").format(calEnd.time)
-                    } else {
-                        Toast.makeText(context,R.string.toast_end_after, Toast.LENGTH_SHORT).show()
-                    }
+                    TimePickerDialog(context, timeSetListener, calStart.get(Calendar.HOUR_OF_DAY), calStart.get(Calendar.MINUTE), true).show()
                 }
-                TimePickerDialog(context, timeSetListener, calEnd.get(Calendar.HOUR_OF_DAY), calEnd.get(Calendar.MINUTE), true).show()
-            }
+
+                item.endTime.setOnClickListener {
+                    val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                        calEnd.set(Calendar.HOUR_OF_DAY, hour)
+                        calEnd.set(Calendar.MINUTE, minute)
+
+                        if(startReservationTime.equals(" ")) {
+                            calStart.set(Calendar.HOUR_OF_DAY, hour - 2)
+                            calStart.set(Calendar.MINUTE, minute)
+
+                            startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
+                            startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
+
+                            endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                            endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
+                        }
+                        if(calEnd.after(calStart)){
+                            endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                            SimpleDateFormat("HH:mm").format(calEnd.time)
+                        } else {
+                            Toast.makeText(context,R.string.toast_end_after, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    TimePickerDialog(context, timeSetListener, calEnd.get(Calendar.HOUR_OF_DAY), calEnd.get(Calendar.MINUTE), true).show()
+                }
 
             item.availability_clear.setOnClickListener {
                 item.startTime.setText(defaultTimePickerInputValue)
@@ -226,26 +228,24 @@ class CreateAvailabilityFragment : DetailFragment() {
     private fun getNewAvailabilities(){
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val adviserId = sharedPreferences.getValueString("adviser-id")!!
-
-        inputFieldList.forEachIndexed{index, item ->
+            inputFieldList.forEachIndexed{index, item ->
             if (item.startTime.text.toString() != defaultTimePickerInputValue && item.endTime.text.toString() != defaultTimePickerInputValue){
-                val newAvailability: Availability.Slot = Availability.Slot(
-                    adviserId,
-                    adviserId,
-                    datesOfWeek[index].plus("T00:00:00.694Z"),
-                    formatDateTime(datesOfWeek[index], item.startTime.text.toString()),
-                    formatDateTime(datesOfWeek[index], item.endTime.text.toString()),
-                    dateParser.getTimestampToday(),
-                    dateParser.getTimestampToday()
-                )
-                newAvailabilities.availabilities!!.add(newAvailability)
+                        val newAvailability: Availability.Slot = Availability.Slot(
+                            adviserId,
+                            adviserId,
+                            datesOfWeek[index].plus("T00:00:00.694Z"),
+                            formatDateTime(datesOfWeek[index], item.startTime.text.toString()),
+                            formatDateTime(datesOfWeek[index], item.endTime.text.toString()),
+                            dateParser.getTimestampToday(),
+                            dateParser.getTimestampToday()
+                        )
+                        newAvailabilities.availabilities!!.add(newAvailability)
             }
         }
     }
 
     private fun createAvailability(view: View) {
         getNewAvailabilities()
-
         if (newAvailabilities.availabilities!!.isNotEmpty()){
             availabilityViewModel.createAvailabilities(newAvailabilities)
         }
@@ -256,6 +256,31 @@ class CreateAvailabilityFragment : DetailFragment() {
             Snackbar.LENGTH_SHORT
         ).show()
         findNavController().navigateUp()
+    }
+
+    private fun setInputFields(){
+        inputFieldList.forEachIndexed { index, item ->
+            item.startTime.setText(defaultTimePickerInputValue)
+            item.endTime.setText(defaultTimePickerInputValue)
+
+            for(slot in availability){
+                if(slot.date.contains(datesOfWeek[index])){
+                    item.startTime.setText(dateParser.toFormattedTime(slot.start))
+                    item.endTime.setText(dateParser.toFormattedTime(slot.end))
+                }
+            }
+
+            if(item.startTime.text.toString() != defaultTimePickerInputValue &&  item.endTime.text.toString() != defaultTimePickerInputValue){
+                item.startTime.setOnClickListener {  }
+                item.endTime.setOnClickListener {  }
+                item.availability_clear.setOnClickListener {  }
+//                For some reason this does only work for the first item in the list?
+//                item.availability_clear.drawable.setTint(resources.getColor(R.color.colorDisabledButton))
+                item.availability_clear.setImageDrawable(resources.getDrawable(R.drawable.ic_delete_disabled_24dp))
+            }else{
+                item.availability_clear.setImageDrawable(resources.getDrawable(R.drawable.ic_delete_red_24dp))
+            }
+        }
     }
 }
 
