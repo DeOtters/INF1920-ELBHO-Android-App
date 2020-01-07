@@ -101,6 +101,7 @@
     <string name="empty_time">--:--</string>
     <string name="hint_time">Time input</string>
     <string name="reserved_txt">gereserveerd</string>
+    <string name="toast_vehicle_reserved">Auto gereserveerd</string>
 
     <!-- Create Availability Fragment  -->
     <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>

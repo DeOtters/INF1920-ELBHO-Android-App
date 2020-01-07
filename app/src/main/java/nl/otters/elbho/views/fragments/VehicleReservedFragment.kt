@@ -1,11 +1,21 @@
 package nl.otters.elbho.views.fragments
 
+import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.component_textdisplay.view.*
 import kotlinx.android.synthetic.main.fragment_request.bottomButton
@@ -16,8 +26,10 @@ import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.viewModels.VehicleViewModel
 
-class VehicleReservedFragment : DetailFragment() {
+class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
     private lateinit var reservation: Vehicle.Reservation
+    private lateinit var mapFragment: SupportMapFragment
+
     private val dateParser: DateParser = DateParser()
 
     override fun onCreateView(
@@ -34,17 +46,27 @@ class VehicleReservedFragment : DetailFragment() {
         val vehicleRepository = VehicleRepository(activity!!.applicationContext)
         val vehicleViewModel = VehicleViewModel(vehicleRepository)
 
+        mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
         setFieldLabels()
         setFieldIcons()
         setFieldValues(reservation)
 
+        textDisplay_carLocation.setOnClickListener {
+            val loc: Uri = Uri.parse("google.navigation:q=" + reservation.vehicle.location)
+            val mapIntent = Intent(Intent.ACTION_VIEW, loc)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+        }
+
         bottomButton.setOnClickListener {
-            showAlert(vehicleViewModel)
+            showDeleteAlert(vehicleViewModel)
         }
     }
 
     // TODO: Use Synchronize instead of Thread.Sleep
-    private fun showAlert(vehicleViewModel: VehicleViewModel) {
+    private fun showDeleteAlert(vehicleViewModel: VehicleViewModel) {
         MaterialAlertDialogBuilder(context)
             .setTitle(getString(R.string.vehicle_delete_message))
             .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
@@ -114,5 +136,22 @@ class VehicleReservedFragment : DetailFragment() {
         return startTime
             .plus(" - ")
             .plus(endTime)
+    }
+
+    // TODO: Errorhandling
+    override fun onMapReady(googleMap: GoogleMap) {
+
+        val coder = Geocoder(context)
+        val address: List<Address>
+
+        address = coder.getFromLocationName(reservation.vehicle.location, 5)
+        val location: Address = address.get(0)
+
+        val finalLocation = LatLng(location.latitude, location.longitude)
+
+        googleMap.addMarker(MarkerOptions().position(finalLocation))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(finalLocation, 16f))
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.uiSettings.isScrollGesturesEnabled = false
     }
 }

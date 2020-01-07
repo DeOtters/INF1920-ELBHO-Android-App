@@ -4,11 +4,14 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -177,6 +180,17 @@ class VehicleReservationFragment : DetailFragment() {
                                     end = toTime))
                                 Thread.sleep(500)
                                 findNavController().navigate(R.id.action_global_vehicleFragment)
+
+                                Toast.makeText(context,R.string.toast_vehicle_reserved,Toast.LENGTH_SHORT).show()
+
+//                                val toast: Toast = Toast.makeText(context,R.string.toast_vehicle_reserved,Toast.LENGTH_SHORT)
+//
+//                                val view: View = toast.view
+//                                view.setBackgroundColor(resources.getColor(R.color.green_button))
+//
+//                                val text: TextView = view.findViewById(android.R.id.message)
+//                                text.setTextColor(Color.WHITE)
+//                                toast.show()
 
                             }.setNegativeButton(getString(R.string.vehicle_delete_message_false), null)
                             .show()
