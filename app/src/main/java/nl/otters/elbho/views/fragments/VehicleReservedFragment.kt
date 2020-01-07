@@ -52,13 +52,7 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
         setFieldLabels()
         setFieldIcons()
         setFieldValues(reservation)
-
-        textDisplay_carLocation.setOnClickListener {
-            val loc: Uri = Uri.parse("google.navigation:q=" + reservation.vehicle.location)
-            val mapIntent = Intent(Intent.ACTION_VIEW, loc)
-            mapIntent.setPackage("com.google.android.apps.maps")
-            startActivity(mapIntent)
-        }
+        setMapsListener(reservation)
 
         bottomButton.setOnClickListener {
             showDeleteAlert(vehicleViewModel)
@@ -115,6 +109,16 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
             dateParser.toFormattedTime(reservation.end)
         )
         textDisplay_carLocation.value.text = reservation.vehicle.location
+    }
+
+    private fun setMapsListener(reservation: Vehicle.Reservation){
+        textDisplay_carLocation.setOnClickListener {
+            //val locString: String = ("geo:0,0?q=" + reservation.vehicle.location)
+            val gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+        }
     }
 
     private fun formatCarTitle(brand: String, model: String, transmission: String): String {
