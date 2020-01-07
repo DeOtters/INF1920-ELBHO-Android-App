@@ -113,8 +113,8 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
 
     private fun setMapsListener(reservation: Vehicle.Reservation){
         textDisplay_carLocation.setOnClickListener {
-            //val locString: String = ("geo:0,0?q=" + reservation.vehicle.location)
-            val gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988")
+            val locString: String = ("geo:0,0?q=" + reservation.vehicle.location)
+            val gmmIntentUri = Uri.parse(locString)
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             startActivity(mapIntent)

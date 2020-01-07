@@ -34,7 +34,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class VehicleReservationFragment : DetailFragment() {
-    private var vehicleCarList: ArrayList<Vehicle.Car> = ArrayList()
+    private var vehicleCarList: ArrayList<Vehicle.CarWithReservations> = ArrayList()
 
     private var startReservationTime: String = " "
     private var endReservationTime: String = " "
@@ -152,7 +152,7 @@ class VehicleReservationFragment : DetailFragment() {
             object : VehicleCarListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
 
-                    val car : Vehicle.Car = vehicleCarList[position]
+                    val car : Vehicle.CarWithReservations = vehicleCarList[position]
 
                     if(!reservationDate.equals(" ") && !startReservationTime.equals(" ") && !endReservationTime.equals(" ")) {
                         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
@@ -181,7 +181,7 @@ class VehicleReservationFragment : DetailFragment() {
                                 Thread.sleep(500)
                                 findNavController().navigate(R.id.action_global_vehicleFragment)
 
-                                Toast.makeText(context,R.string.toast_vehicle_reserved,Toast.LENGTH_SHORT).show()
+
 
 //                                val toast: Toast = Toast.makeText(context,R.string.toast_vehicle_reserved,Toast.LENGTH_SHORT)
 //
@@ -195,7 +195,7 @@ class VehicleReservationFragment : DetailFragment() {
                             }.setNegativeButton(getString(R.string.vehicle_delete_message_false), null)
                             .show()
                     } else {
-                        Toast.makeText(context,R.string.toast_select_all_inputs,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,R.string.toast_select_all_inputs,Toast.LENGTH_LONG).show()
                     }
                 }
             })
@@ -206,7 +206,7 @@ class VehicleReservationFragment : DetailFragment() {
         }
 
         val viewManager2 = LinearLayoutManager(activity!!.applicationContext)
-        val reservationsList: ArrayList<Vehicle.Car> = ArrayList()
+        val reservationsList: ArrayList<Vehicle.CarWithReservations> = ArrayList()
         for (reservation in vehicleCarList) {
             if (reservation.reservations.isEmpty()) {
                 continue
