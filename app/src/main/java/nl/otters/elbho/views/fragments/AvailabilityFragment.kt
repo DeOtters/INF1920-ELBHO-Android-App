@@ -67,7 +67,6 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         val disableWeekendsDecorator = DisableWeekendsDecorator()
         calendarView.addDecorator(disableWeekendsDecorator)
         calendarView.setOnDateChangedListener(this)
-        // This means that we can only select 1 date at a time in the calendar
         calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
     }
 

@@ -273,6 +273,8 @@ class CreateAvailabilityFragment : DetailFragment() {
             if(item.startTime.text.toString() != defaultTimePickerInputValue &&  item.endTime.text.toString() != defaultTimePickerInputValue){
                 item.startTime.setOnClickListener {  }
                 item.endTime.setOnClickListener {  }
+                item.startTime.isClickable = false
+                item.endTime.isClickable = false
                 item.availability_clear.setOnClickListener {  }
 //                For some reason this does only work for the first item in the list?
 //                item.availability_clear.drawable.setTint(resources.getColor(R.color.colorDisabledButton))

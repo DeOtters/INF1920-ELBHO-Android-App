@@ -139,7 +139,7 @@ class CopyWeekFragment : DetailFragment() {
             getString(R.string.copy_week_saved),
             Snackbar.LENGTH_SHORT
         ).show()
-        findNavController().navigateUp()
+        findNavController().navigate(R.id.availabilityFragment)
     }
 
     override fun onResume() {
