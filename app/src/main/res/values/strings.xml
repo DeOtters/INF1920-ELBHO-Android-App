@@ -126,6 +126,9 @@
     <string name="input_placeholder">--:--</string>
     <string name="input_label_from">VAN</string>
     <string name="input_label_to">TOT</string>
+    <string name="create_invoice_read_error">Het is niet gelukt om dit bestand in te lezen</string>
+    <string name="create_invoice_choose_file">Kies een pdf-bestand</string>
+    <string name="invoices_creation_date">Geüpload op %s</string>
 
 
 </resources>

@@ -1,10 +1,7 @@
 package nl.otters.elbho.utils
 
-import android.util.Log
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DateParser {
@@ -37,6 +34,16 @@ class DateParser {
    */
     fun toFormattedDate(dateTime: String) : String{
         val formatter = SimpleDateFormat("dd-MM",  Locale("nl"))
+        return formatter.format(parser.parse(dateTime)!!)
+    }
+
+    fun toFormattedUploadMonth(dateTime: String): String {
+        val formatter = SimpleDateFormat("MMMM", Locale("nl"))
+        return formatter.format(parser.parse(dateTime)!!)
+    }
+
+    fun toFormattedUploadDate(dateTime: String): String {
+        val formatter = SimpleDateFormat("d MMMM yyyy", Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
     }
 
