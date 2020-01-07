@@ -76,15 +76,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/textDisplay_carLocation"
                 app:layout_constraintBottom_toTopOf="@+id/bottomButton">
 
-                <ImageView
-                    android:id="@+id/mapImage"
+                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/mapView"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
-                    android:contentDescription="@string/map_picture"
+                    android:layout_height="250dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/img_map" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
