@@ -19,6 +19,8 @@ import nl.otters.elbho.utils.AvailableDayDecorator
 import nl.otters.elbho.utils.DisableWeekendsDecorator
 import nl.otters.elbho.viewModels.AvailabilityViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     private var availability: ArrayList<Availability.Slot> = ArrayList()
@@ -39,14 +41,16 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
 
         setupCalendar()
         (activity as NavigationActivity).setProgressBarVisible(true)
-//        availabilityViewModel.getAllAvailabilities()?.observe(this, Observer {
-//            availability = it
-//            for (timeSlot in it){
-//                //Here we add the ui for a available day from database
-//                calendarView.addDecorator(AvailableDayDecorator(timeSlot.startDateTime))
-//                (activity as NavigationActivity).setProgressBarVisible(false)
-//            }
-//        })
+
+        //TODO: add timeperiod for proper paginitation (performance)
+        availabilityViewModel.getAllAvailabilities(null)?.observe(this, Observer {
+            availability = it
+            for (timeSlot in it){
+                //Here we add the ui for a available day from database
+                calendarView.addDecorator(AvailableDayDecorator(timeSlot.start))
+                (activity as NavigationActivity).setProgressBarVisible(false)
+            }
+        })
     }
 
     override fun onResume() {
@@ -63,7 +67,6 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         val disableWeekendsDecorator = DisableWeekendsDecorator()
         calendarView.addDecorator(disableWeekendsDecorator)
         calendarView.setOnDateChangedListener(this)
-        // This means that we can only select 1 date at a time in the calendar
         calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
     }
 
@@ -72,6 +75,9 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         date: CalendarDay,
         selected: Boolean
     ) {
+        if(date.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || date.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            return
+        }
         val bundle = Bundle()
         bundle.putParcelable("KEY_CHOSEN_DATE", date)
         bundle.putParcelableArrayList("KEY_AVAILABILITY", availability)

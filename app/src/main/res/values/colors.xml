@@ -15,4 +15,5 @@
     <color name="colorSecondary">#EA9A00</color>
     <color name="colorMaskRipple">#42ffffff</color>
     <color name="calendarBorder">#ECECEC</color>
+    <color name="colorAvailabilityDate">#FAFCFE</color>
 </resources>

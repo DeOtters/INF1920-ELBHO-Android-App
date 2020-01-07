@@ -17,7 +17,7 @@ class AvailabilityRepository(private val context: Context) {
 
     fun getAvailabilities(timePeriod: Availability.TimePeriod?): LiveData<ArrayList<Availability.Slot>>? {
         val availabilities = MutableLiveData<ArrayList<Availability.Slot>>()
-        availabilityService.getAvailabilities(getAuthToken(), timePeriod)
+        availabilityService.getAvailabilities(getAuthToken(), timePeriod?.before, timePeriod?.after)
             .enqueue(object : Callback<ArrayList<Availability.Slot>> {
                 override fun onResponse(
                     call: Call<ArrayList<Availability.Slot>>,
@@ -35,11 +35,12 @@ class AvailabilityRepository(private val context: Context) {
         return availabilities
     }
 
-    fun createAvailability(availability: Availability.Slot) {
+    fun createAvailability(availability: Availability.Availabilities) {
         availabilityService.createAvailability(getAuthToken(), availability)
             .enqueue(object : Callback<Unit> {
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                     // TODO: not implemented
+                    Log.e("saaang", "vm wel gelukt broer")
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {

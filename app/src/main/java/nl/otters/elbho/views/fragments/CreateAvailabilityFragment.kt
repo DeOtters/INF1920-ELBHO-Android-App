@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +14,15 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.prolificinteractive.materialcalendarview.CalendarDay
+import kotlinx.android.synthetic.main.component_availability_input.*
 import kotlinx.android.synthetic.main.component_availability_input.view.*
 import kotlinx.android.synthetic.main.fragment_create_availability.*
-import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Availability
+import nl.otters.elbho.repositories.AvailabilityRepository
+import nl.otters.elbho.utils.DateParser
+import nl.otters.elbho.utils.SharedPreferences
+import nl.otters.elbho.viewModels.AvailabilityViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,8 +35,11 @@ class CreateAvailabilityFragment : DetailFragment() {
     private lateinit var chosenDay: CalendarDay
     private lateinit var availability: ArrayList<Availability.Slot>
     private lateinit var inputFieldList: ArrayList<View>
-
-
+    private lateinit var datesOfWeek: ArrayList<String>
+    private lateinit var dateParser: DateParser
+    private lateinit var availabilityViewModel: AvailabilityViewModel
+    private val defaultTimePickerInputValue = "--:--"
+    private val newAvailabilities : Availability.Availabilities = Availability.Availabilities(ArrayList())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,17 +51,33 @@ class CreateAvailabilityFragment : DetailFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        val availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
+        availabilityViewModel = AvailabilityViewModel(availabilityRepository)
+
+        dateParser = DateParser()
         chosenDay = arguments?.getParcelable("KEY_CHOSEN_DATE")!!
         availability = arguments?.getParcelableArrayList("KEY_AVAILABILITY")!!
+        datesOfWeek = getDatesOfWeek(chosenDay)
 
-        setDayLabels(chosenDay)
+        setDayLabels()
         setOnClickListeners()
+        setInputFields()
+    }
+
+    override fun onResume() {
+        setTitle()
+        super.onResume()
+        setWeekSelector(chosenDay)
+    }
+
+    private fun setTitle() {
+        val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        appTitle.setText(R.string.create_new_availability_title)
     }
 
     private fun setWeekSelector(date: CalendarDay){
-        //TODO: onItemSelected setDayLabels
         val calendar: Calendar =  Calendar.getInstance()
-        // TODO: using two lists for the same value is not cool..
         val weeks: ArrayList<String> = ArrayList()
         val weekDates: ArrayList<Date> = ArrayList()
 
@@ -75,26 +99,29 @@ class CreateAvailabilityFragment : DetailFragment() {
         filled_exposed_dropdown.text = SpannableStringBuilder(resources.getString(R.string.create_availability_week_selector, calendar.get(Calendar.WEEK_OF_YEAR)))
         filled_exposed_dropdown.setAdapter(adapter)
         filled_exposed_dropdown.setOnItemClickListener { _, _, position, _ ->
-            val chosenDate = CalendarDay(weekDates[position])
-            setDayLabels(chosenDate)
+            chosenDay = CalendarDay(weekDates[position])
+            datesOfWeek = getDatesOfWeek(chosenDay)
+
+            setDayLabels()
+            setOnClickListeners()
+            setInputFields()
         }
     }
 
-    private fun getDaysOfWeek(date: CalendarDay): ArrayList<String>{
+    private fun getDatesOfWeek(date: CalendarDay): ArrayList<String>{
         val calendar: Calendar = Calendar.getInstance()
-        val format = SimpleDateFormat("dd/MM", Locale("nl"))
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
+        val datesOfWeek: ArrayList<String> = ArrayList()
 
         calendar.time = date.date
         calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
 
-        val daysOfWeek: ArrayList<String> = ArrayList()
-
         for(i in 0..4){
-            daysOfWeek.add(format.format(calendar.time))
+            datesOfWeek.add(format.format(calendar.time))
             calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
 
-        return daysOfWeek
+        return datesOfWeek
     }
 
     private fun setOnClickListeners() {
@@ -116,85 +143,112 @@ class CreateAvailabilityFragment : DetailFragment() {
             var startReservationTime: String = " "
             var endReservationTime: String = " "
 
-            item.startTime.setOnClickListener {
-                val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                calStart.set(Calendar.HOUR_OF_DAY, hour)
-                calStart.set(Calendar.MINUTE, minute)
-
-                calEnd.set(Calendar.HOUR_OF_DAY, hour + 2)
-                calEnd.set(Calendar.MINUTE, minute)
-
-                item.startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
-                startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
-
-                item.endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
-                endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
-            }
-                TimePickerDialog(context, timeSetListener, calStart.get(Calendar.HOUR_OF_DAY), calStart.get(Calendar.MINUTE), true).show()
-            }
-
-            endTime.setOnClickListener {
-                val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
-                    calEnd.set(Calendar.HOUR_OF_DAY, hour)
-                    calEnd.set(Calendar.MINUTE, minute)
-
-                    if(startReservationTime.equals(" ")) {
-                        calStart.set(Calendar.HOUR_OF_DAY, hour - 2)
+                item.startTime.setOnClickListener {
+                    val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                        calStart.set(Calendar.HOUR_OF_DAY, hour)
                         calStart.set(Calendar.MINUTE, minute)
 
-                        startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
+                        calEnd.set(Calendar.HOUR_OF_DAY, hour + 2)
+                        calEnd.set(Calendar.MINUTE, minute)
+
+                        item.startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
                         startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
 
-                        endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                        item.endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
                         endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
                     }
-                    if(calEnd.after(calStart)){
-                        endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
-                        SimpleDateFormat("HH:mm").format(calEnd.time)
-                    } else {
-                        Toast.makeText(context,R.string.toast_end_after, Toast.LENGTH_SHORT).show()
-                    }
+                    TimePickerDialog(context, timeSetListener, calStart.get(Calendar.HOUR_OF_DAY), calStart.get(Calendar.MINUTE), true).show()
                 }
-                TimePickerDialog(context, timeSetListener, calEnd.get(Calendar.HOUR_OF_DAY), calEnd.get(Calendar.MINUTE), true).show()
+
+                item.endTime.setOnClickListener {
+                    val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                        calEnd.set(Calendar.HOUR_OF_DAY, hour)
+                        calEnd.set(Calendar.MINUTE, minute)
+
+                        if(startReservationTime.equals(" ")) {
+                            calStart.set(Calendar.HOUR_OF_DAY, hour - 2)
+                            calStart.set(Calendar.MINUTE, minute)
+
+                            startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
+                            startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
+
+                            endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                            endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
+                        }
+                        if(calEnd.after(calStart)){
+                            endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                            SimpleDateFormat("HH:mm").format(calEnd.time)
+                        } else {
+                            Toast.makeText(context,R.string.toast_end_after, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    TimePickerDialog(context, timeSetListener, calEnd.get(Calendar.HOUR_OF_DAY), calEnd.get(Calendar.MINUTE), true).show()
+                }
+
+            item.availability_clear.setOnClickListener {
+                item.startTime.setText(defaultTimePickerInputValue)
+                item.endTime.setText(defaultTimePickerInputValue)
             }
-//            item.availability_time_from.setOnClickListener {
-//                // TODO: Open time picker and set time to text field
-//            }
-//            item.availability_time_to.setOnClickListener {
-//                // TODO: Open time picker and set time to text field
-//            }
-//            item.availability_clear.setOnClickListener {
-//
-//            }
         }
     }
 
-    private fun setDayLabels(chosenDate: CalendarDay ) {
-        // TODO: Improve this
-        val daysOfWeek: ArrayList<String> = getDaysOfWeek(chosenDate)
+    private fun setDayLabels() {
+        availability_monday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[0])
+        availability_monday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[0])
 
-        availability_monday.availability_dayText.text = "MA"
-        availability_monday.availability_dateText.text = daysOfWeek[0]
+        availability_tuesday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[1])
+        availability_tuesday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[1])
 
-        availability_tuesday.availability_dayText.text = "DI"
-        availability_tuesday.availability_dateText.text = daysOfWeek[1]
+        availability_wednesday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[2])
+        availability_wednesday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[2])
 
-        availability_wednesday.availability_dayText.text = "WO"
-        availability_wednesday.availability_dateText.text = daysOfWeek[2]
+        availability_thursday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[3])
+        availability_thursday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[3])
 
-        availability_thursday.availability_dayText.text = "DO"
-        availability_thursday.availability_dateText.text = daysOfWeek[3]
-
-        availability_friday.availability_dayText.text = "VR"
-        availability_friday.availability_dateText.text = daysOfWeek[4]
+        availability_friday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[4])
+        availability_friday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[4])
     }
 
     private fun copyWeek() {
-        findNavController().navigate(R.id.action_createAvailabilityFragment_to_copyWeekFragment)
+        getNewAvailabilities()
+
+        val bundle = Bundle()
+        bundle.putParcelable("KEY_CHOSEN_DATE", chosenDay)
+        bundle.putParcelable("KEY_NEW_AVAILABILITIES", newAvailabilities)
+        findNavController().navigate(R.id.action_createAvailabilityFragment_to_copyWeekFragment, bundle)
+    }
+
+    private fun formatDateTime(date: String, time: String): String {
+        return date
+            .plus("T")
+            .plus(time)
+            .plus(":00.694Z")
+    }
+
+    private fun getNewAvailabilities(){
+        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
+        val adviserId = sharedPreferences.getValueString("adviser-id")!!
+            inputFieldList.forEachIndexed{index, item ->
+            if (item.startTime.text.toString() != defaultTimePickerInputValue && item.endTime.text.toString() != defaultTimePickerInputValue){
+                        val newAvailability: Availability.Slot = Availability.Slot(
+                            adviserId,
+                            adviserId,
+                            datesOfWeek[index].plus("T00:00:00.694Z"),
+                            formatDateTime(datesOfWeek[index], item.startTime.text.toString()),
+                            formatDateTime(datesOfWeek[index], item.endTime.text.toString()),
+                            dateParser.getTimestampToday(),
+                            dateParser.getTimestampToday()
+                        )
+                        newAvailabilities.availabilities!!.add(newAvailability)
+            }
+        }
     }
 
     private fun createAvailability(view: View) {
-        // TODO: Get data from date fields and send to API
+        getNewAvailabilities()
+        if (newAvailabilities.availabilities!!.isNotEmpty()){
+            availabilityViewModel.createAvailabilities(newAvailabilities)
+        }
 
         Snackbar.make(
             view,
@@ -204,15 +258,31 @@ class CreateAvailabilityFragment : DetailFragment() {
         findNavController().navigateUp()
     }
 
-    override fun onResume() {
-        setTitle()
-        super.onResume()
-        setWeekSelector(chosenDay)
-    }
+    private fun setInputFields(){
+        inputFieldList.forEachIndexed { index, item ->
+            item.startTime.setText(defaultTimePickerInputValue)
+            item.endTime.setText(defaultTimePickerInputValue)
 
-    private fun setTitle() {
-        val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.setText(R.string.create_new_availability_title)
+            for(slot in availability){
+                if(slot.date.contains(datesOfWeek[index])){
+                    item.startTime.setText(dateParser.toFormattedTime(slot.start))
+                    item.endTime.setText(dateParser.toFormattedTime(slot.end))
+                }
+            }
+
+            if(item.startTime.text.toString() != defaultTimePickerInputValue &&  item.endTime.text.toString() != defaultTimePickerInputValue){
+                item.startTime.setOnClickListener {  }
+                item.endTime.setOnClickListener {  }
+                item.startTime.isClickable = false
+                item.endTime.isClickable = false
+                item.availability_clear.setOnClickListener {  }
+//                For some reason this does only work for the first item in the list?
+//                item.availability_clear.drawable.setTint(resources.getColor(R.color.colorDisabledButton))
+                item.availability_clear.setImageDrawable(resources.getDrawable(R.drawable.ic_delete_disabled_24dp))
+            }else{
+                item.availability_clear.setImageDrawable(resources.getDrawable(R.drawable.ic_delete_red_24dp))
+            }
+        }
     }
 }
 
