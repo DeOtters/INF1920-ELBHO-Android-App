@@ -13,6 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
 import nl.otters.elbho.R
+import nl.otters.elbho.models.Invoice
+import nl.otters.elbho.repositories.InvoiceRepository
+import nl.otters.elbho.utils.DateParser
+import java.io.*
+
 
 class CreateInvoiceFragment : DetailFragment() {
 
@@ -24,7 +29,7 @@ class CreateInvoiceFragment : DetailFragment() {
         return inflater.inflate(R.layout.fragment_create_invoice, container, false)
     }
 
-    lateinit var selectedFileUri: Uri
+    private lateinit var selectedFileUri: Uri
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -50,8 +55,19 @@ class CreateInvoiceFragment : DetailFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 42069 && resultCode == RESULT_OK) {
-            val selectedFile = data?.data //The uri with the location of the file
-            val fileName = selectedFile?.path.toString().substringBeforeLast(".")
+
+            data.let {
+
+                try {
+                    selectedFileUri = it!!.data!!
+                    invoiceFileTextView.setText("Bestand geselecteerd")
+                } catch (e: IOException) {
+                    Snackbar.make(
+                        activity!!.findViewById(android.R.id.content),
+                        R.string.create_invoice_read_error,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
 
             }
         }
