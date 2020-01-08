@@ -15,10 +15,10 @@ interface InvoiceService {
 
     @Multipart
     @Headers("Content-type: application/json")
-    @POST("/invoices")
+    @POST("/auth/invoice")
     fun createInvoice(
         @Header("Authorization") auth: String,
-        @Part("date") date: RequestBody,
+        @Part("date") date: String,
         @Part file: MultipartBody.Part
     ): Call<ResponseBody>
 }

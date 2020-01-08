@@ -189,6 +189,11 @@ class RequestFragment : DetailFragment() {
             topButton.setIconResource(R.drawable.ic_done_24dp)
             requestingLocationUpdates = true
             vehicleLocationProvider.start()
+            Snackbar.make(
+                view!!,
+                getString(R.string.snackbar_departed),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 }

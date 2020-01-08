@@ -41,7 +41,7 @@ class InvoiceRepository(private val context: Context) {
     }
 
     fun createInvoice(invoice: Invoice.Upload) {
-        val date = RequestBody.create(MultipartBody.FORM, invoice.date)
+        val date = "tijd"
         val fileBody: RequestBody =
             RequestBody.create(MediaType.parse("application/pdf"), invoice.file)
         val file = MultipartBody.Part.createFormData("file", invoice.file.name, fileBody)

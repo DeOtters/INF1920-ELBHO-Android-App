@@ -130,6 +130,7 @@
     <string name="create_invoice_read_error">Het is niet gelukt om dit bestand in te lezen</string>
     <string name="create_invoice_choose_file">Kies een pdf-bestand</string>
     <string name="invoices_creation_date">Geüpload op %s</string>
+    <string name="snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>
 
 
 </resources>
