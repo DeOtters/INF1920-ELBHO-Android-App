@@ -3,7 +3,6 @@ package nl.otters.elbho.views.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,23 +39,8 @@ class InvoiceFragment : BaseFragment() {
         setupRecyclerView()
         setupButtonListener()
 
-//        invoices.clear()
-//        invoices.add(
-//            Invoice.File(
-//                id = 1,
-//                adviserId = "fff",
-//                fileName = "Factuur van oktober.pdf",
-//                date = "11 november is de dag",
-//                filePath = "/troep/",
-//                invoiceMonth = "Oktober",
-//                createdAt = "Geen idee",
-//                updatedAt = "Laatst nog"
-//            )
-//        )
-
         (activity as NavigationActivity).setProgressBarVisible(true)
         invoicesViewModel.getAllInvoices()?.observe(this, Observer {
-            Log.d("file", it.toString())
             if (it != null) {
                 updateInvoiceData(it)
             }
@@ -98,7 +82,6 @@ class InvoiceFragment : BaseFragment() {
         MaterialAlertDialogBuilder(context)
             .setTitle(getString(R.string.invoice_download_message))
             .setPositiveButton(getString(R.string.invoice_download)) { _, _ ->
-                // TODO: Download file to device
                 val intent = Intent()
                     .setAction(Intent.ACTION_VIEW)
                     .setData(Uri.parse(selectedFileUrl))

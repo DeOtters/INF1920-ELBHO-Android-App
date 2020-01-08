@@ -19,6 +19,6 @@ object Invoice {
 
     data class Upload(
         val date: String,
-        val file: String
+        val file: java.io.File
     )
 }

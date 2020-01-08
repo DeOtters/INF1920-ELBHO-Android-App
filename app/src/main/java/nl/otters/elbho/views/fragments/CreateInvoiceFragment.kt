@@ -2,7 +2,9 @@ package nl.otters.elbho.views.fragments
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
 import nl.otters.elbho.R
-import java.io.File
-import java.io.IOException
+import nl.otters.elbho.models.Invoice
+import nl.otters.elbho.repositories.InvoiceRepository
+import nl.otters.elbho.utils.DateParser
+import java.io.*
+
 
 class CreateInvoiceFragment : DetailFragment() {
 
@@ -23,6 +28,8 @@ class CreateInvoiceFragment : DetailFragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_create_invoice, container, false)
     }
+
+    lateinit var selectedFileUri: Uri
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -52,9 +59,8 @@ class CreateInvoiceFragment : DetailFragment() {
             data.let {
 
                 try {
-                    val file = File(it!!.data!!.encodedPath!!)
-                    //val inputStream: InputStream? = context!!.contentResolver.openInputStream(it?.data!!)
-                    invoiceFileTextView.setText(file.name)
+                    selectedFileUri = it!!.data!!
+                    invoiceFileTextView.setText("Bestand geselecteerd")
                 } catch (e: IOException) {
                     Snackbar.make(
                         activity!!.findViewById(android.R.id.content),
@@ -70,7 +76,21 @@ class CreateInvoiceFragment : DetailFragment() {
 
     private fun createInvoice(view: View) {
         //TODO: Get data from text fields and send to API
+        val invoiceRepository = InvoiceRepository(activity!!.applicationContext)
+        val inputStream: InputStream = context!!.contentResolver.openInputStream(selectedFileUri)!!
+        val file = File(context!!.getExternalFilesDir(null)!!.absolutePath + "/invoice.pdf")
+        val outputStream: OutputStream = FileOutputStream(file)
+        val buffer = ByteArray(1024)
+        var length: Int
 
+        while (inputStream.read(buffer).also { length = it } > 0) {
+            outputStream.write(buffer, 0, length)
+        }
+        outputStream.close()
+        inputStream.close()
+        val dateParser = DateParser()
+        invoiceRepository.createInvoice(Invoice.Upload(dateParser.getDateToday(), file))
+        Log.d("file", file.path)
         Snackbar.make(
             view,
             R.string.create_invoice_uploaded,
