@@ -24,7 +24,10 @@ import nl.otters.elbho.R
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
+import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
+import nl.otters.elbho.views.activities.LoginActivity
+import nl.otters.elbho.views.activities.NavigationActivity
 
 class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
     private lateinit var reservation: Vehicle.Reservation
@@ -45,6 +48,13 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
         super.onViewCreated(view, savedInstanceState)
         val vehicleRepository = VehicleRepository(activity!!.applicationContext)
         val vehicleViewModel = VehicleViewModel(vehicleRepository)
+
+        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
+        val authToken: String? = sharedPreferences.getValueString("auth-token")
+
+        if (authToken == null){
+            startLoginActivity()
+        }
 
         mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -71,11 +81,6 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
 
             }.setNegativeButton(getString(R.string.vehicle_delete_message_false), null)
             .show()
-    }
-
-    private fun setTitle() {
-        val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.setText(R.string.navigation_vehicle)
     }
 
     private fun setFieldLabels() {
@@ -122,18 +127,11 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
     }
 
     private fun formatCarTitle(brand: String, model: String, transmission: String): String {
-        val trans: String
-        if (transmission.equals("Automaat")) {
-            trans = resources.getString(R.string.vehicle_transmission_true)
-        } else {
-            trans = resources.getString(R.string.vehicle_transmission_false)
-        }
-
         return brand
             .plus(" ")
             .plus(model)
             .plus(" ")
-            .plus(trans)
+            .plus(transmission)
     }
 
     private fun formatTime(startTime: String, endTime: String): String {
@@ -157,5 +155,25 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(finalLocation, 16f))
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.uiSettings.isScrollGesturesEnabled = false
+    }
+
+    private fun startLoginActivity() {
+        val intent = Intent(activity!!.applicationContext, LoginActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun setTitle() {
+        val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        appTitle.setText(R.string.navigation_vehicle)
+    }
+
+    override fun onResume() {
+        setTitle()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as NavigationActivity).setProgressBarVisible(false)
     }
 }

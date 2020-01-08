@@ -41,7 +41,7 @@ class VehicleRepository (private val context: Context) {
     fun getAllVehicleReservations(options: Vehicle.CarReservationOptions?): LiveData<ArrayList<Vehicle.CarWithReservations>> {
         val vehicleReservations: MutableLiveData<ArrayList<Vehicle.CarWithReservations>> = MutableLiveData()
 
-        vehicleService.getAllVehicleReservations(getAuthToken(), options?.date, options?.after).enqueue(object : Callback<ArrayList<Vehicle.CarWithReservations>> {
+        vehicleService.getAllVehicleReservations(getAuthToken(), options?.date).enqueue(object : Callback<ArrayList<Vehicle.CarWithReservations>> {
             override fun onResponse(
                 call: Call<ArrayList<Vehicle.CarWithReservations>>,
                 response: Response<ArrayList<Vehicle.CarWithReservations>>
