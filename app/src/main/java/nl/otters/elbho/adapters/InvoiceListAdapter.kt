@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.component_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Invoice
+import nl.otters.elbho.utils.DateParser
+import java.util.*
 
 
 class InvoiceListAdapter(
@@ -18,6 +20,8 @@ class InvoiceListAdapter(
     private val listener: OnClickItemListener
 //    private val bottomReachedListener: OnBottomReachedListener
 ) : RecyclerView.Adapter<InvoiceListAdapter.ViewHolder>() {
+
+    private val dateParser = DateParser()
 
     interface OnClickItemListener {
         fun onItemClick(position: Int, view: View)
@@ -45,8 +49,14 @@ class InvoiceListAdapter(
         val item: Invoice.File = items[position]
 
         holder.fileNameView.text = item.fileName
-        holder.uploadedDateView.text = context.getString(R.string.invoice_uploaded_on)
-        holder.monthView.text = item.invoiceMonth.substring(0, 3)
+        holder.uploadedDateView.text = context.resources.getString(
+            R.string.invoices_creation_date,
+            dateParser.toFormattedUploadDate(item.createdAt)
+        )
+        holder.monthView.text = dateParser
+            .toFormattedUploadMonth(item.invoiceMonth)
+            .substring(0, 3)
+            .toUpperCase(Locale("nl"))
         holder.icon.setImageResource(R.drawable.ic_file_download_gray_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)

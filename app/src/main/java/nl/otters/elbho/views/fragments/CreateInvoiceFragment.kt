@@ -2,7 +2,9 @@ package nl.otters.elbho.views.fragments
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
 import nl.otters.elbho.R
+import nl.otters.elbho.models.Invoice
+import nl.otters.elbho.repositories.InvoiceRepository
+import nl.otters.elbho.utils.DateParser
+import java.io.*
+
 
 class CreateInvoiceFragment : DetailFragment() {
 
@@ -22,38 +29,68 @@ class CreateInvoiceFragment : DetailFragment() {
         return inflater.inflate(R.layout.fragment_create_invoice, container, false)
     }
 
+    private lateinit var selectedFileUri: Uri
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setOnClickListeners()
     }
 
     private fun setOnClickListeners() {
-        invoiceFileTextView.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                val intent = Intent()
-                    .setType("application/pdf")
-                    .setAction(Intent.ACTION_GET_CONTENT)
+        invoiceFileTextView.setOnClickListener {
+            val intent = Intent()
+                .setType("application/pdf")
+                .setAction(Intent.ACTION_GET_CONTENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
 
-                startActivityForResult(Intent.createChooser(intent, "Select a file"), 42069)
-            }
+            startActivityForResult(
+                Intent.createChooser(
+                    intent,
+                    getString(R.string.create_invoice_choose_file)
+                ), 42069
+            )
         }
         create_invoice.setOnClickListener { createInvoice(view!!) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == 42069 && resultCode == RESULT_OK) {
-            val selectedFile = data?.data //The uri with the location of the file
-            val fileName = selectedFile?.path.toString().substringBeforeLast(".")
 
-            invoiceFileTextView.setText(fileName)
+            data.let {
+
+                try {
+                    selectedFileUri = it!!.data!!
+                    invoiceFileTextView.setText("Bestand geselecteerd")
+                } catch (e: IOException) {
+                    Snackbar.make(
+                        activity!!.findViewById(android.R.id.content),
+                        R.string.create_invoice_read_error,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun createInvoice(view: View) {
         //TODO: Get data from text fields and send to API
+        val invoiceRepository = InvoiceRepository(activity!!.applicationContext)
+        val inputStream: InputStream = context!!.contentResolver.openInputStream(selectedFileUri)!!
+        val file = File(context!!.getExternalFilesDir(null)!!.absolutePath + "/invoice.pdf")
+        val outputStream: OutputStream = FileOutputStream(file)
+        val buffer = ByteArray(1024)
+        var length: Int
 
+        while (inputStream.read(buffer).also { length = it } > 0) {
+            outputStream.write(buffer, 0, length)
+        }
+        outputStream.close()
+        inputStream.close()
+        val dateParser = DateParser()
+        invoiceRepository.createInvoice(Invoice.Upload(dateParser.getDateToday(), file))
+        Log.d("file", file.path)
         Snackbar.make(
             view,
             R.string.create_invoice_uploaded,

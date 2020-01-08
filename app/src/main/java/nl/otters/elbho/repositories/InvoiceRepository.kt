@@ -1,15 +1,21 @@
 package nl.otters.elbho.repositories
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.services.InvoiceService
 import nl.otters.elbho.utils.SharedPreferences
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class InvoiceRepository(private val context: Context) {
     private val invoiceService = RetrofitFactory.get().create(InvoiceService::class.java)
@@ -26,6 +32,7 @@ class InvoiceRepository(private val context: Context) {
                 }
 
                 override fun onFailure(call: Call<ArrayList<Invoice.File>>, t: Throwable) {
+                    Log.d("error", t.message + " " + t.cause)
                     // TODO: not implemented
                 }
             })
@@ -33,16 +40,26 @@ class InvoiceRepository(private val context: Context) {
         return invoices
     }
 
-    fun createInvoice(invoice: Invoice.CreationProperties) {
-        invoiceService.createInvoice(getAuthToken(), invoice).enqueue(object : Callback<Unit> {
-            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                // TODO: not implemented
-            }
+    fun createInvoice(invoice: Invoice.Upload) {
+        val date = "tijd"
+        val fileBody: RequestBody =
+            RequestBody.create(MediaType.parse("application/pdf"), invoice.file)
+        val file = MultipartBody.Part.createFormData("file", invoice.file.name, fileBody)
+        invoiceService.createInvoice(getAuthToken(), date, file)
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    // TODO: not implemented
+                    Log.d("upload", "success: " + response.message())
+                }
 
-            override fun onFailure(call: Call<Unit>, t: Throwable) {
-                // TODO: not implemented
-            }
-        })
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    // TODO: not implemented
+                    Log.d("upload", call.toString() + "\n" + t.message + "\n" + invoice.file)
+                }
+            })
     }
 
     private fun getAuthToken(): String {

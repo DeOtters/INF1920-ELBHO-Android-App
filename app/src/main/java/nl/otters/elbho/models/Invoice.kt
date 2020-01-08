@@ -6,7 +6,7 @@ object Invoice {
 
     data class File(
         @SerializedName("_id")
-        val id: Int,
+        val id: String,
         @SerializedName("advisor")
         val adviserId: String,
         val fileName: String,
@@ -16,9 +16,9 @@ object Invoice {
         val createdAt: String,
         val updatedAt: String
     )
-    // TODO: DIS-GUIS-TING, could somejuan please come up with a better name
-    data class CreationProperties(
+
+    data class Upload(
         val date: String,
-        val file: String
+        val file: java.io.File
     )
 }
