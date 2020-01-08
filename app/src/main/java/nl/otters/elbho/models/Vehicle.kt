@@ -90,7 +90,6 @@ object Vehicle {
 
     data class CarReservationOptions(
 
-        val date: String?,
-        val after: String?
+        val date: String?
     )
 }

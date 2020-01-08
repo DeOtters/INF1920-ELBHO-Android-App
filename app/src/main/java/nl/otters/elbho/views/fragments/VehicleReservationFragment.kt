@@ -27,6 +27,7 @@ import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.LoginActivity
+import nl.otters.elbho.views.activities.NavigationActivity
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -35,10 +36,11 @@ import kotlin.collections.ArrayList
 
 class VehicleReservationFragment : DetailFragment() {
     private var vehicleCarList: ArrayList<Vehicle.CarWithReservations> = ArrayList()
+    private val dateParser: DateParser = DateParser()
 
     private var startReservationTime: String = " "
     private var endReservationTime: String = " "
-    private var reservationDate: String = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)
+    private var reservationDate: String = SimpleDateFormat("yyyy-MM-dd", Locale("nl")).format(Calendar.getInstance().time)
 
     private val calStart = Calendar.getInstance()
     private val calEnd = Calendar.getInstance()
@@ -63,9 +65,7 @@ class VehicleReservationFragment : DetailFragment() {
             startLoginActivity()
         }
 
-        calendarReservationView.minDate = (System.currentTimeMillis() - 1000)
-
-        vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate, after = null))?.observe(this, androidx.lifecycle.Observer {
+        vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate)).observe(this, androidx.lifecycle.Observer {
             vehicleCarList.addAll(it)
             setupRecyclerView(vehicleViewModel)
         })
@@ -74,16 +74,18 @@ class VehicleReservationFragment : DetailFragment() {
     }
 
     private fun setupDateComponents(vehicleViewModel: VehicleViewModel) {
+        calendarReservationView.minDate = (System.currentTimeMillis() - 1000)
+
         calendarReservationView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val cal= Calendar.getInstance()
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             cal.set(Calendar.MONTH, month)
             cal.set(Calendar.YEAR, year)
 
-            reservationDate = SimpleDateFormat("yyyy-MM-dd").format(cal.time)
+            reservationDate = SimpleDateFormat("yyyy-MM-dd", Locale("nl")).format(cal.time)
 
             vehicleCarList.clear()
-            vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate, after = null))?.observe(this, androidx.lifecycle.Observer {
+            vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate)).observe(this, androidx.lifecycle.Observer {
                 vehicleCarList.addAll(it)
                 setupRecyclerView(vehicleViewModel)
             })
@@ -98,11 +100,11 @@ class VehicleReservationFragment : DetailFragment() {
                 calEnd.set(Calendar.HOUR_OF_DAY, hour + 2)
                 calEnd.set(Calendar.MINUTE, minute)
 
-                startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
-                startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
+                startTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calStart.time))
+                startReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calStart.time)
 
-                endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
-                endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
+                endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
+                endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
 
                 setupRecyclerView(vehicleViewModel)
             }
@@ -119,17 +121,16 @@ class VehicleReservationFragment : DetailFragment() {
                     calStart.set(Calendar.HOUR_OF_DAY, hour - 2)
                     calStart.set(Calendar.MINUTE, minute)
 
-                    startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
-                    startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
+                    startTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calStart.time))
+                    startReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calStart.time)
 
-                    endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
-                    endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
+                    endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
+                    endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
 
                     setupRecyclerView(vehicleViewModel)
-                }
-                if(calEnd.after(calStart)){
-                    endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
-                    endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
+                } else if(calEnd.after(calStart)){
+                    endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
+                    endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
 
                     setupRecyclerView(vehicleViewModel)
                 } else {
@@ -150,6 +151,7 @@ class VehicleReservationFragment : DetailFragment() {
             startReservationTime,
             endReservationTime,
             object : VehicleCarListAdapter.OnClickItemListener {
+                @SuppressLint("NewApi")
                 override fun onItemClick(position: Int, view: View) {
 
                     val car : Vehicle.CarWithReservations = vehicleCarList[position]
@@ -158,6 +160,9 @@ class VehicleReservationFragment : DetailFragment() {
                         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
                         val adviserId: String = sharedPreferences.getValueString("adviser-id")!!
                         val carId: String = car.id
+
+                        val dateFormatted: String = dateParser.toFormattedNLdate(reservationDate)
+
                         val fromTime: String = formatDateTime(reservationDate, startReservationTime)
                         val toTime: String = formatDateTime(reservationDate, endReservationTime)
 
@@ -167,7 +172,7 @@ class VehicleReservationFragment : DetailFragment() {
                                 brand = car.brand,
                                 model = car.model,
                                 transmission = car.transmission,
-                                date = reservationDate,
+                                date = dateFormatted,
                                 startTime = startReservationTime,
                                 endTime = endReservationTime))
                             .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
@@ -220,9 +225,7 @@ class VehicleReservationFragment : DetailFragment() {
             reservationsList,
             object : VehicleReservedListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
-//                    val bundle = Bundle()
-//                    bundle.putParcelable("KEY_Reservation", vehicleCarList[position])
-//                    findNavController().navigate(R.id.action_global_vehicleReservedFragment, bundle)
+
                 }
             })
 
@@ -242,6 +245,16 @@ class VehicleReservationFragment : DetailFragment() {
         appTitle.setText(R.string.navigation_vehicle)
     }
 
+    override fun onResume() {
+        setTitle()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as NavigationActivity).setProgressBarVisible(false)
+    }
+
     private fun formatDateTime(date: String, time: String): String {
         return date
             .plus("T")
@@ -249,20 +262,13 @@ class VehicleReservationFragment : DetailFragment() {
     }
 
     private fun formatAlertDialog(brand: String, model: String, transmission: String, date: String, startTime: String, endTime: String): String {
-        val trans: String
-        if(transmission.equals("Automaat")){
-            trans = getString(R.string.vehicle_transmission_true)
-        }else{
-            trans = getString(R.string.vehicle_transmission_false)
-        }
-
         return getString(R.string.alert_car_info)
             .plus(" ")
             .plus(brand)
             .plus(" ")
             .plus(model)
             .plus(" ")
-            .plus(trans)
+            .plus(transmission)
             .plus("\n")
             .plus(getString(R.string.alert_date_info))
             .plus(" ")

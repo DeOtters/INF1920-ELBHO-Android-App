@@ -58,6 +58,17 @@ class DateParser {
         return formatter.format(parser.parse(dateTime)!!)
     }
 
+    /*
+   * @params string -> yyyy-MM-dd
+   * @return string -> dd MMM yyyy
+   */
+    fun toFormattedNLdate(dateTime: String) : String{
+        val parser =  SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
+        val formatter = SimpleDateFormat("dd MMM yyyy", Locale("nl"))
+        val formattedDate = formatter.format(parser.parse(dateTime)!!)
+        return formattedDate
+    }
+
     fun toCalendarDay(dateTime: String) : CalendarDay {
         return CalendarDay(parser.parse(dateTime))
     }
@@ -120,7 +131,7 @@ class DateParser {
         //Couldnt achieve this with one simpleDateFormat because we need the month to be uppercase
         val dayFormat = SimpleDateFormat("dd", locale)
         val monthFormat = SimpleDateFormat("MMMM", locale)
-        val yearFormat = SimpleDateFormat("yy", locale)
+        val yearFormat = SimpleDateFormat("yyyy", locale)
         val day: String = dayFormat.format(Date())
         val month: String = monthFormat.format(Date()).toUpperCase(locale)
         val year: String = yearFormat.format(Date())
