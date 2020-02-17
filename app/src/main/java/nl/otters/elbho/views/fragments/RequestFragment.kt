@@ -115,8 +115,8 @@ class RequestFragment : DetailFragment() {
 
         // https://developers.google.com/maps/documentation/urls/android-intents
         textDisplay_address.icon.setOnClickListener {
-            // TODO: So here we should insert the long lat values from the api, which it doesn't support at the time.
-            val gmmIntentUri = Uri.parse("google.streetview:cbll=46.414382,10.013988")
+            val locString: String = ("geo:0,0?q=" + request.address)
+            val gmmIntentUri = Uri.parse(locString)
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             startActivity(mapIntent)
