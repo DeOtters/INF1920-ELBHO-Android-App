@@ -37,6 +37,15 @@ class DateParser {
         return formatter.format(parser.parse(dateTime)!!)
     }
 
+    /*
+   * @params string -> yyyy-MM-dd'T'HH:mm:ss
+   * @return string -> dd-MM-yyyy, e.g. 01-11
+   */
+    fun toFormattedDateWithYear(dateTime: String) : String{
+        val formatter = SimpleDateFormat("dd-MM-yyyy",  Locale("nl"))
+        return formatter.format(parser.parse(dateTime)!!)
+    }
+
     fun toFormattedUploadMonth(dateTime: String): String {
         val formatter = SimpleDateFormat("MMMM", Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)

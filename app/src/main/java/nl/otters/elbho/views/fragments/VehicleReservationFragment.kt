@@ -4,23 +4,18 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.graphics.Color
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.fragment_vehicle.*
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.recyclerView
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.VehicleCarListAdapter
-import nl.otters.elbho.adapters.VehicleReservedListAdapter
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
@@ -29,8 +24,6 @@ import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.LoginActivity
 import nl.otters.elbho.views.activities.NavigationActivity
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -144,6 +137,7 @@ class VehicleReservationFragment : DetailFragment() {
     // TODO: Use Synchronize instead of Thread.Sleep, and show Toast on previous page when new reservation
     private fun setupRecyclerView(vehicleViewModel: VehicleViewModel) {
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
+
         val vehicleListAdapter = VehicleCarListAdapter(
             activity!!.applicationContext,
             vehicleCarList,
@@ -208,30 +202,6 @@ class VehicleReservationFragment : DetailFragment() {
         recyclerView.apply {
             this.layoutManager = viewManager
             this.adapter = vehicleListAdapter
-        }
-
-        val viewManager2 = LinearLayoutManager(activity!!.applicationContext)
-        val reservationsList: ArrayList<Vehicle.CarWithReservations> = ArrayList()
-        for (reservation in vehicleCarList) {
-            if (reservation.reservations.isEmpty()) {
-                continue
-            } else {
-                reservationsList.add(reservation)
-            }
-        }
-
-        val vehicleReservedListAdapter = VehicleReservedListAdapter(
-            activity!!.applicationContext,
-            reservationsList,
-            object : VehicleReservedListAdapter.OnClickItemListener {
-                override fun onItemClick(position: Int, view: View) {
-
-                }
-            })
-
-        recyclerViewReservations.apply {
-            this.layoutManager = viewManager2
-            this.adapter = vehicleReservedListAdapter
         }
     }
 

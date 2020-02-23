@@ -108,7 +108,7 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
         )
         textDisplay_carLicensePlate.value.text = reservation.vehicle.licensePlate
         textDisplay_carReservationDate.value.text =
-            dateParser.toFormattedDate(reservation.start)
+            dateParser.toFormattedDateWithYear(reservation.start)
         textDisplay_carReservationTime.value.text = formatTime(
             dateParser.toFormattedTime(reservation.start),
             dateParser.toFormattedTime(reservation.end)

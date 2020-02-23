@@ -100,7 +100,7 @@
     <string name="alert_date_info">Datum:</string>
     <string name="empty_time">--:--</string>
     <string name="hint_time">Time input</string>
-    <string name="reserved_txt">gereserveerd</string>
+    <string name="reserved_txt">gereserveerd:</string>
     <string name="toast_vehicle_reserved">Auto gereserveerd</string>
     <string name="toast_vehicle_already_reserved">Auto reservering niet gelukt voor deze begin en eind tijd</string>
 
