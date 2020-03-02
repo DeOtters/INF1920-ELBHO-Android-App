@@ -22,6 +22,7 @@ import nl.otters.elbho.views.activities.NavigationActivity
 
 class OverviewFragment : BaseFragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()
+    private var todaysAppointments: ArrayList<Request.Properties> = ArrayList()
     private val dateParser: DateParser = DateParser()
 
     override fun onCreateView(
@@ -42,6 +43,11 @@ class OverviewFragment : BaseFragment() {
             requests = it
             (activity as NavigationActivity).setProgressBarVisible(false)
             tabs.getTabAt(0)!!.orCreateBadge.number = requests.count()
+        })
+
+        overviewViewModel.getTodaysAppointments().observe(this, Observer {
+            todaysAppointments = it
+            tabs.getTabAt(1)!!.orCreateBadge.number = todaysAppointments.count()
         })
 
         super.onActivityCreated(savedInstanceState)
