@@ -158,4 +158,15 @@ class DateParser {
     fun getTimestampToday(): String{
         return parser.format(Date())
     }
+
+    fun getTimestampLastDayOfMonthBefore(): String {
+        //Last day of month
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.add(Calendar.MONTH, -1)
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
+
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
+        return formatter.format(calendar.time)
+    }
 }

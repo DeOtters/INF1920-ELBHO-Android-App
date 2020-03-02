@@ -1,7 +1,6 @@
 package nl.otters.elbho.views.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import nl.otters.elbho.R
 import nl.otters.elbho.models.Availability
 import nl.otters.elbho.repositories.AvailabilityRepository
 import nl.otters.elbho.utils.AvailableDayDecorator
+import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.DisableWeekendsDecorator
 import nl.otters.elbho.viewModels.AvailabilityViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
@@ -24,6 +24,8 @@ import kotlin.collections.ArrayList
 
 class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     private var availability: ArrayList<Availability.Slot> = ArrayList()
+    private val dateParser: DateParser = DateParser()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,8 +44,9 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         setupCalendar()
         (activity as NavigationActivity).setProgressBarVisible(true)
 
-        //TODO: add timeperiod for proper paginitation (performance)
-        availabilityViewModel.getAllAvailabilities(null)?.observe(this, Observer {
+        val timePeriod: Availability.TimePeriod =
+            Availability.TimePeriod(null, dateParser.getTimestampLastDayOfMonthBefore())
+        availabilityViewModel.getAllAvailabilities(timePeriod)?.observe(this, Observer {
             availability = it
             for (timeSlot in it){
                 //Here we add the ui for a available day from database
@@ -65,6 +68,7 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
 
     private fun setupCalendar() {
         val disableWeekendsDecorator = DisableWeekendsDecorator()
+
         calendarView.addDecorator(disableWeekendsDecorator)
         calendarView.setOnDateChangedListener(this)
         calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
