@@ -41,18 +41,21 @@ class InvoiceRepository(private val context: Context) {
     }
 
     fun createInvoice(invoice: Invoice.Upload) {
-        val date = "tijd"
         val fileBody: RequestBody =
             RequestBody.create(MediaType.parse("application/pdf"), invoice.file)
         val file = MultipartBody.Part.createFormData("file", invoice.file.name, fileBody)
-        invoiceService.createInvoice(getAuthToken(), date, file)
+        invoiceService.createInvoice(getAuthToken(), file, invoice.date)
             .enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
                     // TODO: not implemented
-                    Log.d("upload", "success: " + response.message())
+                    Log.d(
+                        "upload", "result: "
+                                + response.message() + "\n"
+                                + response.raw() + "\n"
+                    )
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

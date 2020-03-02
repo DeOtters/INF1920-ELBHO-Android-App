@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_create_invoice.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.repositories.InvoiceRepository
-import nl.otters.elbho.utils.DateParser
 import java.io.*
 
 
@@ -30,6 +29,10 @@ class CreateInvoiceFragment : DetailFragment() {
     }
 
     private lateinit var selectedFileUri: Uri
+
+    companion object {
+        private const val PDF_REQUEST_CODE = 42069
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -47,14 +50,14 @@ class CreateInvoiceFragment : DetailFragment() {
                 Intent.createChooser(
                     intent,
                     getString(R.string.create_invoice_choose_file)
-                ), 42069
+                ), PDF_REQUEST_CODE
             )
         }
         create_invoice.setOnClickListener { createInvoice(view!!) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 42069 && resultCode == RESULT_OK) {
+        if (requestCode == PDF_REQUEST_CODE && resultCode == RESULT_OK) {
 
             data.let {
 
@@ -75,7 +78,7 @@ class CreateInvoiceFragment : DetailFragment() {
     }
 
     private fun createInvoice(view: View) {
-        //TODO: Get data from text fields and send to API
+        // TODO: Get data from text fields and send to API
         val invoiceRepository = InvoiceRepository(activity!!.applicationContext)
         val inputStream: InputStream = context!!.contentResolver.openInputStream(selectedFileUri)!!
         val file = File(context!!.getExternalFilesDir(null)!!.absolutePath + "/invoice.pdf")
@@ -88,8 +91,10 @@ class CreateInvoiceFragment : DetailFragment() {
         }
         outputStream.close()
         inputStream.close()
-        val dateParser = DateParser()
-        invoiceRepository.createInvoice(Invoice.Upload(dateParser.getDateToday(), file))
+
+        // TODO: Get real date
+        val date = "2020-03-01T13:20:00.000Z"
+        invoiceRepository.createInvoice(Invoice.Upload(date, file))
         Log.d("file", file.path)
         Snackbar.make(
             view,
