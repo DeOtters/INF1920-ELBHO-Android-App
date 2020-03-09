@@ -158,4 +158,26 @@ class DateParser {
     fun getTimestampToday(): String{
         return parser.format(Date())
     }
+
+    /*
+  * @return string -> 2020-02-19
+  */
+    fun getDateStampToday(): String {
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
+        return formatter.format(Date())
+    }
+
+    fun getDateStampTomorrow(): String {
+        val currentDate = Date()
+
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.time = currentDate
+
+        calendar.add(Calendar.DATE, 1)
+
+        val dateTomorrow: Date = calendar.time
+
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
+        return formatter.format(dateTomorrow)
+    }
 }

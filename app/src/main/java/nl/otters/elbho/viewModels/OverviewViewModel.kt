@@ -14,12 +14,14 @@ import java.util.*
 class OverviewViewModel(private val requestRepository: RequestRepository, private val appointmentRepository: AppointmentRepository) : ViewModel() {
     private var requests: LiveData<ArrayList<Request.Properties>> = MutableLiveData()
     private var upcomingAppointments: LiveData<ArrayList<Request.Properties>> = MutableLiveData()
+    private var todaysAppointments: LiveData<ArrayList<Request.Properties>> = MutableLiveData()
     private var doneAppointments: LiveData<ArrayList<Request.Properties>> = MutableLiveData()
     private val dateParser: DateParser = DateParser()
 
     init {
         loadAllRequests()
         loadAllUpcomingAppointments()
+        loadTodaysAppointments()
         loadAllDoneAppointments()
     }
 
@@ -28,11 +30,39 @@ class OverviewViewModel(private val requestRepository: RequestRepository, privat
     }
 
     private fun loadAllUpcomingAppointments(){
-        upcomingAppointments = appointmentRepository.getAppointments(Appointment.Options(null,null,null, dateParser.getTimestampToday(), null))
+        upcomingAppointments = appointmentRepository.getAppointments(
+            Appointment.Options(
+                null,
+                null,
+                null,
+                dateParser.getDateStampToday(),
+                null
+            )
+        )
+    }
+
+    private fun loadTodaysAppointments() {
+        todaysAppointments = appointmentRepository.getAppointments(
+            Appointment.Options(
+                null,
+                null,
+                dateParser.getDateStampTomorrow(),
+                dateParser.getDateStampToday(),
+                null
+            )
+        )
     }
 
     private fun loadAllDoneAppointments(){
-        doneAppointments = appointmentRepository.getAppointments(Appointment.Options(null, null,  dateParser.getTimestampToday(), null, "DESC"))
+        doneAppointments = appointmentRepository.getAppointments(
+            Appointment.Options(
+                null,
+                null,
+                dateParser.getDateStampToday(),
+                null,
+                "DESC"
+            )
+        )
     }
 
     fun getAllRequests(): LiveData<ArrayList<Request.Properties>> {
@@ -41,6 +71,10 @@ class OverviewViewModel(private val requestRepository: RequestRepository, privat
 
     fun getAllUpcomingAppointments(): LiveData<ArrayList<Request.Properties>> {
         return upcomingAppointments
+    }
+
+    fun getTodaysAppointments(): LiveData<ArrayList<Request.Properties>> {
+        return todaysAppointments
     }
 
     fun getAllDoneAppointments(): LiveData<ArrayList<Request.Properties>> {

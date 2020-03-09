@@ -22,6 +22,7 @@ import nl.otters.elbho.views.activities.NavigationActivity
 
 class OverviewFragment : BaseFragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()
+    private var todaysAppointments: ArrayList<Request.Properties> = ArrayList()
     private val dateParser: DateParser = DateParser()
 
     override fun onCreateView(
@@ -36,12 +37,17 @@ class OverviewFragment : BaseFragment() {
         val requestRepository = RequestRepository(activity!!.applicationContext)
         val appointmentRepository = AppointmentRepository(activity!!.applicationContext)
         val overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
-
         (activity as NavigationActivity).setProgressBarVisible(true)
         overviewViewModel.getAllRequests().observe(this, Observer {
             requests = it
             (activity as NavigationActivity).setProgressBarVisible(false)
-            tabs.getTabAt(0)!!.orCreateBadge.number = requests.count()
+            updateNotificationBadge(0, requests.count())
+        })
+
+        overviewViewModel.getTodaysAppointments().observe(this, Observer {
+            todaysAppointments = it
+            (activity as NavigationActivity).setProgressBarVisible(false)
+            updateNotificationBadge(1, todaysAppointments.count())
         })
 
         super.onActivityCreated(savedInstanceState)
@@ -56,6 +62,12 @@ class OverviewFragment : BaseFragment() {
         todayTextView.text = dateParser.getDateToday()
     }
 
+    private fun updateNotificationBadge(tabIndex: Int, badgeCount: Int) {
+        tabs.getTabAt(tabIndex)!!.removeBadge()
+        if (badgeCount >= 1) {
+            tabs.getTabAt(tabIndex)!!.orCreateBadge.number = badgeCount
+        }
+    }
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(childFragmentManager)
         adapter.addFragment(OpenRequestsFragment(), resources.getString(R.string.overview_tab_left_label))
