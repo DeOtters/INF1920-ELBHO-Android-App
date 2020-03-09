@@ -40,7 +40,7 @@ class InvoiceFragment : BaseFragment() {
         setupButtonListener()
 
         (activity as NavigationActivity).setProgressBarVisible(true)
-        invoicesViewModel.getAllInvoices()?.observe(this, Observer {
+        invoicesViewModel.getAllInvoices()?.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 updateInvoiceData(it)
             }

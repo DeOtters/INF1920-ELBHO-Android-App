@@ -8,6 +8,7 @@
     <string name="login_input_label_password">WACHTWOORD</string>
     <string name="login_button_text">LOGIN</string>
     <string name="login_snackbar_message_wrongCredentials">Inloggevens zijn niet correct, probeer het nog een keer</string>
+    <string name="elbho_logo">ELBHO logo</string>
 
     <!-- Navigation Activity   -->
     <string name="navigation_overview">Afspraken</string>
@@ -61,17 +62,6 @@
     <string name="listItem_text_description">20.00 – 13.15, Amsterdam</string>
     <string name="listItem_image_contentDescription">Clickable Icon to Detail page</string>
     <string name="invoice_listItem_image_contentDescription">Clickable Icon to download file</string>
-    <string name="icon_invoice">Factuur icoon</string>
-    <string name="elbho_logo">ELBHO logo</string>
-    <string name="invoice_uploaded_on">Datum geüpload: 30/10/2019</string>
-    <string name="invoice_cancel">Nee</string>
-    <string name="invoice_download_message">Wilt u deze factuur downloaden?</string>
-    <string name="invoice_download">Downloaden</string>
-    <string name="add_new_invoice_title">Nieuwe factuur toevoegen</string>
-    <string name="create_invoice_uploaded">De factuur is geüpload naar ELBHO</string>
-    <string name="create_invoice_year">Jaar</string>
-    <string name="create_invoice_month">Maand</string>
-    <string name="create_invoice_file">Bestand</string>
 
 
     <!-- Fragment Vehicle -->
@@ -123,14 +113,27 @@
     <string name="availability_helper_text">Selecteer een dag om de beschikbaarheid van die week aan te passen</string>
     <string name="button_arrived">Bestemming bereikt</string>
 
+    <!-- Invoice Fragment -->
+    <string name="create_invoice_read_error">Het is niet gelukt om dit bestand in te lezen</string>
+    <string name="create_invoice_choose_file">Kies een pdf-bestand</string>
+    <string name="create_invoice_fields_empty">Een van de velden is leeg</string>
+    <string name="create_invoice_select_month">Selecteer maand en jaar</string>
+    <string name="invoices_creation_date">Geüpload op %s</string>
+    <string name="icon_invoice">Factuur icoon</string>
+    <string name="invoice_uploaded_on">Datum geüpload: 30/10/2019</string>
+    <string name="invoice_cancel">Nee</string>
+    <string name="invoice_download_message">Wilt u deze factuur downloaden?</string>
+    <string name="invoice_download">Downloaden</string>
+    <string name="add_new_invoice_title">Nieuwe factuur toevoegen</string>
+    <string name="create_invoice_uploaded">De factuur is geüpload naar ELBHO</string>
+    <string name="create_invoice_month">Maand en jaar</string>
+    <string name="create_invoice_file">Bestand</string>
+
     <!-- Component Availability Input   -->
     <string name="input_placeholder">--:--</string>
     <string name="input_label_from">VAN</string>
     <string name="input_label_to">TOT</string>
-    <string name="create_invoice_read_error">Het is niet gelukt om dit bestand in te lezen</string>
-    <string name="create_invoice_choose_file">Kies een pdf-bestand</string>
-    <string name="invoices_creation_date">Geüpload op %s</string>
     <string name="snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>
-
-
+    <string name="create_invoice_error_not_acceptable">Gekozen maand ligt in de toekomst</string>
+    <string name="create_invoice_file_selected">Bestand geselecteerd</string>
 </resources>

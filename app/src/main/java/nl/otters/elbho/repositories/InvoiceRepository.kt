@@ -2,12 +2,20 @@ package nl.otters.elbho.repositories
 
 import android.content.Context
 import android.util.Log
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_navigation.*
+import kotlinx.android.synthetic.main.fragment_create_invoice.*
+import nl.otters.elbho.R
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.services.InvoiceService
 import nl.otters.elbho.utils.SharedPreferences
+import nl.otters.elbho.views.activities.NavigationActivity
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -40,7 +48,7 @@ class InvoiceRepository(private val context: Context) {
         return invoices
     }
 
-    fun createInvoice(invoice: Invoice.Upload) {
+    fun createInvoice(invoice: Invoice.Upload, fragment: Fragment) {
         val fileBody: RequestBody =
             RequestBody.create(MediaType.parse("application/pdf"), invoice.file)
         val file = MultipartBody.Part.createFormData("file", invoice.file.name, fileBody)
@@ -50,17 +58,51 @@ class InvoiceRepository(private val context: Context) {
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
-                    // TODO: not implemented
-                    Log.d(
-                        "upload", "result: "
-                                + response.message() + "\n"
-                                + response.raw() + "\n"
-                    )
+                    when {
+                        response.code() == 406 -> {
+                            Snackbar.make(
+                                fragment.view!!,
+                                R.string.create_invoice_error_not_acceptable,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                            (fragment.activity as NavigationActivity).setProgressBarVisible(false)
+                            fragment.create_invoice.isEnabled = true
+                        }
+                        response.code() == 201 -> {
+                            Snackbar.make(
+                                fragment.view!!,
+                                R.string.create_invoice_uploaded,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                            (fragment.activity as NavigationActivity).setProgressBarVisible(false)
+                            fragment.create_invoice.isEnabled = true
+                            findNavController(fragment).navigateUp()
+                        }
+                        else -> {
+                            Snackbar.make(
+                                fragment.view!!,
+                                (response.code().toString() + " " + response.message()),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                            Log.d(
+                                "upload", "result: "
+                                        + response.message() + "\n"
+                                        + response.raw() + "\n"
+                            )
+                            (fragment.activity as NavigationActivity).setProgressBarVisible(false)
+                            fragment.create_invoice.isEnabled = true
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    // TODO: not implemented
-                    Log.d("upload", call.toString() + "\n" + t.message + "\n" + invoice.file)
+                    Snackbar.make(
+                        fragment.view!!,
+                        t.message.toString(),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    fragment.progressBar.isVisible = false
+                    fragment.create_invoice.isEnabled = true
                 }
             })
     }

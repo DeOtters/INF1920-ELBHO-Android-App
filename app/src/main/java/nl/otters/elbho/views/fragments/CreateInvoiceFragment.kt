@@ -9,16 +9,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.repositories.InvoiceRepository
+import nl.otters.elbho.utils.DateParser
+import nl.otters.elbho.views.activities.NavigationActivity
 import java.io.*
+import java.text.DateFormatSymbols
+import java.util.*
 
 
-class CreateInvoiceFragment : DetailFragment() {
+class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +33,8 @@ class CreateInvoiceFragment : DetailFragment() {
     }
 
     private lateinit var selectedFileUri: Uri
+    private var fileChosen: Boolean = false
+    private var chosenMonth: String = ""
 
     companion object {
         private const val PDF_REQUEST_CODE = 42069
@@ -40,48 +46,66 @@ class CreateInvoiceFragment : DetailFragment() {
     }
 
     private fun setOnClickListeners() {
-        invoiceFileTextView.setOnClickListener {
-            val intent = Intent()
-                .setType("application/pdf")
-                .setAction(Intent.ACTION_GET_CONTENT)
-                .addCategory(Intent.CATEGORY_OPENABLE)
-
-            startActivityForResult(
-                Intent.createChooser(
-                    intent,
-                    getString(R.string.create_invoice_choose_file)
-                ), PDF_REQUEST_CODE
-            )
+        invoiceMonthTextView.setOnClickListener { showDatePickerDialog() }
+        invoiceFileTextView.setOnClickListener { showFileChooserDialog() }
+        create_invoice.setOnClickListener {
+            if (this::selectedFileUri.isInitialized && chosenMonth != "") {
+                createInvoice()
+                create_invoice.isEnabled = false
+            } else
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    R.string.create_invoice_fields_empty,
+                    Snackbar.LENGTH_SHORT
+                ).show()
         }
-        create_invoice.setOnClickListener { createInvoice(view!!) }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == PDF_REQUEST_CODE && resultCode == RESULT_OK) {
+    private fun showFileChooserDialog() {
+        val intent = Intent()
+            .setType("application/pdf")
+            .setAction(Intent.ACTION_GET_CONTENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
 
-            data.let {
-
-                try {
-                    selectedFileUri = it!!.data!!
-                    invoiceFileTextView.setText("Bestand geselecteerd")
-                } catch (e: IOException) {
-                    Snackbar.make(
-                        activity!!.findViewById(android.R.id.content),
-                        R.string.create_invoice_read_error,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
+        startActivityForResult(
+            Intent.createChooser(
+                intent,
+                getString(R.string.create_invoice_choose_file)
+            ), PDF_REQUEST_CODE
+        )
     }
 
-    private fun createInvoice(view: View) {
-        // TODO: Get data from text fields and send to API
+    private fun showDatePickerDialog() {
+        val yearSelected: Int
+        val monthSelected: Int
+
+        // set default values
+        val calendar: Calendar = Calendar.getInstance()
+        val yearNow = calendar.get(Calendar.YEAR)
+        val monthNow = calendar.get(Calendar.MONTH)
+        yearSelected = yearNow
+        monthSelected = monthNow
+
+        val dialogBuilder: MonthPickerDialog.Builder =
+            MonthPickerDialog.Builder(this.context, this, yearSelected, monthSelected)
+        dialogBuilder
+            .setMaxYear(yearNow)
+            .setTitle(getString(R.string.create_invoice_select_month))
+            .build()
+            .show()
+    }
+
+
+    private fun createInvoice() {
         val invoiceRepository = InvoiceRepository(activity!!.applicationContext)
         val inputStream: InputStream = context!!.contentResolver.openInputStream(selectedFileUri)!!
-        val file = File(context!!.getExternalFilesDir(null)!!.absolutePath + "/invoice.pdf")
+        val dateParser = DateParser()
+        val file = File(
+            context!!.getExternalFilesDir(null)!!.absolutePath
+                    + "/invoice_"
+                    + dateParser
+                .toFormattedMonthAndYear(chosenMonth) + ".pdf"
+        )
         val outputStream: OutputStream = FileOutputStream(file)
         val buffer = ByteArray(1024)
         var length: Int
@@ -92,16 +116,29 @@ class CreateInvoiceFragment : DetailFragment() {
         outputStream.close()
         inputStream.close()
 
-        // TODO: Get real date
-        val date = "2020-03-01T13:20:00.000Z"
-        invoiceRepository.createInvoice(Invoice.Upload(date, file))
-        Log.d("file", file.path)
-        Snackbar.make(
-            view,
-            R.string.create_invoice_uploaded,
-            Snackbar.LENGTH_SHORT
-        ).show()
-        findNavController().navigateUp()
+        (activity as NavigationActivity).setProgressBarVisible(true)
+        invoiceRepository.createInvoice(Invoice.Upload(chosenMonth, file), this)
+        Log.d("file", file.path + "\n" + chosenMonth)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == PDF_REQUEST_CODE && resultCode == RESULT_OK) {
+
+            data.let {
+                try {
+                    selectedFileUri = it!!.data!!
+                    invoiceFileTextView.setText(getString(R.string.create_invoice_file_selected))
+                } catch (e: IOException) {
+                    Snackbar.make(
+                        activity!!.findViewById(android.R.id.content),
+                        R.string.create_invoice_read_error,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+                fileChosen = true
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onResume() {
@@ -112,5 +149,15 @@ class CreateInvoiceFragment : DetailFragment() {
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.add_new_invoice_title)
+    }
+
+    override fun onDateSet(month: Int, year: Int) {
+        chosenMonth = ""
+            .plus(year)
+            .plus("-")
+            .plus("%02d".format(month + 1))
+            .plus("-01T16:20:00.000Z")
+        val date: String = DateFormatSymbols().months[month] + " " + year
+        invoiceMonthTextView.setText(date)
     }
 }
