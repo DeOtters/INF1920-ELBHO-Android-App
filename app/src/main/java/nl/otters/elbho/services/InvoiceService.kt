@@ -2,7 +2,6 @@ package nl.otters.elbho.services
 
 import nl.otters.elbho.models.Invoice
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -14,11 +13,10 @@ interface InvoiceService {
     fun getAllInvoices(@Header("Authorization") auth: String): Call<ArrayList<Invoice.File>>
 
     @Multipart
-    @Headers("Content-type: application/json")
     @POST("/auth/invoice")
     fun createInvoice(
         @Header("Authorization") auth: String,
-        @Part("date") date: String,
-        @Part file: MultipartBody.Part
+        @Part file: MultipartBody.Part,
+        @Part("date") date: String
     ): Call<ResponseBody>
 }
