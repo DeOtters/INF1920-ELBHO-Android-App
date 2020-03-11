@@ -76,7 +76,7 @@ class InvoiceRepository(private val context: Context) {
                             ).show()
                             (fragment.activity as NavigationActivity).setProgressBarVisible(false)
                             fragment.create_invoice.isEnabled = true
-                            findNavController(fragment).navigateUp()
+                            findNavController(fragment).navigate(R.id.invoiceFragment)
                         }
                         else -> {
                             Snackbar.make(

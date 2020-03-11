@@ -1,7 +1,9 @@
 package nl.otters.elbho.views.activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -44,20 +46,18 @@ class NavigationActivity : AppCompatActivity(),
             startLoginActivity()
         }
 
-        //TODO: huh waarom staat dit hier?
-        when (intent?.action) {
-            Intent.ACTION_SEND -> {
-                if ("application/pdf" == intent.type) {
-                    handlePDF(intent)
+        // Receive pdf-files to create a new invoice
+        if (intent?.action == Intent.ACTION_SEND)
+            if ("application/pdf" == intent.type)
+                (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
+                    handlePDF(it)
                 }
-            }
-        }
     }
 
-    private fun handlePDF(intent: Intent) {
-        intent.getStringExtra(Intent.EXTRA_STREAM)?.let {
-            // TODO: Send pdf to CreateInvoiceFragment
-        }
+    // send pdf to CreateInvoiceFragment
+    private fun handlePDF(uri: Uri) {
+        val bundle = bundleOf("Uri" to uri)
+        navController.navigate(R.id.createInvoiceFragment, bundle)
     }
 
     override fun onBackPressed() {
