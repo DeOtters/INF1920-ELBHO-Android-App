@@ -128,12 +128,13 @@
     <string name="create_invoice_uploaded">De factuur is geüpload naar ELBHO</string>
     <string name="create_invoice_month">Maand en jaar</string>
     <string name="create_invoice_file">Bestand</string>
+    <string name="create_invoice_error_not_acceptable">Gekozen maand ligt in de toekomst</string>
+    <string name="create_invoice_file_selected">Bestand geselecteerd</string>
+    <string name="invoice_server_not_yet_saved">Het bestand is niet beschikbaar op de server</string>
 
     <!-- Component Availability Input   -->
     <string name="input_placeholder">--:--</string>
     <string name="input_label_from">VAN</string>
     <string name="input_label_to">TOT</string>
     <string name="snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>
-    <string name="create_invoice_error_not_acceptable">Gekozen maand ligt in de toekomst</string>
-    <string name="create_invoice_file_selected">Bestand geselecteerd</string>
 </resources>

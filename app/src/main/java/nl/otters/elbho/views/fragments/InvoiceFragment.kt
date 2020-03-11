@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_invoice.*
 import kotlinx.android.synthetic.main.fragment_open_requests.recyclerView
 import nl.otters.elbho.R
@@ -68,7 +69,14 @@ class InvoiceFragment : BaseFragment() {
             object : InvoiceListAdapter.OnClickItemListener {
                 override fun onItemClick(position: Int, view: View) {
                     selectedFileUrl = invoices[position].filePath
-                    showAlert()
+                    if (selectedFileUrl == "Not yet saved")
+                        Snackbar.make(
+                            activity!!.findViewById(android.R.id.content),
+                            R.string.invoice_server_not_yet_saved,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    else
+                        showAlert()
                 }
             })
 

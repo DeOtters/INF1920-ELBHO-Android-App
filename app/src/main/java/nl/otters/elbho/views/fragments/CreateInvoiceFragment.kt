@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,7 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
         return inflater.inflate(R.layout.fragment_create_invoice, container, false)
     }
 
-    private lateinit var selectedFileUri: Uri
+    private var selectedFileUri: Uri? = null
     private var fileChosen: Boolean = false
     private var chosenMonth: String = ""
 
@@ -43,16 +42,21 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setOnClickListeners()
-        Log.d("sendFile", "" + arguments?.getString("document"))
+
+        // receive pdf from share intent
+        if (arguments?.get("Uri") != null) {
+            selectedFileUri = arguments?.get("Uri") as Uri
+            fileChosen()
+        }
     }
 
     private fun setOnClickListeners() {
         invoiceMonthTextView.setOnClickListener { showDatePickerDialog() }
         invoiceFileTextView.setOnClickListener { showFileChooserDialog() }
         create_invoice.setOnClickListener {
-            if (this::selectedFileUri.isInitialized && chosenMonth != "") {
-                createInvoice()
+            if (selectedFileUri != null && fileChosen && chosenMonth != "") {
                 create_invoice.isEnabled = false
+                createInvoice()
             } else
                 Snackbar.make(
                     activity!!.findViewById(android.R.id.content),
@@ -99,7 +103,8 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
 
     private fun createInvoice() {
         val invoiceRepository = InvoiceRepository(activity!!.applicationContext)
-        val inputStream: InputStream = context!!.contentResolver.openInputStream(selectedFileUri)!!
+        val inputStream: InputStream =
+            context!!.contentResolver.openInputStream(this.selectedFileUri!!)!!
         val dateParser = DateParser()
         val file = File(
             context!!.getExternalFilesDir(null)!!.absolutePath
@@ -127,7 +132,7 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
             data.let {
                 try {
                     selectedFileUri = it!!.data!!
-                    invoiceFileTextView.setText(getString(R.string.create_invoice_file_selected))
+                    fileChosen()
                 } catch (e: IOException) {
                     Snackbar.make(
                         activity!!.findViewById(android.R.id.content),
@@ -135,10 +140,14 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
                         Snackbar.LENGTH_SHORT
                     ).show()
                 }
-                fileChosen = true
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun fileChosen() {
+        invoiceFileTextView.setText(getString(R.string.create_invoice_file_selected))
+        fileChosen = true
     }
 
     override fun onResume() {
