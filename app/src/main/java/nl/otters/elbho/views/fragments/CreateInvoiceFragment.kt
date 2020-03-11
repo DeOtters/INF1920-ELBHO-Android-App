@@ -43,6 +43,7 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setOnClickListeners()
+        Log.d("sendFile", "" + arguments?.getString("document"))
     }
 
     private fun setOnClickListeners() {
@@ -118,7 +119,6 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
 
         (activity as NavigationActivity).setProgressBarVisible(true)
         invoiceRepository.createInvoice(Invoice.Upload(chosenMonth, file), this)
-        Log.d("file", file.path + "\n" + chosenMonth)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

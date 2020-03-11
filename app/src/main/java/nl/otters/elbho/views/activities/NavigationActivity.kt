@@ -44,7 +44,7 @@ class NavigationActivity : AppCompatActivity(),
             startLoginActivity()
         }
 
-        //TODO: huh waarom staat dit hier?
+        // Receive pdf-files to create a new invoice
         when (intent?.action) {
             Intent.ACTION_SEND -> {
                 if ("application/pdf" == intent.type) {
@@ -55,8 +55,10 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     private fun handlePDF(intent: Intent) {
-        intent.getStringExtra(Intent.EXTRA_STREAM)?.let {
-            // TODO: Send pdf to CreateInvoiceFragment
+        intent.dataString?.let {
+            // send pdf to CreateInvoiceFragment
+            val bundle = bundleOf("document" to it)
+            navController.navigate(R.id.createInvoiceFragment, bundle)
         }
     }
 
