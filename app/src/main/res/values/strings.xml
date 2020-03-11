@@ -53,7 +53,7 @@
     <string name="button_deny_appointment">Afwijzen</string>
     <string name="button_leave">Vertrek</string>
     <string name="snackbar_request_accepted">Afspraak met %s geaccepteerd</string>
-    <string name="snackbar_request_denied">Afsrpaak met %s afgewezen</string>
+    <string name="snackbar_request_denied">Afspraak met %s afgewezen</string>
 
     <!-- Fragment List Item -->
     <string name="listItem_text_day">DO</string>
@@ -137,4 +137,5 @@
     <string name="input_label_from">VAN</string>
     <string name="input_label_to">TOT</string>
     <string name="snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>
+    <string name="invoice_file_prefix">/factuur_</string>
 </resources>

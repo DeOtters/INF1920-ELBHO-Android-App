@@ -108,9 +108,9 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
         val dateParser = DateParser()
         val file = File(
             context!!.getExternalFilesDir(null)!!.absolutePath
-                    + "/invoice_"
+                    + getString(R.string.invoice_file_prefix)
                     + dateParser
-                .toFormattedMonthAndYear(chosenMonth) + ".pdf"
+                .toFormattedYearAndMonth(chosenMonth) + ".pdf"
         )
         val outputStream: OutputStream = FileOutputStream(file)
         val buffer = ByteArray(1024)
