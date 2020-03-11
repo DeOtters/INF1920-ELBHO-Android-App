@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Adviseursapp</string>
+    <string name="app_name">ELBHO adviseursapp</string>
     <string name="action_settings">Settings</string>
 
     <!-- Login Activity   -->
@@ -31,7 +31,7 @@
     <string name="button_add_invoice">Factuur toevoegen</string>
     <string name="button_reserve_vehicle">Auto reserveren</string>
     <string name="logout">Uitloggen</string>
-    <string name="logged_in_as">Ingelogd als <b>%1$s %2$s</b></string>
+    <string name="logged_in_as"><![CDATA[Ingelogd als <b>%1$s %2$s</b>]]></string>
 
     <!-- Overview Activity  -->
     <string name="overview_tab_left_label">OPENSTAAND</string>

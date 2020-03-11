@@ -9,6 +9,7 @@ import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.text.HtmlCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -74,9 +75,9 @@ class NavigationActivity : AppCompatActivity(),
 
     private fun setLoggedInName(adviser: LiveData<Adviser.Properties>) {
         adviser.observe(this, Observer {
-            logged_in_user.text = String.format(
-                resources.getString(R.string.logged_in_as),
-                it.firstName, it.lastName
+            logged_in_user.text = HtmlCompat.fromHtml(
+                getString(R.string.logged_in_as, it.firstName, it.lastName),
+                HtmlCompat.FROM_HTML_MODE_COMPACT
             )
         })
     }
