@@ -164,7 +164,7 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.setText(R.string.navigation_vehicle)
+        appTitle.setText(R.string.navigation_vehicle_reservation)
     }
 
     override fun onResume() {

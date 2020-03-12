@@ -9,9 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.recyclerView
 import nl.otters.elbho.R
@@ -38,6 +39,9 @@ class VehicleReservationFragment : DetailFragment() {
     private val calStart = Calendar.getInstance()
     private val calEnd = Calendar.getInstance()
 
+    private var carReservation: Vehicle.CreateReservation? = null
+    private var itemSelected: Int = -1
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,12 +62,13 @@ class VehicleReservationFragment : DetailFragment() {
             startLoginActivity()
         }
 
-        vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate)).observe(this, androidx.lifecycle.Observer {
+        vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate)).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             vehicleCarList.addAll(it)
             setupRecyclerView(vehicleViewModel)
         })
 
         setupDateComponents(vehicleViewModel)
+        setupMakeCarReservation(vehicleViewModel)
     }
 
     private fun setupDateComponents(vehicleViewModel: VehicleViewModel) {
@@ -77,8 +82,11 @@ class VehicleReservationFragment : DetailFragment() {
 
             reservationDate = SimpleDateFormat("yyyy-MM-dd", Locale("nl")).format(cal.time)
 
+            itemSelected = -1
+            carReservation = null
+
             vehicleCarList.clear()
-            vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate)).observe(this, androidx.lifecycle.Observer {
+            vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate)).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 vehicleCarList.addAll(it)
                 setupRecyclerView(vehicleViewModel)
             })
@@ -90,7 +98,7 @@ class VehicleReservationFragment : DetailFragment() {
                 calStart.set(Calendar.HOUR_OF_DAY, hour)
                 calStart.set(Calendar.MINUTE, minute)
 
-                calEnd.set(Calendar.HOUR_OF_DAY, hour + 2)
+                calEnd.set(Calendar.HOUR_OF_DAY, hour)
                 calEnd.set(Calendar.MINUTE, minute)
 
                 startTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calStart.time))
@@ -98,6 +106,9 @@ class VehicleReservationFragment : DetailFragment() {
 
                 endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
                 endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
+
+                itemSelected = -1
+                carReservation = null
 
                 setupRecyclerView(vehicleViewModel)
             }
@@ -111,7 +122,7 @@ class VehicleReservationFragment : DetailFragment() {
                 calEnd.set(Calendar.MINUTE, minute)
 
                 if(startReservationTime.equals(" ")) {
-                    calStart.set(Calendar.HOUR_OF_DAY, hour - 2)
+                    calStart.set(Calendar.HOUR_OF_DAY, hour)
                     calStart.set(Calendar.MINUTE, minute)
 
                     startTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calStart.time))
@@ -120,10 +131,16 @@ class VehicleReservationFragment : DetailFragment() {
                     endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
                     endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
 
+                    itemSelected = -1
+                    carReservation = null
+
                     setupRecyclerView(vehicleViewModel)
                 } else if(calEnd.after(calStart)){
                     endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
                     endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
+
+                    itemSelected = -1
+                    carReservation = null
 
                     setupRecyclerView(vehicleViewModel)
                 } else {
@@ -144,55 +161,36 @@ class VehicleReservationFragment : DetailFragment() {
             reservationDate,
             startReservationTime,
             endReservationTime,
+            itemSelected,
             object : VehicleCarListAdapter.OnClickItemListener {
                 @SuppressLint("NewApi")
                 override fun onItemClick(position: Int, view: View) {
 
-                    val car : Vehicle.CarWithReservations = vehicleCarList[position]
-
                     if(!reservationDate.equals(" ") && !startReservationTime.equals(" ") && !endReservationTime.equals(" ")) {
-                        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
-                        val adviserId: String = sharedPreferences.getValueString("adviser-id")!!
-                        val carId: String = car.id
+                        if (!startReservationTime.equals(endReservationTime)) {
 
-                        val dateFormatted: String = dateParser.toFormattedNLdate(reservationDate)
+                            val car : Vehicle.CarWithReservations = vehicleCarList[position]
 
-                        val fromTime: String = formatDateTime(reservationDate, startReservationTime)
-                        val toTime: String = formatDateTime(reservationDate, endReservationTime)
+                            itemSelected = position
 
-                        MaterialAlertDialogBuilder(context)
-                            .setTitle(getString(R.string.confirm_reservation))
-                            .setMessage(formatAlertDialog(
-                                brand = car.brand,
-                                model = car.model,
-                                transmission = car.transmission,
-                                date = dateFormatted,
-                                startTime = startReservationTime,
-                                endTime = endReservationTime))
-                            .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
-
-                                vehicleViewModel.createVehicleReservation(Vehicle.CreateReservation(
-                                    advisor = adviserId,
-                                    vehicle = carId,
-                                    date = reservationDate,
-                                    start = fromTime,
-                                    end = toTime))
-                                Thread.sleep(500)
-                                findNavController().navigate(R.id.action_global_vehicleFragment)
+                            val sharedPreferences = SharedPreferences(activity!!.applicationContext)
+                            val adviserId: String = sharedPreferences.getValueString("adviser-id")!!
+                            val carId: String = car.id
+                            val fromTime: String = formatDateTime(reservationDate, startReservationTime)
+                            val toTime: String = formatDateTime(reservationDate, endReservationTime)
 
 
+                            carReservation = Vehicle.CreateReservation(
+                                advisor = adviserId,
+                                vehicle = carId,
+                                date = reservationDate,
+                                start = fromTime,
+                                end = toTime)
 
-//                                val toast: Toast = Toast.makeText(context,R.string.toast_vehicle_reserved,Toast.LENGTH_SHORT)
-//
-//                                val view: View = toast.view
-//                                view.setBackgroundColor(resources.getColor(R.color.green_button))
-//
-//                                val text: TextView = view.findViewById(android.R.id.message)
-//                                text.setTextColor(Color.WHITE)
-//                                toast.show()
-
-                            }.setNegativeButton(getString(R.string.vehicle_delete_message_false), null)
-                            .show()
+                            setupRecyclerView(vehicleViewModel)
+                        } else {
+                            Toast.makeText(context,R.string.toast_end_after,Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         Toast.makeText(context,R.string.toast_select_all_inputs,Toast.LENGTH_LONG).show()
                     }
@@ -205,6 +203,43 @@ class VehicleReservationFragment : DetailFragment() {
         }
     }
 
+    private fun setupMakeCarReservation(vehicleViewModel: VehicleViewModel) {
+        vehicle_reservation_btn.setOnClickListener {
+            if(!reservationDate.equals(" ") && !startReservationTime.equals(" ") && !endReservationTime.equals(" ")) {
+                if(!startReservationTime.equals(endReservationTime)) {
+                    if(carReservation != null){
+                        MaterialAlertDialogBuilder(context)
+                            .setTitle(getString(R.string.confirm_reservation))
+                            .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
+
+                                vehicleViewModel.createVehicleReservation(carReservation!!)
+                                Thread.sleep(500)
+                                super.getFragmentManager()?.popBackStack()
+
+                                val snackbarDialog = Snackbar.make(it, getString(R.string.toast_vehicle_reserved), Snackbar.LENGTH_LONG)
+                                val snackbarView = snackbarDialog.view
+                                snackbarView.setBackgroundColor(ContextCompat.getColor(activity!!.applicationContext, R.color.vehicle_snackBar_bg_col))
+                                val snackbarTextView = snackbarView.findViewById<TextView>(R.id.snackbar_text)
+                                snackbarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_check_circle_24dp, 0, 0, 0)
+                                snackbarTextView.compoundDrawablePadding = 75
+                                snackbarDialog.show()
+
+                            }.setNegativeButton(getString(R.string.vehicle_delete_message_false), null)
+                            .show()
+                    } else {
+                        Toast.makeText(context,R.string.toast_select_car,Toast.LENGTH_SHORT).show()
+                    }
+
+                } else {
+                    Toast.makeText(context,R.string.toast_end_after,Toast.LENGTH_SHORT).show()
+                }
+
+            } else {
+                Toast.makeText(context,R.string.toast_select_all_inputs,Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     private fun startLoginActivity() {
         val intent = Intent(activity!!.applicationContext, LoginActivity::class.java)
         startActivity(intent)
@@ -212,7 +247,7 @@ class VehicleReservationFragment : DetailFragment() {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.setText(R.string.navigation_vehicle)
+        appTitle.setText(R.string.navigation_vehicle_reserve)
     }
 
     override fun onResume() {
@@ -229,25 +264,5 @@ class VehicleReservationFragment : DetailFragment() {
         return date
             .plus("T")
             .plus(time)
-    }
-
-    private fun formatAlertDialog(brand: String, model: String, transmission: String, date: String, startTime: String, endTime: String): String {
-        return getString(R.string.alert_car_info)
-            .plus(" ")
-            .plus(brand)
-            .plus(" ")
-            .plus(model)
-            .plus(" ")
-            .plus(transmission)
-            .plus("\n")
-            .plus(getString(R.string.alert_date_info))
-            .plus(" ")
-            .plus(date)
-            .plus("\n")
-            .plus(getString(R.string.alert_time_info))
-            .plus(" ")
-            .plus(startTime)
-            .plus(" - ")
-            .plus(endTime)
     }
 }
