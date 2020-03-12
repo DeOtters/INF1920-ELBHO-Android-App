@@ -16,7 +16,9 @@
     <string name="navigation_upcoming_requests">Aanstaande afspraken</string>
     <string name="navigation_done_requests">Afgeronde afspraken</string>
     <string name="navigation_availability">Beschikbaarheid</string>
-    <string name="navigation_vehicle">Auto reserveren</string>
+    <string name="navigation_vehicle">Auto overzicht</string>
+    <string name="navigation_vehicle_reserve">Auto reserveren</string>
+    <string name="navigation_vehicle_reservation">Auto reservering</string>
     <string name="navigation_invoice">Facturen</string>
     <string name="navigation_open">Open menu</string>
     <string name="navigation_close">Sluit menu</string>
@@ -83,6 +85,7 @@
     <string name="ic_dropdown">dropdown arrow</string>
     <string name="toast_start_before">Begin tijd moet eerder zijn dan de eind tijd.</string>
     <string name="toast_end_after">Eind tijd moet later zijn dan de begin tijd.</string>
+    <string name="toast_select_car">Selecteer een auto.</string>
     <string name="toast_select_all_inputs">Selecteer begin en eind tijd om te reserveren.</string>
     <string name="confirm_reservation">Wil je deze auto reserveren?</string>
     <string name="alert_car_info">Auto:</string>

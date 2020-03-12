@@ -1,6 +1,5 @@
 package nl.otters.elbho.views.fragments
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,7 +19,6 @@ import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.LoginActivity
 import nl.otters.elbho.views.activities.NavigationActivity
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -59,7 +57,7 @@ class VehicleFragment : BaseFragment() {
    private fun setupReservation(vehicleViewModel: VehicleViewModel){
        (activity as NavigationActivity).setProgressBarVisible(true)
        val newRequests: ArrayList<Vehicle.Reservation> = ArrayList()
-        vehicleViewModel.getAllVehicleReservationsByAdviser(Vehicle.ReservationOptions(after = SimpleDateFormat("yyyy-MM-dd", Locale("nl")).format(Calendar.getInstance().time), sort = "ASC")).observe(this, Observer {
+        vehicleViewModel.getAllVehicleReservationsByAdviser(Vehicle.ReservationOptions(after = SimpleDateFormat("yyyy-MM-dd", Locale("nl")).format(Calendar.getInstance().time), sort = "ASC")).observe(viewLifecycleOwner, Observer {
             (activity as NavigationActivity).setProgressBarVisible(false)
             if (it != null) {
                 vehicleReservationList.addAll(it)

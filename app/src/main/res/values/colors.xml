@@ -16,4 +16,5 @@
     <color name="colorMaskRipple">#42ffffff</color>
     <color name="calendarBorder">#ECECEC</color>
     <color name="colorAvailabilityDate">#FAFCFE</color>
+    <color name="vehicle_snackBar_bg_col">#3FB562</color>
 </resources>
