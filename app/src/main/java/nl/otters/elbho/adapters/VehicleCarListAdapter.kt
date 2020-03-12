@@ -55,9 +55,11 @@ class VehicleCarListAdapter(
         val car: Vehicle.CarWithReservations = vehicleCarList[position]
 
         if(position == itemSelected) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorSecondary))
+            holder.itemView.vehicle_constraintLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorSecondary))
+            holder.itemView.vehicle_listItem_iconImageView.setImageResource(R.drawable.ic_radio_button_checked_orange_24dp)
         } else {
-            holder.itemView.background = ContextCompat.getDrawable(context, R.drawable.layout_border)
+            holder.itemView.vehicle_constraintLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+            holder.itemView.vehicle_listItem_iconImageView.setImageResource(R.drawable.ic_radio_button_unchecked_black_24dp)
         }
 
         holder.titleView.text = formatCarTitle(
@@ -75,7 +77,6 @@ class VehicleCarListAdapter(
         holder.dateView.text = dateParser.dateToFormattedDate(reservationDate)
         holder.dayView.text = dateParser.dateToFormattedDay(reservationDate)
 
-        holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)
         }

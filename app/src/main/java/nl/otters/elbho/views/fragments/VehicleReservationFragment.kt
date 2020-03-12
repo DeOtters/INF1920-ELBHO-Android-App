@@ -82,6 +82,9 @@ class VehicleReservationFragment : DetailFragment() {
 
             reservationDate = SimpleDateFormat("yyyy-MM-dd", Locale("nl")).format(cal.time)
 
+            itemSelected = -1
+            carReservation = null
+
             vehicleCarList.clear()
             vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate)).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 vehicleCarList.addAll(it)
@@ -104,6 +107,9 @@ class VehicleReservationFragment : DetailFragment() {
                 endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
                 endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
 
+                itemSelected = -1
+                carReservation = null
+
                 setupRecyclerView(vehicleViewModel)
             }
             TimePickerDialog(context, timeSetListener, calStart.get(Calendar.HOUR_OF_DAY), calStart.get(Calendar.MINUTE), true).show()
@@ -125,10 +131,16 @@ class VehicleReservationFragment : DetailFragment() {
                     endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
                     endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
 
+                    itemSelected = -1
+                    carReservation = null
+
                     setupRecyclerView(vehicleViewModel)
                 } else if(calEnd.after(calStart)){
                     endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
                     endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
+
+                    itemSelected = -1
+                    carReservation = null
 
                     setupRecyclerView(vehicleViewModel)
                 } else {
