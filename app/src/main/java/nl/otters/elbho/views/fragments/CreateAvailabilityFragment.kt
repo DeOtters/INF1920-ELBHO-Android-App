@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,6 +68,8 @@ class CreateAvailabilityFragment : DetailFragment() {
         setTitle()
         super.onResume()
         setWeekSelector(chosenDay)
+        setOnClickListeners()
+        setInputFields()
     }
 
     private fun setTitle() {
@@ -109,7 +110,7 @@ class CreateAvailabilityFragment : DetailFragment() {
     }
 
     private fun getDatesOfWeek(date: CalendarDay): ArrayList<String>{
-        val calendar: Calendar = Calendar.getInstance()
+        val calendar: Calendar = Calendar.getInstance(Locale("nl"))
         val format = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
         val datesOfWeek: ArrayList<String> = ArrayList()
 
