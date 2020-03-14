@@ -46,13 +46,18 @@ class DateParser {
         return formatter.format(parser.parse(dateTime)!!)
     }
 
-    fun toFormattedUploadMonth(dateTime: String): String {
-        val formatter = SimpleDateFormat("MMMM", Locale("nl"))
+    fun toFormattedYearAndMonth(dateTime: String): String {
+        val formatter = SimpleDateFormat("yyyy-MM", Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
     }
 
-    fun toFormattedUploadDate(dateTime: String): String {
-        val formatter = SimpleDateFormat("d MMMM yyyy", Locale("nl"))
+    fun toFormattedYear(dateTime: String): String {
+        val formatter = SimpleDateFormat("yyyy", Locale("nl"))
+        return formatter.format(parser.parse(dateTime)!!)
+    }
+
+    fun toFormattedUploadMonth(dateTime: String): String {
+        val formatter = SimpleDateFormat("MMMM", Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
     }
 
@@ -168,5 +173,27 @@ class DateParser {
 
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
         return formatter.format(calendar.time)
+    }
+
+    /*
+  * @return string -> 2020-02-19
+  */
+    fun getDateStampToday(): String {
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
+        return formatter.format(Date())
+    }
+
+    fun getDateStampTomorrow(): String {
+        val currentDate = Date()
+
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.time = currentDate
+
+        calendar.add(Calendar.DATE, 1)
+
+        val dateTomorrow: Date = calendar.time
+
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
+        return formatter.format(dateTomorrow)
     }
 }

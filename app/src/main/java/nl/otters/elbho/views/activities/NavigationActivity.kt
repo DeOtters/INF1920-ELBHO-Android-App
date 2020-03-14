@@ -1,12 +1,15 @@
 package nl.otters.elbho.views.activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.text.HtmlCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -44,20 +47,18 @@ class NavigationActivity : AppCompatActivity(),
             startLoginActivity()
         }
 
-        //TODO: huh waarom staat dit hier?
-        when (intent?.action) {
-            Intent.ACTION_SEND -> {
-                if ("application/pdf" == intent.type) {
-                    handlePDF(intent)
+        // Receive pdf-files to create a new invoice
+        if (intent?.action == Intent.ACTION_SEND)
+            if ("application/pdf" == intent.type)
+                (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
+                    handlePDF(it)
                 }
-            }
-        }
     }
 
-    private fun handlePDF(intent: Intent) {
-        intent.getStringExtra(Intent.EXTRA_STREAM)?.let {
-            // TODO: Send pdf to CreateInvoiceFragment
-        }
+    // send pdf to CreateInvoiceFragment
+    private fun handlePDF(uri: Uri) {
+        val bundle = bundleOf("Uri" to uri)
+        navController.navigate(R.id.createInvoiceFragment, bundle)
     }
 
     override fun onBackPressed() {
@@ -74,9 +75,9 @@ class NavigationActivity : AppCompatActivity(),
 
     private fun setLoggedInName(adviser: LiveData<Adviser.Properties>) {
         adviser.observe(this, Observer {
-            logged_in_user.text = String.format(
-                resources.getString(R.string.logged_in_as),
-                it.firstName, it.lastName
+            logged_in_user.text = HtmlCompat.fromHtml(
+                getString(R.string.logged_in_as, it.firstName, it.lastName),
+                HtmlCompat.FROM_HTML_MODE_COMPACT
             )
         })
     }

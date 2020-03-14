@@ -14,6 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class VehicleRepository (private val context: Context) {
     private val vehicleService: VehicleService = RetrofitFactory.get().create(VehicleService::class.java)
 
@@ -88,7 +89,8 @@ class VehicleRepository (private val context: Context) {
             ) {
                 if (response.code() == 201 && response.body() != null){
                     //TODO: not implemented
-                    Toast.makeText(context, R.string.toast_vehicle_reserved,Toast.LENGTH_LONG).show()
+
+//                    Toast.makeText(context, R.string.toast_vehicle_reserved,Toast.LENGTH_LONG).show()
                 } else if (response.code() == 409) {
                     Toast.makeText(context,R.string.toast_vehicle_already_reserved,Toast.LENGTH_LONG).show()
                 }

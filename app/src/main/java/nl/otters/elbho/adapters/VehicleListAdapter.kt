@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.component_listitem.view.*
+import kotlinx.android.synthetic.main.component_vehicle_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.utils.DateParser
-import kotlin.collections.ArrayList
 
 class VehicleListAdapter(
     private val context: Context,
@@ -29,11 +28,11 @@ class VehicleListAdapter(
 //    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dayView: TextView = itemView.invoice_listItem_monthTextView
-        val dateView: TextView = itemView.listItem_dateTextView
-        val titleView: TextView = itemView.invoice_listItem_fileNameTextView
-        val descriptionView: TextView = itemView.invoice_lisItem_uploadedDateTextView
-        val icon: ImageView = itemView.listItem_iconImageView
+        val dayView: TextView = itemView.vehicle_listItem_monthTextView
+        val dateView: TextView = itemView.vehicle_listItem_dateTextView
+        val titleView: TextView = itemView.vehicle_listItem_fileNameTextView
+        val descriptionView: TextView = itemView.vehicle_lisItem_uploadedDateTextView
+        val icon: ImageView = itemView.vehicle_listItem_iconImageView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -49,8 +48,8 @@ class VehicleListAdapter(
         holder.titleView.text = formatCarTitle(
             claim.vehicle.brand,
             claim.vehicle.model,
-            claim.vehicle.transmission,
-            claim.vehicle.licensePlate)
+            claim.vehicle.transmission
+        )
 
         holder.descriptionView.text = formatDescription(
             dateParser.toFormattedTime(claim.start),
@@ -66,14 +65,12 @@ class VehicleListAdapter(
         }
     }
 
-    private fun formatCarTitle(brand: String, model: String, transmission: String, licensePlate: String): String {
+    private fun formatCarTitle(brand: String, model: String, transmission: String): String {
         return brand
             .plus(" ")
             .plus(model)
             .plus(" ")
             .plus(transmission)
-            .plus(" ")
-            .plus(licensePlate)
     }
 
     // TODO: endtime

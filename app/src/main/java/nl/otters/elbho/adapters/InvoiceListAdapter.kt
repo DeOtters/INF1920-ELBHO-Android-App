@@ -7,7 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.component_listitem.view.*
+import kotlinx.android.synthetic.main.component_listitem.view.invoice_lisItem_uploadedDateTextView
+import kotlinx.android.synthetic.main.component_listitem.view.invoice_listItem_fileNameTextView
+import kotlinx.android.synthetic.main.component_listitem.view.invoice_listItem_monthTextView
+import kotlinx.android.synthetic.main.component_listitem.view.listItem_iconImageView
+import kotlinx.android.synthetic.main.fragment_invoice_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.utils.DateParser
@@ -18,7 +22,6 @@ class InvoiceListAdapter(
     private val context: Context,
     private val items: ArrayList<Invoice.File>,
     private val listener: OnClickItemListener
-//    private val bottomReachedListener: OnBottomReachedListener
 ) : RecyclerView.Adapter<InvoiceListAdapter.ViewHolder>() {
 
     private val dateParser = DateParser()
@@ -26,12 +29,10 @@ class InvoiceListAdapter(
     interface OnClickItemListener {
         fun onItemClick(position: Int, view: View)
     }
-//    interface OnBottomReachedListener {
-//        fun onBottomReached(position: Int)
-//    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val monthView: TextView = itemView.invoice_listItem_monthTextView
+        val yearView: TextView = itemView.invoice_listItem_yearTextView
         val fileNameView: TextView = itemView.invoice_listItem_fileNameTextView
         val uploadedDateView: TextView = itemView.invoice_lisItem_uploadedDateTextView
         val icon: ImageView = itemView.listItem_iconImageView
@@ -51,12 +52,14 @@ class InvoiceListAdapter(
         holder.fileNameView.text = item.fileName
         holder.uploadedDateView.text = context.resources.getString(
             R.string.invoices_creation_date,
-            dateParser.toFormattedUploadDate(item.createdAt)
+            dateParser.toFormattedDateWithYear(item.createdAt)
         )
         holder.monthView.text = dateParser
             .toFormattedUploadMonth(item.invoiceMonth)
             .substring(0, 3)
             .toUpperCase(Locale("nl"))
+        holder.yearView.text = dateParser
+            .toFormattedYear(item.invoiceMonth)
         holder.icon.setImageResource(R.drawable.ic_file_download_gray_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)

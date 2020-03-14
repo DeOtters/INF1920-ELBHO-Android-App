@@ -1,19 +1,20 @@
 package nl.otters.elbho.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.component_listitem.view.*
+import kotlinx.android.synthetic.main.component_vehicle_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.utils.DateParser
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class VehicleCarListAdapter(
     private val context: Context,
@@ -21,6 +22,7 @@ class VehicleCarListAdapter(
     private val reservationDate: String,
     private val reservationStartdate: String,
     private val reservationEndDate: String,
+    private val itemSelected: Int,
     private val listener: OnClickItemListener
 //    private val bottomReachedListener: OnBottomReachedListener
 ) : RecyclerView.Adapter<VehicleCarListAdapter.ViewHolder>() {
@@ -34,11 +36,11 @@ class VehicleCarListAdapter(
 //    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dayView: TextView = itemView.invoice_listItem_monthTextView
-        val dateView: TextView = itemView.listItem_dateTextView
-        val titleView: TextView = itemView.invoice_listItem_fileNameTextView
-        val descriptionView: TextView = itemView.invoice_lisItem_uploadedDateTextView
-        val icon: ImageView = itemView.listItem_iconImageView
+        val dayView: TextView = itemView.vehicle_listItem_monthTextView
+        val dateView: TextView = itemView.vehicle_listItem_dateTextView
+        val titleView: TextView = itemView.vehicle_listItem_fileNameTextView
+        val descriptionView: TextView = itemView.vehicle_lisItem_uploadedDateTextView
+        val icon: ImageView = itemView.vehicle_listItem_iconImageView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -51,11 +53,28 @@ class VehicleCarListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val car: Vehicle.CarWithReservations = vehicleCarList[position]
 
+        if (position == itemSelected) {
+            holder.itemView.vehicle_constraintLayout.setBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorSecondary
+                )
+            )
+            holder.itemView.vehicle_listItem_iconImageView.setImageResource(R.drawable.ic_radio_button_checked_orange_24dp)
+        } else {
+            holder.itemView.vehicle_constraintLayout.setBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorPrimary
+                )
+            )
+            holder.itemView.vehicle_listItem_iconImageView.setImageResource(R.drawable.ic_radio_button_unchecked_black_24dp)
+        }
+
         holder.titleView.text = formatCarTitle(
             car.brand,
             car.model,
-            car.transmission,
-            car.licensePlate
+            car.transmission
         )
 
         holder.descriptionView.text = formatDescription(
@@ -67,20 +86,17 @@ class VehicleCarListAdapter(
         holder.dateView.text = dateParser.dateToFormattedDate(reservationDate)
         holder.dayView.text = dateParser.dateToFormattedDay(reservationDate)
 
-        holder.icon.setImageResource(R.drawable.ic_chevron_right_24dp)
         holder.itemView.setOnClickListener {
             listener.onItemClick(holder.adapterPosition, it)
         }
     }
 
-    private fun formatCarTitle(brand: String, model: String, transmission: String, licensePlate: String): String {
+    private fun formatCarTitle(brand: String, model: String, transmission: String): String {
         return brand
             .plus(" ")
             .plus(model)
             .plus(" ")
             .plus(transmission)
-            .plus(" ")
-            .plus(licensePlate)
     }
 
     // TODO: when car location is seperated by comma, split by comma and use City name
@@ -118,14 +134,36 @@ class VehicleCarListAdapter(
                     val resEnd = Calendar.getInstance()
                     resEnd.time = parser.parse(parser.format(parser2.parse(res.end)!!))!!
 
-                    if(calStart.after(resStart) && calStart.before(resEnd) ||
+                    if (calStart.equals(resStart) || calStart.equals(resEnd) ||
+                        calEnd.equals(resStart) || calEnd.equals(resEnd) ||
+                        calStart.after(resStart) && calStart.before(resEnd) ||
                             calEnd.after(resStart) && calEnd.before(resEnd) ||
                             calStart.before(resStart) && calEnd.after(resEnd)) {
                         holder.itemView.isClickable = false
                         holder.itemView.isActivated = false
                         holder.itemView.isEnabled = false
                         holder.itemView.isFocusable = false
-                        holder.itemView.alpha = 0.6F
+//                        holder.itemView.alpha = 0.6F
+                        holder.itemView.setBackgroundColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.colorDisabledButton
+                            )
+                        )
+                        holder.itemView.vehicle_constraintLayout.setBackgroundColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.colorDisabledButton
+                            )
+                        )
+                        holder.itemView.vehicle_constraintLayout2.setBackgroundColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.colorDisabledButton
+                            )
+                        )
+                        holder.itemView.vehicle_listItem_monthTextView.setTextColor(Color.BLACK)
+                        holder.itemView.vehicle_listItem_dateTextView.setTextColor(Color.BLACK)
                     }
                 }
 

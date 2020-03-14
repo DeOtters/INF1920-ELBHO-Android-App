@@ -49,7 +49,8 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
 
         val timePeriod: Availability.TimePeriod =
             Availability.TimePeriod(null, dateParser.getTimestampLastDayOfMonthBefore())
-        availabilityViewModel.getAllAvailabilities(timePeriod)?.observe(this, Observer {
+        availabilityViewModel.getAllAvailabilities(timePeriod)
+            ?.observe(viewLifecycleOwner, Observer {
             availability = it
             for (timeSlot in it) {
                 //Here we add the ui for a available day from database
@@ -77,6 +78,7 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
             .setMaximumDate(CalendarDay.from(2020, 6, 1))
             .setCalendarDisplayMode(CalendarMode.MONTHS)
             .commit()
+
         calendarView.setTitleFormatter { day: CalendarDay? ->
             val dateFormat: DateFormat = SimpleDateFormat("LLLL YYYY", Locale("nl"))
             dateFormat.format(day!!.date).capitalize()
@@ -84,8 +86,12 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
 
         calendarView.setWeekDayFormatter { dayOfWeek: Int ->
             val dateFormat: DateFormat = SimpleDateFormat("EE", Locale("nl"))
-            dateFormat.format(Date())
+            val calendar: Calendar = Calendar.getInstance()
+            calendar.clear()
+            calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
+            dateFormat.format(calendar.time)
         }
+
         calendarView.addDecorator(disableDaysDecorator)
         calendarView.setOnDateChangedListener(this)
         calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
