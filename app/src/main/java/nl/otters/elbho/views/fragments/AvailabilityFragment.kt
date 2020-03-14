@@ -70,12 +70,30 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         appTitle.setText(R.string.navigation_availability)
     }
 
+    // returns a date with the first day of the current month
+    private fun getMinimumCalendarDate(): Calendar {
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        return calendar
+    }
+
+    // returns a date with the last day of x months ahead
+    private fun getMaximumCalendarDate(monthsAhead: Int): Calendar {
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + monthsAhead)
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        return calendar
+    }
+
     private fun setupCalendar() {
         val disableDaysDecorator = DisableDaysDecorator()
+        val minimumCalendarDate: Calendar = getMinimumCalendarDate()
+        val maximumCalendarDate: Calendar = getMaximumCalendarDate(6)
+
         calendarView.state().edit()
             .setFirstDayOfWeek(Calendar.MONDAY)
-            .setMinimumDate(CalendarDay.from(2020, 1, 1))
-            .setMaximumDate(CalendarDay.from(2020, 6, 1))
+            .setMinimumDate(CalendarDay.from(minimumCalendarDate.time))
+            .setMaximumDate(CalendarDay.from(maximumCalendarDate.time))
             .setCalendarDisplayMode(CalendarMode.MONTHS)
             .commit()
 
