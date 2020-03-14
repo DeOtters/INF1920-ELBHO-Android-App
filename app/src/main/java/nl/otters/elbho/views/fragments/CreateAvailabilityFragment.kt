@@ -170,15 +170,15 @@ class CreateAvailabilityFragment : DetailFragment() {
                             calStart.set(Calendar.HOUR_OF_DAY, hour - 2)
                             calStart.set(Calendar.MINUTE, minute)
 
-                            startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
+                            item.startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
                             startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
 
-                            endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                            item.endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
                             endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
                         }
                         if(calEnd.after(calStart)){
-                            endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
-                            SimpleDateFormat("HH:mm").format(calEnd.time)
+                            item.endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                            endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
                         } else {
                             Toast.makeText(context,R.string.toast_end_after, Toast.LENGTH_SHORT).show()
                         }
