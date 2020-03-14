@@ -39,8 +39,7 @@ class AvailabilityRepository(private val context: Context) {
         availabilityService.createAvailability(getAuthToken(), availability)
             .enqueue(object : Callback<Unit> {
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                    // TODO: not implemented
-                    Log.e("saaang", "vm wel gelukt broer")
+                    Log.e("CreateAvailability", availability.toString())
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
