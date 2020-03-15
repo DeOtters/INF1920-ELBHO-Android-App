@@ -38,13 +38,13 @@ class OverviewFragment : BaseFragment() {
         val appointmentRepository = AppointmentRepository(activity!!.applicationContext)
         val overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
         (activity as NavigationActivity).setProgressBarVisible(true)
-        overviewViewModel.getAllRequests().observe(this, Observer {
+        overviewViewModel.getAllRequests().observe(viewLifecycleOwner, Observer {
             requests = it
             (activity as NavigationActivity).setProgressBarVisible(false)
             updateNotificationBadge(0, requests.count())
         })
 
-        overviewViewModel.getTodaysAppointments().observe(this, Observer {
+        overviewViewModel.getTodaysAppointments().observe(viewLifecycleOwner, Observer {
             todaysAppointments = it
             (activity as NavigationActivity).setProgressBarVisible(false)
             updateNotificationBadge(1, todaysAppointments.count())

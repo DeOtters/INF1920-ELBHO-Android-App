@@ -1,6 +1,7 @@
 package nl.otters.elbho.views.activities
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
@@ -23,6 +24,7 @@ import nl.otters.elbho.R
 import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.repositories.AdviserRepository
 import nl.otters.elbho.utils.SharedPreferences
+import java.util.*
 
 
 class NavigationActivity : AppCompatActivity(),
@@ -41,6 +43,9 @@ class NavigationActivity : AppCompatActivity(),
         navController = this.findNavController(R.id.nav_host_fragment)
         setupNavigationDrawer()
         setLoggedInName(adviser)
+
+        val configuration: Configuration = resources.configuration
+        configuration.setLocale(Locale("nl"))
 
         logout.setOnClickListener {
             sharedPreferences.clear()

@@ -12,9 +12,11 @@ import java.util.*
 
 /**
  * Disable weekends in the calendar
+ * Disable dates before today in the calendar
  */
-class DisableWeekendsDecorator : DayViewDecorator {
+class DisableDaysDecorator : DayViewDecorator {
     private val highlightDrawable: Drawable
+
     init {
         highlightDrawable = ColorDrawable(color)
     }
@@ -26,7 +28,9 @@ class DisableWeekendsDecorator : DayViewDecorator {
         val sdf = SimpleDateFormat("EEEE", Locale.ENGLISH)
         val weekDay: String = sdf.format(day.date).toUpperCase(Locale.ENGLISH)
 
-        return weekDay == DayOfWeek.SATURDAY.toString() || weekDay == DayOfWeek.SUNDAY.toString()
+        return weekDay == DayOfWeek.SATURDAY.toString() || weekDay == DayOfWeek.SUNDAY.toString() || day.isBefore(
+            CalendarDay.today()
+        )
     }
 
     override fun decorate(view: DayViewFacade) {

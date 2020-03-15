@@ -2,12 +2,10 @@ package nl.otters.elbho.views.fragments
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -45,6 +43,7 @@ class CopyWeekFragment : DetailFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         chosenDay = arguments?.getParcelable("KEY_CHOSEN_DATE")!!
         availabilitiesToCopy = arguments?.getParcelable("KEY_NEW_AVAILABILITIES")!!
         availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
@@ -73,6 +72,7 @@ class CopyWeekFragment : DetailFragment() {
 
     private fun setCheckboxLabels(){
         val calendar: Calendar = chosenDay.calendar
+        calendar.firstDayOfWeek = Calendar.MONDAY
 
         for (item in weekList){
             //We start by adding 1 week to the chosenDate, since we already filled in the availability for that month
@@ -105,7 +105,9 @@ class CopyWeekFragment : DetailFragment() {
     private fun copyWeek(view: View) {
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val adviserId = sharedPreferences.getValueString("adviser-id")!!
-
+        for (availability in availabilitiesToCopy.availabilities!!) {
+            newAvailabilities.availabilities!!.add(availability)
+        }
         weekList.forEachIndexed { weekIndex, week ->
             if(week.copy_checkbox.isChecked){
                 availabilitiesToCopy.availabilities!!.forEachIndexed { _, availability ->

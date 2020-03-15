@@ -15,7 +15,6 @@ import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.utils.DateParser
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class VehicleCarListAdapter(
     private val context: Context,
@@ -54,11 +53,21 @@ class VehicleCarListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val car: Vehicle.CarWithReservations = vehicleCarList[position]
 
-        if(position == itemSelected) {
-            holder.itemView.vehicle_constraintLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorSecondary))
+        if (position == itemSelected) {
+            holder.itemView.vehicle_constraintLayout.setBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorSecondary
+                )
+            )
             holder.itemView.vehicle_listItem_iconImageView.setImageResource(R.drawable.ic_radio_button_checked_orange_24dp)
         } else {
-            holder.itemView.vehicle_constraintLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+            holder.itemView.vehicle_constraintLayout.setBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorPrimary
+                )
+            )
             holder.itemView.vehicle_listItem_iconImageView.setImageResource(R.drawable.ic_radio_button_unchecked_black_24dp)
         }
 
@@ -125,9 +134,9 @@ class VehicleCarListAdapter(
                     val resEnd = Calendar.getInstance()
                     resEnd.time = parser.parse(parser.format(parser2.parse(res.end)!!))!!
 
-                    if(calStart.equals(resStart) || calStart.equals(resEnd) ||
-                            calEnd.equals(resStart) || calEnd.equals(resEnd) ||
-                            calStart.after(resStart) && calStart.before(resEnd) ||
+                    if (calStart.equals(resStart) || calStart.equals(resEnd) ||
+                        calEnd.equals(resStart) || calEnd.equals(resEnd) ||
+                        calStart.after(resStart) && calStart.before(resEnd) ||
                             calEnd.after(resStart) && calEnd.before(resEnd) ||
                             calStart.before(resStart) && calEnd.after(resEnd)) {
                         holder.itemView.isClickable = false
@@ -135,9 +144,24 @@ class VehicleCarListAdapter(
                         holder.itemView.isEnabled = false
                         holder.itemView.isFocusable = false
 //                        holder.itemView.alpha = 0.6F
-                        holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorDisabledButton))
-                        holder.itemView.vehicle_constraintLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorDisabledButton))
-                        holder.itemView.vehicle_constraintLayout2.setBackgroundColor(ContextCompat.getColor(context, R.color.colorDisabledButton))
+                        holder.itemView.setBackgroundColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.colorDisabledButton
+                            )
+                        )
+                        holder.itemView.vehicle_constraintLayout.setBackgroundColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.colorDisabledButton
+                            )
+                        )
+                        holder.itemView.vehicle_constraintLayout2.setBackgroundColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.colorDisabledButton
+                            )
+                        )
                         holder.itemView.vehicle_listItem_monthTextView.setTextColor(Color.BLACK)
                         holder.itemView.vehicle_listItem_dateTextView.setTextColor(Color.BLACK)
                     }

@@ -1,9 +1,9 @@
 package nl.otters.elbho.views.fragments
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
-import kotlinx.android.synthetic.main.fragment_vehicle_reservation.recyclerView
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.VehicleCarListAdapter
 import nl.otters.elbho.models.Vehicle
@@ -62,7 +61,8 @@ class VehicleReservationFragment : DetailFragment() {
             startLoginActivity()
         }
 
-        vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate)).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate))
+            .observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             vehicleCarList.addAll(it)
             setupRecyclerView(vehicleViewModel)
         })
@@ -86,7 +86,8 @@ class VehicleReservationFragment : DetailFragment() {
             carReservation = null
 
             vehicleCarList.clear()
-            vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate)).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            vehicleViewModel.getAllVehicleReservations(Vehicle.CarReservationOptions(date = reservationDate))
+                .observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                 vehicleCarList.addAll(it)
                 setupRecyclerView(vehicleViewModel)
             })
@@ -169,14 +170,15 @@ class VehicleReservationFragment : DetailFragment() {
                     if(!reservationDate.equals(" ") && !startReservationTime.equals(" ") && !endReservationTime.equals(" ")) {
                         if (!startReservationTime.equals(endReservationTime)) {
 
-                            val car : Vehicle.CarWithReservations = vehicleCarList[position]
+                            val car: Vehicle.CarWithReservations = vehicleCarList[position]
 
                             itemSelected = position
 
                             val sharedPreferences = SharedPreferences(activity!!.applicationContext)
                             val adviserId: String = sharedPreferences.getValueString("adviser-id")!!
                             val carId: String = car.id
-                            val fromTime: String = formatDateTime(reservationDate, startReservationTime)
+                            val fromTime: String =
+                                formatDateTime(reservationDate, startReservationTime)
                             val toTime: String = formatDateTime(reservationDate, endReservationTime)
 
 
@@ -185,14 +187,17 @@ class VehicleReservationFragment : DetailFragment() {
                                 vehicle = carId,
                                 date = reservationDate,
                                 start = fromTime,
-                                end = toTime)
+                                end = toTime
+                            )
 
                             setupRecyclerView(vehicleViewModel)
                         } else {
-                            Toast.makeText(context,R.string.toast_end_after,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT)
+                                .show()
                         }
                     } else {
-                        Toast.makeText(context,R.string.toast_select_all_inputs,Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, R.string.toast_select_all_inputs, Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
             })
@@ -205,9 +210,12 @@ class VehicleReservationFragment : DetailFragment() {
 
     private fun setupMakeCarReservation(vehicleViewModel: VehicleViewModel) {
         vehicle_reservation_btn.setOnClickListener {
-            if(!reservationDate.equals(" ") && !startReservationTime.equals(" ") && !endReservationTime.equals(" ")) {
-                if(!startReservationTime.equals(endReservationTime)) {
-                    if(carReservation != null){
+            if (!reservationDate.equals(" ") && !startReservationTime.equals(" ") && !endReservationTime.equals(
+                    " "
+                )
+            ) {
+                if (!startReservationTime.equals(endReservationTime)) {
+                    if (carReservation != null) {
                         MaterialAlertDialogBuilder(context)
                             .setTitle(getString(R.string.confirm_reservation))
                             .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
@@ -216,26 +224,45 @@ class VehicleReservationFragment : DetailFragment() {
                                 Thread.sleep(500)
                                 super.getFragmentManager()?.popBackStack()
 
-                                val snackbarDialog = Snackbar.make(it, getString(R.string.toast_vehicle_reserved), Snackbar.LENGTH_LONG)
+                                val snackbarDialog = Snackbar.make(
+                                    it,
+                                    getString(R.string.toast_vehicle_reserved),
+                                    Snackbar.LENGTH_LONG
+                                )
                                 val snackbarView = snackbarDialog.view
-                                snackbarView.setBackgroundColor(ContextCompat.getColor(activity!!.applicationContext, R.color.vehicle_snackBar_bg_col))
-                                val snackbarTextView = snackbarView.findViewById<TextView>(R.id.snackbar_text)
-                                snackbarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_check_circle_24dp, 0, 0, 0)
+                                snackbarView.setBackgroundColor(
+                                    ContextCompat.getColor(
+                                        activity!!.applicationContext,
+                                        R.color.vehicle_snackBar_bg_col
+                                    )
+                                )
+                                val snackbarTextView =
+                                    snackbarView.findViewById<TextView>(R.id.snackbar_text)
+                                snackbarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                                    R.drawable.ic_check_circle_24dp,
+                                    0,
+                                    0,
+                                    0
+                                )
                                 snackbarTextView.compoundDrawablePadding = 75
                                 snackbarDialog.show()
 
-                            }.setNegativeButton(getString(R.string.vehicle_delete_message_false), null)
+                            }.setNegativeButton(
+                                getString(R.string.vehicle_delete_message_false),
+                                null
+                            )
                             .show()
                     } else {
-                        Toast.makeText(context,R.string.toast_select_car,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.toast_select_car, Toast.LENGTH_SHORT)
+                            .show()
                     }
 
                 } else {
-                    Toast.makeText(context,R.string.toast_end_after,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT).show()
                 }
 
             } else {
-                Toast.makeText(context,R.string.toast_select_all_inputs,Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.toast_select_all_inputs, Toast.LENGTH_LONG).show()
             }
         }
     }

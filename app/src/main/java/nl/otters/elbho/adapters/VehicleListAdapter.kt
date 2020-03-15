@@ -11,7 +11,6 @@ import kotlinx.android.synthetic.main.component_vehicle_listitem.view.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.utils.DateParser
-import kotlin.collections.ArrayList
 
 class VehicleListAdapter(
     private val context: Context,
@@ -49,7 +48,8 @@ class VehicleListAdapter(
         holder.titleView.text = formatCarTitle(
             claim.vehicle.brand,
             claim.vehicle.model,
-            claim.vehicle.transmission)
+            claim.vehicle.transmission
+        )
 
         holder.descriptionView.text = formatDescription(
             dateParser.toFormattedTime(claim.start),

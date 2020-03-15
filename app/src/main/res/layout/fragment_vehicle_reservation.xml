@@ -155,14 +155,14 @@
     </ScrollView>
 
     <com.google.android.material.button.MaterialButton
-        style="@style/CustomMaterialButton"
         android:id="@+id/vehicle_reservation_btn"
+        style="@style/CustomMaterialButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
-        android:text="@string/button_reserve_vehicle"
         android:layout_marginStart="@dimen/container_spacing"
         android:layout_marginEnd="@dimen/container_spacing"
         android:layout_marginBottom="@dimen/container_spacing"
+        android:text="@string/button_reserve_vehicle"
         app:backgroundTint="@color/colorPrimaryDark"
         app:icon="@drawable/ic_vehicle_reserve"
         app:iconGravity="textStart"

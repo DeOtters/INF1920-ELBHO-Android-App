@@ -77,7 +77,6 @@
                 app:layout_constraintBottom_toTopOf="@+id/bottomButton">
 
                 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
                     android:id="@+id/mapView"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
