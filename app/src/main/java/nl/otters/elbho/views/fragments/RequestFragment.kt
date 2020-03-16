@@ -87,7 +87,7 @@ class RequestFragment : DetailFragment() {
         textDisplay_appointmentDate.value.text =
             dateParser.toFormattedDate(request.startTime)
         textDisplay_appointmentTime.value.text =
-            dateParser.toFormattedTime(request.endTime)
+            dateParser.toFormattedTime(request.startTime)
         textDisplay_cocName.value.text = request.cocName
         textDisplay_comment.value.text = request.comment
         textDisplay_contactPersonEmail.value.text = request.contactPersonEmail
