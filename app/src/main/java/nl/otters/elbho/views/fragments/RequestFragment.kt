@@ -29,6 +29,8 @@ class RequestFragment : DetailFragment() {
     private val dateParser: DateParser = DateParser()
     private var requestingLocationUpdates = false
 
+    //TODO: after user pressed "vertrek", this should be saved somewhere
+    //API does not support this right now
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,14 +56,18 @@ class RequestFragment : DetailFragment() {
     }
 
     override fun onResume() {
-        setTitle()
+        setTitle(null)
         super.onResume()
         if (requestingLocationUpdates) vehicleLocationProvider.start()
     }
 
-    private fun setTitle() {
+    private fun setTitle(title: String?) {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.text = (arguments!!.getString("KEY_APP_TITLE"))
+        if (title.isNullOrEmpty()) {
+            appTitle.text = (arguments!!.getString("KEY_APP_TITLE"))
+        } else {
+            appTitle.text = title
+        }
     }
 
     private fun setFieldLabels() {
@@ -201,6 +207,7 @@ class RequestFragment : DetailFragment() {
         } else {
             topButton.setText(R.string.button_arrived)
             topButton.setIconResource(R.drawable.ic_done_24dp)
+            setTitle(getString(R.string.app_title_hasLeft))
             requestingLocationUpdates = true
             vehicleLocationProvider.start()
             Snackbar.make(
