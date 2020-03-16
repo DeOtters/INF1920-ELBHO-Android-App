@@ -18,6 +18,8 @@ import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.VehicleLocationProvider
 import nl.otters.elbho.viewModels.RequestViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RequestFragment : DetailFragment() {
     private lateinit var request: Request.Properties
@@ -101,7 +103,7 @@ class RequestFragment : DetailFragment() {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/html"
             // TODO: we should put a email address here, but the api doesn't support it at this time
-            intent.putExtra(Intent.EXTRA_EMAIL, "emailaddress@emailaddress.com")
+            intent.putExtra(Intent.EXTRA_EMAIL, request.contactPersonEmail)
             intent.putExtra(Intent.EXTRA_SUBJECT, "We can put a email subject here")
             intent.putExtra(Intent.EXTRA_TEXT, "We can put email body here.")
 
@@ -147,6 +149,13 @@ class RequestFragment : DetailFragment() {
                 bottomButton.visibility = View.GONE
                 topButton.setIconResource(R.drawable.ic_directions_car_white_24dp)
                 topButton.setText(R.string.button_leave)
+                val calendar: Calendar = Calendar.getInstance(Locale("nl"))
+                val dateToday: Date = calendar.time
+                val requestDate: Date = dateParser.dateTimeStringToDate(request.startTime)
+                topButton.isEnabled = false
+                if (isSameDay(dateToday, requestDate)) {
+                    topButton.isEnabled = true
+                }
                 topButton.setOnClickListener { toggleTracking() }
             }
 
@@ -155,6 +164,11 @@ class RequestFragment : DetailFragment() {
                 bottomButton.visibility = View.GONE
             }
         }
+    }
+
+    private fun isSameDay(date1: Date, date2: Date): Boolean {
+        val sdf = SimpleDateFormat("yyyyMMdd", Locale("nl"))
+        return sdf.format(date1) == sdf.format(date2)
     }
 
     private fun denyRequest() {

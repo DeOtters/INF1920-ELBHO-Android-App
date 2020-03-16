@@ -42,6 +42,7 @@
     </style>
 
     <style name="CustomMaterialIconButton" parent="@style/Widget.MaterialComponents.Button.Icon">
+        <item name="backgroundTint">@color/color_states_material_button</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/button_height</item>
         <item name="android:layout_marginStart">16dp</item>
