@@ -154,6 +154,7 @@ class VehicleReservationFragment : DetailFragment() {
 
     // TODO: Use Synchronize instead of Thread.Sleep, and show Toast on previous page when new reservation
     private fun setupRecyclerView(vehicleViewModel: VehicleViewModel) {
+        checkTimeSelected()
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
 
         val vehicleListAdapter = VehicleCarListAdapter(
@@ -210,10 +211,7 @@ class VehicleReservationFragment : DetailFragment() {
 
     private fun setupMakeCarReservation(vehicleViewModel: VehicleViewModel) {
         vehicle_reservation_btn.setOnClickListener {
-            if (!reservationDate.equals(" ") && !startReservationTime.equals(" ") && !endReservationTime.equals(
-                    " "
-                )
-            ) {
+            if (!reservationDate.equals(" ") && !startReservationTime.equals(" ") && !endReservationTime.equals(" ")) {
                 if (!startReservationTime.equals(endReservationTime)) {
                     if (carReservation != null) {
                         MaterialAlertDialogBuilder(context)
@@ -264,6 +262,17 @@ class VehicleReservationFragment : DetailFragment() {
             } else {
                 Toast.makeText(context, R.string.toast_select_all_inputs, Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+    private fun checkTimeSelected() {
+        if (startReservationTime.equals(" ") && endReservationTime.equals(" ")) {
+            recyclerView.visibility = View.INVISIBLE;
+            empty_view.visibility = View.VISIBLE;
+        }
+        else {
+            recyclerView.visibility = View.VISIBLE;
+            empty_view.visibility = View.INVISIBLE;
         }
     }
 
