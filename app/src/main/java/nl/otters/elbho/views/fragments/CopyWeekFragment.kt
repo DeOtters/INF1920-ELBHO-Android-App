@@ -150,6 +150,6 @@ class CopyWeekFragment : DetailFragment() {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.setText(R.string.copy_week_title_bar)
+        appTitle.setText(R.string.navigation_availability)
     }
 }
