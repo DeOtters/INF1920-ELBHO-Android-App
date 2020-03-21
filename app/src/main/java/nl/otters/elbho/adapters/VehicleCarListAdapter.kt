@@ -143,7 +143,7 @@ class VehicleCarListAdapter(
                         holder.itemView.isActivated = false
                         holder.itemView.isEnabled = false
                         holder.itemView.isFocusable = false
-//                        holder.itemView.alpha = 0.6F
+                        holder.itemView.alpha = 0.8F
                         holder.itemView.setBackgroundColor(
                             ContextCompat.getColor(
                                 context,
