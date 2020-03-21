@@ -73,7 +73,7 @@ class RequestFragment : DetailFragment() {
     private fun setFieldLabels() {
         textDisplay_address.label.text = resources.getText(R.string.field_company_address)
         textDisplay_appointmentDate.label.text = resources.getText(R.string.field_appointment_date)
-        textDisplay_appointmentTime.label.text = resources.getText(R.string.field_appointment_time)
+//        textDisplay_appointmentTime.label.text = resources.getText(R.string.field_appointment_time)
         textDisplay_cocName.label.text = resources.getText(R.string.field_company_name)
         textDisplay_comment.label.text = resources.getText(R.string.field_appointment_notes)
         textDisplay_contactPersonEmail.label.text = resources.getText(R.string.field_contact_email)
@@ -93,9 +93,10 @@ class RequestFragment : DetailFragment() {
     private fun setFieldValues(request: Request.Properties) {
         textDisplay_address.value.text = request.address
         textDisplay_appointmentDate.value.text =
-            dateParser.toFormattedDate(request.startTime)
-        textDisplay_appointmentTime.value.text =
-            dateParser.toFormattedTime(request.startTime)
+            dateParser.toFormattedDate(request.startTime).plus(", ")
+                .plus(dateParser.toFormattedTime(request.startTime))
+//        textDisplay_appointmentTime.value.text =
+//            dateParser.toFormattedTime(request.startTime)
         textDisplay_cocName.value.text = request.cocName
         textDisplay_comment.value.text = request.comment
         textDisplay_contactPersonEmail.value.text = request.contactPersonEmail

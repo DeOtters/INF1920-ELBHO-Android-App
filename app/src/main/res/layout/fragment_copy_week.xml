@@ -74,10 +74,6 @@
                     android:id="@+id/copy_week_H"
                     layout="@layout/component_copy_week" />
 
-                <include
-                    android:id="@+id/copy_week_I"
-                    layout="@layout/component_copy_week" />
-
             </LinearLayout>
         </ScrollView>
     </com.google.android.material.card.MaterialCardView>

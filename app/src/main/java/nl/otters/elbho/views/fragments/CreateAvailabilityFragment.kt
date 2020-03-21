@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.prolificinteractive.materialcalendarview.CalendarDay
-import kotlinx.android.synthetic.main.component_availability_input.*
 import kotlinx.android.synthetic.main.component_availability_input.view.*
 import kotlinx.android.synthetic.main.fragment_create_availability.*
 import nl.otters.elbho.R
@@ -37,7 +36,7 @@ class CreateAvailabilityFragment : DetailFragment() {
     private lateinit var datesOfWeek: ArrayList<String>
     private lateinit var dateParser: DateParser
     private lateinit var availabilityViewModel: AvailabilityViewModel
-    private val defaultTimePickerInputValue = "--:--"
+    private val defaultTimePickerInputValue = ""
     private val newAvailabilities : Availability.Availabilities = Availability.Availabilities(ArrayList())
 
     override fun onCreateView(
@@ -74,7 +73,7 @@ class CreateAvailabilityFragment : DetailFragment() {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.setText(R.string.create_new_availability_title)
+        appTitle.setText(R.string.navigation_availability)
     }
 
     private fun setWeekSelector(date: CalendarDay){

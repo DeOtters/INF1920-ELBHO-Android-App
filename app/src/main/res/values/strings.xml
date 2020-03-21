@@ -48,7 +48,7 @@
     <string name="field_contact_title">Functie</string>
     <string name="field_contact_phone">Telefoon</string>
     <string name="field_contact_email">E-mail</string>
-    <string name="field_appointment_date">Datum</string>
+    <string name="field_appointment_date">Datum en Tijd</string>
     <string name="field_appointment_time">Tijd</string>
     <string name="field_appointment_notes">Opmerking</string>
     <string name="button_accept_appointment">Accepteren</string>

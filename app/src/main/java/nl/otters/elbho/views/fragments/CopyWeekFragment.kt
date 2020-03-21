@@ -57,8 +57,7 @@ class CopyWeekFragment : DetailFragment() {
             copy_week_E,
             copy_week_F,
             copy_week_G,
-            copy_week_H,
-            copy_week_I
+            copy_week_H
         )
 
         setWeekNumberTitle()

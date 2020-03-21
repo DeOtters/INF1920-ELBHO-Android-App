@@ -49,9 +49,9 @@
                 android:id="@+id/textDisplay_appointmentDate"
                 layout="@layout/component_textdisplay" />
 
-            <include
-                android:id="@+id/textDisplay_appointmentTime"
-                layout="@layout/component_textdisplay" />
+            <!--            <include-->
+            <!--                android:id="@+id/textDisplay_appointmentTime"-->
+            <!--                layout="@layout/component_textdisplay" />-->
 
             <include
                 android:id="@+id/textDisplay_comment"
