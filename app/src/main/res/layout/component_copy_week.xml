@@ -9,6 +9,7 @@
         android:id="@+id/copy_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:buttonTint="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/copy_date_range"
         app:layout_constraintStart_toStartOf="parent"
