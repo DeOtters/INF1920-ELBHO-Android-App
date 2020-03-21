@@ -63,7 +63,6 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/topButton"
         style="@style/CustomMaterialIconButton"
-        android:backgroundTint="@color/colorPrimary"
         app:iconGravity="textStart"
         app:iconPadding="18dp"
         app:iconSize="24dp"

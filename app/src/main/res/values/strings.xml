@@ -54,6 +54,7 @@
     <string name="button_accept_appointment">Accepteren</string>
     <string name="button_deny_appointment">Afwijzen</string>
     <string name="button_leave">Vertrek</string>
+    <string name="app_title_hasLeft">Vertrokken naar afspraak</string>
     <string name="snackbar_request_accepted">Afspraak met %s geaccepteerd</string>
     <string name="snackbar_request_denied">Afspraak met %s afgewezen</string>
 

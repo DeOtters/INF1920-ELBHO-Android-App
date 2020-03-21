@@ -18,6 +18,8 @@ import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.VehicleLocationProvider
 import nl.otters.elbho.viewModels.RequestViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RequestFragment : DetailFragment() {
     private lateinit var request: Request.Properties
@@ -27,6 +29,8 @@ class RequestFragment : DetailFragment() {
     private val dateParser: DateParser = DateParser()
     private var requestingLocationUpdates = false
 
+    //TODO: after user pressed "vertrek", this should be saved somewhere
+    //API does not support this right now
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,14 +56,18 @@ class RequestFragment : DetailFragment() {
     }
 
     override fun onResume() {
-        setTitle()
+        setTitle(null)
         super.onResume()
         if (requestingLocationUpdates) vehicleLocationProvider.start()
     }
 
-    private fun setTitle() {
+    private fun setTitle(title: String?) {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        appTitle.text = (arguments!!.getString("KEY_APP_TITLE"))
+        if (title.isNullOrEmpty()) {
+            appTitle.text = (arguments!!.getString("KEY_APP_TITLE"))
+        } else {
+            appTitle.text = title
+        }
     }
 
     private fun setFieldLabels() {
@@ -87,7 +95,7 @@ class RequestFragment : DetailFragment() {
         textDisplay_appointmentDate.value.text =
             dateParser.toFormattedDate(request.startTime)
         textDisplay_appointmentTime.value.text =
-            dateParser.toFormattedTime(request.endTime)
+            dateParser.toFormattedTime(request.startTime)
         textDisplay_cocName.value.text = request.cocName
         textDisplay_comment.value.text = request.comment
         textDisplay_contactPersonEmail.value.text = request.contactPersonEmail
@@ -101,7 +109,7 @@ class RequestFragment : DetailFragment() {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/html"
             // TODO: we should put a email address here, but the api doesn't support it at this time
-            intent.putExtra(Intent.EXTRA_EMAIL, "emailaddress@emailaddress.com")
+            intent.putExtra(Intent.EXTRA_EMAIL, request.contactPersonEmail)
             intent.putExtra(Intent.EXTRA_SUBJECT, "We can put a email subject here")
             intent.putExtra(Intent.EXTRA_TEXT, "We can put email body here.")
 
@@ -147,6 +155,13 @@ class RequestFragment : DetailFragment() {
                 bottomButton.visibility = View.GONE
                 topButton.setIconResource(R.drawable.ic_directions_car_white_24dp)
                 topButton.setText(R.string.button_leave)
+                val calendar: Calendar = Calendar.getInstance(Locale("nl"))
+                val dateToday: Date = calendar.time
+                val requestDate: Date = dateParser.dateTimeStringToDate(request.startTime)
+                topButton.isEnabled = false
+                if (isSameDay(dateToday, requestDate)) {
+                    topButton.isEnabled = true
+                }
                 topButton.setOnClickListener { toggleTracking() }
             }
 
@@ -155,6 +170,11 @@ class RequestFragment : DetailFragment() {
                 bottomButton.visibility = View.GONE
             }
         }
+    }
+
+    private fun isSameDay(date1: Date, date2: Date): Boolean {
+        val sdf = SimpleDateFormat("yyyyMMdd", Locale("nl"))
+        return sdf.format(date1) == sdf.format(date2)
     }
 
     private fun denyRequest() {
@@ -187,6 +207,7 @@ class RequestFragment : DetailFragment() {
         } else {
             topButton.setText(R.string.button_arrived)
             topButton.setIconResource(R.drawable.ic_done_24dp)
+            setTitle(getString(R.string.app_title_hasLeft))
             requestingLocationUpdates = true
             vehicleLocationProvider.start()
             Snackbar.make(
