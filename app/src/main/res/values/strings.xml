@@ -141,5 +141,4 @@
     <string name="input_label_from">VAN</string>
     <string name="input_label_to">TOT</string>
     <string name="snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>
-    <string name="invoice_file_prefix">/factuur_</string>
 </resources>

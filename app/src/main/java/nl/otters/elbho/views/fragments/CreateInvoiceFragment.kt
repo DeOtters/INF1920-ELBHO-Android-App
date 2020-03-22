@@ -4,17 +4,18 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.documentfile.provider.DocumentFile
 import com.google.android.material.snackbar.Snackbar
 import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.repositories.InvoiceRepository
-import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.views.activities.NavigationActivity
 import java.io.*
 import java.text.DateFormatSymbols
@@ -33,6 +34,7 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
 
     private var selectedFileUri: Uri? = null
     private var fileChosen: Boolean = false
+    private var fileName: String = ""
     private var chosenMonth: String = ""
 
     companion object {
@@ -46,6 +48,7 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
         // receive pdf from share intent
         if (arguments?.get("Uri") != null) {
             selectedFileUri = arguments?.get("Uri") as Uri
+            fileName = DocumentFile.fromSingleUri(context!!, this.selectedFileUri!!)!!.name!!
             fileChosen()
         }
     }
@@ -105,12 +108,9 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
         val invoiceRepository = InvoiceRepository(activity!!.applicationContext)
         val inputStream: InputStream =
             context!!.contentResolver.openInputStream(this.selectedFileUri!!)!!
-        val dateParser = DateParser()
         val file = File(
             context!!.getExternalFilesDir(null)!!.absolutePath
-                    + getString(R.string.invoice_file_prefix)
-                    + dateParser
-                .toFormattedYearAndMonth(chosenMonth) + ".pdf"
+                    + "/" + fileName
         )
         val outputStream: OutputStream = FileOutputStream(file)
         val buffer = ByteArray(1024)
@@ -131,7 +131,10 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
 
             data.let {
                 try {
+                    Log.d("File", it.toString())
                     selectedFileUri = it!!.data!!
+                    fileName =
+                        DocumentFile.fromSingleUri(context!!, this.selectedFileUri!!)!!.name!!
                     fileChosen()
                 } catch (e: IOException) {
                     Snackbar.make(
@@ -146,7 +149,7 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
     }
 
     private fun fileChosen() {
-        invoiceFileTextView.setText(getString(R.string.create_invoice_file_selected))
+        invoiceFileTextView.setText(fileName)
         fileChosen = true
     }
 
