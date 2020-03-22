@@ -72,6 +72,7 @@ class VehicleFragment : BaseFragment() {
                 vehicleReservationList.addAll(it)
                 newRequests.addAll(it)
                 updateRecyclerView(newRequests)
+                checkTimeSelected()
             }
         })
     }
@@ -83,6 +84,7 @@ class VehicleFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
+
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
         val vehicleListAdapter = VehicleListAdapter(
             activity!!.applicationContext,
@@ -99,6 +101,7 @@ class VehicleFragment : BaseFragment() {
             this.layoutManager = viewManager
             this.adapter = vehicleListAdapter
         }
+
     }
 
     private fun setupPullDownToRefresh() {
@@ -119,6 +122,17 @@ class VehicleFragment : BaseFragment() {
                     swipe_to_refresh.isRefreshing = false
                 }
             })
+        }
+    }
+
+    private fun checkTimeSelected() {
+        if (vehicleReservationList.isEmpty()) {
+            recyclerView.visibility = View.INVISIBLE;
+            empty_view_2.visibility = View.VISIBLE;
+        }
+        else {
+            recyclerView.visibility = View.VISIBLE;
+            empty_view_2.visibility = View.INVISIBLE;
         }
     }
 

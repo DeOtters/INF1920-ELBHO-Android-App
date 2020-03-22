@@ -95,8 +95,10 @@
     <string name="empty_time">--:--</string>
     <string name="hint_time">Time input</string>
     <string name="reserved_txt">gereserveerd:</string>
-    <string name="toast_vehicle_reserved">Auto gereserveerd</string>
+    <string name="snackbar_vehicle_reserved">Auto gereserveerd</string>
+    <string name="snackbar_vehicle_cancelled">Auto reservering geannuleerd</string>
     <string name="toast_vehicle_already_reserved">Auto reservering niet gelukt voor deze begin en eind tijd</string>
+    <string name="no_car_reservation">Geen auto"&apos;"s gereserveerd.</string>
 
     <!-- Create Availability Fragment  -->
     <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>
@@ -135,7 +137,6 @@
     <string name="create_invoice_month">Maand en jaar</string>
     <string name="create_invoice_file">Bestand</string>
     <string name="create_invoice_error_not_acceptable">Gekozen maand ligt in de toekomst</string>
-    <string name="create_invoice_file_selected">Bestand geselecteerd</string>
     <string name="invoice_server_not_yet_saved">Het bestand is niet beschikbaar op de server</string>
 
     <!-- Component Availability Input   -->
@@ -143,5 +144,4 @@
     <string name="input_label_from">VAN</string>
     <string name="input_label_to">TOT</string>
     <string name="snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>
-    <string name="invoice_file_prefix">/factuur_</string>
 </resources>
