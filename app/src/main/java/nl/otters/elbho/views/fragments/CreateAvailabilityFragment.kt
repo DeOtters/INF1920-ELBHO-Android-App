@@ -194,19 +194,24 @@ class CreateAvailabilityFragment : DetailFragment() {
 
     private fun setDayLabels() {
         availability_monday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[0])
-        availability_monday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[0])
+        availability_monday.availability_dateText.text =
+            dateParser.dateToFormattedDateYear(datesOfWeek[0])
 
         availability_tuesday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[1])
-        availability_tuesday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[1])
+        availability_tuesday.availability_dateText.text =
+            dateParser.dateToFormattedDateYear(datesOfWeek[1])
 
         availability_wednesday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[2])
-        availability_wednesday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[2])
+        availability_wednesday.availability_dateText.text =
+            dateParser.dateToFormattedDateYear(datesOfWeek[2])
 
         availability_thursday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[3])
-        availability_thursday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[3])
+        availability_thursday.availability_dateText.text =
+            dateParser.dateToFormattedDateYear(datesOfWeek[3])
 
         availability_friday.availability_dayText.text = dateParser.dateToFormattedDay(datesOfWeek[4])
-        availability_friday.availability_dateText.text = dateParser.dateToFormattedDate(datesOfWeek[4])
+        availability_friday.availability_dateText.text =
+            dateParser.dateToFormattedDateYear(datesOfWeek[4])
     }
 
     private fun copyWeek() {
