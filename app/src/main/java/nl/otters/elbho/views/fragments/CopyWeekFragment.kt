@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -26,6 +28,7 @@ class CopyWeekFragment : DetailFragment() {
     private lateinit var weekList: ArrayList<View>
     private lateinit var chosenDay: CalendarDay
     private lateinit var availabilitiesToCopy: Availability.Availabilities
+    private lateinit var availabilities: ArrayList<Availability.Slot>
     private lateinit var availabilityRepository: AvailabilityRepository
     private lateinit var availabilityViewModel: AvailabilityViewModel
     private val firstDayOfWeeks: ArrayList<Date> = ArrayList()
@@ -46,6 +49,7 @@ class CopyWeekFragment : DetailFragment() {
 
         chosenDay = arguments?.getParcelable("KEY_CHOSEN_DATE")!!
         availabilitiesToCopy = arguments?.getParcelable("KEY_NEW_AVAILABILITIES")!!
+        availabilities = arguments?.getParcelableArrayList("KEY_AVAILABILITY")!!
         availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
         availabilityViewModel = AvailabilityViewModel(availabilityRepository)
 
@@ -104,43 +108,70 @@ class CopyWeekFragment : DetailFragment() {
     private fun copyWeek(view: View) {
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val adviserId = sharedPreferences.getValueString("adviser-id")!!
+
+        // Here we add the initial week availabilities to copy to the list we're making the call with
         for (availability in availabilitiesToCopy.availabilities!!) {
             newAvailabilities.availabilities!!.add(availability)
         }
+
+        progressBar.isVisible = true
+
         weekList.forEachIndexed { weekIndex, week ->
             if(week.copy_checkbox.isChecked){
-                availabilitiesToCopy.availabilities!!.forEachIndexed { _, availability ->
+                availabilitiesToCopy.availabilities!!.forEachIndexed { _, availabilityToCopy ->
                     val calendar = Calendar.getInstance(Locale("nl"))
-                    calendar.time = dateParser.dateTimeStringToDate(availability.date)
+                    calendar.time = dateParser.dateTimeStringToDate(availabilityToCopy.date)
 
                     val dayOfWeek: Int = calendar[Calendar.DAY_OF_WEEK] - 2 //MA = 0, DI = 1, WO = 2, DO = 3, VR = 4
                     calendar.time = firstDayOfWeeks[weekIndex]
                     calendar.add(Calendar.DATE, dayOfWeek)
 
-                    val newAvailability: Availability.Slot = Availability.Slot(
-                        adviserId,
-                        adviserId,
-                        dateParser.dateToFormattedDatetime(calendar.time),
-                        dateParser.dateToFormattedDatetime(calendar.time).replaceAfterLast('T', availability.start.substringAfter('T')),
-                        dateParser.dateToFormattedDatetime(calendar.time).replaceAfterLast('T', availability.end.substringAfter('T')),
-                        dateParser.getTimestampToday(),
-                        dateParser.getTimestampToday()
-                    )
-                    newAvailabilities.availabilities!!.add(newAvailability)
+                    for (a in availabilities) {
+                        val id =
+                            if (a.date == availabilityToCopy.date) availabilityToCopy.id else ""
+                        val newAvailability: Availability.Slot = Availability.Slot(
+                            id,
+                            adviserId,
+                            dateParser.dateToFormattedDatetime(calendar.time),
+                            dateParser.dateToFormattedDatetime(calendar.time).replaceAfterLast(
+                                'T',
+                                availabilityToCopy.start.substringAfter('T')
+                            ),
+                            dateParser.dateToFormattedDatetime(calendar.time)
+                                .replaceAfterLast('T', availabilityToCopy.end.substringAfter('T')),
+                            dateParser.getTimestampToday(),
+                            dateParser.getTimestampToday()
+                        )
+                        newAvailabilities.availabilities!!.add(newAvailability)
+                    }
                 }
             }
         }
 
         if (newAvailabilities.availabilities!!.isNotEmpty()){
             availabilityViewModel.createAvailabilities(newAvailabilities)
+                .observe(viewLifecycleOwner, Observer {
+                    navigateToAvailability(it, view)
+                    progressBar.isVisible = false
+                })
         }
+    }
 
-        Snackbar.make(
-            view,
-            getString(R.string.copy_week_saved),
-            Snackbar.LENGTH_SHORT
-        ).show()
-        findNavController().navigate(R.id.availabilityFragment)
+    private fun navigateToAvailability(success: Boolean, view: View) {
+        if (success) {
+            Snackbar.make(
+                view,
+                getString(R.string.copy_week_saved),
+                Snackbar.LENGTH_SHORT
+            ).show()
+            findNavController().navigate(R.id.availabilityFragment)
+        } else {
+            Snackbar.make(
+                view,
+                getString(R.string.copy_week_not_save),
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun onResume() {

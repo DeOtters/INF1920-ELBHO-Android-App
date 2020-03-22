@@ -1,6 +1,7 @@
 package nl.otters.elbho.viewModels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.otters.elbho.models.Availability
 import nl.otters.elbho.repositories.AvailabilityRepository
@@ -10,7 +11,7 @@ class AvailabilityViewModel(private val availabilityRepository: AvailabilityRepo
         return availabilityRepository.getAvailabilities(timePeriod)
     }
 
-    fun createAvailabilities(availabilities: Availability.Availabilities){
-        availabilityRepository.createAvailability(availabilities)
+    fun createAvailabilities(availabilities: Availability.Availabilities): MutableLiveData<Boolean> {
+        return availabilityRepository.createAvailability(availabilities)
     }
 }
