@@ -152,6 +152,7 @@ class CopyWeekFragment : DetailFragment() {
             availabilityViewModel.createAvailabilities(newAvailabilities)
                 .observe(viewLifecycleOwner, Observer {
                     navigateToAvailability(it, view)
+                    progressBar.isVisible = false
                 })
         }
     }
@@ -171,10 +172,8 @@ class CopyWeekFragment : DetailFragment() {
                 Snackbar.LENGTH_SHORT
             ).show()
         }
-        progressBar.isVisible = false
     }
 
-}
     override fun onResume() {
         setTitle()
         super.onResume()
