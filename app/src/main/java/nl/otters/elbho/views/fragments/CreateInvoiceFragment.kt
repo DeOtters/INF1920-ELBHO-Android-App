@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -130,7 +129,6 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
 
             data.let {
                 try {
-                    Log.d("File", it.toString())
                     selectedFileUri = it!!.data!!
                     fileChosen()
                 } catch (e: IOException) {
