@@ -220,6 +220,7 @@ class CreateAvailabilityFragment : DetailFragment() {
         val bundle = Bundle()
         bundle.putParcelable("KEY_CHOSEN_DATE", chosenDay)
         bundle.putParcelable("KEY_NEW_AVAILABILITIES", newAvailabilities)
+        bundle.putParcelableArrayList("KEY_AVAILABILITY", availability)
         findNavController().navigate(R.id.action_createAvailabilityFragment_to_copyWeekFragment, bundle)
     }
 
@@ -234,22 +235,52 @@ class CreateAvailabilityFragment : DetailFragment() {
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val adviserId = sharedPreferences.getValueString("adviser-id")!!
             inputFieldList.forEachIndexed{index, item ->
-            if (item.startTime.text.toString() != defaultTimePickerInputValue && item.endTime.text.toString() != defaultTimePickerInputValue){
-                        val newAvailability: Availability.Slot = Availability.Slot(
-                            adviserId,
-                            adviserId,
-                            datesOfWeek[index].plus("T00:00:00.694Z"),
-                            formatDateTime(datesOfWeek[index], item.startTime.text.toString()),
-                            formatDateTime(datesOfWeek[index], item.endTime.text.toString()),
-                            dateParser.getTimestampToday(),
-                            dateParser.getTimestampToday()
-                        )
-                        newAvailabilities.availabilities!!.add(newAvailability)
+                val newAvailability: Availability.Slot?
+
+                if (item.startTime.text.toString() != defaultTimePickerInputValue && item.endTime.text.toString() != defaultTimePickerInputValue) {
+                    newAvailability = Availability.Slot(
+                        item.index.text.toString(),
+                        adviserId,
+                        datesOfWeek[index].plus("T00:00:00.694Z"),
+                        formatDateTime(datesOfWeek[index], item.startTime.text.toString()),
+                        formatDateTime(datesOfWeek[index], item.endTime.text.toString()),
+                        dateParser.getTimestampToday(),
+                        dateParser.getTimestampToday()
+                    )
+                } else {
+                    newAvailability = Availability.Slot(
+                        item.index.text.toString(),
+                        adviserId,
+                        datesOfWeek[index].plus("T00:00:00.694Z"),
+                        formatDateTime(datesOfWeek[index], "00:00"),
+                        formatDateTime(datesOfWeek[index], "00:00"),
+                        dateParser.getTimestampToday(),
+                        dateParser.getTimestampToday()
+                    )
+                }
+                newAvailabilities.availabilities!!.add(newAvailability)
             }
+    }
+
+    private fun isValidSubmission(): Boolean {
+        var isValid: Boolean = true
+        inputFieldList.forEachIndexed { index, item ->
+            if (item.startTime.text.toString() == defaultTimePickerInputValue && item.endTime.text.toString() != defaultTimePickerInputValue || item.startTime.text.toString() == defaultTimePickerInputValue && item.endTime.text.toString() != defaultTimePickerInputValue)
+                isValid = false
         }
+        return isValid
     }
 
     private fun createAvailability(view: View) {
+        if (!isValidSubmission()) {
+            Snackbar.make(
+                view,
+                getString(R.string.create_availability_failed),
+                Snackbar.LENGTH_SHORT
+            ).show()
+            return
+        }
+
         getNewAvailabilities()
         if (newAvailabilities.availabilities!!.isNotEmpty()){
             availabilityViewModel.createAvailabilities(newAvailabilities)
@@ -272,21 +303,11 @@ class CreateAvailabilityFragment : DetailFragment() {
                 if(slot.date.contains(datesOfWeek[index])){
                     item.startTime.setText(dateParser.toFormattedTime(slot.start))
                     item.endTime.setText(dateParser.toFormattedTime(slot.end))
+                    item.index.text = slot.id
                 }
             }
 
-            if(item.startTime.text.toString() != defaultTimePickerInputValue &&  item.endTime.text.toString() != defaultTimePickerInputValue){
-                item.startTime.setOnClickListener {  }
-                item.endTime.setOnClickListener {  }
-                item.startTime.isClickable = false
-                item.endTime.isClickable = false
-                item.availability_clear.setOnClickListener {  }
-//                For some reason this does only work for the first item in the list?
-//                item.availability_clear.drawable.setTint(resources.getColor(R.color.colorDisabledButton))
-                item.availability_clear.setImageDrawable(resources.getDrawable(R.drawable.ic_delete_disabled_24dp))
-            }else{
-                item.availability_clear.setImageDrawable(resources.getDrawable(R.drawable.ic_delete_red_24dp))
-            }
+            item.availability_clear.setImageDrawable(resources.getDrawable(R.drawable.ic_delete_red_24dp))
         }
     }
 }

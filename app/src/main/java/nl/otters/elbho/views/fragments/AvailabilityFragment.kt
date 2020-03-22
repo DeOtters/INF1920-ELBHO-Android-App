@@ -28,7 +28,7 @@ import kotlin.collections.ArrayList
 class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     private var availability: ArrayList<Availability.Slot> = ArrayList()
     private val dateParser: DateParser = DateParser()
-
+    private lateinit var availabilityViewModel: AvailabilityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,29 +42,32 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         super.onActivityCreated(savedInstanceState)
 
         val availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
-        val availabilityViewModel = AvailabilityViewModel(availabilityRepository)
+        availabilityViewModel = AvailabilityViewModel(availabilityRepository)
 
         setupCalendar()
         (activity as NavigationActivity).setProgressBarVisible(true)
-
-        val timePeriod: Availability.TimePeriod =
-            Availability.TimePeriod(null, dateParser.getTimestampLastDayOfMonthBefore())
-        availabilityViewModel.getAllAvailabilities(timePeriod)
-            ?.observe(viewLifecycleOwner, Observer {
-            availability = it
-            for (timeSlot in it) {
-                //Here we add the ui for a available day from database
-                calendarView.addDecorator(AvailableDayDecorator(timeSlot.start))
-                (activity as NavigationActivity).setProgressBarVisible(false)
-            }
-        })
+        updateCalendar()
     }
 
     override fun onResume() {
+        updateCalendar()
         setTitle()
         super.onResume()
     }
 
+    private fun updateCalendar() {
+        val timePeriod: Availability.TimePeriod =
+            Availability.TimePeriod(null, dateParser.getTimestampLastDayOfMonthBefore())
+        availabilityViewModel.getAllAvailabilities(timePeriod)
+            ?.observe(viewLifecycleOwner, Observer {
+                availability = it
+                for (timeSlot in it) {
+                    //Here we add the ui for a available day from database
+                    calendarView.addDecorator(AvailableDayDecorator(timeSlot.start))
+                    (activity as NavigationActivity).setProgressBarVisible(false)
+                }
+            })
+    }
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_availability)

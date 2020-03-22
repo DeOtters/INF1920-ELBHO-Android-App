@@ -35,17 +35,21 @@ class AvailabilityRepository(private val context: Context) {
         return availabilities
     }
 
-    fun createAvailability(availability: Availability.Availabilities) {
+    fun createAvailability(availability: Availability.Availabilities): MutableLiveData<Boolean> {
+        val success = MutableLiveData<Boolean>()
+
         availabilityService.createAvailability(getAuthToken(), availability)
             .enqueue(object : Callback<Unit> {
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                    Log.e("CreateAvailability", availability.toString())
+                    success.value = response.isSuccessful && response.body() != null
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    // TODO: not implemented
+                    success.value = false
                 }
             })
+
+        return success
     }
 
     private fun getAuthToken(): String {
