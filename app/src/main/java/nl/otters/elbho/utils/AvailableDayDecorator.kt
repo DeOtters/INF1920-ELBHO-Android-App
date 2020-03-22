@@ -24,7 +24,10 @@ class AvailableDayDecorator(private val daysToCheck: String) : DayViewDecorator 
     }
 
     override fun shouldDecorate(day: CalendarDay): Boolean {
-        if(day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+        if (day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || day.isBefore(
+                CalendarDay.today()
+            )
+        ) {
            return false
         } else{
             return day == dateParser.toCalendarDay(daysToCheck)
