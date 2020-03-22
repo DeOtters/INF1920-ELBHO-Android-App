@@ -20,6 +20,9 @@ import nl.otters.elbho.viewModels.OverviewViewModel
 
 class OpenRequestsFragment : Fragment() {
     private var requests: ArrayList<Request.Properties> = ArrayList()
+    private lateinit var appointmentRepository: AppointmentRepository
+    private lateinit var requestRepository: RequestRepository
+    private lateinit var overviewViewModel: OverviewViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         inflater.inflate(R.layout.fragment_open_requests, container, false)!!
@@ -27,14 +30,14 @@ class OpenRequestsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val appointmentRepository = AppointmentRepository(activity!!.applicationContext)
-        val requestRepository = RequestRepository(activity!!.applicationContext)
-        val overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
+        appointmentRepository = AppointmentRepository(activity!!.applicationContext)
+        requestRepository = RequestRepository(activity!!.applicationContext)
+        overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
 
         setupRecyclerView()
-
-        overviewViewModel.getAllRequests().observe( this, Observer<ArrayList<Request.Properties>> {
-            updateRequestData(it)
+        setupPullDownToRefresh()
+        overviewViewModel.getAllRequests().observe(viewLifecycleOwner, Observer {
+            updateRecyclerView(it)
         })
     }
 
@@ -50,10 +53,20 @@ class OpenRequestsFragment : Fragment() {
         appTitle.setText(R.string.navigation_open_requests)
     }
 
-    private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {
+    private fun updateRecyclerView(newRequests: ArrayList<Request.Properties>) {
         requests.clear()
         requests.addAll(newRequests)
         recyclerView.adapter!!.notifyDataSetChanged()
+    }
+
+    private fun setupPullDownToRefresh() {
+        swipe_to_refresh.setOnRefreshListener {
+            swipe_to_refresh.isRefreshing = true
+            overviewViewModel.getAllRequests().observe(viewLifecycleOwner, Observer {
+                updateRecyclerView(it)
+                swipe_to_refresh.isRefreshing = false
+            })
+        }
     }
 
     private fun setupRecyclerView() {

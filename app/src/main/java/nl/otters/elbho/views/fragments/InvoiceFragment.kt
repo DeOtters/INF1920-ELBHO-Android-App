@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_invoice.*
-import kotlinx.android.synthetic.main.fragment_open_requests.recyclerView
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.InvoiceListAdapter
 import nl.otters.elbho.models.Invoice
@@ -22,6 +21,8 @@ import nl.otters.elbho.viewModels.InvoiceViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
 
 class InvoiceFragment : BaseFragment() {
+    private lateinit var invoiceRepository: InvoiceRepository
+    private lateinit var invoicesViewModel: InvoiceViewModel
     private var invoices: ArrayList<Invoice.File> = ArrayList()
     private var selectedFileUrl: String = ""
 
@@ -35,9 +36,10 @@ class InvoiceFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val invoiceRepository = InvoiceRepository(activity!!.applicationContext)
-        val invoicesViewModel = InvoiceViewModel(invoiceRepository)
+        invoiceRepository = InvoiceRepository(activity!!.applicationContext)
+        invoicesViewModel = InvoiceViewModel(invoiceRepository)
         setupRecyclerView()
+        setupPullDownToRefresh()
         setupButtonListener()
 
         (activity as NavigationActivity).setProgressBarVisible(true)
@@ -83,6 +85,18 @@ class InvoiceFragment : BaseFragment() {
         recyclerView.apply {
             this.layoutManager = viewManager
             this.adapter = invoiceListAdapter
+        }
+    }
+
+    private fun setupPullDownToRefresh() {
+        swipe_to_refresh.setOnRefreshListener {
+            swipe_to_refresh.isRefreshing = true
+            invoicesViewModel.getAllInvoices()?.observe(viewLifecycleOwner, Observer {
+                if (it != null) {
+                    updateInvoiceData(it)
+                    swipe_to_refresh.isRefreshing = false
+                }
+            })
         }
     }
 

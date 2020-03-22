@@ -24,6 +24,7 @@ import kotlin.collections.ArrayList
 
 class VehicleFragment : BaseFragment() {
     private var vehicleReservationList: ArrayList<Vehicle.Reservation> = ArrayList()
+    private lateinit var vehicleViewModel: VehicleViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,9 +37,10 @@ class VehicleFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val vehicleRepository = VehicleRepository(activity!!.applicationContext)
-        val vehicleViewModel = VehicleViewModel(vehicleRepository)
+        vehicleViewModel = VehicleViewModel(vehicleRepository)
 
         setupRecyclerView()
+        setupPullDownToRefresh()
 
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
@@ -47,14 +49,14 @@ class VehicleFragment : BaseFragment() {
             startLoginActivity()
         }
 
-        setupReservation(vehicleViewModel)
+        setupReservation()
 
         goVehicleReservation.setOnClickListener {
             findNavController().navigate(R.id.action_global_vehicleReservationFragment)
         }
     }
 
-   private fun setupReservation(vehicleViewModel: VehicleViewModel){
+    private fun setupReservation() {
        (activity as NavigationActivity).setProgressBarVisible(true)
        val newRequests: ArrayList<Vehicle.Reservation> = ArrayList()
        vehicleViewModel.getAllVehicleReservationsByAdviser(
@@ -69,12 +71,12 @@ class VehicleFragment : BaseFragment() {
             if (it != null) {
                 vehicleReservationList.addAll(it)
                 newRequests.addAll(it)
-                updateVehicleData(newRequests)
+                updateRecyclerView(newRequests)
             }
         })
     }
 
-    private fun updateVehicleData(reservations: ArrayList<Vehicle.Reservation>) {
+    private fun updateRecyclerView(reservations: ArrayList<Vehicle.Reservation>) {
         vehicleReservationList.clear()
         vehicleReservationList.addAll(reservations)
         recyclerView.adapter!!.notifyDataSetChanged()
@@ -96,6 +98,27 @@ class VehicleFragment : BaseFragment() {
         recyclerView.apply {
             this.layoutManager = viewManager
             this.adapter = vehicleListAdapter
+        }
+    }
+
+    private fun setupPullDownToRefresh() {
+        swipe_to_refresh.setOnRefreshListener {
+            swipe_to_refresh.isRefreshing = true
+            vehicleViewModel.getAllVehicleReservationsByAdviser(
+                Vehicle.ReservationOptions(
+                    after = SimpleDateFormat(
+                        "yyyy-MM-dd",
+                        Locale("nl")
+                    ).format(Calendar.getInstance().time), sort = "ASC"
+                )
+            ).observe(viewLifecycleOwner, Observer {
+                (activity as NavigationActivity).setProgressBarVisible(false)
+                if (it != null) {
+                    vehicleReservationList.addAll(it)
+                    updateRecyclerView(it)
+                    swipe_to_refresh.isRefreshing = false
+                }
+            })
         }
     }
 
