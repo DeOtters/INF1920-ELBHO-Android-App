@@ -48,7 +48,6 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
         // receive pdf from share intent
         if (arguments?.get("Uri") != null) {
             selectedFileUri = arguments?.get("Uri") as Uri
-            fileName = DocumentFile.fromSingleUri(context!!, this.selectedFileUri!!)!!.name!!
             fileChosen()
         }
     }
@@ -133,8 +132,6 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
                 try {
                     Log.d("File", it.toString())
                     selectedFileUri = it!!.data!!
-                    fileName =
-                        DocumentFile.fromSingleUri(context!!, this.selectedFileUri!!)!!.name!!
                     fileChosen()
                 } catch (e: IOException) {
                     Snackbar.make(
@@ -149,6 +146,7 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
     }
 
     private fun fileChosen() {
+        fileName = DocumentFile.fromSingleUri(context!!, this.selectedFileUri!!)!!.name!!
         invoiceFileTextView.setText(fileName)
         fileChosen = true
     }
