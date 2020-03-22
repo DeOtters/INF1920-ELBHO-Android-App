@@ -1,6 +1,7 @@
 package nl.otters.elbho.views.fragments
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog.show
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -145,7 +146,9 @@ class VehicleReservationFragment : DetailFragment() {
 
                     setupRecyclerView(vehicleViewModel)
                 } else {
-                    Toast.makeText(context,R.string.toast_end_after,Toast.LENGTH_SHORT).show()
+                    val toast = Toast.makeText(context,R.string.toast_end_after,Toast.LENGTH_SHORT)
+                    toast.view.setBackgroundResource(R.color.colorSecondary)
+                    toast.show()
                 }
             }
             TimePickerDialog(context, timeSetListener, calEnd.get(Calendar.HOUR_OF_DAY), calEnd.get(Calendar.MINUTE), true).show()
@@ -193,12 +196,15 @@ class VehicleReservationFragment : DetailFragment() {
 
                             setupRecyclerView(vehicleViewModel)
                         } else {
-                            Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT)
-                                .show()
+                            val toast = Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT)
+                            toast.view.setBackgroundResource(R.color.colorSecondary)
+                            toast.show()
+
                         }
                     } else {
-                        Toast.makeText(context, R.string.toast_select_all_inputs, Toast.LENGTH_LONG)
-                            .show()
+                        val toast : Toast = Toast.makeText(context, R.string.toast_select_all_inputs, Toast.LENGTH_LONG)
+                        toast.view.setBackgroundResource(R.color.colorSecondary)
+                        toast.show()
                     }
                 }
             })
@@ -214,65 +220,64 @@ class VehicleReservationFragment : DetailFragment() {
             if (!reservationDate.equals(" ") && !startReservationTime.equals(" ") && !endReservationTime.equals(" ")) {
                 if (!startReservationTime.equals(endReservationTime)) {
                     if (carReservation != null) {
-                        MaterialAlertDialogBuilder(context)
-                            .setTitle(getString(R.string.confirm_reservation))
-                            .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
 
-                                vehicleViewModel.createVehicleReservation(carReservation!!)
-                                Thread.sleep(500)
-                                super.getFragmentManager()?.popBackStack()
+                        vehicleViewModel.createVehicleReservation(carReservation!!)
+                        Thread.sleep(500)
+                        super.getFragmentManager()?.popBackStack()
 
-                                val snackbarDialog = Snackbar.make(
-                                    it,
-                                    getString(R.string.toast_vehicle_reserved),
-                                    Snackbar.LENGTH_LONG
-                                )
-                                val snackbarView = snackbarDialog.view
-                                snackbarView.setBackgroundColor(
-                                    ContextCompat.getColor(
-                                        activity!!.applicationContext,
-                                        R.color.vehicle_snackBar_bg_col
-                                    )
-                                )
-                                val snackbarTextView =
-                                    snackbarView.findViewById<TextView>(R.id.snackbar_text)
-                                snackbarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                                    R.drawable.ic_check_circle_24dp,
-                                    0,
-                                    0,
-                                    0
-                                )
-                                snackbarTextView.compoundDrawablePadding = 75
-                                snackbarDialog.show()
-
-                            }.setNegativeButton(
-                                getString(R.string.vehicle_delete_message_false),
-                                null
+                        val snackbarDialog = Snackbar.make(
+                            it,
+                            getString(R.string.snackbar_vehicle_reserved),
+                            Snackbar.LENGTH_LONG
+                        )
+                        val snackbarView = snackbarDialog.view
+                        snackbarView.setBackgroundColor(
+                            ContextCompat.getColor(
+                                activity!!.applicationContext,
+                                R.color.vehicle_snackBar_bg_col
                             )
-                            .show()
+                        )
+                        val snackbarTextView =
+                            snackbarView.findViewById<TextView>(R.id.snackbar_text)
+                        snackbarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                            R.drawable.ic_check_circle_24dp,
+                            0,
+                            0,
+                            0
+                        )
+                        snackbarTextView.compoundDrawablePadding = 75
+                        snackbarDialog.show()
+
                     } else {
-                        Toast.makeText(context, R.string.toast_select_car, Toast.LENGTH_SHORT)
-                            .show()
+                        val toast = Toast.makeText(context, R.string.toast_select_car, Toast.LENGTH_SHORT)
+                        toast.view.setBackgroundResource(R.color.colorSecondary)
+                        toast.show()
                     }
 
                 } else {
-                    Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT).show()
+                    val toast = Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT)
+                    toast.view.setBackgroundResource(R.color.colorSecondary)
+                    toast.show()
                 }
 
             } else {
-                Toast.makeText(context, R.string.toast_select_all_inputs, Toast.LENGTH_LONG).show()
+                val toast = Toast.makeText(context, R.string.toast_select_all_inputs, Toast.LENGTH_LONG)
+                toast.view.setBackgroundResource(R.color.colorSecondary)
+                toast.show()
             }
         }
     }
 
     private fun checkTimeSelected() {
         if (startReservationTime.equals(" ") && endReservationTime.equals(" ")) {
-            recyclerView.visibility = View.INVISIBLE;
-            empty_view.visibility = View.VISIBLE;
+            recyclerView.visibility = View.INVISIBLE
+            empty_view.visibility = View.VISIBLE
+            vehicle_reservation_btn.visibility = View.INVISIBLE
         }
         else {
-            recyclerView.visibility = View.VISIBLE;
-            empty_view.visibility = View.INVISIBLE;
+            recyclerView.visibility = View.VISIBLE
+            empty_view.visibility = View.INVISIBLE
+            vehicle_reservation_btn.visibility = View.VISIBLE
         }
     }
 

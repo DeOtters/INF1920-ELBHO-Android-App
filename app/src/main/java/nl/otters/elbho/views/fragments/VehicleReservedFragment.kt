@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.component_textdisplay.view.*
 import kotlinx.android.synthetic.main.fragment_request.bottomButton
 import kotlinx.android.synthetic.main.fragment_vehicle_reserved.*
@@ -65,22 +67,40 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
         setMapsListener(reservation)
 
         bottomButton.setOnClickListener {
-            showDeleteAlert(vehicleViewModel)
+            deleteReservation(vehicleViewModel)
+
+            val snackbarDialog = Snackbar.make(
+                it,
+                getString(R.string.snackbar_vehicle_cancelled),
+                Snackbar.LENGTH_LONG
+            )
+            val snackbarView = snackbarDialog.view
+            snackbarView.setBackgroundColor(
+                ContextCompat.getColor(
+                    activity!!.applicationContext,
+                    R.color.vehicle_snackBar_bg_col
+                )
+            )
+            val snackbarTextView =
+                snackbarView.findViewById<TextView>(R.id.snackbar_text)
+            snackbarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                R.drawable.ic_check_circle_24dp,
+                0,
+                0,
+                0
+            )
+            snackbarTextView.compoundDrawablePadding = 75
+            snackbarDialog.show()
         }
     }
 
     // TODO: Use Synchronize instead of Thread.Sleep
-    private fun showDeleteAlert(vehicleViewModel: VehicleViewModel) {
-        MaterialAlertDialogBuilder(context)
-            .setTitle(getString(R.string.vehicle_delete_message))
-            .setPositiveButton(getString(R.string.vehicle_delete_message_true)) { _, _ ->
+    private fun deleteReservation(vehicleViewModel: VehicleViewModel) {
 
-                vehicleViewModel.removeVehicleReservation(reservation.id)
-                Thread.sleep(500)
-                super.getFragmentManager()?.popBackStack()
+        vehicleViewModel.removeVehicleReservation(reservation.id)
+        Thread.sleep(500)
+        super.getFragmentManager()?.popBackStack()
 
-            }.setNegativeButton(getString(R.string.vehicle_delete_message_false), null)
-            .show()
     }
 
     private fun setFieldLabels() {
