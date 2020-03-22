@@ -9,12 +9,7 @@
     <ScrollView
         android:id="@+id/scrollViewVehicle"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/vehicle_reservation_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,9 +23,11 @@
                 android:layout_marginTop="@dimen/container_spacing"
                 android:layout_marginStart="@dimen/container_spacing"
                 android:layout_marginEnd="@dimen/container_spacing"
+                android:layout_marginBottom="@dimen/container_spacing"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/vehicle_reservation_btn">
 
                 <CalendarView
                     android:id="@+id/calendarReservationView"
@@ -161,26 +158,26 @@
                     android:text="@string/toast_select_all_inputs" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/vehicle_reservation_btn"
+                style="@style/CustomMaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginStart="@dimen/container_spacing"
+                android:layout_marginEnd="@dimen/container_spacing"
+                android:layout_marginBottom="@dimen/container_spacing"
+                android:text="@string/button_reserve_vehicle"
+                app:backgroundTint="@color/colorPrimaryDark"
+                app:icon="@drawable/ic_vehicle_reserve"
+                app:iconGravity="textStart"
+                app:iconPadding="@dimen/container_spacing"
+                app:iconSize="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="invisible"/>
+
         </LinearLayout>
     </ScrollView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/vehicle_reservation_btn"
-        style="@style/CustomMaterialButton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:layout_marginStart="@dimen/container_spacing"
-        android:layout_marginEnd="@dimen/container_spacing"
-        android:layout_marginBottom="@dimen/container_spacing"
-        android:text="@string/button_reserve_vehicle"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:icon="@drawable/ic_vehicle_reserve"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/container_spacing"
-        app:iconSize="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

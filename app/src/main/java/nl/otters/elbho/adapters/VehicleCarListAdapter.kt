@@ -134,8 +134,7 @@ class VehicleCarListAdapter(
                     val resEnd = Calendar.getInstance()
                     resEnd.time = parser.parse(parser.format(parser2.parse(res.end)!!))!!
 
-                    if (calStart.equals(resStart) || calStart.equals(resEnd) ||
-                        calEnd.equals(resStart) || calEnd.equals(resEnd) ||
+                    if (calStart.equals(resStart) || calEnd.equals(resEnd) ||
                         calStart.after(resStart) && calStart.before(resEnd) ||
                             calEnd.after(resStart) && calEnd.before(resEnd) ||
                             calStart.before(resStart) && calEnd.after(resEnd)) {
