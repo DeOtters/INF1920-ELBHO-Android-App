@@ -25,7 +25,7 @@ class OverviewViewModel(private val requestRepository: RequestRepository, privat
         loadAllDoneAppointments()
     }
 
-    private fun loadAllRequests(){
+    fun loadAllRequests() {
         requests = requestRepository.getAllRequests()
     }
 
@@ -66,18 +66,22 @@ class OverviewViewModel(private val requestRepository: RequestRepository, privat
     }
 
     fun getAllRequests(): LiveData<ArrayList<Request.Properties>> {
+        loadAllRequests()
         return requests
     }
 
     fun getAllUpcomingAppointments(): LiveData<ArrayList<Request.Properties>> {
+        loadAllUpcomingAppointments()
         return upcomingAppointments
     }
 
     fun getTodaysAppointments(): LiveData<ArrayList<Request.Properties>> {
+        loadTodaysAppointments()
         return todaysAppointments
     }
 
     fun getAllDoneAppointments(): LiveData<ArrayList<Request.Properties>> {
+        loadAllDoneAppointments()
         return doneAppointments
     }
 }

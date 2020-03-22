@@ -66,10 +66,14 @@ class DateParser {
    * @return string -> dd-MM, e.g. 01-11
    */
     fun dateToFormattedDate(dateTime: String) : String{
-        val formatter = SimpleDateFormat("dd/MM/yy", Locale("nl"))
+        val formatter = SimpleDateFormat("dd-MM", Locale("nl"))
         return formatter.format(dateParser.parse(dateTime)!!)
     }
 
+    fun dateToFormattedDateYear(dateTime: String): String {
+        val formatter = SimpleDateFormat("dd/MM/YY", Locale("nl"))
+        return formatter.format(dateParser.parse(dateTime)!!)
+    }
     /*
    * @params string -> yyyy-MM-dd'T'HH:mm:ss
    * @return string -> HH:mm, e.g. 09.11

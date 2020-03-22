@@ -21,19 +21,25 @@ import nl.otters.elbho.viewModels.OverviewViewModel
 class UpcomingRequestsFragment : Fragment() {
     private var appointments: ArrayList<Request.Properties> = ArrayList()
 
+    private lateinit var requestRepository: RequestRepository
+    private lateinit var appointmentRepository: AppointmentRepository
+    private lateinit var overviewViewModel: OverviewViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         inflater.inflate(R.layout.fragment_open_requests, container, false)!!
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val requestRepository = RequestRepository(activity!!.applicationContext)
-        val appointmentRepository = AppointmentRepository(activity!!.applicationContext)
-        val overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
+        requestRepository = RequestRepository(activity!!.applicationContext)
+        appointmentRepository = AppointmentRepository(activity!!.applicationContext)
+        overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
 
         setupRecyclerView()
+        setupPullDownToRefresh()
 
-        overviewViewModel.getAllUpcomingAppointments().observe( this, Observer<ArrayList<Request.Properties>> {
-            updateRequestData(it)
+        overviewViewModel.getAllUpcomingAppointments()
+            .observe(viewLifecycleOwner, Observer<ArrayList<Request.Properties>> {
+                updateRecyclerView(it)
         })
     }
 
@@ -49,10 +55,20 @@ class UpcomingRequestsFragment : Fragment() {
         appTitle.setText(R.string.navigation_upcoming_requests)
     }
 
-    private fun updateRequestData(newRequests: ArrayList<Request.Properties>) {
+    private fun updateRecyclerView(newRequests: ArrayList<Request.Properties>) {
         appointments.clear()
         appointments.addAll(newRequests)
         recyclerView.adapter!!.notifyDataSetChanged()
+    }
+
+    private fun setupPullDownToRefresh() {
+        swipe_to_refresh.setOnRefreshListener {
+            swipe_to_refresh.isRefreshing = true
+            overviewViewModel.getAllUpcomingAppointments().observe(viewLifecycleOwner, Observer {
+                updateRecyclerView(it)
+                swipe_to_refresh.isRefreshing = false
+            })
+        }
     }
 
     private fun setupRecyclerView() {
