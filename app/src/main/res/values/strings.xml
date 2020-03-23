@@ -123,5 +123,12 @@
     <!-- Component Availability Input   -->
     <string name="input_label_from">VAN</string>
     <string name="input_label_to">TOT</string>
-    <string name="snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>
+
+    <!-- Location tracking -->
+    <string name="location_snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>
+    <string name="location_request_location_message">In het volgende scherm wordt gevraagd om je locatiegegevens. Deze zullen alleen bijgehouden worden als je onderweg bent naar een adres.</string>
+    <string name="location_request_cancel">Annuleer</string>
+    <string name="location_request_continue">Doorgaan</string>
+    <string name="location_request_location_title">Locatiegegevens</string>
+
 </resources>
