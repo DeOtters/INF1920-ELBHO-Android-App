@@ -146,43 +146,89 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.open_requests -> {
-                val bundle = bundleOf("tabId" to 0)
-                navController.navigate(R.id.action_global_overviewFragment, bundle)
-                closeMenu()
-                true
+        if(isTablet()){
+            return when (item.itemId) {
+                R.id.open_requests -> {
+                    val bundle = bundleOf("tabId" to 0)
+                    navController.navigate(R.id.action_global_overviewFragment, bundle)
+
+                    true
+                }
+                R.id.upcoming_requests -> {
+                    val bundle = bundleOf("tabId" to 1)
+                    navController.navigate(R.id.action_global_overviewFragment, bundle)
+
+                    true
+                }
+                R.id.done_requests -> {
+                    val bundle = bundleOf("tabId" to 2)
+                    navController.navigate(R.id.action_global_overviewFragment, bundle)
+
+                    true
+                }
+                R.id.availability -> {
+                    navController.navigate(R.id.action_global_availabilityFragment)
+
+                    true
+                }
+                R.id.vehicle -> {
+                    navController.navigate(R.id.action_global_vehicleFragment)
+
+                    true
+                }
+                R.id.invoice -> {
+                    navController.navigate(R.id.action_global_invoiceFragment)
+
+                    true
+                }
+                else -> {
+                    super.onOptionsItemSelected(item)
+                }
             }
-            R.id.upcoming_requests -> {
-                val bundle = bundleOf("tabId" to 1)
-                navController.navigate(R.id.action_global_overviewFragment, bundle)
-                closeMenu()
-                true
-            }
-            R.id.done_requests -> {
-                val bundle = bundleOf("tabId" to 2)
-                navController.navigate(R.id.action_global_overviewFragment, bundle)
-                closeMenu()
-                true
-            }
-            R.id.availability -> {
-                navController.navigate(R.id.action_global_availabilityFragment)
-                closeMenu()
-                true
-            }
-            R.id.vehicle -> {
-                navController.navigate(R.id.action_global_vehicleFragment)
-                closeMenu()
-                true
-            }
-            R.id.invoice -> {
-                navController.navigate(R.id.action_global_invoiceFragment)
-                closeMenu()
-                true
-            }
-            else -> {
-                super.onOptionsItemSelected(item)
+        } else {
+            return when (item.itemId) {
+                R.id.open_requests -> {
+                    val bundle = bundleOf("tabId" to 0)
+                    navController.navigate(R.id.action_global_overviewFragment, bundle)
+                    closeMenu()
+                    true
+                }
+                R.id.upcoming_requests -> {
+                    val bundle = bundleOf("tabId" to 1)
+                    navController.navigate(R.id.action_global_overviewFragment, bundle)
+                    closeMenu()
+                    true
+                }
+                R.id.done_requests -> {
+                    val bundle = bundleOf("tabId" to 2)
+                    navController.navigate(R.id.action_global_overviewFragment, bundle)
+                    closeMenu()
+                    true
+                }
+                R.id.availability -> {
+                    navController.navigate(R.id.action_global_availabilityFragment)
+                    closeMenu()
+                    true
+                }
+                R.id.vehicle -> {
+                    navController.navigate(R.id.action_global_vehicleFragment)
+                    closeMenu()
+                    true
+                }
+                R.id.invoice -> {
+                    navController.navigate(R.id.action_global_invoiceFragment)
+                    closeMenu()
+                    true
+                }
+                else -> {
+                    super.onOptionsItemSelected(item)
+                }
             }
         }
+
+    }
+
+    private fun isTablet(): Boolean {
+        return resources.getBoolean(R.bool.isTablet)
     }
 }
