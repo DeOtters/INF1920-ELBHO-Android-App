@@ -19,6 +19,7 @@ import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.utils.VehicleLocationProvider
 import nl.otters.elbho.viewModels.RequestViewModel
+import java.util.*
 
 class RequestFragment : DetailFragment() {
     private lateinit var request: Request.Properties
@@ -44,6 +45,7 @@ class RequestFragment : DetailFragment() {
         return inflater.inflate(R.layout.fragment_request, container, false)
     }
 
+    @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -118,11 +120,15 @@ class RequestFragment : DetailFragment() {
         textDisplay_address.icon.setImageResource(R.drawable.ic_directions_orange_24dp)
     }
 
+    @ExperimentalStdlibApi
     private fun setFieldValues(request: Request.Properties) {
         textDisplay_address.value.text = request.address
         textDisplay_appointmentDate.value.text =
-            dateParser.toFormattedDate(request.startTime).plus(", ")
-                .plus(dateParser.toFormattedTime(request.startTime))
+            dateParser.toFormattedMonthAndDay(request.startTime).capitalize(Locale("nl")).plus(", ")
+                .plus(
+                    dateParser.toFormattedTime(request.startTime).plus(" - ")
+                        .plus(dateParser.toFormattedTime(request.endTime))
+                )
         textDisplay_cocName.value.text = request.cocName
         textDisplay_comment.value.text = request.comment
         textDisplay_contactPersonEmail.value.text = request.contactPersonEmail
