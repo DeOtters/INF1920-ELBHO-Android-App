@@ -16,18 +16,21 @@ import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.DateParser
+import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.utils.VehicleLocationProvider
 import nl.otters.elbho.viewModels.RequestViewModel
-import java.text.SimpleDateFormat
-import java.util.*
 
 class RequestFragment : DetailFragment() {
     private lateinit var request: Request.Properties
     private lateinit var vehicleLocationProvider: VehicleLocationProvider
     private lateinit var requestRepository: RequestRepository
     private lateinit var requestViewModel: RequestViewModel
+    private lateinit var sharedPreferences: SharedPreferences
+
     private val dateParser: DateParser = DateParser()
     private var requestingLocationUpdates = false
+    private var requestIsToday = false
+    private var adviserLeftToAppointment = false
 
     //TODO: after user pressed "vertrek", this should be saved somewhere
     //API does not support this right now
@@ -43,8 +46,17 @@ class RequestFragment : DetailFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         requestRepository = RequestRepository(activity!!.applicationContext)
         requestViewModel = RequestViewModel(requestRepository)
+        sharedPreferences = SharedPreferences(this.context!!)
+
+        val leftAppointmentId: String? = sharedPreferences.getValueString("leftAppointment")
+        if (leftAppointmentId != null && leftAppointmentId == request.id) {
+            adviserLeftToAppointment = true
+        }
+
+        requestIsToday = isAppointmentToday()
 
         setFieldLabels()
         setFieldIcons()
@@ -56,24 +68,40 @@ class RequestFragment : DetailFragment() {
     }
 
     override fun onResume() {
-        setTitle(null)
+        setTitle()
         super.onResume()
         if (requestingLocationUpdates) vehicleLocationProvider.start()
     }
 
-    private fun setTitle(title: String?) {
+    private fun isAppointmentToday(): Boolean {
+        val appointments: ArrayList<String>? = sharedPreferences.getArrayPrefs("todaysAppointments")
+        var isToday = false
+
+        if (appointments != null) {
+            for (appointment in appointments) {
+                if (request.id == appointment) {
+                    isToday = true
+                }
+            }
+        }
+
+        return isToday
+    }
+
+    private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        if (title.isNullOrEmpty()) {
-            appTitle.text = (arguments!!.getString("KEY_APP_TITLE"))
+        val leftAppointmentId: String? = sharedPreferences.getValueString("leftAppointment")
+
+        if (leftAppointmentId != null && leftAppointmentId == request.id) {
+            appTitle.text = getString(R.string.app_title_hasLeft)
         } else {
-            appTitle.text = title
+            appTitle.text = (arguments!!.getString("KEY_APP_TITLE"))
         }
     }
 
     private fun setFieldLabels() {
         textDisplay_address.label.text = resources.getText(R.string.field_company_address)
         textDisplay_appointmentDate.label.text = resources.getText(R.string.field_appointment_date)
-//        textDisplay_appointmentTime.label.text = resources.getText(R.string.field_appointment_time)
         textDisplay_cocName.label.text = resources.getText(R.string.field_company_name)
         textDisplay_comment.label.text = resources.getText(R.string.field_appointment_notes)
         textDisplay_contactPersonEmail.label.text = resources.getText(R.string.field_contact_email)
@@ -107,7 +135,6 @@ class RequestFragment : DetailFragment() {
         textDisplay_contactPersonEmail.icon.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/html"
-            // TODO: we should put a email address here, but the api doesn't support it at this time
             intent.putExtra(Intent.EXTRA_EMAIL, request.contactPersonEmail)
             intent.putExtra(Intent.EXTRA_SUBJECT, "We can put a email subject here")
             intent.putExtra(Intent.EXTRA_TEXT, "We can put email body here.")
@@ -152,16 +179,21 @@ class RequestFragment : DetailFragment() {
 
             resources.getString(R.string.navigation_upcoming_requests) -> {
                 bottomButton.visibility = View.GONE
-                topButton.setIconResource(R.drawable.ic_directions_car_white_24dp)
-                topButton.setText(R.string.button_leave)
-                val calendar: Calendar = Calendar.getInstance(Locale("nl"))
-                val dateToday: Date = calendar.time
-                val requestDate: Date = dateParser.dateTimeStringToDate(request.startTime)
-                topButton.isEnabled = false
-                if (isSameDay(dateToday, requestDate)) {
-                    topButton.isEnabled = true
+                topButton.visibility = View.GONE
+
+                if (requestIsToday) {
+                    topButton.visibility = View.VISIBLE
+
+                    if (adviserLeftToAppointment) {
+                        topButton.setIconResource(R.drawable.ic_done_24dp)
+                        topButton.setText(R.string.button_arrived)
+                        topButton.setOnClickListener { arrivedAtDestination() }
+                    } else {
+                        topButton.setIconResource(R.drawable.ic_directions_car_white_24dp)
+                        topButton.setText(R.string.button_leave)
+                        topButton.setOnClickListener { goToDestination() }
+                    }
                 }
-                topButton.setOnClickListener { toggleTracking() }
             }
 
             resources.getString(R.string.navigation_done_requests) -> {
@@ -169,11 +201,6 @@ class RequestFragment : DetailFragment() {
                 bottomButton.visibility = View.GONE
             }
         }
-    }
-
-    private fun isSameDay(date1: Date, date2: Date): Boolean {
-        val sdf = SimpleDateFormat("yyyyMMdd", Locale("nl"))
-        return sdf.format(date1) == sdf.format(date2)
     }
 
     private fun denyRequest() {
@@ -196,6 +223,29 @@ class RequestFragment : DetailFragment() {
         findNavController().navigateUp()
     }
 
+    private fun arrivedAtDestination() {
+        sharedPreferences.clear("leftAppointment")
+        topButton.setText(R.string.button_leave)
+        topButton.setIconResource(R.drawable.ic_directions_car_white_24dp)
+        requestingLocationUpdates = false
+        vehicleLocationProvider.stop()
+        setTitle()
+    }
+
+    private fun goToDestination() {
+        sharedPreferences.save("leftAppointment", request.id)
+        topButton.setText(R.string.button_arrived)
+        topButton.setIconResource(R.drawable.ic_done_24dp)
+        requestingLocationUpdates = true
+        vehicleLocationProvider.start()
+        Snackbar.make(
+            view!!,
+            getString(R.string.snackbar_departed),
+            Snackbar.LENGTH_SHORT
+        ).show()
+        setTitle()
+    }
+
     private fun toggleTracking() {
         // TODO: Ask for confirmation to start or stop
         if (requestingLocationUpdates) {
@@ -204,9 +254,10 @@ class RequestFragment : DetailFragment() {
             requestingLocationUpdates = false
             vehicleLocationProvider.stop()
         } else {
+            sharedPreferences.save("leftAppointment", request.id)
             topButton.setText(R.string.button_arrived)
             topButton.setIconResource(R.drawable.ic_done_24dp)
-            setTitle(getString(R.string.app_title_hasLeft))
+            setTitle()
             requestingLocationUpdates = true
             vehicleLocationProvider.start()
             Snackbar.make(
