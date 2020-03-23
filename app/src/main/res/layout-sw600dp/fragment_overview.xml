@@ -7,60 +7,87 @@
     android:layout_margin="0dp"
     android:orientation="vertical">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabGravity="center"
-        app:tabMaxWidth="1000dp"
-        app:tabMinWidth="1000dp"
-        app:tabMode="fixed"
-        app:tabPaddingStart="12dp">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:icon="@drawable/ic_event_available_24dp"
-            android:text="@string/overview_tab_left_label" />
+            android:layout_weight="0.25"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="match_parent"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:icon="@drawable/ic_event_24dp"
-            android:text="@string/overview_tab_middle_label" />
+            android:layout_weight="0.75"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:icon="@drawable/ic_event_done_24dp"
-            android:text="@string/overview_tab_right_label" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabGravity="center"
+                app:tabMaxWidth="1000dp"
+                app:tabMinWidth="1000dp"
+                app:tabMode="fixed"
+                app:tabPaddingStart="12dp">
 
-    </com.google.android.material.tabs.TabLayout>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_event_available_24dp"
+                    android:text="@string/overview_tab_left_label" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_event_24dp"
+                    android:text="@string/overview_tab_middle_label" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_event_done_24dp"
+                    android:text="@string/overview_tab_right_label" />
+
+            </com.google.android.material.tabs.TabLayout>
 
 
-    <TextView
-        android:id="@+id/todayTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="18dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/viewPager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabs" />
+            <TextView
+                android:id="@+id/todayTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="18dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textSize="18sp"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/viewPager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tabs" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/todayTextView" />
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/todayTextView" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

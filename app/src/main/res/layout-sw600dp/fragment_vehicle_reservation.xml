@@ -200,7 +200,6 @@
                     android:gravity="center"
                     android:layout_marginTop="@dimen/container_spacing"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:visibility="visible"
                     android:textSize="20sp"
                     android:text="@string/toast_select_all_inputs" />

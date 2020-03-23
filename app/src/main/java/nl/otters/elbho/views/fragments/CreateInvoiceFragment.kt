@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.documentfile.provider.DocumentFile
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
@@ -21,7 +22,7 @@ import java.text.DateFormatSymbols
 import java.util.*
 
 
-class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListener {
+class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -167,5 +168,19 @@ class CreateInvoiceFragment : DetailFragment(), MonthPickerDialog.OnDateSetListe
             .plus("-01T16:20:00.000Z")
         val date: String = DateFormatSymbols().months[month] + " " + year
         invoiceMonthTextView.setText(date)
+    }
+
+    override fun onStart() {
+        if(isTablet()){
+            (activity as NavigationActivity).setDrawerEnabled(true)
+        } else {
+            (activity as NavigationActivity).setDrawerEnabled(false)
+        }
+
+        super.onStart()
+    }
+
+    private fun isTablet(): Boolean {
+        return resources.getBoolean(R.bool.isTablet)
     }
 }
