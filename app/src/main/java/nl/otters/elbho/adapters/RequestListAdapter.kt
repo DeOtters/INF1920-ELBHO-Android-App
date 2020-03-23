@@ -13,21 +13,16 @@ import nl.otters.elbho.models.Request
 import nl.otters.elbho.utils.DateParser
 import java.util.*
 
-
 class RequestListAdapter(
     private val context: Context,
     private val items: ArrayList<Request.Properties>,
     private val listener: OnClickItemListener
-//    private val bottomReachedListener: OnBottomReachedListener
 ) : RecyclerView.Adapter<RequestListAdapter.ViewHolder>() {
     private val dateParser = DateParser()
 
     interface OnClickItemListener {
         fun onItemClick(position: Int, view: View)
     }
-//    interface OnBottomReachedListener {
-//        fun onBottomReached(position: Int)
-//    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dayView: TextView = itemView.invoice_listItem_monthTextView
@@ -67,9 +62,6 @@ class RequestListAdapter(
             .plus(" - ")
             .plus(endTime)
             .plus(", ")
-//            .plus(
-//                address.removeRange(address.indexOf(','), address.length)
-//            )
             .plus(address)
     }
 }

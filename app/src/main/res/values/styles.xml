@@ -14,11 +14,9 @@
     </style>
 
     <!-- Splash screen -->
-    <!-- https://android.jlelse.eu/the-complete-android-splash-screen-guide-c7db82bce565, option 1-->
     <!-- TODO: This theme doesn't seem to get applied when in landscape mode. -> fix   -->
     <style name="AppTheme.Launcher" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="android:windowBackground">@drawable/launch_screen</item>
-        <!--  Necessary for giving the Status Bar a color  -->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 

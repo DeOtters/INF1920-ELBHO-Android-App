@@ -44,11 +44,10 @@
             </intent-filter>
 
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB8gCTRE3KPFMdDx2MqxX1VZgfI54y_jzE"/>
+            android:value="AIzaSyB8gCTRE3KPFMdDx2MqxX1VZgfI54y_jzE" />
     </application>
-
-
 
 </manifest>

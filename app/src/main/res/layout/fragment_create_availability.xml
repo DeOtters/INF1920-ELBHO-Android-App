@@ -49,11 +49,12 @@
                         android:id="@+id/filled_exposed_dropdown"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:editable="false" />
+                        android:editable="false"
+                        tools:ignore="deprecated,labelFor" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
+                    android:id="@+id/createAvailabilityConstraintLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout_editor_absoluteY="85dp">
@@ -70,7 +71,7 @@
                         android:id="@+id/label_time_from"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="48dp"
+                        android:layout_marginStart="48dp"
                         android:letterSpacing="0.16"
                         android:text="@string/input_label_from"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"

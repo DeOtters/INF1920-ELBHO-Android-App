@@ -68,11 +68,21 @@ class OverviewFragment : BaseFragment() {
             tabs.getTabAt(tabIndex)!!.orCreateBadge.number = badgeCount
         }
     }
+
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(childFragmentManager)
-        adapter.addFragment(OpenRequestsFragment(), resources.getString(R.string.overview_tab_left_label))
-        adapter.addFragment(UpcomingRequestsFragment(), resources.getString(R.string.overview_tab_middle_label))
-        adapter.addFragment(DoneRequestsFragment(), resources.getString(R.string.overview_tab_right_label))
+        adapter.addFragment(
+            OpenRequestsFragment(),
+            resources.getString(R.string.overview_tab_left_label)
+        )
+        adapter.addFragment(
+            UpcomingRequestsFragment(),
+            resources.getString(R.string.overview_tab_middle_label)
+        )
+        adapter.addFragment(
+            DoneRequestsFragment(),
+            resources.getString(R.string.overview_tab_right_label)
+        )
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
         tabs.getTabAt(0)!!.setIcon(R.drawable.ic_event_available_24dp)

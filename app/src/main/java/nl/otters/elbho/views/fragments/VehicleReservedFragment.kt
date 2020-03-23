@@ -17,9 +17,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.component_textdisplay.view.*
+import kotlinx.android.synthetic.main.component_text_display.view.*
 import kotlinx.android.synthetic.main.fragment_request.bottomButton
 import kotlinx.android.synthetic.main.fragment_vehicle_reserved.*
 import nl.otters.elbho.R
@@ -31,7 +30,7 @@ import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.LoginActivity
 import nl.otters.elbho.views.activities.NavigationActivity
 
-class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
+class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
     private lateinit var reservation: Vehicle.Reservation
     private lateinit var mapFragment: SupportMapFragment
 
@@ -54,7 +53,7 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
 
-        if (authToken == null){
+        if (authToken == null) {
             startLoginActivity()
         }
 
@@ -136,7 +135,7 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback{
         textDisplay_carLocation.value.text = reservation.vehicle.location
     }
 
-    private fun setMapsListener(reservation: Vehicle.Reservation){
+    private fun setMapsListener(reservation: Vehicle.Reservation) {
         textDisplay_carLocation.setOnClickListener {
             val locString: String = ("geo:0,0?q=" + reservation.vehicle.location)
             val gmmIntentUri = Uri.parse(locString)

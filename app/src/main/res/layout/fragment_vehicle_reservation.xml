@@ -20,14 +20,14 @@
                 android:id="@+id/constraint_layout_date_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/container_spacing"
                 android:layout_marginStart="@dimen/container_spacing"
+                android:layout_marginTop="@dimen/container_spacing"
                 android:layout_marginEnd="@dimen/container_spacing"
                 android:layout_marginBottom="@dimen/container_spacing"
+                app:layout_constraintBottom_toTopOf="@id/vehicle_reservation_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/vehicle_reservation_btn">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <CalendarView
                     android:id="@+id/calendarReservationView"
@@ -54,38 +54,38 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginBottom="15dp"
-                        android:text="@string/vehicle_time_from"
                         android:letterSpacing="0.16"
+                        android:text="@string/vehicle_time_from"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
                         android:textColor="#99000000"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/startTime"/>
+                        app:layout_constraintBottom_toTopOf="@+id/startTime"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <EditText
                         android:id="@+id/startTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/calendarBorder"
-                        android:ems="10"
-                        android:hint="@string/hint_time"
-                        android:focusable="false"
                         android:clickable="true"
+                        android:ems="10"
+                        android:focusable="true"
+                        android:hint="@string/hint_time"
+                        android:importantForAutofill="no"
                         android:inputType="time"
                         android:paddingBottom="20dp"
                         android:text="@string/empty_time"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/label_time_from"
-                        android:importantForAutofill="no" />
+                        app:layout_constraintTop_toBottomOf="@id/label_time_from" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="25dp"
-                        app:srcCompat="@drawable/ic_drop_down_24dp"
                         android:contentDescription="@string/ic_dropdown"
+                        app:layout_constraintBottom_toBottomOf="@id/startTime"
                         app:layout_constraintEnd_toEndOf="@id/startTime"
-                        app:layout_constraintBottom_toBottomOf="@id/startTime"/>
+                        app:srcCompat="@drawable/ic_drop_down_24dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,38 +103,38 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginBottom="15dp"
-                        android:text="@string/vehicle_time_to"
                         android:letterSpacing="0.16"
+                        android:text="@string/vehicle_time_to"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
                         android:textColor="#99000000"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/endTime"/>
+                        app:layout_constraintBottom_toTopOf="@+id/endTime"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <EditText
                         android:id="@+id/endTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/calendarBorder"
-                        android:ems="10"
-                        android:hint="@string/hint_time"
-                        android:focusable="false"
                         android:clickable="true"
+                        android:ems="10"
+                        android:focusable="true"
+                        android:hint="@string/hint_time"
+                        android:importantForAutofill="no"
                         android:inputType="time"
                         android:paddingBottom="20dp"
                         android:text="@string/empty_time"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/label_time_to"
-                        android:importantForAutofill="no" />
+                        app:layout_constraintTop_toBottomOf="@id/label_time_to" />
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="25dp"
-                        app:srcCompat="@drawable/ic_drop_down_24dp"
                         android:contentDescription="@string/ic_dropdown"
+                        app:layout_constraintBottom_toBottomOf="@id/endTime"
                         app:layout_constraintEnd_toEndOf="@id/endTime"
-                        app:layout_constraintBottom_toBottomOf="@id/endTime"/>
+                        app:srcCompat="@drawable/ic_drop_down_24dp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -143,19 +143,19 @@
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:orientation="vertical"
+                    android:visibility="invisible"
                     app:layout_constraintTop_toBottomOf="@+id/constraint_end"
-                    tools:layout_editor_absoluteX="0dp"
-                    android:visibility="invisible"/>
+                    tools:layout_editor_absoluteX="0dp" />
 
                 <TextView
                     android:id="@+id/empty_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    app:layout_constraintTop_toBottomOf="@+id/constraint_end"
                     android:layout_marginTop="@dimen/container_spacing"
+                    android:gravity="center"
+                    android:text="@string/toast_select_all_inputs"
                     android:visibility="visible"
-                    android:text="@string/toast_select_all_inputs" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraint_end" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -167,6 +167,7 @@
                 android:layout_marginEnd="@dimen/container_spacing"
                 android:layout_marginBottom="@dimen/container_spacing"
                 android:text="@string/button_reserve_vehicle"
+                android:visibility="invisible"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:icon="@drawable/ic_vehicle_reserve"
                 app:iconGravity="textStart"
@@ -175,8 +176,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                android:visibility="invisible"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
         </LinearLayout>
     </ScrollView>

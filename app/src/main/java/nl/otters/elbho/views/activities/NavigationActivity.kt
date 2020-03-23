@@ -26,7 +26,6 @@ import nl.otters.elbho.repositories.AdviserRepository
 import nl.otters.elbho.utils.SharedPreferences
 import java.util.*
 
-
 class NavigationActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
 

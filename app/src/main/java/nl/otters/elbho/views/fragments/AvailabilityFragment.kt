@@ -29,6 +29,7 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     private var availability: ArrayList<Availability.Slot> = ArrayList()
     private val dateParser: DateParser = DateParser()
     private lateinit var availabilityViewModel: AvailabilityViewModel
+    private val MONTHS_AHEAD: Int = 6
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,12 +63,13 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
             ?.observe(viewLifecycleOwner, Observer {
                 availability = it
                 for (timeSlot in it) {
-                    //Here we add the ui for a available day from database
+                    //Here we add the decoration for a available day from database
                     calendarView.addDecorator(AvailableDayDecorator(timeSlot.start))
                     (activity as NavigationActivity).setProgressBarVisible(false)
                 }
             })
     }
+
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_availability)
@@ -81,9 +83,9 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     }
 
     // returns a date with the last day of x months ahead
-    private fun getMaximumCalendarDate(monthsAhead: Int): Calendar {
+    private fun getMaximumCalendarDate(): Calendar {
         val calendar: Calendar = Calendar.getInstance()
-        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + monthsAhead)
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + MONTHS_AHEAD)
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
         return calendar
     }
@@ -91,7 +93,7 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     private fun setupCalendar() {
         val disableDaysDecorator = DisableDaysDecorator()
         val minimumCalendarDate: Calendar = getMinimumCalendarDate()
-        val maximumCalendarDate: Calendar = getMaximumCalendarDate(6)
+        val maximumCalendarDate: Calendar = getMaximumCalendarDate()
 
         calendarView.state().edit()
             .setFirstDayOfWeek(Calendar.MONDAY)

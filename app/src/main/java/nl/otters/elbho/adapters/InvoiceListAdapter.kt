@@ -17,7 +17,6 @@ import nl.otters.elbho.models.Invoice
 import nl.otters.elbho.utils.DateParser
 import java.util.*
 
-
 class InvoiceListAdapter(
     private val context: Context,
     private val items: ArrayList<Invoice.File>,

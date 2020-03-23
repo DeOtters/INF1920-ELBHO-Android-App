@@ -1,4 +1,5 @@
 package nl.otters.elbho.models
+
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -28,10 +29,10 @@ object Appointment {
     ) : Parcelable
 
     data class Options(
-    val page: Int?,
-    val limit: Int?,
-    val before: String?,
-    val after: String?,
-    val sort: String?
+        val page: Int?,
+        val limit: Int?,
+        val before: String?,
+        val after: String?,
+        val sort: String?
     )
 }

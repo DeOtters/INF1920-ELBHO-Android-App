@@ -45,7 +45,7 @@ class VehicleFragment : BaseFragment() {
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
 
-        if (authToken == null){
+        if (authToken == null) {
             startLoginActivity()
         }
 
@@ -57,16 +57,16 @@ class VehicleFragment : BaseFragment() {
     }
 
     private fun setupReservation() {
-       (activity as NavigationActivity).setProgressBarVisible(true)
-       val newRequests: ArrayList<Vehicle.Reservation> = ArrayList()
-       vehicleViewModel.getAllVehicleReservationsByAdviser(
-           Vehicle.ReservationOptions(
-               after = SimpleDateFormat(
-                   "yyyy-MM-dd",
-                   Locale("nl")
-               ).format(Calendar.getInstance().time), sort = "ASC"
-           )
-       ).observe(viewLifecycleOwner, Observer {
+        (activity as NavigationActivity).setProgressBarVisible(true)
+        val newRequests: ArrayList<Vehicle.Reservation> = ArrayList()
+        vehicleViewModel.getAllVehicleReservationsByAdviser(
+            Vehicle.ReservationOptions(
+                after = SimpleDateFormat(
+                    "yyyy-MM-dd",
+                    Locale("nl")
+                ).format(Calendar.getInstance().time), sort = "ASC"
+            )
+        ).observe(viewLifecycleOwner, Observer {
             (activity as NavigationActivity).setProgressBarVisible(false)
             if (it != null) {
                 vehicleReservationList.addAll(it)
@@ -127,12 +127,11 @@ class VehicleFragment : BaseFragment() {
 
     private fun checkTimeSelected() {
         if (vehicleReservationList.isEmpty()) {
-            recyclerView.visibility = View.INVISIBLE;
-            empty_view_2.visibility = View.VISIBLE;
-        }
-        else {
-            recyclerView.visibility = View.VISIBLE;
-            empty_view_2.visibility = View.INVISIBLE;
+            recyclerView.visibility = View.INVISIBLE
+            empty_view_2.visibility = View.VISIBLE
+        } else {
+            recyclerView.visibility = View.VISIBLE
+            empty_view_2.visibility = View.INVISIBLE
         }
     }
 
@@ -150,6 +149,7 @@ class VehicleFragment : BaseFragment() {
         super.onPause()
         (activity as NavigationActivity).setProgressBarVisible(false)
     }
+
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_vehicle)

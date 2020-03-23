@@ -15,19 +15,19 @@ import retrofit2.Response
 class AdviserRepository(private val context: Context) {
     private val adviserService = RetrofitFactory.get().create(AdviserService::class.java)
 
-    fun adviserLogin(loginCredentials: Adviser.Login): LiveData<Boolean>{
+    fun adviserLogin(loginCredentials: Adviser.Login): LiveData<Boolean> {
         val success = MutableLiveData<Boolean>()
         adviserService.login(loginCredentials).enqueue(object : Callback<Adviser.Authentication> {
             override fun onResponse(
                 call: Call<Adviser.Authentication>,
                 response: Response<Adviser.Authentication>
             ) {
-                if (response.isSuccessful && response.body() != null){
+                if (response.isSuccessful && response.body() != null) {
                     val authentication: Adviser.Authentication? = response.body()
                     val sharedPreferences = SharedPreferences(context)
                     sharedPreferences.save("auth-token", authentication!!.token)
                     success.value = true
-                }else{
+                } else {
                     success.value = false
                 }
             }
@@ -36,7 +36,7 @@ class AdviserRepository(private val context: Context) {
                 //TODO: implement error handling
                 //TODO: with current api state, show message like: couldn't establish network connection
                 //TODO: with that in mind I think we shouldn't only return LiveData<Boolean>, but something in the line of LiveData<success, message>.
-                Log.e("HTTP", "Could not fetch data" , t)
+                Log.e("HTTP", "Could not fetch data", t)
                 success.value = false
             }
         })
@@ -47,7 +47,10 @@ class AdviserRepository(private val context: Context) {
         val adviser = MutableLiveData<Adviser.Properties>()
         adviserService.getAdviser(getAuthToken()).enqueue(object : Callback<Adviser.Properties> {
 
-            override fun onResponse(call: Call<Adviser.Properties>, response: Response<Adviser.Properties>) {
+            override fun onResponse(
+                call: Call<Adviser.Properties>,
+                response: Response<Adviser.Properties>
+            ) {
                 val loggedInAdviser: Adviser.Properties? = response.body()
                 val sharedPreferences = SharedPreferences(context)
                 sharedPreferences.save("adviser-id", loggedInAdviser!!.id)
