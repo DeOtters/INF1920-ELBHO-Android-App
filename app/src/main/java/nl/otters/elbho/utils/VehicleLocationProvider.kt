@@ -62,7 +62,7 @@ object VehicleLocationProvider {
         locationRequest = LocationRequest.create()?.apply {
             interval = 1 * 60 * 1000
             fastestInterval = 1 * 60 * 1000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
         }!!
     }
 
