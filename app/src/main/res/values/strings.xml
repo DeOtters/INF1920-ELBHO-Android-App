@@ -1,5 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">ELBHO adviseursapp</string>
+    <string name="app_name">Adviseursapp</string>
+    <string name="action_settings">Settings</string>
 
     <!-- Login Activity   -->
     <string name="login_image_contentDescription">Product Logo</string>
@@ -15,12 +16,14 @@
     <string name="navigation_upcoming_requests">Aanstaande afspraken</string>
     <string name="navigation_done_requests">Afgeronde afspraken</string>
     <string name="navigation_availability">Beschikbaarheid</string>
-    <string name="navigation_vehicle">Auto overzicht</string>
+    <string name="navigation_vehicle">Auto reserveringen</string>
     <string name="navigation_vehicle_reserve">Auto reserveren</string>
     <string name="navigation_vehicle_reservation">Auto reservering</string>
     <string name="navigation_invoice">Facturen</string>
     <string name="navigation_open">Open menu</string>
     <string name="navigation_close">Sluit menu</string>
+    <string name="navigation_app_title">ELBHO adviseursapp</string>
+    <string name="navigation_title">Menu</string>
 
     <!--    -->
     <string name="title_vehicle">Gereserveerde auto\'s</string>
