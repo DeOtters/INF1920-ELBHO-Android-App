@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 object Availability {
     @Parcelize
-    data class Slot (
+    data class Slot(
         @SerializedName("_id")
         val id: String,
         @SerializedName("advisor")
@@ -16,20 +16,15 @@ object Availability {
         val end: String,
         val createdAt: String,
         val updatedAt: String
-    ): Parcelable
+    ) : Parcelable
 
-    data class TimePeriod (
+    data class TimePeriod(
         val before: String?,
         val after: String?
     )
 
     @Parcelize
-    data class Availabilities (
+    data class Availabilities(
         val availabilities: ArrayList<Slot>?
     ) : Parcelable
-
-    data class CreateAvailabilities(
-        val availabilities: ArrayList<Slot>?
-
-    )
 }

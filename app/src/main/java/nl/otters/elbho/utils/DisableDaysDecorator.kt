@@ -10,16 +10,13 @@ import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.util.*
 
-/**
- * Disable weekends in the calendar
- * Disable dates before today in the calendar
- */
 class DisableDaysDecorator : DayViewDecorator {
     private val highlightDrawable: Drawable
 
     init {
         highlightDrawable = ColorDrawable(color)
     }
+
     companion object {
         private val color = Color.parseColor("#228BC34A")
     }

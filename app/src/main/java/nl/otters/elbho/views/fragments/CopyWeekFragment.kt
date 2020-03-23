@@ -33,7 +33,8 @@ class CopyWeekFragment : DetailFragment() {
     private lateinit var availabilityViewModel: AvailabilityViewModel
     private val firstDayOfWeeks: ArrayList<Date> = ArrayList()
     private val dateParser: DateParser = DateParser()
-    private val newAvailabilities : Availability.Availabilities = Availability.Availabilities(ArrayList())
+    private val newAvailabilities: Availability.Availabilities =
+        Availability.Availabilities(ArrayList())
 
 
     override fun onCreateView(
@@ -69,15 +70,20 @@ class CopyWeekFragment : DetailFragment() {
         setOnClickListeners()
     }
 
-    private fun setWeekNumberTitle(){
-        copy_week_title.text = SpannableStringBuilder(resources.getString(R.string.copy_week_title, chosenDay.calendar.get(Calendar.WEEK_OF_YEAR)))
+    private fun setWeekNumberTitle() {
+        copy_week_title.text = SpannableStringBuilder(
+            resources.getString(
+                R.string.copy_week_title,
+                chosenDay.calendar.get(Calendar.WEEK_OF_YEAR)
+            )
+        )
     }
 
-    private fun setCheckboxLabels(){
+    private fun setCheckboxLabels() {
         val calendar: Calendar = chosenDay.calendar
         calendar.firstDayOfWeek = Calendar.MONDAY
 
-        for (item in weekList){
+        for (item in weekList) {
             //We start by adding 1 week to the chosenDate, since we already filled in the availability for that month
             calendar.add(Calendar.WEEK_OF_YEAR, 1)
             val weekNumber: Int = calendar.get(Calendar.WEEK_OF_YEAR)
@@ -87,17 +93,24 @@ class CopyWeekFragment : DetailFragment() {
 
             //We save this value for the copyWeek function
             firstDayOfWeeks.add(calendar.time)
-            val firstDateOfWeek: String = calendar.get(Calendar.DAY_OF_MONTH).toString().plus(" "
+            val firstDateOfWeek: String = calendar.get(Calendar.DAY_OF_MONTH).toString().plus(
+                " "
             ).plus(DateParser().dateToFormattedMonth(calendar.time))
 
             //Then we add 6 days to get the last day of that week
             calendar.add(Calendar.DAY_OF_YEAR, 6)
             val lastDateOfWeek: String =
                 calendar.get(Calendar.DAY_OF_MONTH).toString()
-                .plus(" "
-                ).plus(DateParser().dateToFormattedMonth(calendar.time))
+                    .plus(
+                        " "
+                    ).plus(DateParser().dateToFormattedMonth(calendar.time))
 
-            item.copy_date_range.text = resources.getString(R.string.temp_copy_week, weekNumber, firstDateOfWeek, lastDateOfWeek )
+            item.copy_date_range.text = resources.getString(
+                R.string.temp_copy_week,
+                weekNumber,
+                firstDateOfWeek,
+                lastDateOfWeek
+            )
         }
     }
 
@@ -117,12 +130,13 @@ class CopyWeekFragment : DetailFragment() {
         progressBar.isVisible = true
 
         weekList.forEachIndexed { weekIndex, week ->
-            if(week.copy_checkbox.isChecked){
+            if (week.copy_checkbox.isChecked) {
                 availabilitiesToCopy.availabilities!!.forEachIndexed { _, availabilityToCopy ->
                     val calendar = Calendar.getInstance(Locale("nl"))
                     calendar.time = dateParser.dateTimeStringToDate(availabilityToCopy.date)
 
-                    val dayOfWeek: Int = calendar[Calendar.DAY_OF_WEEK] - 2 //MA = 0, DI = 1, WO = 2, DO = 3, VR = 4
+                    val dayOfWeek: Int =
+                        calendar[Calendar.DAY_OF_WEEK] - 2 //MA = 0, DI = 1, WO = 2, DO = 3, VR = 4
                     calendar.time = firstDayOfWeeks[weekIndex]
                     calendar.add(Calendar.DATE, dayOfWeek)
 
@@ -148,7 +162,7 @@ class CopyWeekFragment : DetailFragment() {
             }
         }
 
-        if (newAvailabilities.availabilities!!.isNotEmpty()){
+        if (newAvailabilities.availabilities!!.isNotEmpty()) {
             availabilityViewModel.createAvailabilities(newAvailabilities)
                 .observe(viewLifecycleOwner, Observer {
                     navigateToAvailability(it, view)

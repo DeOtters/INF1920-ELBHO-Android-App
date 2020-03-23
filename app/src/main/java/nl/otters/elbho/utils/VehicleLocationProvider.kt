@@ -1,6 +1,7 @@
 package nl.otters.elbho.utils
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
@@ -15,6 +16,7 @@ object VehicleLocationProvider {
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     private const val LOCATION_REQUEST = 1
+
     @Volatile
     private var instance: VehicleLocationProvider? = null
     private var isRunning = false
@@ -77,6 +79,7 @@ object VehicleLocationProvider {
         )
     }
 
+    @SuppressLint("InlinedApi")
     private fun checkPermissionsAndStart() {
         val permissionAccessCoarseLocationApproved = ActivityCompat
             .checkSelfPermission(

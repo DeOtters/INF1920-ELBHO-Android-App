@@ -17,41 +17,43 @@ class RequestRepository(private val context: Context) {
 
     fun getAllRequests(): LiveData<ArrayList<Request.Properties>> {
         val requests = MutableLiveData<ArrayList<Request.Properties>>()
-        requestService.getAllRequests(getAuthToken()).enqueue(object : Callback<ArrayList<Request.Properties>> {
-            override fun onResponse(
-                call: Call<ArrayList<Request.Properties>>,
-                response: Response<ArrayList<Request.Properties>>
-            ) {
-                if (response.isSuccessful && response.body() != null){
-                    requests.value = response.body()
+        requestService.getAllRequests(getAuthToken())
+            .enqueue(object : Callback<ArrayList<Request.Properties>> {
+                override fun onResponse(
+                    call: Call<ArrayList<Request.Properties>>,
+                    response: Response<ArrayList<Request.Properties>>
+                ) {
+                    if (response.isSuccessful && response.body() != null) {
+                        requests.value = response.body()
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ArrayList<Request.Properties>>, t: Throwable) {
-                //TODO: implement error handling
-                //TODO: with current api state, show message like: couldn't establish network connection
-                Log.e("HTTP: ", "Could not fetch data" , t)
-            }
-        })
+                override fun onFailure(call: Call<ArrayList<Request.Properties>>, t: Throwable) {
+                    //TODO: implement error handling
+                    //TODO: with current api state, show message like: couldn't establish network connection
+                    Log.e("HTTP: ", "Could not fetch data", t)
+                }
+            })
         return requests
     }
 
-    fun respondToRequest(appointmentId: String, accept: Request.Respond){
-        requestService.respondToRequest(getAuthToken(), appointmentId, accept).enqueue(object : Callback<Unit> {
-            override fun onResponse(
-                call: Call<Unit>,
-                response: Response<Unit>
-            ) {
-                if (response.isSuccessful && response.body() != null){
-                    // TODO: not implemented
+    fun respondToRequest(appointmentId: String, accept: Request.Respond) {
+        requestService.respondToRequest(getAuthToken(), appointmentId, accept)
+            .enqueue(object : Callback<Unit> {
+                override fun onResponse(
+                    call: Call<Unit>,
+                    response: Response<Unit>
+                ) {
+                    if (response.isSuccessful && response.body() != null) {
+                        // TODO: not implemented
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<Unit>, t: Throwable) {
-                //TODO: implement error handling
-                Log.e("HTTP: ", "Could not fetch data" , t)
-            }
-        })
+                override fun onFailure(call: Call<Unit>, t: Throwable) {
+                    //TODO: implement error handling
+                    Log.e("HTTP: ", "Could not fetch data", t)
+                }
+            })
     }
 
     private fun getAuthToken(): String {

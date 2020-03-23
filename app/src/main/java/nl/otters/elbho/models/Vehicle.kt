@@ -1,8 +1,6 @@
 package nl.otters.elbho.models
 
 import android.os.Parcelable
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -69,7 +67,8 @@ object Vehicle {
 
     data class CreateReservation(
 
-        val advisor: String,
+        @SerializedName("advisor")
+        val adviser: String,
         val vehicle: String,
         val date: String,
         val start: String,

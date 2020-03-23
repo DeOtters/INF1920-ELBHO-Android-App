@@ -8,9 +8,6 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import java.util.*
 
-/**
- * Disable weekends in the calendar
- */
 class AvailableDayDecorator(private val daysToCheck: String) : DayViewDecorator {
     private val highlightDrawable: Drawable
     private val dateParser: DateParser = DateParser()
@@ -24,13 +21,15 @@ class AvailableDayDecorator(private val daysToCheck: String) : DayViewDecorator 
     }
 
     override fun shouldDecorate(day: CalendarDay): Boolean {
-        if (day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || day.isBefore(
+        return if (day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || day.calendar.get(
+                Calendar.DAY_OF_WEEK
+            ) == Calendar.SUNDAY || day.isBefore(
                 CalendarDay.today()
             )
         ) {
-           return false
-        } else{
-            return day == dateParser.toCalendarDay(daysToCheck)
+            false
+        } else {
+            day == dateParser.toCalendarDay(daysToCheck)
         }
     }
 

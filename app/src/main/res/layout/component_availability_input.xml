@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/listItem_margin">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/inputConstraintLayout"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="16dp"
@@ -49,45 +50,32 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/constraint_end"
-        app:layout_constraintStart_toEndOf="@id/constraintLayout"
+        app:layout_constraintStart_toEndOf="@id/inputConstraintLayout"
         app:layout_constraintTop_toTopOf="parent">
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/label_time_from"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="5dp"-->
-        <!--            android:layout_marginBottom="15dp"-->
-        <!--            android:letterSpacing="0.16"-->
-        <!--            android:text="@string/input_label_from"-->
-        <!--            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"-->
-        <!--            android:textColor="#99000000"-->
-        <!--            app:layout_constraintBottom_toTopOf="@+id/startTime"-->
-        <!--            app:layout_constraintStart_toStartOf="parent" />-->
 
         <EditText
             android:id="@+id/startTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/calendarBorder"
-            android:clickable="true"
-            android:ems="10"
+            android:cursorVisible="false"
             android:focusable="false"
-            android:hint=""
+            android:ems="10"
             android:importantForAutofill="no"
             android:inputType="time"
             android:paddingBottom="20dp"
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/constraint_start" />
+            app:layout_constraintTop_toTopOf="@id/constraint_start"
+            tools:ignore="LabelFor" />
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="25dp"
-            android:contentDescription=""
+            android:contentDescription="@string/availability_dropdown_cd"
             app:layout_constraintBottom_toBottomOf="@id/startTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_drop_down_24dp" />
@@ -105,41 +93,28 @@
         app:layout_constraintStart_toEndOf="@id/constraint_start"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/label_time_to"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="5dp"-->
-        <!--            android:layout_marginBottom="15dp"-->
-        <!--            android:letterSpacing="0.16"-->
-        <!--            android:text="@string/input_label_to"-->
-        <!--            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"-->
-        <!--            android:textColor="#99000000"-->
-        <!--            app:layout_constraintBottom_toTopOf="@+id/endTime"-->
-        <!--            app:layout_constraintStart_toStartOf="parent" />-->
-
         <EditText
             android:id="@+id/endTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/calendarBorder"
-            android:clickable="true"
-            android:ems="10"
+            android:cursorVisible="false"
             android:focusable="false"
-            android:hint=""
+            android:ems="10"
             android:importantForAutofill="no"
             android:inputType="time"
             android:paddingBottom="20dp"
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor" />
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="25dp"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/availability_dropdown_cd"
             app:layout_constraintBottom_toBottomOf="@id/endTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_drop_down_24dp" />
@@ -160,5 +135,5 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"></TextView>
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

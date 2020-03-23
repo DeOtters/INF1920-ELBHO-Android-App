@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.component_textdisplay.view.*
+import kotlinx.android.synthetic.main.component_text_display.view.*
 import kotlinx.android.synthetic.main.fragment_request.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
@@ -73,7 +73,6 @@ class RequestFragment : DetailFragment() {
     private fun setFieldLabels() {
         textDisplay_address.label.text = resources.getText(R.string.field_company_address)
         textDisplay_appointmentDate.label.text = resources.getText(R.string.field_appointment_date)
-//        textDisplay_appointmentTime.label.text = resources.getText(R.string.field_appointment_time)
         textDisplay_cocName.label.text = resources.getText(R.string.field_company_name)
         textDisplay_comment.label.text = resources.getText(R.string.field_appointment_notes)
         textDisplay_contactPersonEmail.label.text = resources.getText(R.string.field_contact_email)
@@ -116,11 +115,11 @@ class RequestFragment : DetailFragment() {
         }
 
         textDisplay_contactPersonPhoneNumber.icon.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.contactPersonPhoneNumber))
+            val intent =
+                Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.contactPersonPhoneNumber))
             startActivity(intent)
         }
 
-        // https://developers.google.com/maps/documentation/urls/android-intents
         textDisplay_address.icon.setOnClickListener {
             val locString: String = ("geo:0,0?q=" + request.address)
             val gmmIntentUri = Uri.parse(locString)
@@ -131,8 +130,7 @@ class RequestFragment : DetailFragment() {
     }
 
     private fun setPrimaryButtons(parentFragmentTitle: String) {
-        // When showing only 1 button, use topButton because of constrains :)
-        // when() is just a switch with superpowers
+        // When showing only 1 button, use topButton because of constrains
         when (parentFragmentTitle) {
             resources.getString(R.string.navigation_open_requests) -> {
                 topButton.setIconResource(R.drawable.ic_close_24dp)
