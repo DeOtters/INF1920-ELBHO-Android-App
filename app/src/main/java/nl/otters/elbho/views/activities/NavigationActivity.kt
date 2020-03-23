@@ -92,7 +92,7 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     private fun setupNavigationDrawer() {
-        app_menu_title.setText(R.string.app_name)
+        app_menu_title.setText(R.string.navigation_app_title)
         navigation.setNavigationItemSelectedListener(this)
 
         setSupportActionBar(toolbar)
