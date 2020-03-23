@@ -58,7 +58,7 @@ class RequestFragment : DetailFragment() {
     override fun onResume() {
         setTitle(null)
         super.onResume()
-        if (requestingLocationUpdates) vehicleLocationProvider.start()
+        if (requestingLocationUpdates) vehicleLocationProvider.start(this)
     }
 
     private fun setTitle(title: String?) {
@@ -208,12 +208,7 @@ class RequestFragment : DetailFragment() {
             topButton.setIconResource(R.drawable.ic_done_24dp)
             setTitle(getString(R.string.app_title_hasLeft))
             requestingLocationUpdates = true
-            vehicleLocationProvider.start()
-            Snackbar.make(
-                view!!,
-                getString(R.string.snackbar_departed),
-                Snackbar.LENGTH_SHORT
-            ).show()
+            vehicleLocationProvider.start(this)
         }
     }
 }

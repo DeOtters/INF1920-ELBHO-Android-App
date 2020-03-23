@@ -4,9 +4,14 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.google.android.gms.location.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import nl.otters.elbho.R
 
 object VehicleLocationProvider {
     private lateinit var activity: Activity
@@ -15,6 +20,7 @@ object VehicleLocationProvider {
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     private const val LOCATION_REQUEST = 1
+
     @Volatile
     private var instance: VehicleLocationProvider? = null
     private var isRunning = false
@@ -33,10 +39,16 @@ object VehicleLocationProvider {
         }
     }
 
-    fun start() {
+    fun start(fragment: Fragment) {
         if (!isRunning) {
             checkPermissionsAndStart()
             isRunning = true
+
+            Snackbar.make(
+                fragment.view!!,
+                context.getString(R.string.location_snackbar_departed),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -49,21 +61,28 @@ object VehicleLocationProvider {
         locationRequest = LocationRequest.create()?.apply {
             interval = 1 * 60 * 1000
             fastestInterval = 1 * 60 * 1000
-            priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }!!
     }
 
     private fun createLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
+                super.onLocationResult(locationResult)
                 locationResult ?: return
                 for (location in locationResult.locations) {
-                    // TODO: Send data to API
-                    Toast.makeText(
-                        context,
-                        "lat: " + location.latitude + " lon: " + location.longitude,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (location != null) {
+                        // TODO: Send data to API
+                        Log.d(
+                            "location",
+                            "lat: " + location.latitude + " lon: " + location.longitude
+                        )
+                        Toast.makeText(
+                            context,
+                            "lat: " + location.latitude + " lon: " + location.longitude,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
@@ -96,26 +115,35 @@ object VehicleLocationProvider {
             if (backgroundLocationPermissionApproved) {
                 startLocationUpdates()
             } else {
-                // TODO: App can only access location in the foreground. Display a dialog
-                // warning the user that your app must have all-the-time access to location
-                // in order to function properly. Then, request background location.
-                ActivityCompat.requestPermissions(
-                    activity,
-                    arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                    LOCATION_REQUEST
-                )
+                showLocationDialog(false)
             }
         } else {
-            // TODO: App doesn't have access to the device's location at all. Make full request
-            // for permission.
-            ActivityCompat.requestPermissions(
-                activity,
-                arrayOf(
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                ),
-                LOCATION_REQUEST
-            )
+            showLocationDialog(true)
         }
+    }
+
+    private fun showLocationDialog(hasZeroPermissions: Boolean) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(context.getString(R.string.location_request_location_title))
+            .setMessage(context.getString(R.string.location_request_location_message))
+            .setPositiveButton(context.getString(R.string.location_request_continue)) { _, _ ->
+                if (hasZeroPermissions) {
+                    ActivityCompat.requestPermissions(
+                        activity,
+                        arrayOf(
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                        ),
+                        LOCATION_REQUEST
+                    )
+                } else {
+                    ActivityCompat.requestPermissions(
+                        activity,
+                        arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                        LOCATION_REQUEST
+                    )
+                }
+            }.setNegativeButton(context.getString(R.string.location_request_cancel), null)
+            .show()
     }
 }
