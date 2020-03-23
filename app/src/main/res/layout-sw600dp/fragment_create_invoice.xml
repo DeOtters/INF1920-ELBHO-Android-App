@@ -56,7 +56,6 @@
         style="@style/CustomMaterialButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
-        android:layout_margin="@dimen/container_spacing"
         android:text="@string/button_add_invoice"
         app:icon="@drawable/ic_add_white_24dp"
         app:iconGravity="textStart"
