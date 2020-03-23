@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">ELBHO adviseursapp</string>
-    <string name="action_settings">Settings</string>
 
     <!-- Login Activity   -->
     <string name="login_image_contentDescription">Product Logo</string>
@@ -22,13 +21,9 @@
     <string name="navigation_invoice">Facturen</string>
     <string name="navigation_open">Open menu</string>
     <string name="navigation_close">Sluit menu</string>
-    <string name="navigation_title">Menu</string>
 
     <!--    -->
-    <string name="temp_request">request</string>
-    <string name="temp_tracking">tracking</string>
     <string name="title_vehicle">Gereserveerde auto\'s</string>
-    <string name="button_rent_vehicle">Auto reserveren</string>
     <string name="title_invoice">Geüploade facturen</string>
     <string name="button_add_invoice">Factuur toevoegen</string>
     <string name="button_reserve_vehicle">Auto reserveren</string>
@@ -39,7 +34,6 @@
     <string name="overview_tab_left_label">OPENSTAAND</string>
     <string name="overview_tab_middle_label">AANSTAAND</string>
     <string name="overview_tab_right_label">AFGEROND</string>
-    <string name="overview_dateToday_text">26 November 2019</string>
 
     <!-- Request Fragment -->
     <string name="field_company_name">Bedrijfsnaam</string>
@@ -49,7 +43,6 @@
     <string name="field_contact_phone">Telefoon</string>
     <string name="field_contact_email">E-mail</string>
     <string name="field_appointment_date">Datum en Tijd</string>
-    <string name="field_appointment_time">Tijd</string>
     <string name="field_appointment_notes">Opmerking</string>
     <string name="button_accept_appointment">Accepteren</string>
     <string name="button_deny_appointment">Afwijzen</string>
@@ -68,30 +61,18 @@
 
 
     <!-- Fragment Vehicle -->
-    <string name="vehicle_transmission_false">schakel</string>
-    <string name="vehicle_transmission_true">automaat</string>
-    <string name="icon_vehicle">Auto icoon</string>
     <string name="button_delete_claim">Reservering annuleren</string>
     <string name="car_location" tools:ignore="Typos">Adres</string>
     <string name="car_licensePlate">Kenteken</string>
     <string name="car_reservation_time">Tijd</string>
     <string name="car_reservation_date">Datum</string>
-    <string name="vehicle_delete_message">Wilt u deze reservering annuleren?</string>
-    <string name="vehicle_delete_message_true">Ja</string>
-    <string name="vehicle_delete_message_false">Nee</string>
     <string name="car_picture">ELBHO auto</string>
-    <string name="map_picture">Locatie auto</string>
     <string name="vehicle_time_from">van</string>
     <string name="vehicle_time_to">tot</string>
     <string name="ic_dropdown">dropdown arrow</string>
-    <string name="toast_start_before">Begin tijd moet eerder zijn dan de eind tijd.</string>
     <string name="toast_end_after">Eind tijd moet later zijn dan de begin tijd.</string>
     <string name="toast_select_car">Selecteer een auto.</string>
     <string name="toast_select_all_inputs">Selecteer begin en eind tijd om te reserveren.</string>
-    <string name="confirm_reservation">Wil je deze auto reserveren?</string>
-    <string name="alert_car_info">Auto:</string>
-    <string name="alert_time_info">Tijd:</string>
-    <string name="alert_date_info">Datum:</string>
     <string name="empty_time">--:--</string>
     <string name="hint_time">Time input</string>
     <string name="reserved_txt">gereserveerd:</string>
@@ -103,18 +84,14 @@
     <!-- Create Availability Fragment  -->
     <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>
     <string name="create_availability_failed">Voer start- en eindtijd in</string>
-    <string name="create_new_availability_title">Nieuwe beschikbaarheid</string>
     <string name="button_copy_week">Kopiëer week</string>
     <string name="availability_delete_contentDescription">Verwijder de beschikbaarheid op deze dag</string>
-    <string name="availability_from">van</string>
-    <string name="availability_to">tot</string>
     <string name="button_add_availability">Wijziging opslaan</string>
     <string name="copy_week_title" tools:ignore="PluralsCandidate">Week %d kopiëren naar</string>
     <string name="button_copy_week_confirm"><![CDATA[Kopiëren & opslaan]]></string>
     <string name="temp_copy_week"><b>Week %d</b>, %s tot %s</string>
     <string name="copy_week_saved">De beschikbaarheid is gekopiëerd</string>
     <string name="copy_week_not_save">Beschikbaarheid opslaan mislukt, probeer het nog een keer</string>
-    <string name="copy_week_title_bar">Week kopïeren</string>
     <string name="create_availability_week_selector">Week %d</string>
     <string name="availability_dropdown_cd">Dropdown button</string>
     <string name="text_display_cd">icon</string>
@@ -130,7 +107,6 @@
     <string name="create_invoice_select_month">Selecteer maand en jaar</string>
     <string name="invoices_creation_date">Geüpload op %s</string>
     <string name="icon_invoice">Factuur icoon</string>
-    <string name="invoice_uploaded_on">Datum geüpload: 30/10/2019</string>
     <string name="invoice_cancel">Nee</string>
     <string name="invoice_download_message">Wilt u deze factuur downloaden?</string>
     <string name="invoice_download">Downloaden</string>
@@ -142,7 +118,6 @@
     <string name="invoice_server_not_yet_saved">Het bestand is niet beschikbaar op de server</string>
 
     <!-- Component Availability Input   -->
-    <string name="input_placeholder">--:--</string>
     <string name="input_label_from">VAN</string>
     <string name="input_label_to">TOT</string>
     <string name="snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>

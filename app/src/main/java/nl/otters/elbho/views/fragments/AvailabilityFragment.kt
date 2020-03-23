@@ -1,5 +1,6 @@
 package nl.otters.elbho.views.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,11 +26,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+const val MONTHS_AHEAD: Int = 6
+
 class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     private var availability: ArrayList<Availability.Slot> = ArrayList()
     private val dateParser: DateParser = DateParser()
     private lateinit var availabilityViewModel: AvailabilityViewModel
-    private val MONTHS_AHEAD: Int = 6
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,6 +92,7 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
         return calendar
     }
 
+    @SuppressLint("DefaultLocale")
     private fun setupCalendar() {
         val disableDaysDecorator = DisableDaysDecorator()
         val minimumCalendarDate: Calendar = getMinimumCalendarDate()

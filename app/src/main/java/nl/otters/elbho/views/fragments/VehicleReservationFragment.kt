@@ -125,34 +125,45 @@ class VehicleReservationFragment : DetailFragment() {
                 calEnd.set(Calendar.HOUR_OF_DAY, hour)
                 calEnd.set(Calendar.MINUTE, minute)
 
-                if (startReservationTime == " ") {
-                    calStart.set(Calendar.HOUR_OF_DAY, hour)
-                    calStart.set(Calendar.MINUTE, minute)
+                when {
+                    startReservationTime == " " -> {
+                        calStart.set(Calendar.HOUR_OF_DAY, hour)
+                        calStart.set(Calendar.MINUTE, minute)
 
-                    startTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calStart.time))
-                    startReservationTime =
-                        SimpleDateFormat("HH:mm", Locale("nl")).format(calStart.time)
+                        startTime.setText(
+                            SimpleDateFormat(
+                                "HH:mm",
+                                Locale("nl")
+                            ).format(calStart.time)
+                        )
+                        startReservationTime =
+                            SimpleDateFormat("HH:mm", Locale("nl")).format(calStart.time)
 
-                    endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
-                    endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
+                        endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
+                        endReservationTime =
+                            SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
 
-                    itemSelected = -1
-                    carReservation = null
+                        itemSelected = -1
+                        carReservation = null
 
-                    setupRecyclerView(vehicleViewModel)
-                } else if (calEnd.after(calStart)) {
-                    endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
-                    endReservationTime = SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
+                        setupRecyclerView(vehicleViewModel)
+                    }
+                    calEnd.after(calStart) -> {
+                        endTime.setText(SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time))
+                        endReservationTime =
+                            SimpleDateFormat("HH:mm", Locale("nl")).format(calEnd.time)
 
-                    itemSelected = -1
-                    carReservation = null
+                        itemSelected = -1
+                        carReservation = null
 
-                    setupRecyclerView(vehicleViewModel)
-                } else {
-                    val toast =
-                        Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT)
-                    toast.view.setBackgroundResource(R.color.colorSecondary)
-                    toast.show()
+                        setupRecyclerView(vehicleViewModel)
+                    }
+                    else -> {
+                        val toast =
+                            Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT)
+                        toast.view.setBackgroundResource(R.color.colorSecondary)
+                        toast.show()
+                    }
                 }
             }
             TimePickerDialog(

@@ -19,28 +19,6 @@ class VehicleRepository(private val context: Context) {
     private val vehicleService: VehicleService =
         RetrofitFactory.get().create(VehicleService::class.java)
 
-    fun getAllVehicles(options: Vehicle.CarOptions?): LiveData<ArrayList<Vehicle.Car>> {
-        val vehicles: MutableLiveData<ArrayList<Vehicle.Car>> = MutableLiveData()
-
-        vehicleService.getAllVehicles(getAuthToken(), options?.page, options?.limit)
-            .enqueue(object : Callback<ArrayList<Vehicle.Car>> {
-                override fun onResponse(
-                    call: Call<ArrayList<Vehicle.Car>>,
-                    response: Response<ArrayList<Vehicle.Car>>
-                ) {
-                    if (response.message() == "OK" && response.body() != null) {
-                        vehicles.value = response.body()!!
-                    }
-                }
-
-                override fun onFailure(call: Call<ArrayList<Vehicle.Car>>, t: Throwable) {
-                    //TODO: implement error handling
-                    Log.e("HTTP Vehicles: ", "Could not fetch data", t)
-                }
-            })
-        return vehicles
-    }
-
     fun getAllVehicleReservations(options: Vehicle.CarReservationOptions?): LiveData<ArrayList<Vehicle.CarWithReservations>> {
         val vehicleReservations: MutableLiveData<ArrayList<Vehicle.CarWithReservations>> =
             MutableLiveData()

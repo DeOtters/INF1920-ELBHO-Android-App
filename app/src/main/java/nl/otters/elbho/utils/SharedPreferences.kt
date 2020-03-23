@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 
+const val PREFS_NAME = "ELHBO"
+
 class SharedPreferences(context: Context) {
-    private val PREFS_NAME = "ELHBO"
     private val sharedPref: SharedPreferences =
         context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
 

@@ -166,7 +166,7 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
         val address: List<Address>
 
         address = coder.getFromLocationName(reservation.vehicle.location, 5)
-        val location: Address = address.get(0)
+        val location: Address = address[0]
 
         val finalLocation = LatLng(location.latitude, location.longitude)
 

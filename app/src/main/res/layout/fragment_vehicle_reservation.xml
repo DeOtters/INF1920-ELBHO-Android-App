@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
     <ScrollView
-        android:id="@+id/scrollViewVehicle"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,7 +16,6 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraint_layout_date_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/container_spacing"

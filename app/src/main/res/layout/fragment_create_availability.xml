@@ -19,7 +19,6 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ScrollView
-            android:id="@+id/invoiceScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -30,7 +29,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
             <LinearLayout
-                android:id="@+id/availability_days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -54,7 +52,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/createAvailabilityConstraintLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout_editor_absoluteY="85dp">
