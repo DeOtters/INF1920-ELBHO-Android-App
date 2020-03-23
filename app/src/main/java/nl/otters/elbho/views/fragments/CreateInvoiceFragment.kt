@@ -50,6 +50,7 @@ class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
             selectedFileUri = arguments?.get("Uri") as Uri
             fileChosen()
         }
+//        test
     }
 
     private fun setOnClickListeners() {
