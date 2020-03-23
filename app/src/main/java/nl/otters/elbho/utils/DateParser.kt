@@ -7,9 +7,12 @@ import java.util.*
 class DateParser {
     private val locale: Locale = Locale.Builder().setLanguage("nl").setRegion("nl").build()
     //This is the format we get back from the database
-    private val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", locale)
+    private val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", locale)
     private val dateParser = SimpleDateFormat("yyyy-MM-dd", locale)
 
+    init {
+        parser.timeZone = TimeZone.getTimeZone("GMT")
+    }
     /*
     * @params string -> yyyy-MM-dd'T'HH:mm:ss
     * @return string -> EE, e.g. MA
@@ -46,8 +49,12 @@ class DateParser {
         return formatter.format(parser.parse(dateTime)!!)
     }
 
-    fun toFormattedYearAndMonth(dateTime: String): String {
-        val formatter = SimpleDateFormat("yyyy-MM", Locale("nl"))
+    /*
+   * @params string -> yyyy-MM-dd'T'HH:mm:ss
+   * @return string ->  e.g. Zondag 22 maart
+   */
+    fun toFormattedMonthAndDay(dateTime: String): String {
+        val formatter = SimpleDateFormat("EEEE dd MMMM", Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
     }
 
@@ -90,21 +97,11 @@ class DateParser {
     fun toFormattedNLdate(dateTime: String) : String{
         val parser =  SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
         val formatter = SimpleDateFormat("dd MMM yyyy", Locale("nl"))
-        val formattedDate = formatter.format(parser.parse(dateTime)!!)
-        return formattedDate
+        return formatter.format(parser.parse(dateTime)!!)
     }
 
     fun toCalendarDay(dateTime: String) : CalendarDay {
         return CalendarDay(parser.parse(dateTime))
-    }
-
-    fun toFormattedLong(dateTime: String) : Long{
-        return parser.parse(dateTime).time
-    }
-
-    fun toMilliseconds(dateTime: String) : Long{
-        val formatter = SimpleDateFormat("ss.SSS",  Locale("nl"))
-        return formatter.parse(dateTime).time
     }
 
     fun dateToFormattedMonth(date: Date) : String{
@@ -116,7 +113,6 @@ class DateParser {
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",  Locale("nl"))
         return formatter.format(date)
     }
-
 
     /*
    * @params string -> yyyy-MM-dd'T'HH:mm:ss
