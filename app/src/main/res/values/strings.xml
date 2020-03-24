@@ -99,6 +99,9 @@
     <string name="create_availability_week_selector">Week %d</string>
     <string name="availability_dropdown_cd">Dropdown button</string>
     <string name="text_display_cd">icon</string>
+    <string name="copy_dialog_message">Je kan deze week direct kopiëren naar andere weken met de KOPIEER WEEK functie</string>
+    <string name="copy_dialog_action">Begrepen</string>
+
 
     <!-- Fragment Availability   -->
     <string name="availability_helper_text">Selecteer een dag om de beschikbaarheid van die week aan te passen</string>

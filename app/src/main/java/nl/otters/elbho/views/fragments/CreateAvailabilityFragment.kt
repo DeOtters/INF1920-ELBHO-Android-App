@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import kotlinx.android.synthetic.main.component_availability_input.view.*
@@ -239,6 +240,7 @@ class CreateAvailabilityFragment : DetailFragment() {
     }
 
     private fun copyWeek() {
+        displayAlert()
         getNewAvailabilities()
 
         val bundle = Bundle()
@@ -335,6 +337,30 @@ class CreateAvailabilityFragment : DetailFragment() {
             }
 
             item.availability_clear.setImageDrawable(activity!!.getDrawable(R.drawable.ic_delete_red_24dp))
+        }
+    }
+
+    private fun displayAlert() {
+        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
+        val completedOnboarding = sharedPreferences.getValueBoolean("COMPLETED_ONBOARDING")
+        sharedPreferences.save(
+            "COMPLETED_ONBOARDING",
+            false
+        )
+        if (completedOnboarding == null || !completedOnboarding) {
+            MaterialAlertDialogBuilder(context)
+                .setTitle("")
+                .setView(R.layout.component_dialog_image)
+                .setMessage(getString(R.string.copy_dialog_message))
+                .setPositiveButton(
+                    getString(R.string.copy_dialog_action)
+                ) { _, _ ->
+                    sharedPreferences.save(
+                        "COMPLETED_ONBOARDING",
+                        true
+                    )
+                }
+                .show()
         }
     }
 }

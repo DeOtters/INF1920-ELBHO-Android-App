@@ -16,6 +16,15 @@ class SharedPreferences(context: Context) {
         editor.apply()
     }
 
+    fun save(KEY_NAME: String, value: Boolean) {
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putBoolean(KEY_NAME, value)
+        editor.apply()
+    }
+
+    fun getValueBoolean(KEY_NAME: String): Boolean? {
+        return sharedPref.getBoolean(KEY_NAME, false)
+    }
     fun getValueString(KEY_NAME: String): String? {
         return sharedPref.getString(KEY_NAME, null)
     }
@@ -47,5 +56,9 @@ class SharedPreferences(context: Context) {
         val array: ArrayList<String> = ArrayList(size)
         for (i in 0 until size) array.add(sharedPref.getString(arrayName + "_" + i, null)!!)
         return array
+    }
+
+    fun setFirstTime() {
+        save("shouldShowCopyTutorial", true)
     }
 }
