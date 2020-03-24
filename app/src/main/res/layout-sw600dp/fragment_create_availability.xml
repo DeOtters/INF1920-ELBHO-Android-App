@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/container_spacing"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="0.25"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="0.75"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="12dp"
+                    app:layout_constraintBottom_toTopOf="@+id/availability_copy_week"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <ScrollView
+                        android:id="@+id/invoiceScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+                        <LinearLayout
+                            android:id="@+id/availability_days"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textInputLayout"
+                                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="20dp"
+                                app:boxBackgroundColor="@android:color/white"
+                                app:hintEnabled="true">
+                                <!-- using deprecated because material docs  -->
+                                <AutoCompleteTextView
+                                    android:id="@+id/filled_exposed_dropdown"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:editable="false" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/constraintLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:layout_editor_absoluteY="85dp">
+
+                                <androidx.constraintlayout.widget.Guideline
+                                    android:id="@+id/guideline2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintGuide_percent="0.5" />
+
+                                <TextView
+                                    android:id="@+id/label_time_from"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="48dp"
+                                    android:letterSpacing="0.16"
+                                    android:text="@string/input_label_from"
+                                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                                    android:textColor="#99000000"
+                                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/label_time_to"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="48dp"
+                                    android:letterSpacing="0.16"
+                                    android:text="@string/input_label_to"
+                                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                                    android:textColor="#99000000"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="@+id/guideline2"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <include
+                                android:id="@+id/availability_monday"
+                                layout="@layout/component_availability_input" />
+
+                            <include
+                                android:id="@+id/availability_tuesday"
+                                layout="@layout/component_availability_input" />
+
+                            <include
+                                android:id="@+id/availability_wednesday"
+                                layout="@layout/component_availability_input" />
+
+                            <include
+                                android:id="@+id/availability_thursday"
+                                layout="@layout/component_availability_input" />
+
+                            <include
+                                android:id="@+id/availability_friday"
+                                layout="@layout/component_availability_input" />
+
+                        </LinearLayout>
+                    </ScrollView>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/availability_copy_week"
+                    style="@style/CustomMaterialButton.Secondary"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/button_copy_week"
+                    app:icon="@drawable/ic_copy_week"
+                    app:iconGravity="textStart"
+                    app:iconPadding="16dp"
+                    app:iconSize="32dp"
+                    app:layout_constraintBottom_toTopOf="@id/availability_create"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/availability_create"
+                    style="@style/CustomMaterialButton"
+                    android:text="@string/button_add_availability"
+                    app:icon="@drawable/ic_done_gray_24dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="16dp"
+                    app:iconSize="32dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

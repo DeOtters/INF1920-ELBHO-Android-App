@@ -112,13 +112,17 @@ class NavigationActivity : AppCompatActivity(),
                 super.onDrawerSlide(drawerView, slideOffset)
             }
         }
-
-        drawerToggle.isDrawerIndicatorEnabled = true
-        drawer_layout.addDrawerListener(drawerToggle)
-        drawerToggle.syncState()
-        drawerToggle.setToolbarNavigationClickListener {
-            // TODO: Ask if user wants to leave screen
-            navController.navigateUp()
+        if (!isTablet()) {
+            drawerToggle.isDrawerIndicatorEnabled = true
+            drawer_layout.addDrawerListener(drawerToggle)
+            drawerToggle.syncState()
+            drawerToggle.setToolbarNavigationClickListener {
+                // TODO: Ask if user wants to leave screen
+                navController.navigateUp()
+            }
+        } else {
+            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN)
+            drawer_layout.setScrimColor(this.resources.getColor(R.color.drawerNoShadow))
         }
     }
 
@@ -145,86 +149,50 @@ class NavigationActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if(isTablet()){
-            return when (item.itemId) {
-                R.id.open_requests -> {
-                    val bundle = bundleOf("tabId" to 0)
-                    navController.navigate(R.id.action_global_overviewFragment, bundle)
-
-                    true
-                }
-                R.id.upcoming_requests -> {
-                    val bundle = bundleOf("tabId" to 1)
-                    navController.navigate(R.id.action_global_overviewFragment, bundle)
-
-                    true
-                }
-                R.id.done_requests -> {
-                    val bundle = bundleOf("tabId" to 2)
-                    navController.navigate(R.id.action_global_overviewFragment, bundle)
-
-                    true
-                }
-                R.id.availability -> {
-                    navController.navigate(R.id.action_global_availabilityFragment)
-
-                    true
-                }
-                R.id.vehicle -> {
-                    navController.navigate(R.id.action_global_vehicleFragment)
-
-                    true
-                }
-                R.id.invoice -> {
-                    navController.navigate(R.id.action_global_invoiceFragment)
-
-                    true
-                }
-                else -> {
-                    super.onOptionsItemSelected(item)
-                }
+        return when (item.itemId) {
+            R.id.open_requests -> {
+                val bundle = bundleOf("tabId" to 0)
+                navController.navigate(R.id.action_global_overviewFragment, bundle)
+                if (!isTablet())
+                    closeMenu()
+                true
             }
-        } else {
-            return when (item.itemId) {
-                R.id.open_requests -> {
-                    val bundle = bundleOf("tabId" to 0)
-                    navController.navigate(R.id.action_global_overviewFragment, bundle)
+            R.id.upcoming_requests -> {
+                val bundle = bundleOf("tabId" to 1)
+                navController.navigate(R.id.action_global_overviewFragment, bundle)
+                if (!isTablet())
                     closeMenu()
-                    true
-                }
-                R.id.upcoming_requests -> {
-                    val bundle = bundleOf("tabId" to 1)
-                    navController.navigate(R.id.action_global_overviewFragment, bundle)
+                true
+            }
+            R.id.done_requests -> {
+                val bundle = bundleOf("tabId" to 2)
+                navController.navigate(R.id.action_global_overviewFragment, bundle)
+                if (!isTablet())
                     closeMenu()
-                    true
-                }
-                R.id.done_requests -> {
-                    val bundle = bundleOf("tabId" to 2)
-                    navController.navigate(R.id.action_global_overviewFragment, bundle)
+                true
+            }
+            R.id.availability -> {
+                navController.navigate(R.id.action_global_availabilityFragment)
+                if (!isTablet())
                     closeMenu()
-                    true
-                }
-                R.id.availability -> {
-                    navController.navigate(R.id.action_global_availabilityFragment)
+                true
+            }
+            R.id.vehicle -> {
+                navController.navigate(R.id.action_global_vehicleFragment)
+                if (!isTablet())
                     closeMenu()
-                    true
-                }
-                R.id.vehicle -> {
-                    navController.navigate(R.id.action_global_vehicleFragment)
+                true
+            }
+            R.id.invoice -> {
+                navController.navigate(R.id.action_global_invoiceFragment)
+                if (!isTablet())
                     closeMenu()
-                    true
-                }
-                R.id.invoice -> {
-                    navController.navigate(R.id.action_global_invoiceFragment)
-                    closeMenu()
-                    true
-                }
-                else -> {
-                    super.onOptionsItemSelected(item)
-                }
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
             }
         }
-
     }
 
     private fun isTablet(): Boolean {
