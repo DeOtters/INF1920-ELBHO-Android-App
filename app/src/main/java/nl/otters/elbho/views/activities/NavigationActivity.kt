@@ -121,6 +121,11 @@ class NavigationActivity : AppCompatActivity(),
             // TODO: Ask if user wants to leave screen
             navController.navigateUp()
         }
+
+        if (isTablet()) {
+            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN)
+            drawer_layout.setScrimColor(resources.getColor(R.color.drawerNoShadow))
+        }
     }
 
     fun setDrawerEnabled(visible: Boolean) {
