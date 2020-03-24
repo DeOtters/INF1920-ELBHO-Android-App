@@ -184,6 +184,10 @@ class RequestFragment : DetailFragment() {
             }
 
             resources.getString(R.string.navigation_upcoming_requests) -> {
+                if(isTablet()){
+                    btn_sec_bottomButton.visibility = View.GONE
+                }
+
                 bottomButton.visibility = View.GONE
                 topButton.visibility = View.GONE
 
@@ -272,5 +276,9 @@ class RequestFragment : DetailFragment() {
                 Snackbar.LENGTH_SHORT
             ).show()
         }
+    }
+
+    private fun isTablet(): Boolean {
+        return resources.getBoolean(R.bool.isTablet)
     }
 }
