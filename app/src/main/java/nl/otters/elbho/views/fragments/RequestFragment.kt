@@ -124,7 +124,8 @@ class RequestFragment : DetailFragment() {
     private fun setFieldValues(request: Request.Properties) {
         textDisplay_address.value.text = request.address
         textDisplay_appointmentDate.value.text =
-            dateParser.toFormattedMonthAndDay(request.startTime).capitalize(Locale("nl")).plus(", ")
+            dateParser.toFormattedYearAndMonth(request.startTime).capitalize(Locale("nl"))
+                .plus(", ")
                 .plus(
                     dateParser.toFormattedTimeString(request.startTime).plus(" - ")
                         .plus(dateParser.toFormattedTimeString(request.endTime))
@@ -246,30 +247,13 @@ class RequestFragment : DetailFragment() {
         topButton.setText(R.string.button_arrived)
         topButton.setIconResource(R.drawable.ic_done_24dp)
         requestingLocationUpdates = true
-        vehicleLocationProvider.start()
+        vehicleLocationProvider.start(this)
         Snackbar.make(
             view!!,
-            getString(R.string.snackbar_departed),
+            getString(R.string.location_snackbar_departed),
             Snackbar.LENGTH_SHORT
         ).show()
         setTitle()
-    }
-
-    private fun toggleTracking() {
-        // TODO: Ask for confirmation to start or stop
-        if (requestingLocationUpdates) {
-            topButton.setText(R.string.button_leave)
-            topButton.setIconResource(R.drawable.ic_directions_car_white_24dp)
-            requestingLocationUpdates = false
-            vehicleLocationProvider.stop()
-        } else {
-            sharedPreferences.save("leftAppointment", request.id)
-            topButton.setText(R.string.button_arrived)
-            topButton.setIconResource(R.drawable.ic_done_24dp)
-            setTitle()
-            requestingLocationUpdates = true
-            vehicleLocationProvider.start(this)
-        }
     }
 
     private fun isTablet(): Boolean {

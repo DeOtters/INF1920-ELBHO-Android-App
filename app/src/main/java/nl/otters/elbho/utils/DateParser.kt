@@ -47,6 +47,11 @@ class DateParser {
         return formatter.format(parser.parse(dateTime)!!)
     }
 
+    fun toFormattedYearAndMonth(dateTime: String): String {
+        val formatter = SimpleDateFormat("yyyy-MM", Locale("nl"))
+        return formatter.format(parser.parse(dateTime)!!)
+    }
+
     fun toFormattedYear(dateTime: String): String {
         val formatter = SimpleDateFormat("yyyy", Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
