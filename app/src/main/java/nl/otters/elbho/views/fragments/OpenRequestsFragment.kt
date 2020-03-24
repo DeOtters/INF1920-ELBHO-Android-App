@@ -24,7 +24,11 @@ class OpenRequestsFragment : Fragment() {
     private lateinit var requestRepository: RequestRepository
     private lateinit var overviewViewModel: OverviewViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) =
         inflater.inflate(R.layout.fragment_open_requests, container, false)!!
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -78,7 +82,10 @@ class OpenRequestsFragment : Fragment() {
                 override fun onItemClick(position: Int, view: View) {
                     val bundle = Bundle()
                     bundle.putParcelable("KEY_REQUEST", requests[position])
-                    bundle.putString("KEY_APP_TITLE", resources.getString(R.string.navigation_open_requests) )
+                    bundle.putString(
+                        "KEY_APP_TITLE",
+                        resources.getString(R.string.navigation_open_requests)
+                    )
                     findNavController().navigate(R.id.action_global_requestFragment, bundle)
                 }
             })

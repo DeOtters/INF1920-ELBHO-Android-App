@@ -11,5 +11,9 @@ interface RequestService {
 
     @Headers("Content-type: application/json")
     @PUT("auth/request/{appointmentId}")
-    fun respondToRequest(@Header("Authorization") auth: String, @Path("appointmentId") appointmentId: String, @Body accept: Request.Respond): Call<Unit>
+    fun respondToRequest(
+        @Header("Authorization") auth: String,
+        @Path("appointmentId") appointmentId: String,
+        @Body accept: Request.Respond
+    ): Call<Unit>
 }

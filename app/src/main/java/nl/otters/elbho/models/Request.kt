@@ -26,7 +26,7 @@ object Request {
         val updatedAt: String
     ) : Parcelable
 
-    data class Respond (
+    data class Respond(
         val accept: Boolean
     )
 }

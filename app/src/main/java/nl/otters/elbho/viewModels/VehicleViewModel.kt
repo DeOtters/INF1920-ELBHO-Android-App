@@ -5,11 +5,7 @@ import androidx.lifecycle.ViewModel
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 
-class VehicleViewModel(private val vehicleRepository: VehicleRepository): ViewModel() {
-
-    fun getAllVehicles(options: Vehicle.CarOptions?): LiveData<ArrayList<Vehicle.Car>> {
-        return vehicleRepository.getAllVehicles(options)
-    }
+class VehicleViewModel(private val vehicleRepository: VehicleRepository) : ViewModel() {
 
     fun getAllVehicleReservations(options: Vehicle.CarReservationOptions?): LiveData<ArrayList<Vehicle.CarWithReservations>> {
         return vehicleRepository.getAllVehicleReservations(options)

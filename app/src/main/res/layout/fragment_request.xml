@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -23,39 +22,35 @@
 
             <include
                 android:id="@+id/textDisplay_cocName"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_address"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_contactPersonName"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_contactPersonFunction"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_contactPersonPhoneNumber"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_contactPersonEmail"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_appointmentDate"
-                layout="@layout/component_textdisplay" />
-
-            <!--            <include-->
-            <!--                android:id="@+id/textDisplay_appointmentTime"-->
-            <!--                layout="@layout/component_textdisplay" />-->
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_comment"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
         </LinearLayout>
     </ScrollView>
@@ -80,6 +75,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

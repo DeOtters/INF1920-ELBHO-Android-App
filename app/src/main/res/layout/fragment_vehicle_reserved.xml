@@ -56,27 +56,27 @@
 
             <include
                 android:id="@+id/textDisplay_carLicensePlate"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_carReservationDate"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_carReservationTime"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <include
                 android:id="@+id/textDisplay_carLocation"
-                layout="@layout/component_textdisplay" />
+                layout="@layout/component_text_display" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/textDisplay_carLocation"
-                app:layout_constraintBottom_toTopOf="@+id/bottomButton">
+                app:layout_constraintBottom_toTopOf="@+id/bottomButton"
+                app:layout_constraintTop_toBottomOf="@+id/textDisplay_carLocation">
 
-                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/mapView"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"

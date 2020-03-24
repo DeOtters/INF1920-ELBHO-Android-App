@@ -2,7 +2,6 @@ package nl.otters.elbho.models
 
 import com.google.gson.annotations.SerializedName
 
-
 object Adviser {
 
     data class Properties(

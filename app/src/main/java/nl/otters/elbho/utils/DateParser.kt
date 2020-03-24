@@ -6,8 +6,9 @@ import java.util.*
 
 class DateParser {
     private val locale: Locale = Locale.Builder().setLanguage("nl").setRegion("nl").build()
-    //This is the format we get back from the database
-    private val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", locale)
+
+    // This is the format we get back from the database
+    private val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", locale)
     private val dateParser = SimpleDateFormat("yyyy-MM-dd", locale)
 
     /*
@@ -43,15 +44,6 @@ class DateParser {
    */
     fun toFormattedDateWithYear(dateTime: String) : String{
         val formatter = SimpleDateFormat("dd-MM-yyyy",  Locale("nl"))
-        return formatter.format(parser.parse(dateTime)!!)
-    }
-
-    /*
-   * @params string -> yyyy-MM-dd'T'HH:mm:ss
-   * @return string ->  e.g. Zondag 22 maart
-   */
-    fun toFormattedMonthAndDay(dateTime: String): String {
-        val formatter = SimpleDateFormat("EEEE dd MMMM", Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
     }
 
@@ -97,58 +89,21 @@ class DateParser {
         return formatter.format(parser.parse(dateTime)!!)
     }
 
-    /*
-   * @params string -> yyyy-MM-dd
-   * @return string -> dd MMM yyyy
-   */
-    fun toFormattedNLdate(dateTime: String) : String{
-        val parser =  SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
-        val formatter = SimpleDateFormat("dd MMM yyyy", Locale("nl"))
-        return formatter.format(parser.parse(dateTime)!!)
-    }
-
-    fun toCalendarDay(dateTime: String) : CalendarDay {
+    fun toCalendarDay(dateTime: String): CalendarDay {
         return CalendarDay(parser.parse(dateTime))
     }
 
-    fun dateToFormattedMonth(date: Date) : String{
-        val formatter = SimpleDateFormat("MMMM",  Locale("nl"))
+    fun dateToFormattedMonth(date: Date): String {
+        val formatter = SimpleDateFormat("MMMM", Locale("nl"))
         return formatter.format(date)
     }
 
-    fun dateToFormattedDatetime(date: Date) : String{
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale("nl"))
+    fun dateToFormattedDatetime(date: Date): String {
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
         return formatter.format(date)
     }
 
-    /*
-   * @params string -> yyyy-MM-dd'T'HH:mm:ss
-   * @return string -> yyyy-MM-dd'T'HH:mm:ss + n HH
-   */
-    fun addHours(startTime: String, hoursToAdd: Int): String{
-        val date: Date = parser.parse(startTime)!!
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.time = date
-        calendar.add(Calendar.HOUR, hoursToAdd)
-
-        return parser.format(calendar.time)
-    }
-
-    /*
-    * @params string -> yyyy-MM-dd'T'HH:mm:ss
-    * @return string -> yyyy-MM-dd'T'HH:mm:ss + n HH
-    */
-    fun addHoursAndMinutes(startTime: String, hours: Int, minutes: Int): String{
-        val date: Date = parser.parse(startTime)!!
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.time = date
-        calendar.add(Calendar.HOUR, hours)
-        calendar.add(Calendar.MINUTE, minutes)
-
-        return parser.format(calendar.time)
-    }
-
-    fun dateTimeStringToDate(dateTime: String): Date{
+    fun dateTimeStringToDate(dateTime: String): Date {
         return parser.parse(dateTime)!!
     }
 
@@ -156,7 +111,6 @@ class DateParser {
    * @return string -> 16 NOVEMBER 2019
    */
     fun getDateToday(): String {
-        //Couldnt achieve this with one simpleDateFormat because we need the month to be uppercase
         val dayFormat = SimpleDateFormat("dd", locale)
         val monthFormat = SimpleDateFormat("MMMM", locale)
         val yearFormat = SimpleDateFormat("yyyy", locale)
@@ -167,7 +121,7 @@ class DateParser {
         return "$day $month $year"
     }
 
-    fun getTimestampToday(): String{
+    fun getTimestampToday(): String {
         return parser.format(Date())
     }
 

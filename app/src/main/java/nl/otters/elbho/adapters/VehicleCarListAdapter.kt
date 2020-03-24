@@ -20,20 +20,16 @@ class VehicleCarListAdapter(
     private val context: Context,
     private val vehicleCarList: ArrayList<Vehicle.CarWithReservations>,
     private val reservationDate: String,
-    private val reservationStartdate: String,
+    private val reservationStartDate: String,
     private val reservationEndDate: String,
     private val itemSelected: Int,
     private val listener: OnClickItemListener
-//    private val bottomReachedListener: OnBottomReachedListener
 ) : RecyclerView.Adapter<VehicleCarListAdapter.ViewHolder>() {
     private val dateParser = DateParser()
 
     interface OnClickItemListener {
         fun onItemClick(position: Int, view: View)
     }
-//    interface OnBottomReachedListener {
-//        fun onBottomReached(position: Int)
-//    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dayView: TextView = itemView.vehicle_listItem_monthTextView
@@ -44,7 +40,8 @@ class VehicleCarListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.component_vehicle_listitem, parent, false)
+        val view =
+            LayoutInflater.from(context).inflate(R.layout.component_vehicle_listitem, parent, false)
         return ViewHolder(view)
     }
 
@@ -78,10 +75,11 @@ class VehicleCarListAdapter(
         )
 
         holder.descriptionView.text = formatDescription(
-            reservationStartdate,
+            reservationStartDate,
             reservationEndDate,
             holder,
-            car)
+            car
+        )
 
         holder.dateView.text = dateParser.dateToFormattedDate(reservationDate)
         holder.dayView.text = dateParser.dateToFormattedDay(reservationDate)
@@ -99,8 +97,12 @@ class VehicleCarListAdapter(
             .plus(transmission)
     }
 
-    // TODO: when car location is seperated by comma, split by comma and use City name
-    private fun formatDescription(startTime: String, endTime: String, holder: ViewHolder, car: Vehicle.CarWithReservations): String {
+    private fun formatDescription(
+        startTime: String,
+        endTime: String,
+        holder: ViewHolder,
+        car: Vehicle.CarWithReservations
+    ): String {
         val builder = StringBuilder()
         builder.append(startTime)
         builder.append(" - ")
@@ -108,7 +110,7 @@ class VehicleCarListAdapter(
         builder.append(", ")
         builder.append(car.location.substringAfterLast(" "))
 
-        if(car.reservations.isNullOrEmpty()){
+        if (car.reservations.isNullOrEmpty()) {
 
             return builder.toString()
         } else {
@@ -118,7 +120,7 @@ class VehicleCarListAdapter(
 
             for (res in car.reservations) {
 
-                if(!startTime.equals(" ")) {
+                if (startTime != " ") {
                     val parser = SimpleDateFormat("HH:mm", Locale("nl"))
                     val parser2 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
 
@@ -134,10 +136,11 @@ class VehicleCarListAdapter(
                     val resEnd = Calendar.getInstance()
                     resEnd.time = parser.parse(parser.format(parser2.parse(res.end)!!))!!
 
-                    if (calStart.equals(resStart) || calEnd.equals(resEnd) ||
+                    if (calStart == resStart || calEnd == resEnd ||
                         calStart.after(resStart) && calStart.before(resEnd) ||
-                            calEnd.after(resStart) && calEnd.before(resEnd) ||
-                            calStart.before(resStart) && calEnd.after(resEnd)) {
+                        calEnd.after(resStart) && calEnd.before(resEnd) ||
+                        calStart.before(resStart) && calEnd.after(resEnd)
+                    ) {
                         holder.itemView.isClickable = false
                         holder.itemView.isActivated = false
                         holder.itemView.isEnabled = false

@@ -11,7 +11,10 @@ import nl.otters.elbho.utils.DateParser
 import java.util.*
 
 
-class OverviewViewModel(private val requestRepository: RequestRepository, private val appointmentRepository: AppointmentRepository) : ViewModel() {
+class OverviewViewModel(
+    private val requestRepository: RequestRepository,
+    private val appointmentRepository: AppointmentRepository
+) : ViewModel() {
     private var requests: LiveData<ArrayList<Request.Properties>> = MutableLiveData()
     private var upcomingAppointments: LiveData<ArrayList<Request.Properties>> = MutableLiveData()
     private var todaysAppointments: LiveData<ArrayList<Request.Properties>> = MutableLiveData()
@@ -25,11 +28,11 @@ class OverviewViewModel(private val requestRepository: RequestRepository, privat
         loadAllDoneAppointments()
     }
 
-    fun loadAllRequests() {
+    private fun loadAllRequests() {
         requests = requestRepository.getAllRequests()
     }
 
-    private fun loadAllUpcomingAppointments(){
+    private fun loadAllUpcomingAppointments() {
         upcomingAppointments = appointmentRepository.getAppointments(
             Appointment.Options(
                 null,
@@ -53,7 +56,7 @@ class OverviewViewModel(private val requestRepository: RequestRepository, privat
         )
     }
 
-    private fun loadAllDoneAppointments(){
+    private fun loadAllDoneAppointments() {
         doneAppointments = appointmentRepository.getAppointments(
             Appointment.Options(
                 null,

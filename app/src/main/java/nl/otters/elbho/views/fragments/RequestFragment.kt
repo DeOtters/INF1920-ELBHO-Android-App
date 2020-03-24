@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.component_textdisplay.view.*
+import kotlinx.android.synthetic.main.component_text_display.view.*
 import kotlinx.android.synthetic.main.fragment_request.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
@@ -72,7 +72,7 @@ class RequestFragment : DetailFragment() {
     override fun onResume() {
         setTitle()
         super.onResume()
-        if (requestingLocationUpdates) vehicleLocationProvider.start()
+        if (requestingLocationUpdates) vehicleLocationProvider.start(this)
     }
 
     private fun isAppointmentToday(): Boolean {
@@ -149,11 +149,11 @@ class RequestFragment : DetailFragment() {
         }
 
         textDisplay_contactPersonPhoneNumber.icon.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.contactPersonPhoneNumber))
+            val intent =
+                Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.contactPersonPhoneNumber))
             startActivity(intent)
         }
 
-        // https://developers.google.com/maps/documentation/urls/android-intents
         textDisplay_address.icon.setOnClickListener {
             val locString: String = ("geo:0,0?q=" + request.address)
             val gmmIntentUri = Uri.parse(locString)
@@ -164,8 +164,7 @@ class RequestFragment : DetailFragment() {
     }
 
     private fun setPrimaryButtons(parentFragmentTitle: String) {
-        // When showing only 1 button, use topButton because of constrains :)
-        // when() is just a switch with superpowers
+        // When showing only 1 button, use topButton because of constrains
         when (parentFragmentTitle) {
             resources.getString(R.string.navigation_open_requests) -> {
                 topButton.setIconResource(R.drawable.ic_close_24dp)
@@ -269,12 +268,7 @@ class RequestFragment : DetailFragment() {
             topButton.setIconResource(R.drawable.ic_done_24dp)
             setTitle()
             requestingLocationUpdates = true
-            vehicleLocationProvider.start()
-            Snackbar.make(
-                view!!,
-                getString(R.string.snackbar_departed),
-                Snackbar.LENGTH_SHORT
-            ).show()
+            vehicleLocationProvider.start(this)
         }
     }
 
