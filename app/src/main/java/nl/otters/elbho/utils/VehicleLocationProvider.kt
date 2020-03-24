@@ -5,14 +5,16 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import nl.otters.elbho.R
+import nl.otters.elbho.models.Location
+import nl.otters.elbho.repositories.LocationRepository
+import nl.otters.elbho.repositories.RequestRepository
+import nl.otters.elbho.viewModels.RequestViewModel
 
 object VehicleLocationProvider {
     private lateinit var activity: Activity
@@ -20,7 +22,11 @@ object VehicleLocationProvider {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
+    private lateinit var locationRepository: LocationRepository
     private const val LOCATION_REQUEST = 1
+
+    private lateinit var requestRepository: RequestRepository
+    private lateinit var requestViewModel: RequestViewModel
 
     @Volatile
     private var instance: VehicleLocationProvider? = null
@@ -34,6 +40,9 @@ object VehicleLocationProvider {
             createLocationCallback()
             createLocationRequest()
             instance = this
+            requestRepository = RequestRepository(activity.applicationContext)
+            locationRepository = LocationRepository(activity.applicationContext)
+            requestViewModel = RequestViewModel(requestRepository, locationRepository)
             this
         } else {
             this
@@ -73,16 +82,11 @@ object VehicleLocationProvider {
                 locationResult ?: return
                 for (location in locationResult.locations) {
                     if (location != null) {
-                        // TODO: Send data to API
-                        Log.d(
-                            "location",
-                            "lat: " + location.latitude + " lon: " + location.longitude
+                        val loc: Location.Properties = Location.Properties(
+                            location.longitude.toString(),
+                            location.latitude.toString()
                         )
-                        Toast.makeText(
-                            context,
-                            "lat: " + location.latitude + " lon: " + location.longitude,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requestViewModel.putLocation(loc)
                     }
                 }
             }
