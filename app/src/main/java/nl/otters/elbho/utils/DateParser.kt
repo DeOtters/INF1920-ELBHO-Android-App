@@ -103,6 +103,11 @@ class DateParser {
         return formatter.format(date)
     }
 
+    fun dateToFormattedDay(date: Date): String {
+        val formatter = SimpleDateFormat("dd", Locale("nl"))
+        return formatter.format(date)
+    }
+
     fun dateToFormattedDatetime(date: Date): String {
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
         return formatter.format(date)

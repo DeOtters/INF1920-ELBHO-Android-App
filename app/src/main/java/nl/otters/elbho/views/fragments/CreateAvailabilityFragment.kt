@@ -66,7 +66,7 @@ class CreateAvailabilityFragment : DetailFragment() {
         super.onResume()
         setWeekSelector(chosenDay)
         setOnClickListeners()
-        setInputFields()
+//        setInputFields()
     }
 
     private fun setTitle() {
@@ -343,10 +343,7 @@ class CreateAvailabilityFragment : DetailFragment() {
     private fun displayAlert() {
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val completedOnboarding = sharedPreferences.getValueBoolean("COMPLETED_ONBOARDING")
-        sharedPreferences.save(
-            "COMPLETED_ONBOARDING",
-            false
-        )
+
         if (completedOnboarding == null || !completedOnboarding) {
             MaterialAlertDialogBuilder(context)
                 .setTitle("")
