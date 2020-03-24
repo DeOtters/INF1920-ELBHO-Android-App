@@ -10,9 +10,6 @@ class DateParser {
     private val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", locale)
     private val dateParser = SimpleDateFormat("yyyy-MM-dd", locale)
 
-    init {
-        parser.timeZone = TimeZone.getTimeZone("GMT")
-    }
     /*
     * @params string -> yyyy-MM-dd'T'HH:mm:ss
     * @return string -> EE, e.g. MA
@@ -91,6 +88,16 @@ class DateParser {
     }
 
     /*
+   * @params string -> yyyy-MM-dd'T'HH:mm:ss
+   * @return string -> HH:mm, e.g. 09.11
+   */
+    fun toFormattedTimeString(dateTime: String): String {
+        val formatter = SimpleDateFormat("HH:mm", Locale("nl"))
+        parser.timeZone = TimeZone.getTimeZone("GMT")
+        return formatter.format(parser.parse(dateTime)!!)
+    }
+
+    /*
    * @params string -> yyyy-MM-dd
    * @return string -> dd MMM yyyy
    */
@@ -110,7 +117,7 @@ class DateParser {
     }
 
     fun dateToFormattedDatetime(date: Date) : String{
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",  Locale("nl"))
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale("nl"))
         return formatter.format(date)
     }
 

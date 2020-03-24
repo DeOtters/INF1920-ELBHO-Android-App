@@ -126,8 +126,8 @@ class RequestFragment : DetailFragment() {
         textDisplay_appointmentDate.value.text =
             dateParser.toFormattedMonthAndDay(request.startTime).capitalize(Locale("nl")).plus(", ")
                 .plus(
-                    dateParser.toFormattedTime(request.startTime).plus(" - ")
-                        .plus(dateParser.toFormattedTime(request.endTime))
+                    dateParser.toFormattedTimeString(request.startTime).plus(" - ")
+                        .plus(dateParser.toFormattedTimeString(request.endTime))
                 )
         textDisplay_cocName.value.text = request.cocName
         textDisplay_comment.value.text = request.comment

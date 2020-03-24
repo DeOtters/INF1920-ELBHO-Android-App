@@ -50,8 +50,8 @@ class RequestListAdapter(
 
         holder.titleView.text = item.cocName
         holder.descriptionView.text = formatDescription(
-            dateParser.toFormattedTime(item.startTime),
-            dateParser.toFormattedTime((item.endTime)),
+            dateParser.toFormattedTimeString(item.startTime),
+            dateParser.toFormattedTimeString((item.endTime)),
             item.address
         )
         holder.dateView.text = dateParser.toFormattedDate(item.startTime)
