@@ -159,10 +159,7 @@ class VehicleReservationFragment : DetailFragment() {
                         setupRecyclerView(vehicleViewModel)
                     }
                     else -> {
-                        val toast =
-                            Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT)
-                        toast.view.setBackgroundResource(R.color.colorSecondary)
-                        toast.show()
+                        Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -216,23 +213,18 @@ class VehicleReservationFragment : DetailFragment() {
 
                             setupRecyclerView(vehicleViewModel)
                         } else {
-                            val toast = Toast.makeText(
+                            Toast.makeText(
                                 context,
                                 R.string.toast_end_after,
                                 Toast.LENGTH_SHORT
-                            )
-                            toast.view.setBackgroundResource(R.color.colorSecondary)
-                            toast.show()
-
+                            ).show()
                         }
                     } else {
-                        val toast: Toast = Toast.makeText(
+                        Toast.makeText(
                             context,
                             R.string.toast_select_all_inputs,
                             Toast.LENGTH_LONG
-                        )
-                        toast.view.setBackgroundResource(R.color.colorSecondary)
-                        toast.show()
+                        ).show()
                     }
                 }
             })
@@ -279,24 +271,16 @@ class VehicleReservationFragment : DetailFragment() {
                         snackbarDialog.show()
 
                     } else {
-                        val toast =
-                            Toast.makeText(context, R.string.toast_select_car, Toast.LENGTH_SHORT)
-                        toast.view.setBackgroundResource(R.color.colorSecondary)
-                        toast.show()
+                        Toast.makeText(context, R.string.toast_select_car, Toast.LENGTH_SHORT)
+                            .show()
                     }
 
                 } else {
-                    val toast =
-                        Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT)
-                    toast.view.setBackgroundResource(R.color.colorSecondary)
-                    toast.show()
+                    Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT).show()
                 }
 
             } else {
-                val toast =
-                    Toast.makeText(context, R.string.toast_select_all_inputs, Toast.LENGTH_LONG)
-                toast.view.setBackgroundResource(R.color.colorSecondary)
-                toast.show()
+                Toast.makeText(context, R.string.toast_select_all_inputs, Toast.LENGTH_LONG).show()
             }
         }
     }

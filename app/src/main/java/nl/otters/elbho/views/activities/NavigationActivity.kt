@@ -123,18 +123,34 @@ class NavigationActivity : AppCompatActivity(),
         } else {
             drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN)
             drawer_layout.setScrimColor(this.resources.getColor(R.color.drawerNoShadow))
+            drawerToggle.setToolbarNavigationClickListener {
+                navController.navigateUp()
+            }
         }
     }
 
     fun setDrawerEnabled(visible: Boolean) {
-        if (visible) {
-            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
+        if(!isTablet()){
+            if (visible) {
+                drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END)
+            } else {
+                drawer_layout.setDrawerLockMode(
+                    DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
+                    GravityCompat.END
+                )
+            }
         } else {
-            drawer_layout.setDrawerLockMode(
-                DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
-                GravityCompat.END
-            )
+            if (visible) {
+                drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            } else {
+                drawer_layout.setDrawerLockMode(
+                    DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
+                    GravityCompat.END
+                )
+            }
         }
+
+
         drawerToggle.isDrawerIndicatorEnabled = visible
         drawerToggle.syncState()
     }

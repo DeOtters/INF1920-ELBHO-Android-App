@@ -17,6 +17,7 @@
     <string name="navigation_done_requests">Afgeronde afspraken</string>
     <string name="navigation_availability">Beschikbaarheid</string>
     <string name="navigation_vehicle">Auto reserveringen</string>
+    <string name="navigation_vehicle_all_reservations">Auto overzicht</string>
     <string name="navigation_vehicle_reserve">Auto reserveren</string>
     <string name="navigation_vehicle_reservation">Auto reservering</string>
     <string name="navigation_invoice">Facturen</string>

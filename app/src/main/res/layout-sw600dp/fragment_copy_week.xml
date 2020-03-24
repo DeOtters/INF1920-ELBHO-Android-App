@@ -6,135 +6,105 @@
     android:layout_margin="@dimen/container_spacing"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/container_spacing"
+        app:layout_constraintBottom_toTopOf="@+id/copy_week_confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <!-- Progress Bar   -->
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="0dp"
-            android:layout_weight="0.25"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|center_vertical">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="0dp"
-            android:layout_weight="0.75"
-            android:orientation="vertical">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.Material.Light.ProgressBar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:visibility="invisible" />
+        </RelativeLayout>
 
-                <com.google.android.material.card.MaterialCardView
+        <ScrollView
+            android:id="@+id/invoiceScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/container_spacing"
+            android:layout_marginEnd="@dimen/container_spacing"
+            android:layout_marginBottom="@dimen/container_spacing"
+            app:layout_constraintBottom_toTopOf="@+id/availability_copy_week"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/availability_days"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/copy_week_title"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/container_spacing"
-                    app:layout_constraintBottom_toTopOf="@+id/copy_week_confirm"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:gravity="center"
+                    android:text="@string/copy_week_title"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
-                    <!-- Progress Bar   -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_horizontal|center_vertical">
+                <include
+                    android:id="@+id/copy_week_A"
+                    layout="@layout/component_copy_week" />
 
-                        <ProgressBar
-                            android:id="@+id/progressBar"
-                            style="@android:style/Widget.Material.Light.ProgressBar"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#00FFFFFF"
-                            android:visibility="invisible" />
-                    </RelativeLayout>
+                <include
+                    android:id="@+id/copy_week_B"
+                    layout="@layout/component_copy_week" />
 
-                    <ScrollView
-                        android:id="@+id/invoiceScrollView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/container_spacing"
-                        android:layout_marginEnd="@dimen/container_spacing"
-                        android:layout_marginBottom="@dimen/container_spacing"
-                        app:layout_constraintBottom_toTopOf="@+id/availability_copy_week"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                <include
+                    android:id="@+id/copy_week_C"
+                    layout="@layout/component_copy_week" />
 
-                        <LinearLayout
-                            android:id="@+id/availability_days"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                <include
+                    android:id="@+id/copy_week_D"
+                    layout="@layout/component_copy_week" />
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/copy_week_title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/text_margin"
-                                android:gravity="center"
-                                android:text="@string/copy_week_title"
-                                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+                <include
+                    android:id="@+id/copy_week_E"
+                    layout="@layout/component_copy_week" />
 
-                            <include
-                                android:id="@+id/copy_week_A"
-                                layout="@layout/component_copy_week" />
+                <include
+                    android:id="@+id/copy_week_F"
+                    layout="@layout/component_copy_week" />
 
-                            <include
-                                android:id="@+id/copy_week_B"
-                                layout="@layout/component_copy_week" />
+                <include
+                    android:id="@+id/copy_week_G"
+                    layout="@layout/component_copy_week" />
 
-                            <include
-                                android:id="@+id/copy_week_C"
-                                layout="@layout/component_copy_week" />
+                <include
+                    android:id="@+id/copy_week_H"
+                    layout="@layout/component_copy_week" />
 
-                            <include
-                                android:id="@+id/copy_week_D"
-                                layout="@layout/component_copy_week" />
+            </LinearLayout>
+        </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
 
-                            <include
-                                android:id="@+id/copy_week_E"
-                                layout="@layout/component_copy_week" />
-
-                            <include
-                                android:id="@+id/copy_week_F"
-                                layout="@layout/component_copy_week" />
-
-                            <include
-                                android:id="@+id/copy_week_G"
-                                layout="@layout/component_copy_week" />
-
-                            <include
-                                android:id="@+id/copy_week_H"
-                                layout="@layout/component_copy_week" />
-
-                        </LinearLayout>
-                    </ScrollView>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/copy_week_confirm"
-                    style="@style/CustomMaterialButton"
-                    android:layout_margin="@dimen/container_spacing"
-                    android:text="@string/button_copy_week_confirm"
-                    app:icon="@drawable/ic_done_gray_24dp"
-                    app:iconGravity="textStart"
-                    app:iconPadding="16dp"
-                    app:iconSize="32dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/copy_week_confirm"
+        style="@style/CustomMaterialButton"
+        android:layout_margin="@dimen/container_spacing"
+        android:text="@string/button_copy_week_confirm"
+        app:icon="@drawable/ic_done_gray_24dp"
+        app:iconGravity="textStart"
+        app:iconPadding="16dp"
+        app:iconSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 
