@@ -25,4 +25,27 @@ class SharedPreferences(context: Context) {
         editor.clear()
         editor.apply()
     }
+
+    fun clear(keyName: String) {
+        sharedPref.edit().remove(keyName).apply()
+    }
+
+    fun setArrayPrefs(
+        arrayName: String,
+        array: ArrayList<String?>
+    ) {
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putInt(arrayName + "_size", array.size)
+        for (i in 0 until array.size) editor.putString(arrayName + "_" + i, array[i])
+        editor.apply()
+    }
+
+    fun getArrayPrefs(
+        arrayName: String
+    ): ArrayList<String>? {
+        val size: Int = sharedPref.getInt(arrayName + "_size", 0)
+        val array: ArrayList<String> = ArrayList(size)
+        for (i in 0 until size) array.add(sharedPref.getString(arrayName + "_" + i, null)!!)
+        return array
+    }
 }

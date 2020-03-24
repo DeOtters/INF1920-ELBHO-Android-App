@@ -11,23 +11,44 @@ class DateParser {
     private val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", locale)
     private val dateParser = SimpleDateFormat("yyyy-MM-dd", locale)
 
-    fun toFormattedDay(dateTime: String): String {
+    /*
+    * @params string -> yyyy-MM-dd'T'HH:mm:ss
+    * @return string -> EE, e.g. MA
+    */
+    fun toFormattedDay(dateTime: String) : String{
         val formatter = SimpleDateFormat("EE", locale)
         return formatter.format(parser.parse(dateTime)!!).toUpperCase(locale)
     }
 
-    fun dateToFormattedDay(dateTime: String): String {
+    /*
+   * @params string -> yyyy-MM-dd
+   * @return string -> EE, e.g. MA
+   */
+    fun dateToFormattedDay(dateTime: String) : String{
         val formatter = SimpleDateFormat("EE", locale)
         return formatter.format(dateParser.parse(dateTime)!!).toUpperCase(locale)
     }
 
-    fun toFormattedDate(dateTime: String): String {
-        val formatter = SimpleDateFormat("dd-MM", Locale("nl"))
+    /*
+   * @params string -> yyyy-MM-dd'T'HH:mm:ss
+   * @return string -> dd-MM, e.g. 01-11
+   */
+    fun toFormattedDate(dateTime: String) : String{
+        val formatter = SimpleDateFormat("dd-MM",  Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
     }
 
-    fun toFormattedDateWithYear(dateTime: String): String {
-        val formatter = SimpleDateFormat("dd-MM-yyyy", Locale("nl"))
+    /*
+   * @params string -> yyyy-MM-dd'T'HH:mm:ss
+   * @return string -> dd-MM-yyyy, e.g. 01-11
+   */
+    fun toFormattedDateWithYear(dateTime: String) : String{
+        val formatter = SimpleDateFormat("dd-MM-yyyy",  Locale("nl"))
+        return formatter.format(parser.parse(dateTime)!!)
+    }
+
+    fun toFormattedYearAndMonth(dateTime: String): String {
+        val formatter = SimpleDateFormat("yyyy-MM", Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
     }
 
@@ -41,7 +62,11 @@ class DateParser {
         return formatter.format(parser.parse(dateTime)!!)
     }
 
-    fun dateToFormattedDate(dateTime: String): String {
+    /*
+   * @params string -> yyyy-MM-dd
+   * @return string -> dd-MM, e.g. 01-11
+   */
+    fun dateToFormattedDate(dateTime: String) : String{
         val formatter = SimpleDateFormat("dd-MM", Locale("nl"))
         return formatter.format(dateParser.parse(dateTime)!!)
     }
@@ -50,9 +75,22 @@ class DateParser {
         val formatter = SimpleDateFormat("dd/MM/YY", Locale("nl"))
         return formatter.format(dateParser.parse(dateTime)!!)
     }
+    /*
+   * @params string -> yyyy-MM-dd'T'HH:mm:ss
+   * @return string -> HH:mm, e.g. 09.11
+   */
+    fun toFormattedTime(dateTime: String) : String{
+        val formatter = SimpleDateFormat("HH:mm",  Locale("nl"))
+        return formatter.format(parser.parse(dateTime)!!)
+    }
 
-    fun toFormattedTime(dateTime: String): String {
+    /*
+   * @params string -> yyyy-MM-dd'T'HH:mm:ss
+   * @return string -> HH:mm, e.g. 09.11
+   */
+    fun toFormattedTimeString(dateTime: String): String {
         val formatter = SimpleDateFormat("HH:mm", Locale("nl"))
+        parser.timeZone = TimeZone.getTimeZone("GMT")
         return formatter.format(parser.parse(dateTime)!!)
     }
 
@@ -74,6 +112,9 @@ class DateParser {
         return parser.parse(dateTime)!!
     }
 
+    /*
+   * @return string -> 16 NOVEMBER 2019
+   */
     fun getDateToday(): String {
         val dayFormat = SimpleDateFormat("dd", locale)
         val monthFormat = SimpleDateFormat("MMMM", locale)
@@ -100,6 +141,9 @@ class DateParser {
         return formatter.format(calendar.time)
     }
 
+    /*
+  * @return string -> 2020-02-19
+  */
     fun getDateStampToday(): String {
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
         return formatter.format(Date())

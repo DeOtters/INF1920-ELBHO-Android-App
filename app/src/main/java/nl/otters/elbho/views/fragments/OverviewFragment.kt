@@ -21,6 +21,10 @@ import nl.otters.elbho.views.activities.NavigationActivity
 
 
 class OverviewFragment : BaseFragment() {
+    private lateinit var requestRepository: RequestRepository
+    private lateinit var appointmentRepository: AppointmentRepository
+    private lateinit var overviewViewModel: OverviewViewModel
+
     private var requests: ArrayList<Request.Properties> = ArrayList()
     private var todaysAppointments: ArrayList<Request.Properties> = ArrayList()
     private val dateParser: DateParser = DateParser()
@@ -34,9 +38,35 @@ class OverviewFragment : BaseFragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        val requestRepository = RequestRepository(activity!!.applicationContext)
-        val appointmentRepository = AppointmentRepository(activity!!.applicationContext)
-        val overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
+        super.onActivityCreated(savedInstanceState)
+
+        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
+        val authToken: String? = sharedPreferences.getValueString("auth-token")
+        if (authToken == null) {
+            startLoginActivity()
+        }
+
+        requestRepository = RequestRepository(activity!!.applicationContext)
+        appointmentRepository = AppointmentRepository(activity!!.applicationContext)
+        overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
+
+        setNotificationBadges()
+        setupViewPager()
+        todayTextView.text = dateParser.getDateToday()
+    }
+
+    private fun saveTodaysAppointment() {
+        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
+        val todaysAppointmentIds = ArrayList<String?>()
+
+        for (appointment in todaysAppointments) {
+            todaysAppointmentIds.add(appointment.id)
+        }
+
+        sharedPreferences.setArrayPrefs("todaysAppointments", todaysAppointmentIds)
+    }
+
+    private fun setNotificationBadges() {
         (activity as NavigationActivity).setProgressBarVisible(true)
         overviewViewModel.getAllRequests().observe(viewLifecycleOwner, Observer {
             requests = it
@@ -46,20 +76,10 @@ class OverviewFragment : BaseFragment() {
 
         overviewViewModel.getTodaysAppointments().observe(viewLifecycleOwner, Observer {
             todaysAppointments = it
+            saveTodaysAppointment()
             (activity as NavigationActivity).setProgressBarVisible(false)
             updateNotificationBadge(1, todaysAppointments.count())
         })
-
-        super.onActivityCreated(savedInstanceState)
-        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
-        val authToken: String? = sharedPreferences.getValueString("auth-token")
-
-        if (authToken == null) {
-            startLoginActivity()
-        }
-
-        setupViewPager()
-        todayTextView.text = dateParser.getDateToday()
     }
 
     private fun updateNotificationBadge(tabIndex: Int, badgeCount: Int) {
