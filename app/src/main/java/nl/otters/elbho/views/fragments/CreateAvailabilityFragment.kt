@@ -66,7 +66,7 @@ class CreateAvailabilityFragment : DetailFragment() {
         super.onResume()
         setWeekSelector(chosenDay)
         setOnClickListeners()
-//        setInputFields()
+        setInputFields()
     }
 
     private fun setTitle() {
