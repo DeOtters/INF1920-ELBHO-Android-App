@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.component_text_display.view.*
 import kotlinx.android.synthetic.main.fragment_request.*
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Request
+import nl.otters.elbho.repositories.LocationRepository
 import nl.otters.elbho.repositories.RequestRepository
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
@@ -26,6 +27,7 @@ class RequestFragment : DetailFragment() {
     private lateinit var vehicleLocationProvider: VehicleLocationProvider
     private lateinit var requestRepository: RequestRepository
     private lateinit var requestViewModel: RequestViewModel
+    private lateinit var locationRepository: LocationRepository
     private lateinit var sharedPreferences: SharedPreferences
 
     private val dateParser: DateParser = DateParser()
@@ -50,7 +52,8 @@ class RequestFragment : DetailFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         requestRepository = RequestRepository(activity!!.applicationContext)
-        requestViewModel = RequestViewModel(requestRepository)
+        locationRepository = LocationRepository(activity!!.applicationContext)
+        requestViewModel = RequestViewModel(requestRepository, locationRepository)
         sharedPreferences = SharedPreferences(this.context!!)
 
         val leftAppointmentId: String? = sharedPreferences.getValueString("leftAppointment")
@@ -240,6 +243,7 @@ class RequestFragment : DetailFragment() {
         requestingLocationUpdates = false
         vehicleLocationProvider.stop()
         setTitle()
+        topButton.setOnClickListener { goToDestination() }
     }
 
     private fun goToDestination() {
@@ -254,6 +258,7 @@ class RequestFragment : DetailFragment() {
             Snackbar.LENGTH_SHORT
         ).show()
         setTitle()
+        topButton.setOnClickListener { arrivedAtDestination() }
     }
 
     private fun isTablet(): Boolean {
