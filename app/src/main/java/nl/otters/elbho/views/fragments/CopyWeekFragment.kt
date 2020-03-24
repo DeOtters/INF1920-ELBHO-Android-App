@@ -71,16 +71,19 @@ class CopyWeekFragment : DetailFragment() {
     }
 
     private fun setWeekNumberTitle() {
+        val calendar: Calendar = Calendar.getInstance(Locale("nl"))
+        calendar.time = chosenDay.date
+
         copy_week_title.text = SpannableStringBuilder(
             resources.getString(
-                R.string.copy_week_title,
-                chosenDay.calendar.get(Calendar.WEEK_OF_YEAR)
+                R.string.copy_week_title, calendar.get(Calendar.WEEK_OF_YEAR)
             )
         )
     }
 
     private fun setCheckboxLabels() {
-        val calendar: Calendar = chosenDay.calendar
+        val calendar: Calendar = Calendar.getInstance(Locale("nl"))
+        calendar.time = chosenDay.date
         calendar.firstDayOfWeek = Calendar.MONDAY
 
         for (item in weekList) {
