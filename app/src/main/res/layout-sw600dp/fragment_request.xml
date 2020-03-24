@@ -28,19 +28,19 @@
 
                 <include
                     android:id="@+id/textDisplay_cocName"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
                 <include
                     android:id="@+id/textDisplay_contactPersonName"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
                 <include
                     android:id="@+id/textDisplay_contactPersonFunction"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
                 <include
                     android:id="@+id/textDisplay_comment"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
             </LinearLayout>
 
@@ -53,19 +53,19 @@
 
                 <include
                     android:id="@+id/textDisplay_appointmentDate"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
                 <include
                     android:id="@+id/textDisplay_contactPersonPhoneNumber"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
                 <include
                     android:id="@+id/textDisplay_address"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
                 <include
                     android:id="@+id/textDisplay_contactPersonEmail"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
             </LinearLayout>
 

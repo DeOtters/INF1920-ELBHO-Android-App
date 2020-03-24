@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/container_spacing"
     android:layout_marginEnd="@dimen/container_spacing"
-    android:layout_marginBottom="@dimen/listItem_margin"
+    android:layout_marginBottom="24dp"
     android:background="@drawable/layout_border">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/inputConstraintLayout"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,7 +20,7 @@
             android:id="@+id/invoice_listItem_monthTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:text="@string/listItem_text_day"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@android:color/white"
@@ -35,7 +35,7 @@
             android:id="@+id/invoice_listItem_yearTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="32dp"
             android:text="@string/listItem_text_day"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             android:textColor="@android:color/white"
@@ -50,7 +50,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/listItem_iconImageView"
@@ -64,6 +64,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/listItem_text_title"
+            android:textSize="18sp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -72,10 +73,11 @@
             android:id="@+id/invoice_lisItem_uploadedDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/listItem_text_description"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/invoice_listItem_fileNameTextView" />
 
