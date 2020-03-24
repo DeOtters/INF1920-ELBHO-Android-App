@@ -103,7 +103,7 @@ class RequestFragment : DetailFragment() {
     }
 
     private fun setButtonListeners(request: Request.Properties) {
-        textDisplay_contactPersonEmail.icon.setOnClickListener {
+        textDisplay_contactPersonEmail.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/html"
             // TODO: we should put a email address here, but the api doesn't support it at this time
@@ -114,13 +114,13 @@ class RequestFragment : DetailFragment() {
             startActivity(Intent.createChooser(intent, "Send Email"))
         }
 
-        textDisplay_contactPersonPhoneNumber.icon.setOnClickListener {
+        textDisplay_contactPersonPhoneNumber.setOnClickListener {
             val intent =
                 Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + request.contactPersonPhoneNumber))
             startActivity(intent)
         }
 
-        textDisplay_address.icon.setOnClickListener {
+        textDisplay_address.setOnClickListener {
             val locString: String = ("geo:0,0?q=" + request.address)
             val gmmIntentUri = Uri.parse(locString)
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)

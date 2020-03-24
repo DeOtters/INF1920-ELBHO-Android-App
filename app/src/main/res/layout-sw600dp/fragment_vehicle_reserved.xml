@@ -63,19 +63,19 @@
 
                 <include
                     android:id="@+id/textDisplay_carLicensePlate"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
                 <include
                     android:id="@+id/textDisplay_carReservationDate"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
                 <include
                     android:id="@+id/textDisplay_carReservationTime"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
                 <include
                     android:id="@+id/textDisplay_carLocation"
-                    layout="@layout/component_textdisplay" />
+                    layout="@layout/component_text_display" />
 
             </LinearLayout>
 
