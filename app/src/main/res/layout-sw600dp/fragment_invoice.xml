@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginStart="@dimen/container_spacing"
     android:layout_marginTop="@dimen/container_spacing"
     android:layout_marginEnd="@dimen/container_spacing"
@@ -13,15 +13,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         android:baselineAligned="false"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:layout_marginEnd="16dp"
+            android:layout_weight="0.5"
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
@@ -43,10 +43,10 @@
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent">
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
                                 android:id="@+id/imageView"
@@ -62,11 +62,11 @@
                                 android:id="@+id/textView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="32dp"
                                 android:layout_marginStart="32dp"
+                                android:layout_marginTop="32dp"
                                 android:text="@string/title_invoice"
-                                android:textSize="36sp"
                                 android:textAppearance="@style/CardTitle"
+                                android:textSize="36sp"
                                 app:layout_constraintStart_toEndOf="@+id/imageView"
                                 app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -100,6 +100,7 @@
                         android:layout_height="@dimen/button_height"
                         android:layout_marginBottom="16dp"
                         android:text="@string/button_add_invoice"
+                        android:visibility="gone"
                         app:backgroundTint="@color/colorPrimaryDark"
                         app:icon="@drawable/ic_add_white_24dp"
                         app:iconGravity="textStart"
@@ -108,8 +109,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:visibility="gone"/>
+                        app:layout_constraintStart_toStartOf="parent" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
@@ -117,11 +117,12 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:layout_marginStart="16dp"
+            android:layout_weight="0.5"
             android:orientation="vertical">
 
-            <androidx.fragment.app.FragmentContainerView
+            <fragment
+                android:id="@+id/one_fragment"
                 android:name="nl.otters.elbho.views.fragments.CreateInvoiceFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -129,9 +130,6 @@
 
         </LinearLayout>
     </LinearLayout>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
