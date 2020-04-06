@@ -35,9 +35,6 @@ class RequestFragment : DetailFragment() {
     private var requestIsToday = false
     private var adviserLeftToAppointment = false
 
-    //TODO: after user pressed "vertrek", this should be saved somewhere
-    //API does not support this right now
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -127,7 +124,7 @@ class RequestFragment : DetailFragment() {
     private fun setFieldValues(request: Request.Properties) {
         textDisplay_address.value.text = request.address
         textDisplay_appointmentDate.value.text =
-            dateParser.toFormattedYearAndMonth(request.startTime).capitalize(Locale("nl"))
+            dateParser.toFormattedDateYearDayMonth(request.startTime).capitalize(Locale("nl"))
                 .plus(", ")
                 .plus(
                     dateParser.toFormattedTimeString(request.startTime).plus(" - ")
