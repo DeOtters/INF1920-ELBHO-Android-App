@@ -31,7 +31,6 @@
         </RelativeLayout>
 
         <ScrollView
-            android:id="@+id/invoiceScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/container_spacing"
@@ -43,7 +42,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/availability_days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
