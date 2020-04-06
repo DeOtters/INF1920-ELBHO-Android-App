@@ -119,6 +119,9 @@ class CopyWeekFragment : DetailFragment() {
 
     private fun setOnClickListeners() {
         copy_week_confirm.setOnClickListener { copyWeek(view!!) }
+        for (item in weekList) {
+            item.setOnClickListener { it.copy_checkbox.isChecked = !it.copy_checkbox.isChecked }
+        }
     }
 
     private fun copyWeek(view: View) {
