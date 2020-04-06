@@ -27,9 +27,7 @@ import nl.otters.elbho.R
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
-import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
-import nl.otters.elbho.views.activities.LoginActivity
 import nl.otters.elbho.views.activities.NavigationActivity
 
 class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
@@ -51,13 +49,6 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         val vehicleRepository = VehicleRepository(activity!!.applicationContext, this.view!!)
         val vehicleViewModel = VehicleViewModel(vehicleRepository)
-
-        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
-        val authToken: String? = sharedPreferences.getValueString("auth-token")
-
-        if (authToken == null) {
-            startLoginActivity()
-        }
 
         mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -156,11 +147,6 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(finalLocation, 16f))
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.uiSettings.isScrollGesturesEnabled = false
-    }
-
-    private fun startLoginActivity() {
-        val intent = Intent(activity!!.applicationContext, LoginActivity::class.java)
-        startActivity(intent)
     }
 
     private fun setTitle() {

@@ -1,6 +1,5 @@
 package nl.otters.elbho.views.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +14,7 @@ import nl.otters.elbho.adapters.VehicleListAdapter
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
-import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
-import nl.otters.elbho.views.activities.LoginActivity
 import nl.otters.elbho.views.activities.NavigationActivity
 import kotlin.collections.ArrayList
 
@@ -39,13 +36,6 @@ class VehicleFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         val vehicleRepository = VehicleRepository(activity!!.applicationContext, this.view!!)
         vehicleViewModel = VehicleViewModel(vehicleRepository)
-
-        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
-        val authToken: String? = sharedPreferences.getValueString("auth-token")
-
-        if (authToken == null) {
-            startLoginActivity()
-        }
 
         setupRecyclerView()
         setupReservation()
@@ -113,11 +103,6 @@ class VehicleFragment : BaseFragment() {
             recyclerView.visibility = View.VISIBLE
             empty_view_2.visibility = View.INVISIBLE
         }
-    }
-
-    private fun startLoginActivity() {
-        val intent = Intent(activity!!.applicationContext, LoginActivity::class.java)
-        startActivity(intent)
     }
 
     override fun onResume() {

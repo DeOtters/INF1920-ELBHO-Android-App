@@ -3,6 +3,7 @@ package nl.otters.elbho.views.activities
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -14,6 +15,7 @@ import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.repositories.AdviserRepository
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.LoginViewModel
+
 
 class LoginActivity : AppCompatActivity() {
     private val adviserRepository = AdviserRepository(this)
@@ -72,10 +74,10 @@ class LoginActivity : AppCompatActivity() {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         override fun afterTextChanged(editable: Editable) {
-            if (editable == emailTextInputEdit.editableText && editable.toString() != "" && passwordTextInputEdit.editableText.toString() != "") {
-                loginButton.isEnabled = true
-            } else loginButton.isEnabled =
-                editable == passwordTextInputEdit.editableText && editable.toString() != "" && emailTextInputEdit.editableText.toString() != ""
+            loginButton.isEnabled =
+                !(TextUtils.isEmpty(emailTextInputEdit.text) || TextUtils.isEmpty(
+                    passwordTextInputEdit.text
+                ))
         }
     }
 }

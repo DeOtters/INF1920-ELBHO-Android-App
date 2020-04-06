@@ -1,6 +1,5 @@
 package nl.otters.elbho.views.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,6 @@ import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.utils.ZoomOutPageTransformer
 import nl.otters.elbho.viewModels.OverviewViewModel
-import nl.otters.elbho.views.activities.LoginActivity
 import nl.otters.elbho.views.activities.NavigationActivity
 
 
@@ -39,12 +37,6 @@ class OverviewFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        val sharedPreferences = SharedPreferences(activity!!.applicationContext)
-        val authToken: String? = sharedPreferences.getValueString("auth-token")
-        if (authToken == null) {
-            startLoginActivity()
-        }
 
         requestRepository = RequestRepository(activity!!.applicationContext)
         appointmentRepository = AppointmentRepository(activity!!.applicationContext)
@@ -110,10 +102,5 @@ class OverviewFragment : BaseFragment() {
         tabs.getTabAt(2)!!.setIcon(R.drawable.ic_event_done_24dp)
         tabs.getTabAt(arguments!!.get("tabId") as Int)!!.select()
         viewPager.setPageTransformer(true, ZoomOutPageTransformer())
-    }
-
-    private fun startLoginActivity() {
-        val intent = Intent(activity!!.applicationContext, LoginActivity::class.java)
-        startActivity(intent)
     }
 }
