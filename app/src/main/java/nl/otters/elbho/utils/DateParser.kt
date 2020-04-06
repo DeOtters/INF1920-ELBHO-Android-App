@@ -47,6 +47,15 @@ class DateParser {
         return formatter.format(parser.parse(dateTime)!!)
     }
 
+    /*
+   * @params string -> yyyy-MM-dd'T'HH:mm:ss
+   * @return string -> Zondag 22 maart
+   */
+    fun toFormattedDateYearDayMonth(dateTime: String): String {
+        val formatter = SimpleDateFormat("EEEE dd MMMM", Locale("nl"))
+        return formatter.format(parser.parse(dateTime)!!)
+    }
+
     fun toFormattedYearAndMonth(dateTime: String): String {
         val formatter = SimpleDateFormat("yyyy-MM", Locale("nl"))
         return formatter.format(parser.parse(dateTime)!!)
