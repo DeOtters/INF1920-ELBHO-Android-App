@@ -14,17 +14,18 @@ import nl.otters.elbho.R
 import nl.otters.elbho.adapters.VehicleListAdapter
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
+import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.LoginActivity
 import nl.otters.elbho.views.activities.NavigationActivity
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class VehicleFragment : BaseFragment() {
     private var vehicleReservationList: ArrayList<Vehicle.Reservation> = ArrayList()
     private lateinit var vehicleViewModel: VehicleViewModel
+
+    private val dateParser: DateParser = DateParser()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,11 +37,8 @@ class VehicleFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val vehicleRepository = VehicleRepository(activity!!.applicationContext)
+        val vehicleRepository = VehicleRepository(activity!!.applicationContext, this.view!!)
         vehicleViewModel = VehicleViewModel(vehicleRepository)
-
-        setupRecyclerView()
-        setupPullDownToRefresh()
 
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
@@ -49,7 +47,9 @@ class VehicleFragment : BaseFragment() {
             startLoginActivity()
         }
 
+        setupRecyclerView()
         setupReservation()
+        setupPullDownToRefresh()
 
         goVehicleReservation.setOnClickListener {
             findNavController().navigate(R.id.action_global_vehicleReservationFragment)
@@ -58,21 +58,16 @@ class VehicleFragment : BaseFragment() {
 
     private fun setupReservation() {
         (activity as NavigationActivity).setProgressBarVisible(true)
-        val newRequests: ArrayList<Vehicle.Reservation> = ArrayList()
         vehicleViewModel.getAllVehicleReservationsByAdviser(
             Vehicle.ReservationOptions(
-                after = SimpleDateFormat(
-                    "yyyy-MM-dd",
-                    Locale("nl")
-                ).format(Calendar.getInstance().time), sort = "ASC"
+                after = dateParser.getDateStampToday(), sort = "ASC"
             )
         ).observe(viewLifecycleOwner, Observer {
             (activity as NavigationActivity).setProgressBarVisible(false)
             if (it != null) {
                 vehicleReservationList.addAll(it)
-                newRequests.addAll(it)
-                updateRecyclerView(newRequests)
-                checkTimeSelected()
+                updateRecyclerView(it)
+                checkReservations()
             }
         })
     }
@@ -84,7 +79,6 @@ class VehicleFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-
         val viewManager = LinearLayoutManager(activity!!.applicationContext)
         val vehicleListAdapter = VehicleListAdapter(
             activity!!.applicationContext,
@@ -101,31 +95,17 @@ class VehicleFragment : BaseFragment() {
             this.layoutManager = viewManager
             this.adapter = vehicleListAdapter
         }
-
     }
 
     private fun setupPullDownToRefresh() {
         swipe_to_refresh.setOnRefreshListener {
             swipe_to_refresh.isRefreshing = true
-            vehicleViewModel.getAllVehicleReservationsByAdviser(
-                Vehicle.ReservationOptions(
-                    after = SimpleDateFormat(
-                        "yyyy-MM-dd",
-                        Locale("nl")
-                    ).format(Calendar.getInstance().time), sort = "ASC"
-                )
-            ).observe(viewLifecycleOwner, Observer {
-                (activity as NavigationActivity).setProgressBarVisible(false)
-                if (it != null) {
-                    vehicleReservationList.addAll(it)
-                    updateRecyclerView(it)
-                    swipe_to_refresh.isRefreshing = false
-                }
-            })
+            setupReservation()
+            swipe_to_refresh.isRefreshing = false
         }
     }
 
-    private fun checkTimeSelected() {
+    private fun checkReservations() {
         if (vehicleReservationList.isEmpty()) {
             recyclerView.visibility = View.INVISIBLE
             empty_view_2.visibility = View.VISIBLE

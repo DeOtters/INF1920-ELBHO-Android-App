@@ -94,6 +94,11 @@ class DateParser {
         return formatter.format(parser.parse(dateTime)!!)
     }
 
+    fun toFormatTime(dateTime: Date): String {
+        val formatter = SimpleDateFormat("HH:mm", Locale("nl"))
+        return formatter.format(dateTime)
+    }
+
     fun toCalendarDay(dateTime: String): CalendarDay {
         return CalendarDay(parser.parse(dateTime))
     }
@@ -152,6 +157,11 @@ class DateParser {
     fun getDateStampToday(): String {
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
         return formatter.format(Date())
+    }
+
+    fun getDateYMD(date: Date): String {
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale("nl"))
+        return formatter.format(date)
     }
 
     fun getDateStampTomorrow(): String {

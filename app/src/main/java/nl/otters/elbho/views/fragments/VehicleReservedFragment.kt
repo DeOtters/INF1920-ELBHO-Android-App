@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -17,10 +16,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.component_text_display.view.*
 import kotlinx.android.synthetic.main.fragment_request.bottomButton
 import kotlinx.android.synthetic.main.fragment_vehicle_reserved.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import nl.otters.elbho.R
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
@@ -47,7 +49,7 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val vehicleRepository = VehicleRepository(activity!!.applicationContext)
+        val vehicleRepository = VehicleRepository(activity!!.applicationContext, this.view!!)
         val vehicleViewModel = VehicleViewModel(vehicleRepository)
 
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
@@ -67,39 +69,16 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
 
         bottomButton.setOnClickListener {
             deleteReservation(vehicleViewModel)
-
-            val snackbarDialog = Snackbar.make(
-                it,
-                getString(R.string.snackbar_vehicle_cancelled),
-                Snackbar.LENGTH_LONG
-            )
-            val snackbarView = snackbarDialog.view
-            snackbarView.setBackgroundColor(
-                ContextCompat.getColor(
-                    activity!!.applicationContext,
-                    R.color.vehicle_snackBar_bg_col
-                )
-            )
-            val snackbarTextView =
-                snackbarView.findViewById<TextView>(R.id.snackbar_text)
-            snackbarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                R.drawable.ic_check_circle_24dp,
-                0,
-                0,
-                0
-            )
-            snackbarTextView.compoundDrawablePadding = 75
-            snackbarDialog.show()
         }
     }
 
-    // TODO: Use Synchronize instead of Thread.Sleep
-    private fun deleteReservation(vehicleViewModel: VehicleViewModel) {
-
+    private fun deleteReservation(vehicleViewModel: VehicleViewModel) = runBlocking {
         vehicleViewModel.removeVehicleReservation(reservation.id)
-        Thread.sleep(500)
-        super.getFragmentManager()?.popBackStack()
-
+        val job = GlobalScope.launch {
+            delay(500L)
+            super.getFragmentManager()?.popBackStack()
+        }
+        job.join()
     }
 
     private fun setFieldLabels() {
@@ -125,13 +104,17 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
             reservation.vehicle.model,
             reservation.vehicle.transmission
         )
+
         textDisplay_carLicensePlate.value.text = reservation.vehicle.licensePlate
+
         textDisplay_carReservationDate.value.text =
             dateParser.toFormattedDateWithYear(reservation.start)
+
         textDisplay_carReservationTime.value.text = formatTime(
             dateParser.toFormattedTime(reservation.start),
             dateParser.toFormattedTime(reservation.end)
         )
+
         textDisplay_carLocation.value.text = reservation.vehicle.location
     }
 
@@ -159,7 +142,6 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
             .plus(endTime)
     }
 
-    // TODO: Errorhandling
     override fun onMapReady(googleMap: GoogleMap) {
 
         val coder = Geocoder(context)

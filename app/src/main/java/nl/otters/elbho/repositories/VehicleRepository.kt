@@ -2,9 +2,13 @@ package nl.otters.elbho.repositories
 
 import android.content.Context
 import android.util.Log
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.material.snackbar.Snackbar
 import nl.otters.elbho.R
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Vehicle
@@ -15,7 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class VehicleRepository(private val context: Context) {
+class VehicleRepository(private val context: Context, private val currView: View) {
     private val vehicleService: VehicleService =
         RetrofitFactory.get().create(VehicleService::class.java)
 
@@ -29,8 +33,10 @@ class VehicleRepository(private val context: Context) {
                     call: Call<ArrayList<Vehicle.CarWithReservations>>,
                     response: Response<ArrayList<Vehicle.CarWithReservations>>
                 ) {
-                    if (response.message() == "OK" && response.body() != null) {
+                    if (response.code() == 200 && response.body() != null) {
                         vehicleReservations.value = response.body()!!
+                    } else {
+                        errorMsg(R.string.error_api_vehicle)
                     }
                 }
 
@@ -38,8 +44,8 @@ class VehicleRepository(private val context: Context) {
                     call: Call<ArrayList<Vehicle.CarWithReservations>>,
                     t: Throwable
                 ) {
-                    //TODO: implement error handling
                     Log.e("HTTP Vehicles: ", "Could not fetch data", t)
+                    errorMsg(R.string.error_api_vehicle)
                 }
             })
         return vehicleReservations
@@ -57,14 +63,16 @@ class VehicleRepository(private val context: Context) {
                 call: Call<ArrayList<Vehicle.Reservation>>,
                 response: Response<ArrayList<Vehicle.Reservation>>
             ) {
-                if (response.message() == "OK" && response.body() != null) {
+                if (response.code() == 200 && response.body() != null) {
                     vehicleReservations.value = response.body()!!
+                } else {
+                    errorMsg(R.string.error_api_vehicle)
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<Vehicle.Reservation>>, t: Throwable) {
-                //TODO: implement error handling
                 Log.e("HTTP Vehicles: ", "Could not fetch data", t)
+                errorMsg(R.string.error_api_vehicle)
             }
         })
         return vehicleReservations
@@ -78,19 +86,15 @@ class VehicleRepository(private val context: Context) {
                     response: Response<Unit>
                 ) {
                     if (response.code() == 201 && response.body() != null) {
-                        //TODO: not implemented
-                    } else if (response.code() == 409) {
-                        Toast.makeText(
-                            context,
-                            R.string.toast_vehicle_already_reserved,
-                            Toast.LENGTH_LONG
-                        ).show()
+                        succesMsg(R.string.snackbar_vehicle_reserved)
+                    } else {
+                        errorMsg(R.string.error_api_vehicle)
                     }
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    //TODO: implement error handling
                     Log.e("HTTP Vehicles: ", "Could not fetch data", t)
+                    errorMsg(R.string.error_api_vehicle)
                 }
             })
     }
@@ -102,16 +106,51 @@ class VehicleRepository(private val context: Context) {
                     call: Call<Unit>,
                     response: Response<Unit>
                 ) {
-                    if (response.message() == "OK" && response.body() != null) {
-                        //TODO: not implemented
+                    if (response.code() == 200 && response.body() != null) {
+                        succesMsg(R.string.snackbar_vehicle_cancelled)
+                    } else {
+                        errorMsg(R.string.error_api_vehicle)
                     }
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    //TODO: implement error handling
                     Log.e("HTTP Vehicles: ", "Could not fetch data", t)
+                    errorMsg(R.string.error_api_vehicle)
                 }
             })
+    }
+
+    private fun errorMsg(error_string: Int) {
+        Toast.makeText(
+            context,
+            error_string,
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    private fun succesMsg(succes_string: Int) {
+        val snackbarDialog = Snackbar.make(
+            currView,
+            succes_string,
+            Snackbar.LENGTH_LONG
+        )
+        val snackbarView = snackbarDialog.view
+        snackbarView.setBackgroundColor(
+            ContextCompat.getColor(
+                context,
+                R.color.vehicle_snackBar_bg_col
+            )
+        )
+        val snackbarTextView =
+            snackbarView.findViewById<TextView>(R.id.snackbar_text)
+        snackbarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            R.drawable.ic_check_circle_24dp,
+            0,
+            0,
+            0
+        )
+        snackbarTextView.compoundDrawablePadding = 75
+        snackbarDialog.show()
     }
 
     private fun getAuthToken(): String {
