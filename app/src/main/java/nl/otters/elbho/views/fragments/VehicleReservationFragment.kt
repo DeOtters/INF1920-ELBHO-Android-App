@@ -94,14 +94,8 @@ class VehicleReservationFragment : DetailFragment() {
                 calStart.set(Calendar.HOUR_OF_DAY, hour)
                 calStart.set(Calendar.MINUTE, minute)
 
-                calEnd.set(Calendar.HOUR_OF_DAY, hour)
-                calEnd.set(Calendar.MINUTE, minute)
-
                 startTime.setText(dateParser.toFormatTime(calStart.time))
                 startReservationTime = dateParser.toFormatTime(calStart.time)
-
-                endTime.setText(dateParser.toFormatTime(calEnd.time))
-                endReservationTime = dateParser.toFormatTime(calEnd.time)
 
                 itemSelected = -1
                 carReservation = null
@@ -123,35 +117,13 @@ class VehicleReservationFragment : DetailFragment() {
                 calEnd.set(Calendar.HOUR_OF_DAY, hour)
                 calEnd.set(Calendar.MINUTE, minute)
 
-                when {
-                    startReservationTime == " " -> {
-                        calStart.set(Calendar.HOUR_OF_DAY, hour)
-                        calStart.set(Calendar.MINUTE, minute)
+                endTime.setText(dateParser.toFormatTime(calEnd.time))
+                endReservationTime = dateParser.toFormatTime(calEnd.time)
 
-                        startTime.setText(dateParser.toFormatTime(calStart.time))
-                        startReservationTime = dateParser.toFormatTime(calStart.time)
+                itemSelected = -1
+                carReservation = null
 
-                        endTime.setText(dateParser.toFormatTime(calEnd.time))
-                        endReservationTime = dateParser.toFormatTime(calEnd.time)
-
-                        itemSelected = -1
-                        carReservation = null
-
-                        setupRecyclerView(vehicleViewModel)
-                    }
-                    calEnd.after(calStart) -> {
-                        endTime.setText(dateParser.toFormatTime(calEnd.time))
-                        endReservationTime = dateParser.toFormatTime(calEnd.time)
-
-                        itemSelected = -1
-                        carReservation = null
-
-                        setupRecyclerView(vehicleViewModel)
-                    }
-                    else -> {
-                        errorMsg(R.string.toast_end_after)
-                    }
-                }
+                setupRecyclerView(vehicleViewModel)
             }
             TimePickerDialog(
                 context,
@@ -179,7 +151,7 @@ class VehicleReservationFragment : DetailFragment() {
                     if (reservationDate != " " &&
                         startReservationTime != " " &&
                         endReservationTime != " ") {
-                        if (startReservationTime != endReservationTime) {
+                        if (startReservationTime != endReservationTime && calEnd.after(calStart)) {
                             val car: Vehicle.CarWithReservations = vehicleCarList[position]
 
                             itemSelected = position
@@ -218,7 +190,7 @@ class VehicleReservationFragment : DetailFragment() {
         if (reservationDate != " " &&
             startReservationTime != " " &&
             endReservationTime != " ") {
-            if (startReservationTime != endReservationTime) {
+            if (startReservationTime != endReservationTime && calEnd.after(calStart)) {
                 if (carReservation != null) {
                     vehicleViewModel.createVehicleReservation(carReservation!!)
                     val job = GlobalScope.launch {

@@ -52,8 +52,8 @@
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintEnd_toStartOf="@id/listItem_iconImageView"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/invoice_listItem_fileNameTextView"
@@ -72,6 +72,8 @@
             android:layout_marginTop="10dp"
             android:textSize="16sp"
             android:text="@string/listItem_text_description"
+            android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/invoice_listItem_fileNameTextView" />
 
