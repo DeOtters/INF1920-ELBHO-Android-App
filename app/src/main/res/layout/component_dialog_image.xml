@@ -5,10 +5,10 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/copy_week_hint"
         app:srcCompat="@drawable/img_copy_week" />
 </androidx.constraintlayout.widget.ConstraintLayout>

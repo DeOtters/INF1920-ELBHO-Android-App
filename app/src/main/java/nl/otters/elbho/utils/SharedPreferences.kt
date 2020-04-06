@@ -58,7 +58,4 @@ class SharedPreferences(context: Context) {
         return array
     }
 
-    fun setFirstTime() {
-        save("shouldShowCopyTutorial", true)
-    }
 }

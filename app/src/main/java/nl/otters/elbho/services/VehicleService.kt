@@ -5,13 +5,6 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface VehicleService {
-    @Headers("Content-type: application/json")
-    @GET("/auth/vehicle")
-    fun getAllVehicles(
-        @Header("Authorization") auth: String,
-        @Query("page") page: Int?,
-        @Query("limit") limit: Int?
-    ): Call<ArrayList<Vehicle.Car>>
 
     @Headers("Content-type: application/json")
     @GET("/auth/reservation")

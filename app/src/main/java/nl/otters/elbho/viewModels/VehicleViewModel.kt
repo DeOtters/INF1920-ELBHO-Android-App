@@ -1,6 +1,5 @@
 package nl.otters.elbho.viewModels
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import nl.otters.elbho.models.Vehicle
