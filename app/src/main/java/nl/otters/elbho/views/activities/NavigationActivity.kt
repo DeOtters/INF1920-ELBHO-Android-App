@@ -35,6 +35,12 @@ class NavigationActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = SharedPreferences(this)
+        val authToken: String? = sharedPreferences.getValueString("auth-token")
+
+        if (authToken == null) {
+            startLoginActivity()
+        }
+
         val adviser = adviserRepository.getAdviser()
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
