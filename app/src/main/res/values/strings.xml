@@ -84,6 +84,7 @@
     <string name="snackbar_vehicle_cancelled">Auto reservering geannuleerd</string>
     <string name="toast_vehicle_already_reserved">Auto reservering niet gelukt voor deze begin en eind tijd</string>
     <string name="no_car_reservation">Geen auto"&apos;"s gereserveerd.</string>
+    <string name="error_api_vehicle">Er ging iets fout, prober het opnieuw</string>
 
     <!-- Create Availability Fragment  -->
     <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>
