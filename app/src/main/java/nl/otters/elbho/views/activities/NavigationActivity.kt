@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.core.view.GravityCompat
@@ -102,23 +103,25 @@ class NavigationActivity : AppCompatActivity(),
         navigation.setNavigationItemSelectedListener(this)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        drawerToggle = object : ActionBarDrawerToggle(
-            this,
-            drawer_layout,
-            toolbar,
-            R.string.navigation_open,
-            R.string.navigation_close
-        ) {
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-                app_menu_title.alpha = slideOffset
-                app_title.alpha = 1 - slideOffset
-                super.onDrawerSlide(drawerView, slideOffset)
-            }
-        }
         if (!isTablet()) {
+
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+
+            drawerToggle = object : ActionBarDrawerToggle(
+                this,
+                drawer_layout,
+                toolbar,
+                R.string.navigation_open,
+                R.string.navigation_close
+            ) {
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                    app_menu_title.alpha = slideOffset
+                    app_title.alpha = 1 - slideOffset
+                    super.onDrawerSlide(drawerView, slideOffset)
+                }
+            }
             drawerToggle.isDrawerIndicatorEnabled = true
             drawer_layout.addDrawerListener(drawerToggle)
             drawerToggle.syncState()
@@ -128,10 +131,7 @@ class NavigationActivity : AppCompatActivity(),
             }
         } else {
             drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN)
-            drawer_layout.setScrimColor(this.resources.getColor(R.color.drawerNoShadow))
-            drawerToggle.setToolbarNavigationClickListener {
-                navController.navigateUp()
-            }
+            drawer_layout.setScrimColor(ContextCompat.getColor(this, R.color.drawerNoShadow))
         }
     }
 
@@ -145,6 +145,9 @@ class NavigationActivity : AppCompatActivity(),
                     GravityCompat.END
                 )
             }
+
+            drawerToggle.isDrawerIndicatorEnabled = visible
+            drawerToggle.syncState()
         } else {
             if (visible) {
                 drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
@@ -155,10 +158,6 @@ class NavigationActivity : AppCompatActivity(),
                 )
             }
         }
-
-
-        drawerToggle.isDrawerIndicatorEnabled = visible
-        drawerToggle.syncState()
     }
 
     fun setProgressBarVisible(visible: Boolean) {
