@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import kotlinx.coroutines.GlobalScope
@@ -18,6 +17,7 @@ import nl.otters.elbho.adapters.VehicleCarListAdapter
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
+import nl.otters.elbho.utils.ResponseHandler
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
@@ -27,6 +27,7 @@ import kotlin.collections.ArrayList
 class VehicleReservationFragment : DetailFragment() {
     private var vehicleCarList: ArrayList<Vehicle.CarWithReservations> = ArrayList()
     private val dateParser: DateParser = DateParser()
+    private lateinit var responseHandler: ResponseHandler
 
     private var startReservationTime: String = " "
     private var endReservationTime: String = " "
@@ -50,6 +51,7 @@ class VehicleReservationFragment : DetailFragment() {
         super.onViewCreated(view, savedInstanceState)
         val vehicleRepository = VehicleRepository(activity!!.applicationContext, this.view!!)
         val vehicleViewModel = VehicleViewModel(vehicleRepository)
+        responseHandler = ResponseHandler(activity!!.applicationContext, this.view!!)
 
         setupVehicleCarList(vehicleViewModel)
         setupDateComponents(vehicleViewModel)
@@ -172,10 +174,10 @@ class VehicleReservationFragment : DetailFragment() {
                             )
                             setupRecyclerView(vehicleViewModel)
                         } else {
-                            errorMsg(R.string.toast_end_after)
+                            responseHandler.errorMessage(R.string.toast_end_after)
                         }
                     } else {
-                        errorMsg(R.string.toast_select_all_inputs)
+                        responseHandler.errorMessage(R.string.toast_select_all_inputs)
                     }
                 }
             })
@@ -199,13 +201,13 @@ class VehicleReservationFragment : DetailFragment() {
                     }
                     job.join()
                 } else {
-                    errorMsg(R.string.toast_select_car)
+                    responseHandler.errorMessage(R.string.toast_select_car)
                 }
             } else {
-                errorMsg(R.string.toast_end_after)
+                responseHandler.errorMessage(R.string.toast_end_after)
             }
         } else {
-            errorMsg(R.string.toast_select_all_inputs)
+            responseHandler.errorMessage(R.string.toast_select_all_inputs)
         }
     }
 
@@ -219,14 +221,6 @@ class VehicleReservationFragment : DetailFragment() {
             empty_view.visibility = View.INVISIBLE
             vehicle_reservation_btn.visibility = View.VISIBLE
         }
-    }
-
-    private fun errorMsg(error_string : Int) {
-        Toast.makeText(
-            context,
-            error_string,
-            Toast.LENGTH_LONG
-        ).show()
     }
 
     private fun setTitle() {
