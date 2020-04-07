@@ -18,28 +18,28 @@ class ResponseHandler(private val context: Context, private val curView: View) {
         ).show()
     }
 
-    fun succesMessage(succes_string: Int) {
-        val snackbarDialog = Snackbar.make(
+    fun successMessage(success_string: Int) {
+        val snackBarDialog = Snackbar.make(
             curView,
-            succes_string,
+            success_string,
             Snackbar.LENGTH_LONG
         )
-        val snackbarView = snackbarDialog.view
-        snackbarView.setBackgroundColor(
+        val snackBarView = snackBarDialog.view
+        snackBarView.setBackgroundColor(
             ContextCompat.getColor(
                 context,
                 R.color.vehicle_snackBar_bg_col
             )
         )
-        val snackbarTextView =
-            snackbarView.findViewById<TextView>(R.id.snackbar_text)
-        snackbarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+        val snackBarTextView =
+            snackBarView.findViewById<TextView>(R.id.snackbar_text)
+        snackBarTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
             R.drawable.ic_check_circle_24dp,
             0,
             0,
             0
         )
-        snackbarTextView.compoundDrawablePadding = 75
-        snackbarDialog.show()
+        snackBarTextView.compoundDrawablePadding = 75
+        snackBarDialog.show()
     }
 }

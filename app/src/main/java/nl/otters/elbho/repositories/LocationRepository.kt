@@ -30,12 +30,12 @@ class LocationRepository(private val context: Context, view: View) {
                     if (response.body() != null && response.isSuccessful) {
                         success.value = true
                     } else {
-                        responseHandler.errorMessage(R.string.error_api_vehicle)
+                        responseHandler.errorMessage(R.string.error_api)
                     }
                 }
 
                 override fun onFailure(call: Call<Location.Properties>, t: Throwable) {
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
         return success

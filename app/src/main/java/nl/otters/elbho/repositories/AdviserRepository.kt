@@ -33,13 +33,13 @@ class AdviserRepository(private val context: Context, view: View) {
                     success.value = true
                 } else {
                     success.value = false
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             }
 
             override fun onFailure(call: Call<Adviser.Authentication>, t: Throwable) {
                 success.value = false
-                responseHandler.errorMessage(R.string.error_api_vehicle)
+                responseHandler.errorMessage(R.string.error_api)
             }
         })
         return success
@@ -60,7 +60,7 @@ class AdviserRepository(private val context: Context, view: View) {
             }
 
             override fun onFailure(call: Call<Adviser.Properties>, t: Throwable) {
-                responseHandler.errorMessage(R.string.error_api_vehicle)
+                responseHandler.errorMessage(R.string.error_api)
             }
         })
 

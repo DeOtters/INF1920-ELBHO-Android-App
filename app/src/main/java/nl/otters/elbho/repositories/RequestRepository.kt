@@ -30,12 +30,12 @@ class RequestRepository(private val context: Context, view: View) {
                     if (response.isSuccessful && response.body() != null) {
                         requests.value = response.body()
                     } else {
-                        responseHandler.errorMessage(R.string.error_api_vehicle)
+                        responseHandler.errorMessage(R.string.error_api)
                     }
                 }
 
                 override fun onFailure(call: Call<ArrayList<Request.Properties>>, t: Throwable) {
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
         return requests
@@ -49,12 +49,12 @@ class RequestRepository(private val context: Context, view: View) {
                     response: Response<Unit>
                 ) {
                     if (!response.isSuccessful || response.body() == null) {
-                        responseHandler.errorMessage(R.string.error_api_vehicle)
+                        responseHandler.errorMessage(R.string.error_api)
                     }
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
     }

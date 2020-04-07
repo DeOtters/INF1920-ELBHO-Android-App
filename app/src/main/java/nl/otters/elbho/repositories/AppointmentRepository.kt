@@ -37,12 +37,12 @@ class AppointmentRepository(private val context: Context, view: View) {
                 if (response.code() == 200 && response.body() != null) {
                     appointments.value = response.body()
                 } else {
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<Request.Properties>>, t: Throwable) {
-                responseHandler.errorMessage(R.string.error_api_vehicle)
+                responseHandler.errorMessage(R.string.error_api)
             }
         })
         return appointments

@@ -29,12 +29,12 @@ class AvailabilityRepository(private val context: Context, view: View) {
                     if (response.isSuccessful && response.body() != null) {
                         availabilities.value = response.body()
                     } else {
-                        responseHandler.errorMessage(R.string.error_api_vehicle)
+                        responseHandler.errorMessage(R.string.error_api)
                     }
                 }
 
                 override fun onFailure(call: Call<ArrayList<Availability.Slot>>, t: Throwable) {
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
 
@@ -52,7 +52,7 @@ class AvailabilityRepository(private val context: Context, view: View) {
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
                     success.value = false
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
 
