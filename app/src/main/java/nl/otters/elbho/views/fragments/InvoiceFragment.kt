@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_invoice.*
 import nl.otters.elbho.R
@@ -126,6 +127,8 @@ class InvoiceFragment : BaseFragment() {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.invoice)
         appTitle.setText(R.string.navigation_invoice)
     }
 

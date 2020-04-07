@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
@@ -157,6 +158,8 @@ class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.invoice)
         appTitle.setText(R.string.add_new_invoice_title)
     }
 

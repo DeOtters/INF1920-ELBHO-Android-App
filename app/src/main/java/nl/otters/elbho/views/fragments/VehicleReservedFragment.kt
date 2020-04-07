@@ -16,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.component_text_display.view.*
 import kotlinx.android.synthetic.main.fragment_request.bottomButton
 import kotlinx.android.synthetic.main.fragment_vehicle_reserved.*
@@ -152,6 +153,8 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_vehicle_reservation)
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.vehicle)
     }
 
     override fun onResume() {

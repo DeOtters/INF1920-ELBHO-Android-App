@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -226,6 +227,8 @@ class VehicleReservationFragment : DetailFragment() {
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_vehicle_reserve)
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.vehicle)
     }
 
     override fun onResume() {
