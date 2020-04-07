@@ -71,7 +71,8 @@ class VehicleReservationFragment : DetailFragment() {
     }
 
     private fun setupDateComponents(vehicleViewModel: VehicleViewModel) {
-        calendarReservationView.minDate = System.currentTimeMillis()
+        // System.currentTimeMillis() - 100, "- 100" toegevoegd omdat api 21 anders crashte
+        calendarReservationView.minDate = System.currentTimeMillis() - 100
 
         calendarReservationView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val cal = Calendar.getInstance()
