@@ -93,8 +93,6 @@ class RequestFragment : DetailFragment() {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
-        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
-        navigation.setCheckedItem(R.id.upcoming_requests)
         val leftAppointmentId: String? = sharedPreferences.getValueString("leftAppointment")
 
         if (leftAppointmentId != null && leftAppointmentId == request.id) {
@@ -168,9 +166,11 @@ class RequestFragment : DetailFragment() {
     }
 
     private fun setPrimaryButtons(parentFragmentTitle: String) {
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
         // When showing only 1 button, use topButton because of constrains
         when (parentFragmentTitle) {
             resources.getString(R.string.navigation_open_requests) -> {
+                navigation.setCheckedItem(R.id.open_requests)
                 topButton.setIconResource(R.drawable.ic_close_24dp)
                 topButton.setText(R.string.button_deny_appointment)
                 topButton.setBackgroundColor(
@@ -187,6 +187,7 @@ class RequestFragment : DetailFragment() {
             }
 
             resources.getString(R.string.navigation_upcoming_requests) -> {
+                navigation.setCheckedItem(R.id.upcoming_requests)
                 if(isTablet()){
                     btn_sec_bottomButton.visibility = View.GONE
                 }
@@ -210,6 +211,7 @@ class RequestFragment : DetailFragment() {
             }
 
             resources.getString(R.string.navigation_done_requests) -> {
+                navigation.setCheckedItem(R.id.done_requests)
                 topButton.visibility = View.GONE
                 bottomButton.visibility = View.GONE
             }
