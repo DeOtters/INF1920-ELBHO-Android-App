@@ -60,7 +60,7 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
 
     private fun updateCalendar() {
         val timePeriod: Availability.TimePeriod =
-            Availability.TimePeriod(null, dateParser.getTimestampLastDayOfMonthBefore())
+            Availability.TimePeriod(null, dateParser.getDateStampTomorrow())
         availabilityViewModel.getAllAvailabilities(timePeriod)
             ?.observe(viewLifecycleOwner, Observer {
                 availability = it
