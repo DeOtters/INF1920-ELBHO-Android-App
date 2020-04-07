@@ -15,4 +15,6 @@
     <color name="colorAvailabilityDate">#FAFCFE</color>
     <color name="vehicle_snackBar_bg_col">#3FB562</color>
     <color name="drawerNoShadow">#00000000</color>
+    <color name="textColor">#000000</color>
+    <color name="textColorGrey">#757575</color>
 </resources>
