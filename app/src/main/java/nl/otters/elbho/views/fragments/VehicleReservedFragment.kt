@@ -5,6 +5,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,14 +29,17 @@ import nl.otters.elbho.R
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
+import nl.otters.elbho.utils.ResponseHandler
 import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
+import java.io.IOException
 
 class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
     private lateinit var reservation: Vehicle.Reservation
     private lateinit var mapFragment: SupportMapFragment
 
     private val dateParser: DateParser = DateParser()
+    private lateinit var responseHandler: ResponseHandler
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +54,7 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
         val vehicleRepository = VehicleRepository(activity!!.applicationContext, this.view!!)
         val vehicleViewModel = VehicleViewModel(vehicleRepository)
+        responseHandler = ResponseHandler(activity!!.applicationContext, this.view!!)
 
         mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -135,19 +140,25 @@ class VehicleReservedFragment : DetailFragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        try{
+            val coder = Geocoder(context)
+            val address: List<Address>
 
-        val coder = Geocoder(context)
-        val address: List<Address>
+            address = coder.getFromLocationName(reservation.vehicle.location, 5)
+            val location: Address = address[0]
 
-        address = coder.getFromLocationName(reservation.vehicle.location, 5)
-        val location: Address = address[0]
+            val finalLocation = LatLng(location.latitude, location.longitude)
 
-        val finalLocation = LatLng(location.latitude, location.longitude)
+            googleMap.addMarker(MarkerOptions().position(finalLocation))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(finalLocation, 16f))
+            googleMap.uiSettings.isZoomControlsEnabled = true
+            googleMap.uiSettings.isScrollGesturesEnabled = false
+        }
+        catch(e: IOException){
+            Log.e("Error", "grpc failed: " + e.message, e)
+            responseHandler.errorMessage(R.string.error_google_maps_vehicle)
+        }
 
-        googleMap.addMarker(MarkerOptions().position(finalLocation))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(finalLocation, 16f))
-        googleMap.uiSettings.isZoomControlsEnabled = true
-        googleMap.uiSettings.isScrollGesturesEnabled = false
     }
 
     private fun setTitle() {
