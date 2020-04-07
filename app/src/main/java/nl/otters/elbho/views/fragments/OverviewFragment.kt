@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_overview.*
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.ViewPagerAdapter
@@ -20,7 +19,7 @@ import nl.otters.elbho.viewModels.OverviewViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
 
 
-class OverviewFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
+class OverviewFragment : BaseFragment() {
     private lateinit var requestRepository: RequestRepository
     private lateinit var appointmentRepository: AppointmentRepository
     private lateinit var overviewViewModel: OverviewViewModel
@@ -28,7 +27,6 @@ class OverviewFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
     private var requests: ArrayList<Request.Properties> = ArrayList()
     private var todaysAppointments: ArrayList<Request.Properties> = ArrayList()
     private val dateParser: DateParser = DateParser()
-    private var tabIndex: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,8 +49,8 @@ class OverviewFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
     }
 
     override fun onResume() {
-        setupViewPager()
         super.onResume()
+        selectNavigationItem()
     }
 
     private fun saveTodaysAppointment() {
@@ -116,7 +114,7 @@ class OverviewFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
 
     private fun selectNavigationItem() {
         val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
-        when (tabIndex) {
+        when (viewPager.currentItem) {
             0 -> {
                 navigation.setCheckedItem(R.id.open_requests)
             }
@@ -127,15 +125,5 @@ class OverviewFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
                 navigation.setCheckedItem(R.id.done_requests)
             }
         }
-    }
-
-    override fun onTabReselected(tab: TabLayout.Tab?) {
-    }
-
-    override fun onTabUnselected(tab: TabLayout.Tab?) {
-    }
-
-    override fun onTabSelected(tab: TabLayout.Tab?) {
-        tabIndex = tab?.position ?: 0
     }
 }
