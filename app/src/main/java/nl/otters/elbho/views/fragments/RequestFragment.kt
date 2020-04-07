@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.component_text_display.view.*
 import kotlinx.android.synthetic.main.fragment_request.*
@@ -92,6 +93,8 @@ class RequestFragment : DetailFragment() {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.upcoming_requests)
         val leftAppointmentId: String? = sharedPreferences.getValueString("leftAppointment")
 
         if (leftAppointmentId != null && leftAppointmentId == request.id) {
