@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -18,16 +19,16 @@ import nl.otters.elbho.viewModels.LoginViewModel
 
 
 class LoginActivity : AppCompatActivity() {
-    private val adviserRepository = AdviserRepository(this)
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPreferences = SharedPreferences(this)
-        val authToken: String? = sharedPreferences.getValueString("auth-token")
-        val loginViewModel = LoginViewModel(adviserRepository)
-
         setTheme(R.style.AppTheme_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        val sharedPreferences = SharedPreferences(this)
+        val authToken: String? = sharedPreferences.getValueString("auth-token")
+        val view: View = findViewById(R.id.container)
+        val adviserRepository = AdviserRepository(this, view)
+        val loginViewModel = LoginViewModel(adviserRepository)
 
         if (authToken != null) {
             startOverviewActivity()

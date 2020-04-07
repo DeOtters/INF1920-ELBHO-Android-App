@@ -27,7 +27,7 @@ class DisableDaysDecorator : DayViewDecorator {
 
         return weekDay == DayOfWeek.SATURDAY.toString() || weekDay == DayOfWeek.SUNDAY.toString() || day.isBefore(
             CalendarDay.today()
-        )
+        ) || day == CalendarDay.today()
     }
 
     override fun decorate(view: DayViewFacade) {

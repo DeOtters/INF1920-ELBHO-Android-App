@@ -1,19 +1,22 @@
 package nl.otters.elbho.repositories
 
 import android.content.Context
-import android.util.Log
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import nl.otters.elbho.R
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Availability
 import nl.otters.elbho.services.AvailabilityService
+import nl.otters.elbho.utils.ResponseHandler
 import nl.otters.elbho.utils.SharedPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AvailabilityRepository(private val context: Context) {
+class AvailabilityRepository(private val context: Context, view: View) {
     private val availabilityService = RetrofitFactory.get().create(AvailabilityService::class.java)
+    private val responseHandler: ResponseHandler = ResponseHandler(context, view)
 
     fun getAvailabilities(timePeriod: Availability.TimePeriod?): LiveData<ArrayList<Availability.Slot>>? {
         val availabilities = MutableLiveData<ArrayList<Availability.Slot>>()
@@ -23,12 +26,15 @@ class AvailabilityRepository(private val context: Context) {
                     call: Call<ArrayList<Availability.Slot>>,
                     response: Response<ArrayList<Availability.Slot>>
                 ) {
-                    availabilities.value = response.body()
+                    if (response.isSuccessful && response.body() != null) {
+                        availabilities.value = response.body()
+                    } else {
+                        responseHandler.errorMessage(R.string.error_api)
+                    }
                 }
 
                 override fun onFailure(call: Call<ArrayList<Availability.Slot>>, t: Throwable) {
-                    // TODO: not implemented
-                    Log.e("HTTP", "Could not fetch data", t)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
 
@@ -46,6 +52,7 @@ class AvailabilityRepository(private val context: Context) {
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
                     success.value = false
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
 

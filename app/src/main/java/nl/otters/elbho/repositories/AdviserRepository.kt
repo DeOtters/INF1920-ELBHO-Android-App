@@ -1,19 +1,23 @@
 package nl.otters.elbho.repositories
 
 import android.content.Context
-import android.util.Log
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import nl.otters.elbho.R
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Adviser
 import nl.otters.elbho.services.AdviserService
+import nl.otters.elbho.utils.ResponseHandler
 import nl.otters.elbho.utils.SharedPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AdviserRepository(private val context: Context) {
+class AdviserRepository(private val context: Context, view: View) {
     private val adviserService = RetrofitFactory.get().create(AdviserService::class.java)
+    private val responseHandler: ResponseHandler = ResponseHandler(context, view)
+
 
     fun adviserLogin(loginCredentials: Adviser.Login): LiveData<Boolean> {
         val success = MutableLiveData<Boolean>()
@@ -29,15 +33,13 @@ class AdviserRepository(private val context: Context) {
                     success.value = true
                 } else {
                     success.value = false
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             }
 
             override fun onFailure(call: Call<Adviser.Authentication>, t: Throwable) {
-                //TODO: implement error handling
-                //TODO: with current api state, show message like: couldn't establish network connection
-                //TODO: with that in mind I think we shouldn't only return LiveData<Boolean>, but something in the line of LiveData<success, message>.
-                Log.e("HTTP", "Could not fetch data", t)
                 success.value = false
+                responseHandler.errorMessage(R.string.error_api)
             }
         })
         return success
@@ -58,7 +60,7 @@ class AdviserRepository(private val context: Context) {
             }
 
             override fun onFailure(call: Call<Adviser.Properties>, t: Throwable) {
-                // TODO: not implemented
+                responseHandler.errorMessage(R.string.error_api)
             }
         })
 

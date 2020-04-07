@@ -81,7 +81,6 @@
     <string name="snackbar_vehicle_reserved">Auto gereserveerd</string>
     <string name="snackbar_vehicle_cancelled">Auto reservering geannuleerd</string>
     <string name="no_car_reservation">Geen auto"&apos;"s gereserveerd.</string>
-    <string name="error_api_vehicle">Er ging iets fout, prober het opnieuw</string>
 
     <!-- Create Availability Fragment  -->
     <string name="create_availability_saved">De nieuwe beschikbaarheid is opgeslagen</string>
@@ -135,4 +134,5 @@
     <string name="location_request_location_title">Locatiegegevens</string>
     <string name="icon">Icon</string>
 
+    <string name="error_api">Er ging iets fout, prober het opnieuw</string>
 </resources>

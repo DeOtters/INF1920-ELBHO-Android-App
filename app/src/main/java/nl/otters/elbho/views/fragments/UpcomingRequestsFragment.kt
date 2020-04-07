@@ -34,8 +34,8 @@ class UpcomingRequestsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        requestRepository = RequestRepository(activity!!.applicationContext)
-        appointmentRepository = AppointmentRepository(activity!!.applicationContext)
+        requestRepository = RequestRepository(activity!!.applicationContext, this.view!!)
+        appointmentRepository = AppointmentRepository(activity!!.applicationContext, this.view!!)
         overviewViewModel = OverviewViewModel(requestRepository, appointmentRepository)
 
         setupRecyclerView()

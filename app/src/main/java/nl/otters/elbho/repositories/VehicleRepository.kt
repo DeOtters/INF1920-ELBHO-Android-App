@@ -34,7 +34,7 @@ class VehicleRepository(private val context: Context, private val curView: View)
                     if (response.code() == 200 && response.body() != null) {
                         vehicleReservations.value = response.body()!!
                     } else {
-                        responseHandler.errorMessage(R.string.error_api_vehicle)
+                        responseHandler.errorMessage(R.string.error_api)
                     }
                 }
 
@@ -43,7 +43,7 @@ class VehicleRepository(private val context: Context, private val curView: View)
                     t: Throwable
                 ) {
                     Log.e("HTTP Vehicles: ", "Could not fetch data", t)
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
         return vehicleReservations
@@ -64,13 +64,13 @@ class VehicleRepository(private val context: Context, private val curView: View)
                 if (response.code() == 200 && response.body() != null) {
                     vehicleReservations.value = response.body()!!
                 } else {
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<Vehicle.Reservation>>, t: Throwable) {
                 Log.e("HTTP Vehicles: ", "Could not fetch data", t)
-                responseHandler.errorMessage(R.string.error_api_vehicle)
+                responseHandler.errorMessage(R.string.error_api)
             }
         })
         return vehicleReservations
@@ -84,15 +84,15 @@ class VehicleRepository(private val context: Context, private val curView: View)
                     response: Response<Unit>
                 ) {
                     if (response.code() == 201 && response.body() != null) {
-                        responseHandler.succesMessage(R.string.snackbar_vehicle_reserved)
+                        responseHandler.successMessage(R.string.snackbar_vehicle_reserved)
                     } else {
-                        responseHandler.errorMessage(R.string.error_api_vehicle)
+                        responseHandler.errorMessage(R.string.error_api)
                     }
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
                     Log.e("HTTP Vehicles: ", "Could not fetch data", t)
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
     }
@@ -105,15 +105,15 @@ class VehicleRepository(private val context: Context, private val curView: View)
                     response: Response<Unit>
                 ) {
                     if (response.code() == 200 && response.body() != null) {
-                        responseHandler.succesMessage(R.string.snackbar_vehicle_cancelled)
+                        responseHandler.successMessage(R.string.snackbar_vehicle_cancelled)
                     } else {
-                        responseHandler.errorMessage(R.string.error_api_vehicle)
+                        responseHandler.errorMessage(R.string.error_api)
                     }
                 }
 
                 override fun onFailure(call: Call<Unit>, t: Throwable) {
                     Log.e("HTTP Vehicles: ", "Could not fetch data", t)
-                    responseHandler.errorMessage(R.string.error_api_vehicle)
+                    responseHandler.errorMessage(R.string.error_api)
                 }
             })
     }
