@@ -156,14 +156,23 @@ class CreateAvailabilityFragment : DetailFragment() {
                     calStart.set(Calendar.HOUR_OF_DAY, hour)
                     calStart.set(Calendar.MINUTE, minute)
 
-                    calEnd.set(Calendar.HOUR_OF_DAY, hour + 2)
-                    calEnd.set(Calendar.MINUTE, minute)
+                    if(endReservationTime == " ") {
+                        calEnd.set(Calendar.HOUR_OF_DAY, hour)
+                        calEnd.set(Calendar.MINUTE, minute + 1)
 
-                    item.startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
-                    startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
+                        item.startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
+                        startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
 
-                    item.endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
-                    endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
+                        item.endTime.setText(SimpleDateFormat("HH:mm").format(calEnd.time))
+                        endReservationTime = SimpleDateFormat("HH:mm").format(calEnd.time)
+                    }
+
+                    if (calStart.before(calEnd)) {
+                        item.startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
+                        startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
+                    } else {
+                        Toast.makeText(context, R.string.toast_end_after, Toast.LENGTH_SHORT).show()
+                    }
                 }
                 TimePickerDialog(
                     context,
@@ -180,8 +189,8 @@ class CreateAvailabilityFragment : DetailFragment() {
                     calEnd.set(Calendar.MINUTE, minute)
 
                     if (startReservationTime == " ") {
-                        calStart.set(Calendar.HOUR_OF_DAY, hour - 2)
-                        calStart.set(Calendar.MINUTE, minute)
+                        calStart.set(Calendar.HOUR_OF_DAY, hour)
+                        calStart.set(Calendar.MINUTE, minute - 1)
 
                         item.startTime.setText(SimpleDateFormat("HH:mm").format(calStart.time))
                         startReservationTime = SimpleDateFormat("HH:mm").format(calStart.time)
