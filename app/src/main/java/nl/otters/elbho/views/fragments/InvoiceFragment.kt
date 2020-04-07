@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_invoice.*
 import nl.otters.elbho.R
@@ -41,6 +42,13 @@ class InvoiceFragment : BaseFragment() {
         setupRecyclerView()
         setupPullDownToRefresh()
         setupButtonListener()
+
+        // direct share intent to child fragment when in tablet mode
+        if (isTablet() && arguments?.get("Uri") != null) {
+            (childFragmentManager.fragments[0] as CreateInvoiceFragment).selectedFileUri =
+                arguments?.get("Uri") as Uri
+            (childFragmentManager.fragments[0] as CreateInvoiceFragment).fileChosen()
+        }
 
         (activity as NavigationActivity).setProgressBarVisible(true)
         invoicesViewModel.getAllInvoices()?.observe(viewLifecycleOwner, Observer {
@@ -119,6 +127,12 @@ class InvoiceFragment : BaseFragment() {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.invoice)
         appTitle.setText(R.string.navigation_invoice)
+    }
+
+    private fun isTablet(): Boolean {
+        return resources.getBoolean(R.bool.isTablet)
     }
 }

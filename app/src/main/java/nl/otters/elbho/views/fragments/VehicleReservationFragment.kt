@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_vehicle_reservation.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -18,6 +18,7 @@ import nl.otters.elbho.adapters.VehicleCarListAdapter
 import nl.otters.elbho.models.Vehicle
 import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
+import nl.otters.elbho.utils.ResponseHandler
 import nl.otters.elbho.utils.SharedPreferences
 import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
@@ -27,6 +28,7 @@ import kotlin.collections.ArrayList
 class VehicleReservationFragment : DetailFragment() {
     private var vehicleCarList: ArrayList<Vehicle.CarWithReservations> = ArrayList()
     private val dateParser: DateParser = DateParser()
+    private lateinit var responseHandler: ResponseHandler
 
     private var startReservationTime: String = " "
     private var endReservationTime: String = " "
@@ -50,6 +52,7 @@ class VehicleReservationFragment : DetailFragment() {
         super.onViewCreated(view, savedInstanceState)
         val vehicleRepository = VehicleRepository(activity!!.applicationContext, this.view!!)
         val vehicleViewModel = VehicleViewModel(vehicleRepository)
+        responseHandler = ResponseHandler(activity!!.applicationContext, this.view!!)
 
         setupVehicleCarList(vehicleViewModel)
         setupDateComponents(vehicleViewModel)
@@ -94,14 +97,8 @@ class VehicleReservationFragment : DetailFragment() {
                 calStart.set(Calendar.HOUR_OF_DAY, hour)
                 calStart.set(Calendar.MINUTE, minute)
 
-                calEnd.set(Calendar.HOUR_OF_DAY, hour)
-                calEnd.set(Calendar.MINUTE, minute)
-
                 startTime.setText(dateParser.toFormatTime(calStart.time))
                 startReservationTime = dateParser.toFormatTime(calStart.time)
-
-                endTime.setText(dateParser.toFormatTime(calEnd.time))
-                endReservationTime = dateParser.toFormatTime(calEnd.time)
 
                 itemSelected = -1
                 carReservation = null
@@ -123,35 +120,13 @@ class VehicleReservationFragment : DetailFragment() {
                 calEnd.set(Calendar.HOUR_OF_DAY, hour)
                 calEnd.set(Calendar.MINUTE, minute)
 
-                when {
-                    startReservationTime == " " -> {
-                        calStart.set(Calendar.HOUR_OF_DAY, hour)
-                        calStart.set(Calendar.MINUTE, minute)
+                endTime.setText(dateParser.toFormatTime(calEnd.time))
+                endReservationTime = dateParser.toFormatTime(calEnd.time)
 
-                        startTime.setText(dateParser.toFormatTime(calStart.time))
-                        startReservationTime = dateParser.toFormatTime(calStart.time)
+                itemSelected = -1
+                carReservation = null
 
-                        endTime.setText(dateParser.toFormatTime(calEnd.time))
-                        endReservationTime = dateParser.toFormatTime(calEnd.time)
-
-                        itemSelected = -1
-                        carReservation = null
-
-                        setupRecyclerView(vehicleViewModel)
-                    }
-                    calEnd.after(calStart) -> {
-                        endTime.setText(dateParser.toFormatTime(calEnd.time))
-                        endReservationTime = dateParser.toFormatTime(calEnd.time)
-
-                        itemSelected = -1
-                        carReservation = null
-
-                        setupRecyclerView(vehicleViewModel)
-                    }
-                    else -> {
-                        errorMsg(R.string.toast_end_after)
-                    }
-                }
+                setupRecyclerView(vehicleViewModel)
             }
             TimePickerDialog(
                 context,
@@ -179,7 +154,7 @@ class VehicleReservationFragment : DetailFragment() {
                     if (reservationDate != " " &&
                         startReservationTime != " " &&
                         endReservationTime != " ") {
-                        if (startReservationTime != endReservationTime) {
+                        if (startReservationTime != endReservationTime && calEnd.after(calStart)) {
                             val car: Vehicle.CarWithReservations = vehicleCarList[position]
 
                             itemSelected = position
@@ -200,10 +175,10 @@ class VehicleReservationFragment : DetailFragment() {
                             )
                             setupRecyclerView(vehicleViewModel)
                         } else {
-                            errorMsg(R.string.toast_end_after)
+                            responseHandler.errorMessage(R.string.toast_end_after)
                         }
                     } else {
-                        errorMsg(R.string.toast_select_all_inputs)
+                        responseHandler.errorMessage(R.string.toast_select_all_inputs)
                     }
                 }
             })
@@ -218,7 +193,7 @@ class VehicleReservationFragment : DetailFragment() {
         if (reservationDate != " " &&
             startReservationTime != " " &&
             endReservationTime != " ") {
-            if (startReservationTime != endReservationTime) {
+            if (startReservationTime != endReservationTime && calEnd.after(calStart)) {
                 if (carReservation != null) {
                     vehicleViewModel.createVehicleReservation(carReservation!!)
                     val job = GlobalScope.launch {
@@ -227,13 +202,13 @@ class VehicleReservationFragment : DetailFragment() {
                     }
                     job.join()
                 } else {
-                    errorMsg(R.string.toast_select_car)
+                    responseHandler.errorMessage(R.string.toast_select_car)
                 }
             } else {
-                errorMsg(R.string.toast_end_after)
+                responseHandler.errorMessage(R.string.toast_end_after)
             }
         } else {
-            errorMsg(R.string.toast_select_all_inputs)
+            responseHandler.errorMessage(R.string.toast_select_all_inputs)
         }
     }
 
@@ -249,17 +224,11 @@ class VehicleReservationFragment : DetailFragment() {
         }
     }
 
-    private fun errorMsg(error_string : Int) {
-        Toast.makeText(
-            context,
-            error_string,
-            Toast.LENGTH_LONG
-        ).show()
-    }
-
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_vehicle_reserve)
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.vehicle)
     }
 
     override fun onResume() {

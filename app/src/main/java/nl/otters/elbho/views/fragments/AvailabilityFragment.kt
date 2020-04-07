@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationView
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
@@ -60,7 +61,7 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
 
     private fun updateCalendar() {
         val timePeriod: Availability.TimePeriod =
-            Availability.TimePeriod(null, dateParser.getDateStampTomorrow())
+            Availability.TimePeriod(null, dateParser.getDateStampToday())
         availabilityViewModel.getAllAvailabilities(timePeriod)
             ?.observe(viewLifecycleOwner, Observer {
                 availability = it
@@ -74,6 +75,8 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.availability)
         appTitle.setText(R.string.navigation_availability)
     }
 

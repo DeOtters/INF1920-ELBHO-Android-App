@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_create_invoice.*
@@ -32,7 +33,7 @@ class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
         return inflater.inflate(R.layout.fragment_create_invoice, container, false)
     }
 
-    private var selectedFileUri: Uri? = null
+    var selectedFileUri: Uri? = null
     private var fileChosen: Boolean = false
     private var fileName: String = ""
     private var chosenMonth: String = ""
@@ -144,7 +145,7 @@ class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun fileChosen() {
+    fun fileChosen() {
         fileName = DocumentFile.fromSingleUri(context!!, this.selectedFileUri!!)!!.name!!
         invoiceFileTextView.setText(fileName)
         fileChosen = true
@@ -157,6 +158,8 @@ class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
 
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.invoice)
         appTitle.setText(R.string.add_new_invoice_title)
     }
 
@@ -168,19 +171,5 @@ class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
             .plus("-01T16:20:00.000Z")
         val date: String = DateFormatSymbols().months[month] + " " + year
         invoiceMonthTextView.setText(date)
-    }
-
-    override fun onStart() {
-        if(isTablet()){
-            (activity as NavigationActivity).setDrawerEnabled(true)
-        } else {
-            (activity as NavigationActivity).setDrawerEnabled(false)
-        }
-
-        super.onStart()
-    }
-
-    private fun isTablet(): Boolean {
-        return resources.getBoolean(R.bool.isTablet)
     }
 }

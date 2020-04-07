@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.component_text_display.view.*
 import kotlinx.android.synthetic.main.fragment_request.*
@@ -165,9 +166,11 @@ class RequestFragment : DetailFragment() {
     }
 
     private fun setPrimaryButtons(parentFragmentTitle: String) {
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
         // When showing only 1 button, use topButton because of constrains
         when (parentFragmentTitle) {
             resources.getString(R.string.navigation_open_requests) -> {
+                navigation.setCheckedItem(R.id.open_requests)
                 topButton.setIconResource(R.drawable.ic_close_24dp)
                 topButton.setText(R.string.button_deny_appointment)
                 topButton.setBackgroundColor(
@@ -184,6 +187,7 @@ class RequestFragment : DetailFragment() {
             }
 
             resources.getString(R.string.navigation_upcoming_requests) -> {
+                navigation.setCheckedItem(R.id.upcoming_requests)
                 if(isTablet()){
                     btn_sec_bottomButton.visibility = View.GONE
                 }
@@ -207,6 +211,7 @@ class RequestFragment : DetailFragment() {
             }
 
             resources.getString(R.string.navigation_done_requests) -> {
+                navigation.setCheckedItem(R.id.done_requests)
                 topButton.visibility = View.GONE
                 bottomButton.visibility = View.GONE
             }

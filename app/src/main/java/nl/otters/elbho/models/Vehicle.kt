@@ -75,12 +75,6 @@ object Vehicle {
         val end: String
     )
 
-    data class CarOptions(
-
-        val page: Int?,
-        val limit: Int?
-    )
-
     data class ReservationOptions(
 
         val after: String?,

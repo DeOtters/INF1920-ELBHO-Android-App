@@ -120,7 +120,7 @@ class VehicleCarListAdapter(
 
             for (res in car.reservations) {
 
-                if (startTime != " ") {
+                if (startTime != " " && endTime != " ") {
                     val parser = SimpleDateFormat("HH:mm", Locale("nl"))
                     val parser2 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale("nl"))
 

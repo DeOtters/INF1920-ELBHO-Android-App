@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_vehicle.*
 import nl.otters.elbho.R
 import nl.otters.elbho.adapters.VehicleListAdapter
@@ -16,7 +17,6 @@ import nl.otters.elbho.repositories.VehicleRepository
 import nl.otters.elbho.utils.DateParser
 import nl.otters.elbho.viewModels.VehicleViewModel
 import nl.otters.elbho.views.activities.NavigationActivity
-import kotlin.collections.ArrayList
 
 class VehicleFragment : BaseFragment() {
     private var vehicleReservationList: ArrayList<Vehicle.Reservation> = ArrayList()
@@ -118,5 +118,7 @@ class VehicleFragment : BaseFragment() {
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_vehicle_all_reservations)
+        val navigation = activity!!.findViewById<View>(R.id.navigation) as NavigationView
+        navigation.setCheckedItem(R.id.vehicle)
     }
 }

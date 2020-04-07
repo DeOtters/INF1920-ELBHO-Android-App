@@ -69,11 +69,14 @@ class NavigationActivity : AppCompatActivity(),
     // send pdf to CreateInvoiceFragment
     private fun handlePDF(uri: Uri) {
         val bundle = bundleOf("Uri" to uri)
-        navController.navigate(R.id.createInvoiceFragment, bundle)
+        if (isTablet())
+            navController.navigate(R.id.invoiceFragment, bundle)
+        else
+            navController.navigate(R.id.createInvoiceFragment, bundle)
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+        if (!isTablet() && drawer_layout.isDrawerOpen(GravityCompat.START)) {
             closeMenu()
         } else {
             navController.navigateUp()
@@ -126,7 +129,6 @@ class NavigationActivity : AppCompatActivity(),
             drawer_layout.addDrawerListener(drawerToggle)
             drawerToggle.syncState()
             drawerToggle.setToolbarNavigationClickListener {
-                // TODO: Ask if user wants to leave screen
                 navController.navigateUp()
             }
         } else {

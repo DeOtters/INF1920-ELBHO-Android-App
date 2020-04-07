@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Adviseursapp</string>
-    <string name="action_settings">Settings</string>
 
     <!-- Login Activity   -->
     <string name="login_image_contentDescription">Product Logo</string>
@@ -24,7 +23,6 @@
     <string name="navigation_open">Open menu</string>
     <string name="navigation_close">Sluit menu</string>
     <string name="navigation_app_title">ELBHO adviseursapp</string>
-    <string name="navigation_title">Menu</string>
 
     <!--    -->
     <string name="title_vehicle">Gereserveerde auto\'s</string>
@@ -82,7 +80,6 @@
     <string name="reserved_txt">gereserveerd:</string>
     <string name="snackbar_vehicle_reserved">Auto gereserveerd</string>
     <string name="snackbar_vehicle_cancelled">Auto reservering geannuleerd</string>
-    <string name="toast_vehicle_already_reserved">Auto reservering niet gelukt voor deze begin en eind tijd</string>
     <string name="no_car_reservation">Geen auto"&apos;"s gereserveerd.</string>
     <string name="error_api_vehicle">Er ging iets fout, prober het opnieuw</string>
 
@@ -97,6 +94,7 @@
     <string name="temp_copy_week"><b>Week %d</b>, %s tot %s</string>
     <string name="copy_week_saved">De beschikbaarheid is gekopiëerd</string>
     <string name="copy_week_not_save">Beschikbaarheid opslaan mislukt, probeer het nog een keer</string>
+    <string name="copy_week_hint">Uitleg over het kopiëren van een week</string>
     <string name="create_availability_week_selector">Week %d</string>
     <string name="availability_dropdown_cd">Dropdown button</string>
     <string name="text_display_cd">icon</string>
@@ -131,9 +129,10 @@
 
     <!-- Location tracking -->
     <string name="location_snackbar_departed">Vertrokken naar de afspraak, uw locatie wordt bijgehouden</string>
-    <string name="location_request_location_message">In het volgende scherm wordt gevraagd om je locatiegegevens. Deze zullen alleen bijgehouden worden als je onderweg bent naar een adres.</string>
+    <string name="location_request_location_message" tools:ignore="Typos">In het volgende scherm wordt gevraagd om je locatiegegevens. Deze zullen alleen bijgehouden worden als je onderweg bent naar een adres.</string>
     <string name="location_request_cancel">Annuleer</string>
     <string name="location_request_continue">Doorgaan</string>
     <string name="location_request_location_title">Locatiegegevens</string>
+    <string name="icon">Icon</string>
 
 </resources>
