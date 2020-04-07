@@ -32,7 +32,7 @@ class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
         return inflater.inflate(R.layout.fragment_create_invoice, container, false)
     }
 
-    private var selectedFileUri: Uri? = null
+    var selectedFileUri: Uri? = null
     private var fileChosen: Boolean = false
     private var fileName: String = ""
     private var chosenMonth: String = ""
@@ -144,7 +144,7 @@ class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun fileChosen() {
+    fun fileChosen() {
         fileName = DocumentFile.fromSingleUri(context!!, this.selectedFileUri!!)!!.name!!
         invoiceFileTextView.setText(fileName)
         fileChosen = true
@@ -168,19 +168,5 @@ class CreateInvoiceFragment : Fragment(), MonthPickerDialog.OnDateSetListener {
             .plus("-01T16:20:00.000Z")
         val date: String = DateFormatSymbols().months[month] + " " + year
         invoiceMonthTextView.setText(date)
-    }
-
-    override fun onStart() {
-        if(isTablet()){
-            (activity as NavigationActivity).setDrawerEnabled(true)
-        } else {
-            (activity as NavigationActivity).setDrawerEnabled(false)
-        }
-
-        super.onStart()
-    }
-
-    private fun isTablet(): Boolean {
-        return resources.getBoolean(R.bool.isTablet)
     }
 }

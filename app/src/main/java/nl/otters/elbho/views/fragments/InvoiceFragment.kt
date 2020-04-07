@@ -42,6 +42,13 @@ class InvoiceFragment : BaseFragment() {
         setupPullDownToRefresh()
         setupButtonListener()
 
+        // direct share intent to child fragment when in tablet mode
+        if (isTablet() && arguments?.get("Uri") != null) {
+            (childFragmentManager.fragments[0] as CreateInvoiceFragment).selectedFileUri =
+                arguments?.get("Uri") as Uri
+            (childFragmentManager.fragments[0] as CreateInvoiceFragment).fileChosen()
+        }
+
         (activity as NavigationActivity).setProgressBarVisible(true)
         invoicesViewModel.getAllInvoices()?.observe(viewLifecycleOwner, Observer {
             if (it != null) {
@@ -120,5 +127,9 @@ class InvoiceFragment : BaseFragment() {
     private fun setTitle() {
         val appTitle = activity!!.findViewById<View>(R.id.app_title) as TextView
         appTitle.setText(R.string.navigation_invoice)
+    }
+
+    private fun isTablet(): Boolean {
+        return resources.getBoolean(R.bool.isTablet)
     }
 }
