@@ -110,7 +110,7 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
             .commit()
 
         calendarView.setTitleFormatter { day: CalendarDay? ->
-            val dateFormat: DateFormat = SimpleDateFormat("LLLL YYYY", Locale("nl"))
+            val dateFormat: DateFormat = SimpleDateFormat("LLLL yyyy", Locale("nl"))
             dateFormat.format(day!!.date).capitalize()
         }
 
@@ -122,7 +122,9 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
             dateFormat.format(calendar.time)
         }
 
-        calendarView.addDecorator(disableDaysDecorator)
+        if (android.os.Build.VERSION.SDK_INT >= 24){
+            calendarView.addDecorator(disableDaysDecorator)
+        }
         calendarView.setOnDateChangedListener(this)
         calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_SINGLE
     }

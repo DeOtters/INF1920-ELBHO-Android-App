@@ -81,7 +81,7 @@ class DateParser {
     }
 
     fun dateToFormattedDateYear(dateTime: String): String {
-        val formatter = SimpleDateFormat("dd-MM-YY", Locale("nl"))
+        val formatter = SimpleDateFormat("dd-MM-yy", Locale("nl"))
         return formatter.format(dateParser.parse(dateTime)!!)
     }
     /*
