@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.*
@@ -32,7 +33,7 @@ object VehicleLocationProvider {
     private var instance: VehicleLocationProvider? = null
     private var isRunning = false
 
-    fun getInstance(activity: Activity, context: Context): VehicleLocationProvider {
+    fun getInstance(activity: Activity, context: Context, view: View): VehicleLocationProvider {
         return if (instance == null) {
             this.activity = activity
             this.context = context
@@ -40,8 +41,8 @@ object VehicleLocationProvider {
             createLocationCallback()
             createLocationRequest()
             instance = this
-            requestRepository = RequestRepository(activity.applicationContext)
-            locationRepository = LocationRepository(activity.applicationContext)
+            requestRepository = RequestRepository(activity.applicationContext, view)
+            locationRepository = LocationRepository(activity.applicationContext, view)
             requestViewModel = RequestViewModel(requestRepository, locationRepository)
             this
         } else {

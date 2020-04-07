@@ -45,7 +45,8 @@ class AvailabilityFragment : BaseFragment(), OnDateSelectedListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
+        val availabilityRepository =
+            AvailabilityRepository(activity!!.applicationContext, this.view!!)
         availabilityViewModel = AvailabilityViewModel(availabilityRepository)
 
         setupCalendar()

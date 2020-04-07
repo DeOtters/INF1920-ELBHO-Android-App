@@ -52,7 +52,7 @@ class CopyWeekFragment : DetailFragment() {
         chosenDay = arguments?.getParcelable("KEY_CHOSEN_DATE")!!
         availabilitiesToCopy = arguments?.getParcelable("KEY_NEW_AVAILABILITIES")!!
         availabilities = arguments?.getParcelableArrayList("KEY_AVAILABILITY")!!
-        availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
+        availabilityRepository = AvailabilityRepository(activity!!.applicationContext, this.view!!)
         availabilityViewModel = AvailabilityViewModel(availabilityRepository)
 
         weekList = arrayListOf(

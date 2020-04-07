@@ -49,8 +49,8 @@ class RequestFragment : DetailFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requestRepository = RequestRepository(activity!!.applicationContext)
-        locationRepository = LocationRepository(activity!!.applicationContext)
+        requestRepository = RequestRepository(activity!!.applicationContext, this.view!!)
+        locationRepository = LocationRepository(activity!!.applicationContext, this.view!!)
         requestViewModel = RequestViewModel(requestRepository, locationRepository)
         sharedPreferences = SharedPreferences(this.context!!)
 
@@ -67,7 +67,11 @@ class RequestFragment : DetailFragment() {
         setButtonListeners(request)
         setPrimaryButtons(arguments?.getString("KEY_APP_TITLE")!!)
         vehicleLocationProvider =
-            VehicleLocationProvider.getInstance(this.requireActivity(), this.requireContext())
+            VehicleLocationProvider.getInstance(
+                this.requireActivity(),
+                this.requireContext(),
+                this.view!!
+            )
     }
 
     override fun onResume() {
@@ -189,7 +193,7 @@ class RequestFragment : DetailFragment() {
             resources.getString(R.string.navigation_upcoming_requests) -> {
                 navigation.setCheckedItem(R.id.upcoming_requests)
                 if(isTablet()){
-                    btn_sec_bottomButton.visibility = View.GONE
+                    btn_sec_bottomButton!!.visibility = View.GONE
                 }
 
                 bottomButton.visibility = View.GONE

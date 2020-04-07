@@ -1,20 +1,23 @@
 package nl.otters.elbho.repositories
 
 import android.content.Context
-import android.util.Log
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import nl.otters.elbho.R
 import nl.otters.elbho.factories.RetrofitFactory
 import nl.otters.elbho.models.Appointment
 import nl.otters.elbho.models.Request
 import nl.otters.elbho.services.AppointmentService
+import nl.otters.elbho.utils.ResponseHandler
 import nl.otters.elbho.utils.SharedPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AppointmentRepository(private val context: Context) {
+class AppointmentRepository(private val context: Context, view: View) {
     private val appointmentService = RetrofitFactory.get().create(AppointmentService::class.java)
+    private val responseHandler: ResponseHandler = ResponseHandler(context, view)
 
     fun getAppointments(options: Appointment.Options): LiveData<ArrayList<Request.Properties>> {
         val appointments = MutableLiveData<ArrayList<Request.Properties>>()
@@ -31,16 +34,15 @@ class AppointmentRepository(private val context: Context) {
                 call: Call<ArrayList<Request.Properties>>,
                 response: Response<ArrayList<Request.Properties>>
             ) {
-                if (response.isSuccessful && response.body() != null) {
+                if (response.code() == 200 && response.body() != null) {
                     appointments.value = response.body()
+                } else {
+                    responseHandler.errorMessage(R.string.error_api_vehicle)
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<Request.Properties>>, t: Throwable) {
-                //TODO: implement error handling
-                //TODO: with current api state, show message like: couldn't establish network connection
-                //TODO: with that in mind I think we shouldn't only return LiveData<Boolean>, but something in the line of LiveData<success, message>.
-                Log.e("HTTP", "Could not fetch data", t)
+                responseHandler.errorMessage(R.string.error_api_vehicle)
             }
         })
         return appointments

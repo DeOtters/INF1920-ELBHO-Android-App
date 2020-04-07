@@ -49,7 +49,8 @@ class CreateAvailabilityFragment : DetailFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val availabilityRepository = AvailabilityRepository(activity!!.applicationContext)
+        val availabilityRepository =
+            AvailabilityRepository(activity!!.applicationContext, this.view!!)
         availabilityViewModel = AvailabilityViewModel(availabilityRepository)
 
         dateParser = DateParser()

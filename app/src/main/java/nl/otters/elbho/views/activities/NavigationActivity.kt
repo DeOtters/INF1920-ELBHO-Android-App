@@ -32,9 +32,14 @@ class NavigationActivity : AppCompatActivity(),
 
     private lateinit var navController: NavController
     private lateinit var drawerToggle: ActionBarDrawerToggle
-    private val adviserRepository = AdviserRepository(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme)
+        setContentView(R.layout.activity_navigation)
+
+        val view: View = findViewById(R.id.container)
+        val adviserRepository = AdviserRepository(this, view)
         val sharedPreferences = SharedPreferences(this)
         val authToken: String? = sharedPreferences.getValueString("auth-token")
 
@@ -43,9 +48,7 @@ class NavigationActivity : AppCompatActivity(),
         }
 
         val adviser = adviserRepository.getAdviser()
-        super.onCreate(savedInstanceState)
-        setTheme(R.style.AppTheme)
-        setContentView(R.layout.activity_navigation)
+
         navController = this.findNavController(R.id.nav_host_fragment)
         setupNavigationDrawer()
         setLoggedInName(adviser)
