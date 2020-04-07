@@ -50,6 +50,11 @@ class OverviewFragment : BaseFragment(), TabLayout.OnTabSelectedListener {
         todayTextView.text = dateParser.getDateToday()
     }
 
+    override fun onResume() {
+        setupViewPager()
+        super.onResume()
+    }
+
     private fun saveTodaysAppointment() {
         val sharedPreferences = SharedPreferences(activity!!.applicationContext)
         val todaysAppointmentIds = ArrayList<String?>()
